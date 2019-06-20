@@ -1,5 +1,5 @@
-package registration
+package domain
 
 type Register struct {
-	Email string
+	Email string `json:"Email"`
 }

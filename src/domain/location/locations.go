@@ -1,26 +1,26 @@
-package location
+package domain
 
 type LocationType struct {
-	Id   string
-	Name string
-	Code string
+	Id   string `json:"Id"`
+	Name string `json:"Name"`
+	Code string `json:"Code"`
 }
 
 type AddressType struct {
-	Id   string
-	Name string
+	Id   string `json:"Id"`
+	Name string `json:"Name"`
 }
 type ContactType struct {
-	Id   string
-	Name string
+	Id   string `json:"Id"`
+	Name string `json:"Name"`
 }
 
 type Location struct {
-	Id           string
-	Name         string
-	LocationType LocationType
-	Latitude     string
-	Longitude    string
-	Larent       Location
-	Children     []Location
+	Id           string       `json:"Id"`
+	Name         string       `json:"Name"`
+	LocationType LocationType `json:"locationType"`
+	Latitude     string       `json:"Latitude"`
+	Longitude    string       `json:"Longitude"`
+	Larent       Location     `json:"Larent"`
+	Children     []Location   `json:"Children"`
 }

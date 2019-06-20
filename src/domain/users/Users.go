@@ -1,4 +1,4 @@
-package users
+package domain
 
 import (
 	"obas/src/domain/location"
@@ -6,16 +6,16 @@ import (
 )
 
 type Student struct {
-	Email     string
-	Firstname string
-	Surname   string
-	Identity  string
+	Email     string `json:"Email"`
+	Firstname string `json:"Firstname"`
+	Surname   string `json:"Surname"`
+	Identity  string `json:"Identity"`
 }
 
 type StudentAddress struct {
-	Email           string
-	PhysicalAddress string
-	City            location.Location
+	Email           string            `json:"Email"`
+	PhysicalAddress string            `json:"PhysicalAddress"`
+	City            location.Location `json:"City"`
 }
 
 type StudentContacts struct {
@@ -30,31 +30,31 @@ type StudentResults struct {
 type StudentProfile struct {
 }
 type StudentApplicationStatus struct {
-	Email  string
-	Date   time.Time
-	Status string
+	Email  string    `json:"Email"`
+	Date   time.Time `json:"Date"`
+	Status string    `json:"Status"`
 }
 
 type ProcessingStatusType struct {
-	Id   string
-	Name string
+	Id   string `json:"Id"`
+	Name string `json:"Name"`
 }
 
 type StudentDocuments struct {
-	Email        string
-	DocumentType DocumentType
-	Description  string
-	DocumentUrl  string
+	Email        string       `json:"Email"`
+	DocumentType DocumentType `json:"DocumentType"`
+	Description  string       `json:"Description"`
+	DocumentUrl  string       `json:"DocumentUrl"`
 }
 
 type DocumentType struct {
-	Id   string
-	Type string
+	Id   string `json:"Id"`
+	Type string `json:"Type"`
 }
 
 type Admin struct {
-	Email string
-	Role  AdminRole
+	Email string    `json:"Email"`
+	Role  AdminRole `json:"Role"`
 }
 
 type AdminRole struct {
