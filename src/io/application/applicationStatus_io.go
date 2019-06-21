@@ -10,10 +10,10 @@ const applicationStatusUrl = api.BASE_URL + "/application"
 
 type applicationStatus domain.ApplicationStatus
 
-func getApplicationStatuses() ([]applicationStatus, error) {
+func GetApplicationStatuses() ([]applicationStatus, error) {
 	entites := []applicationStatus{}
-	resp, _ := api.Rest().get(applicationStatusUrl + "/all")
-	if resp.isError() {
+	resp, _ := api.Rest().Get(applicationStatusUrl + "/all")
+	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entites)
@@ -23,10 +23,10 @@ func getApplicationStatuses() ([]applicationStatus, error) {
 	return entites, nil
 }
 
-func getApplicationStatus(id string) (applicationStatus, error) {
+func GetApplicationStatus(id string) (applicationStatus, error) {
 	entity := applicationStatus{}
-	resp, _ := api.Rest().get(applicationStatusUrl + "/get/" + id)
-	if resp.isError() {
+	resp, _ := api.Rest().Get(applicationStatusUrl + "/get/" + id)
+	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entity)
@@ -39,9 +39,9 @@ func getApplicationStatus(id string) (applicationStatus, error) {
 func CreateApplicationStatus(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		post(applicationStatusUrl + "/create")
+		Post(applicationStatusUrl + "/create")
 	if resp.IsError() {
-		return false, erroes.New(resp.Status())
+		return false, errors.New(resp.Status())
 	}
 	return true, nil
 }

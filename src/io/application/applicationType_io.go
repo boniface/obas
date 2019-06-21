@@ -10,10 +10,10 @@ const applicationTyprUrl = api.BASE_URL + "/application"
 
 type application domain.ApplicationType
 
-func getApplicationTypes() ([]application, error) {
+func GetApplicationTypes() ([]application, error) {
 	entites := []application{}
-	resp, _ := api.Rest().get(applicationTyprUrl + "/all")
-	if resp.isError() {
+	resp, _ := api.Rest().Get(applicationTyprUrl + "/all")
+	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entites)
@@ -23,10 +23,10 @@ func getApplicationTypes() ([]application, error) {
 	return entites, nil
 }
 
-func getApplication(id string) (application, error) {
+func GetApplication(id string) (application, error) {
 	entity := application{}
-	resp, _ := api.Rest().get(applicationTyprUrl + "/get/" + id)
-	if resp.isError() {
+	resp, _ := api.Rest().Get(applicationTyprUrl + "/get/" + id)
+	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entity)
@@ -39,9 +39,9 @@ func getApplication(id string) (application, error) {
 func CreateApplication(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		post(applicationTyprUrl + "/create")
+		Post(applicationTyprUrl + "/create")
 	if resp.IsError() {
-		return false, erroes.New(resp.Status())
+		return false, errors.New(resp.Status())
 	}
 	return true, nil
 }

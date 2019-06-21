@@ -10,10 +10,10 @@ const addressTypeUrl = api.BASE_URL + "/address"
 
 type addressType domain.AddressType
 
-func Getaddresses() ([]addressType, error) {
+func GetAddresses() ([]addressType, error) {
 	entites := []addressType{}
 	resp, _ := api.Rest().Get(addressTypeUrl + "/all")
-	if resp.isError() {
+	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entites)
@@ -50,7 +50,7 @@ func CreateAddress(entity interface{}) (bool, error) {
 func UpdateAddress(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(roleUrl + "/update")
+		Post(addressTypeUrl + "/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

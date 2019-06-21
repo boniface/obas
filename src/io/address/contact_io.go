@@ -10,7 +10,7 @@ const contactTypeUrl = api.BASE_URL + "/address"
 
 type contactType domain.Roles
 
-func GetRoles() ([]contactType, error) {
+func GetContactTypes() ([]contactType, error) {
 	entites := []contactType{}
 	resp, _ := api.Rest().Get(contactTypeUrl + "/all")
 	if resp.isError() {
@@ -23,7 +23,7 @@ func GetRoles() ([]contactType, error) {
 	return entites, nil
 }
 
-func GetRole(id string) (contactType, error) {
+func GetContactType(id string) (contactType, error) {
 	entity := contactType{}
 	resp, _ := api.Rest().Get(contactTypeUrl + "/get/" + id)
 	if resp.IsError() {
@@ -36,7 +36,7 @@ func GetRole(id string) (contactType, error) {
 	return entity, nil
 }
 
-func CreateRole(entity interface{}) (bool, error) {
+func CreateContactType(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
 		Post(contactTypeUrl + "/create")
@@ -47,7 +47,7 @@ func CreateRole(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateRole(entity interface{}) (bool, error) {
+func UpdateContactType(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
 		Post(contactTypeUrl + "/update")
@@ -58,7 +58,7 @@ func UpdateRole(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func DeleteRole(entity interface{}) (bool, error) {
+func DeleteContactType(entity interface{}) (bool, error) {
 
 	resp, _ := api.Rest().
 		SetBody(entity).
