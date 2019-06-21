@@ -5,7 +5,8 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"net/http"
 	"obas/src/config"
-	"obas/src/controllers/home"
+	controllers "obas/src/controllers/home"
+
 	"obas/src/controllers/login"
 )
 
@@ -15,7 +16,7 @@ func Controllers(env *config.Env) http.Handler {
 	mux.Use(middleware.RealIP)
 	mux.Use(middleware.Logger)
 
-	mux.Handle("/", home.Home(env))
+	mux.Handle("/", controllers.Home(env))
 	mux.Mount("/login", login.Login(env))
 
 	fileServer := http.FileServer(http.Dir("./src/views/assets/"))
