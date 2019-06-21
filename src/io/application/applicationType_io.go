@@ -1,4 +1,4 @@
-package application_io
+package io
 
 import (
 	"errors"
@@ -6,7 +6,7 @@ import (
 	domain "obas/src/domain/application"
 )
 
-const applicationTyprUrl = api.BASE_URL + "/application"
+const applicationTypeUrl = api.BASE_URL + "/application"
 
 type application domain.ApplicationType
 

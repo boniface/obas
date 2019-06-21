@@ -1,4 +1,4 @@
-package application_io
+package io
 
 import (
 	"errors"

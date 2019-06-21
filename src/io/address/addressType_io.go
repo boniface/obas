@@ -1,4 +1,4 @@
-package address_io
+package io
 
 import (
 	"errors"
