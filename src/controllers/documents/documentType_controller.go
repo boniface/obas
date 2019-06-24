@@ -8,25 +8,25 @@ import (
 	"obas/src/io/log"
 )
 
-func Documents(app *config.Env) http.Handler {
+func DocumentsType(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/", documentsHandler(app))
+	r.Get("/", documentsTypeHandler(app))
 	return r
 }
 
-func documentsHandler(app *config.Env) http.HandlerFunc {
+func documentsTypeHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		alldocs, err := io.GetDocuments()
+		alldocst, err := io.DocumentType()
 
 		if err != nil {
 			app.ServerError(w, err)
 		}
 
 		type PageData struct {
-			documents []io.Documents
-			name      string
+			logs []io.LogEvent
+			name string
 		}
-		data := PageData{alldocs, ""}
+		data := PageData{alldocst, ""}
 
 		files := []string{
 			app.Path + "",
