@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"obas/src/config"
 	io "obas/src/io/documents"
-	"obas/src/io/log"
 )
 
 func Documents(app *config.Env) http.Handler {

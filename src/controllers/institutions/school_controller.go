@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"obas/src/config"
 	io "obas/src/io/institutions"
-	"obas/src/io/log"
 )
 
 func School(app *config.Env) http.Handler {
