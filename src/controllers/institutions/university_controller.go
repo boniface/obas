@@ -1,4 +1,4 @@
-package institutions
+package controllers
 
 import (
 	"github.com/go-chi/chi"

@@ -1,4 +1,4 @@
-package documents
+package controllers
 
 import (
 	"github.com/go-chi/chi"

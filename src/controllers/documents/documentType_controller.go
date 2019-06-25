@@ -1,4 +1,4 @@
-package documents
+package controllers
 
 import (
 	"github.com/go-chi/chi"
@@ -16,15 +16,15 @@ func DocumentsType(app *config.Env) http.Handler {
 
 func documentsTypeHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		alldocst, err := io.DocumentType()
+		alldocst, err := io.GetDocumentType()
 
 		if err != nil {
 			app.ServerError(w, err)
 		}
 
 		type PageData struct {
-			logs []io.LogEvent
-			name string
+			documentType []io.DocumentType
+			name         string
 		}
 		data := PageData{alldocst, ""}
 
