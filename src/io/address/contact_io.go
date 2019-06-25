@@ -8,10 +8,10 @@ import (
 
 const contactTypeUrl = api.BASE_URL + "/address"
 
-type contactType domain.Roles
+type ContactType domain.Roles
 
-func GetContactTypes() ([]contactType, error) {
-	entites := []contactType{}
+func GetContactTypes() ([]ContactType, error) {
+	entites := []ContactType{}
 	resp, _ := api.Rest().Get(contactTypeUrl + "/all")
 	if resp.isError() {
 		return entites, errors.New(resp.Status())
@@ -23,8 +23,8 @@ func GetContactTypes() ([]contactType, error) {
 	return entites, nil
 }
 
-func GetContactType(id string) (contactType, error) {
-	entity := contactType{}
+func GetContactType(id string) (ContactType, error) {
+	entity := ContactType{}
 	resp, _ := api.Rest().Get(contactTypeUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

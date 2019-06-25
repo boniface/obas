@@ -1,37 +1,32 @@
-package controllers
+package application
 
 import (
-	"github.com/go-chi/chi"
+	"html/template"
 	"net/http"
 	"obas/src/config"
-	io "obas/src/io/registration"
+	io "obas/src/io/application"
 )
 
-func Registrations(app *config.Env) http.Handler {
+func applicationStatues(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/", registrationsHandler(app))
+	r.Get("/", applicationStatu(app))
 	return r
 }
-
-func registrationsHandler(app *config.Env) http.HandlerFunc {
+func applicationStatu(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allregistrations, err := io.GetRegisters()
-
+		allapplications, err := io.GetApplicationStatuses()
 		if err != nil {
 			app.ServerError(w, err)
 		}
-
 		type PageData struct {
-			registrations []io.Register
-			name          string
+			applicationRes []io.ApplicationStatus
+			name           string
 		}
-
-		data := PageData{allregistrations, ""}
-
+		data := PageData{allapplications, ""}
 		files := []string{
 			app.Path + "",
 		}
-		ts, err := templates.ParseFiles(files...)
+		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return
