@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"github.com/go-chi/chi"
 	"html/template"
 	"net/http"
 	"obas/src/config"
@@ -8,8 +9,8 @@ import (
 )
 
 func Address(app *config.Env) http.Handler {
-	r := chi.newRouter()
-	r.get("/", addressHandler(app))
+	r := chi.NewRouter()
+	r.Get("/", addressHandler(app))
 	return r
 }
 func addressHandler(app *config.Env) http.HandlerFunc {
@@ -31,7 +32,7 @@ func addressHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 			return
 		}
-		err = ts.ExecuteTemplate(w, "b", data)
+		err = ts.ExecuteTemplate(w, "base", data)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		}

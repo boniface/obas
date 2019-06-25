@@ -1,6 +1,7 @@
-package location
+package controllers
 
 import (
+	"github.com/go-chi/chi"
 	"net/http"
 	"obas/src/config"
 	io "obas/src/io/location"

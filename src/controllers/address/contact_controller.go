@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"github.com/go-chi/chi"
 	"html/template"
 	"net/http"
 	"obas/src/config"
