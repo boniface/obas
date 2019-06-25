@@ -8,10 +8,10 @@ import (
 
 const applicationStatusUrl = api.BASE_URL + "/application"
 
-type applicationStatus domain.ApplicationStatus
+type ApplicationStatus domain.ApplicationStatus
 
-func GetApplicationStatuses() ([]applicationStatus, error) {
-	entites := []applicationStatus{}
+func GetApplicationStatuses() ([]ApplicationStatus, error) {
+	entites := []ApplicationStatus{}
 	resp, _ := api.Rest().Get(applicationStatusUrl + "/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -23,8 +23,8 @@ func GetApplicationStatuses() ([]applicationStatus, error) {
 	return entites, nil
 }
 
-func GetApplicationStatus(id string) (applicationStatus, error) {
-	entity := applicationStatus{}
+func GetApplicationStatus(id string) (ApplicationStatus, error) {
+	entity := ApplicationStatus{}
 	resp, _ := api.Rest().Get(applicationStatusUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

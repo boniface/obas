@@ -6,26 +6,26 @@ import (
 	io "obas/src/io/location"
 )
 
-func Locations(app *config.Env) http.Handler {
+func LocationTypes(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/", locationsHandler(app))
+	r.Get("/", locationTypesHandler(app))
 	return r
 }
 
-func locationsHandler(app *config.Env) http.HandlerFunc {
+func locationTypesHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		alllocations, err := io.GetLocations()
+		alllocationtypes, err := io.GetLocationTypes()
 
 		if err != nil {
 			app.ServerError(w, err)
 		}
 
 		type PageData struct {
-			locations []io.Location
-			name      string
+			locationtypes []io.LocationType
+			name          string
 		}
 
-		data := PageData{alllocations, ""}
+		data := PageData{alllocationtypes, ""}
 
 		files := []string{
 			app.Path + "",

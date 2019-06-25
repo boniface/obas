@@ -15,7 +15,7 @@ func Registrations(app *config.Env) http.Handler {
 
 func registrationsHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allregistrations, err := io.GetRegister()
+		allregistrations, err := io.GetRegisters()
 
 		if err != nil {
 			app.ServerError(w, err)

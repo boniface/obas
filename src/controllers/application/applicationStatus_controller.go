@@ -1,36 +1,32 @@
-package location
+package application
 
 import (
+	"html/template"
 	"net/http"
 	"obas/src/config"
-	io "obas/src/io/location"
+	io "obas/src/io/application"
 )
 
-func Locations(app *config.Env) http.Handler {
+func applicationStatues(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/", locationsHandler(app))
+	r.Get("/", applicationStatu(app))
 	return r
 }
-
-func locationsHandler(app *config.Env) http.HandlerFunc {
+func applicationStatu(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		alllocations, err := io.GetLocations()
-
+		allapplications, err := io.GetApplicationStatuses()
 		if err != nil {
 			app.ServerError(w, err)
 		}
-
 		type PageData struct {
-			locations []io.Location
-			name      string
+			applicationRes []io.ApplicationStatus
+			name           string
 		}
-
-		data := PageData{alllocations, ""}
-
+		data := PageData{allapplications, ""}
 		files := []string{
 			app.Path + "",
 		}
-		ts, err := templates.ParseFiles(files...)
+		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return
