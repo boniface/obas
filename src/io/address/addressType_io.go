@@ -8,10 +8,10 @@ import (
 
 const addressTypeUrl = api.BASE_URL + "/address"
 
-type addressType domain.AddressType
+type AddressType domain.AddressType
 
-func GetAddresses() ([]addressType, error) {
-	entites := []addressType{}
+func GetAddresses() ([]AddressType, error) {
+	entites := []AddressType{}
 	resp, _ := api.Rest().Get(addressTypeUrl + "/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -23,8 +23,8 @@ func GetAddresses() ([]addressType, error) {
 	return entites, nil
 }
 
-func GetAddress(id string) (addressType, error) {
-	entity := addressType{}
+func GetAddress(id string) (AddressType, error) {
+	entity := AddressType{}
 	resp, _ := api.Rest().Get(addressTypeUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

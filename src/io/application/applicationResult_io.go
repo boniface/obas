@@ -8,10 +8,10 @@ import (
 
 const applicationResultUrl = api.BASE_URL + "/application"
 
-type applicationResult domain.ApplicationResult
+type ApplicationResult domain.ApplicationResult
 
-func GetApplicationResultes() ([]applicationResult, error) {
-	entites := []applicationResult{}
+func GetApplicationResultes() ([]ApplicationResult, error) {
+	entites := []ApplicationResult{}
 	resp, _ := api.Rest().Get(applicationResultUrl + "/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -23,8 +23,8 @@ func GetApplicationResultes() ([]applicationResult, error) {
 	return entites, nil
 }
 
-func GetApplicationResult(id string) (applicationResult, error) {
-	entity := applicationResult{}
+func GetApplicationResult(id string) (ApplicationResult, error) {
+	entity := ApplicationResult{}
 	resp, _ := api.Rest().Get(applicationResultUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
