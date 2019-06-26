@@ -10,8 +10,8 @@ const registerUrl = api.BASE_URL + "/registration"
 
 type Register domain.Register
 
-func GetRegisters() ([]Register, error) {
-	entites := []Register{}
+func GetRegisters() ([]domain.Register, error) {
+	entites := []domain.Register{}
 	resp, _ := api.Rest().Get(registerUrl + "/all")
 
 	if resp.IsError() {
@@ -24,8 +24,8 @@ func GetRegisters() ([]Register, error) {
 	return entites, nil
 }
 
-func GetRegister(id string) (Register, error) {
-	entity := Register{}
+func GetRegister(id string) (domain.Register, error) {
+	entity := domain.Register{}
 	resp, _ := api.Rest().Get(registerUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

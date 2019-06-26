@@ -10,8 +10,8 @@ const roleUrl = api.BASE_URL + "/demographics"
 
 type Roles domain.Roles
 
-func GetRoles() ([]Roles, error) {
-	entites := []Roles{}
+func GetRoles() ([]domain.Roles, error) {
+	entites := []domain.Roles{}
 	resp, _ := api.Rest().Get(roleUrl + "/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -23,8 +23,8 @@ func GetRoles() ([]Roles, error) {
 	return entites, nil
 }
 
-func GetRole(id string) (Roles, error) {
-	entity := Roles{}
+func GetRole(id string) (domain.Roles, error) {
+	entity := domain.Roles{}
 	resp, _ := api.Rest().Get(roleUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

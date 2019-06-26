@@ -10,9 +10,44 @@ import (
 
 func Subjects(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/", MatricSubjectsHandler(app))
-	r.Get("/subjects", universityCoursesHandler(app))
+	r.Get("/", SubjectsHandler(app))
+	r.Get("/MatricSubjects", MatricSubjectsHandler(app))
+	r.Get("/universityCourses", universityCoursesHandler(app))
 	return r
+}
+
+func SubjectsHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		allsubjects, err := io.GetSubjects()
+
+		if err != nil {
+			app.ServerError(w, err)
+		}
+
+		type PageData struct {
+			subjects []io.Subjects
+			name     string
+		}
+		data := PageData{allsubjects, ""}
+
+		files := []string{
+			app.Path + "/subjects/subjects.page.html",
+			app.Path + "/base/base.page.html",
+			app.Path + "/base/navbar.page.html",
+			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/footer.page.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.ExecuteTemplate(w, "base", data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+
+	}
 }
 
 func universityCoursesHandler(app *config.Env) http.HandlerFunc {
@@ -24,7 +59,7 @@ func universityCoursesHandler(app *config.Env) http.HandlerFunc {
 		}
 
 		type PageData struct {
-			courses []io.MatricSubjects
+			courses []io.UniversityCourses
 			name    string
 		}
 		data := PageData{allcourses, ""}
@@ -58,7 +93,7 @@ func MatricSubjectsHandler(app *config.Env) http.HandlerFunc {
 		}
 
 		type PageData struct {
-			subjects []io.MatricSubjects
+			subjects []io.Subjects
 			name     string
 		}
 		data := PageData{allsubjects, ""}
