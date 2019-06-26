@@ -37,7 +37,7 @@ func AdminHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{allAdmin, ""}
 
 		files := []string{
-			app.Path + "/", //maybe the admin base page should go here
+			app.Path + "/html/users/users.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",
@@ -71,13 +71,13 @@ func ProcessingStatusTypeHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{allProcess, ""}
 
 		files := []string{
-			app.Path + "", //maybe another base page should go here
+			app.Path + "/html/users/users.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",
 			app.Path + "/base/footer.page.html",
 		}
-		ts, err := templates.ParseFiles(files...)
+		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return
@@ -105,9 +105,13 @@ func StudentApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{allApplications, ""}
 
 		files := []string{
-			app.Path + "",
+			app.Path + "/html/users/users.page.html",
+			app.Path + "/base/base.page.html",
+			app.Path + "/base/navbar.page.html",
+			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/footer.page.html",
 		}
-		ts, err := templates.ParseFiles(files...)
+		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return
@@ -135,9 +139,13 @@ func StudentContactsHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{allStudentContacts, ""}
 
 		files := []string{
-			app.Path + "",
+			app.Path + "/html/users/users.page.html",
+			app.Path + "/base/base.page.html",
+			app.Path + "/base/navbar.page.html",
+			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/footer.page.html",
 		}
-		ts, err := templates.ParseFiles(files...)
+		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return
@@ -164,9 +172,13 @@ func StudentDemographicsHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{allStudentDemographics, ""}
 
 		files := []string{
-			app.Path + "",
+			app.Path + "/html/users/users.page.html",
+			app.Path + "/base/base.page.html",
+			app.Path + "/base/navbar.page.html",
+			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/footer.page.html",
 		}
-		ts, err := templates.ParseFiles(files...)
+		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return
@@ -193,9 +205,13 @@ func StudentDocumentsHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{allStudentDocuments, ""}
 
 		files := []string{
-			app.Path + "",
+			app.Path + "/html/users/users.page.html",
+			app.Path + "/base/base.page.html",
+			app.Path + "/base/navbar.page.html",
+			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/footer.page.html",
 		}
-		ts, err := templates.ParseFiles(files...)
+		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return
@@ -222,9 +238,13 @@ func StudentProfileHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{allStudentProfiles, ""}
 
 		files := []string{
-			app.Path + "",
+			app.Path + "/html/users/users.page.html",
+			app.Path + "/base/base.page.html",
+			app.Path + "/base/navbar.page.html",
+			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/footer.page.html",
 		}
-		ts, err := templates.ParseFiles(files...)
+		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return
@@ -251,9 +271,13 @@ func StudentResultsHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{allStudentResults, ""}
 
 		files := []string{
-			app.Path + "",
+			app.Path + "/html/users/users.page.html",
+			app.Path + "/base/base.page.html",
+			app.Path + "/base/navbar.page.html",
+			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/footer.page.html",
 		}
-		ts, err := templates.ParseFiles(files...)
+		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return

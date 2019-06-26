@@ -3,34 +3,35 @@ package controllers
 import (
 	"github.com/go-chi/chi"
 	"html/template"
+
 	"net/http"
 	"obas/src/config"
-	io "obas/src/io/subjects"
+	io "obas/src/io/address"
 )
 
-func Subjects(app *config.Env) http.Handler {
+func Addresses(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/", MatricSubjectsHandler(app))
-	r.Get("/", UniversityCoursesHandler(app))
+	r.Get("/", AddressTypeHandler(app))
+	r.Get("/", ContactTypeTypeHandler(app))
 	return r
 }
 
-func UniversityCoursesHandler(app *config.Env) http.HandlerFunc {
+func AddressTypeHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allcourses, err := io.GetUniversityCourses()
+		allAddresses, err := io.GetAddresses()
 
 		if err != nil {
 			app.ServerError(w, err)
 		}
 
 		type PageData struct {
-			courses []io.MatricSubjects
-			name    string
+			addresses []io.AddressType
+			name      string
 		}
-		data := PageData{allcourses, ""}
+		data := PageData{allAddresses, ""}
 
 		files := []string{
-			app.Path + "/subjects/subjects.page.html",
+			app.Path + "/html/address/address.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",
@@ -49,22 +50,22 @@ func UniversityCoursesHandler(app *config.Env) http.HandlerFunc {
 	}
 }
 
-func MatricSubjectsHandler(app *config.Env) http.HandlerFunc {
+func ContactTypeTypeHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allsubjects, err := io.GetMatricSubjects()
+		allContacts, err := io.GetContactTypes()
 
 		if err != nil {
 			app.ServerError(w, err)
 		}
 
 		type PageData struct {
-			subjects []io.MatricSubjects
+			contacts []io.ContactType
 			name     string
 		}
-		data := PageData{allsubjects, ""}
+		data := PageData{allContacts, ""}
 
 		files := []string{
-			app.Path + "/subjects/subjects.page.html",
+			app.Path + "/html/address/address.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",
