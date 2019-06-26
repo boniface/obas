@@ -10,8 +10,8 @@ const genderUrl = api.BASE_URL + "/demographics"
 
 type Genders domain.Gender
 
-func GetGenders() ([]Genders, error) {
-	entites := []Genders{}
+func GetGenders() ([]domain.Gender, error) {
+	entites := []domain.Gender{}
 	resp, _ := api.Rest().Get(genderUrl + "/all")
 
 	if resp.IsError() {
@@ -24,8 +24,8 @@ func GetGenders() ([]Genders, error) {
 	return entites, nil
 }
 
-func GetGender(id string) (Genders, error) {
-	entity := Genders{}
+func GetGender(id string) (domain.Gender, error) {
+	entity := domain.Gender{}
 	resp, _ := api.Rest().Get(genderUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

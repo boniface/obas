@@ -3,17 +3,16 @@ package io
 import (
 	"errors"
 	"obas/src/api"
-	domain "obas/src/domain/users"
+	domain "obas/src/domain/subjects"
 )
 
-const adminUrl = api.BASE_URL + "/users"
+const subjectUrl = api.BASE_URL + "/subjects"
 
-type Admin domain.Admin
+type Subjects domain.Subjects
 
-func GetAdmins() ([]domain.Admin, error) {
-	entites := []domain.Admin{}
-	resp, _ := api.Rest().Get(adminUrl + "/all")
-
+func GetSubjects() ([]domain.Subjects, error) {
+	entites := []domain.Subjects{}
+	resp, _ := api.Rest().Get(subjectUrl + "/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
@@ -24,9 +23,9 @@ func GetAdmins() ([]domain.Admin, error) {
 	return entites, nil
 }
 
-func GetAdmin(id string) (domain.Admin, error) {
-	entity := domain.Admin{}
-	resp, _ := api.Rest().Get(adminUrl + "/get/" + id)
+func GetSubject(id string) (domain.Subjects, error) {
+	entity := domain.Subjects{}
+	resp, _ := api.Rest().Get(subjectUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -37,10 +36,10 @@ func GetAdmin(id string) (domain.Admin, error) {
 	return entity, nil
 }
 
-func CreateAdmin(entity interface{}) (bool, error) {
+func CreateSubject(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(adminUrl + "/create")
+		Post(subjectUrl + "/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -48,10 +47,10 @@ func CreateAdmin(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateAdmin(entity interface{}) (bool, error) {
+func UpdateSubject(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(adminUrl + "/update")
+		Post(subjectUrl + "/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -59,13 +58,13 @@ func UpdateAdmin(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func DeleteAdmin(entity interface{}) (bool, error) {
+func DeleteSubject(entity interface{}) (bool, error) {
+
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(adminUrl + "/delete")
+		Post(subjectUrl + "/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
-
 	return true, nil
 }

@@ -11,9 +11,9 @@ import (
 
 func Applications(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/", ApplicationTypeHandler(app))
-	r.Get("/", ApplicationResultHandler(app))
-	r.Get("/", ApplicationStatusHandler(app))
+	r.Get("/ApplicationType", ApplicationTypeHandler(app))
+	r.Get("/ApplicationResult", ApplicationResultHandler(app))
+	r.Get("/ApplicationStatus", ApplicationStatusHandler(app))
 	return r
 }
 

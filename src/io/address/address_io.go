@@ -3,17 +3,16 @@ package io
 import (
 	"errors"
 	"obas/src/api"
-	domain "obas/src/domain/users"
+	domain "obas/src/domain/address"
 )
 
-const adminUrl = api.BASE_URL + "/users"
+const addressUrl = api.BASE_URL + "/address"
 
-type Admin domain.Admin
+type Address domain.Address
 
-func GetAdmins() ([]domain.Admin, error) {
-	entites := []domain.Admin{}
-	resp, _ := api.Rest().Get(adminUrl + "/all")
-
+func GetAddresses() ([]domain.Address, error) {
+	entites := []domain.Address{}
+	resp, _ := api.Rest().Get(addressUrl + "/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
@@ -24,9 +23,9 @@ func GetAdmins() ([]domain.Admin, error) {
 	return entites, nil
 }
 
-func GetAdmin(id string) (domain.Admin, error) {
-	entity := domain.Admin{}
-	resp, _ := api.Rest().Get(adminUrl + "/get/" + id)
+func GetAddress(id string) (domain.Address, error) {
+	entity := domain.Address{}
+	resp, _ := api.Rest().Get(addressUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -37,10 +36,10 @@ func GetAdmin(id string) (domain.Admin, error) {
 	return entity, nil
 }
 
-func CreateAdmin(entity interface{}) (bool, error) {
+func CreateAddress(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(adminUrl + "/create")
+		Post(addressUrl + "/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -48,10 +47,10 @@ func CreateAdmin(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateAdmin(entity interface{}) (bool, error) {
+func UpdateAddress(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(adminUrl + "/update")
+		Post(addressUrl + "/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -59,13 +58,13 @@ func UpdateAdmin(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func DeleteAdmin(entity interface{}) (bool, error) {
+func DeleteAddress(entity interface{}) (bool, error) {
+
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(adminUrl + "/delete")
+		Post(addressUrl + "/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
-
 	return true, nil
 }

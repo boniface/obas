@@ -10,8 +10,8 @@ const studentApplicationSatusUrl = api.BASE_URL + "/users"
 
 type StudentApplicationStatus domain.StudentApplicationStatus
 
-func GetStudentApplicationStatuses() ([]StudentApplicationStatus, error) {
-	entites := []StudentApplicationStatus{}
+func GetStudentApplicationStatuses() ([]domain.StudentApplicationStatus, error) {
+	entites := []domain.StudentApplicationStatus{}
 	resp, _ := api.Rest().Get(studentApplicationSatusUrl + "/all")
 
 	if resp.IsError() {
@@ -24,8 +24,8 @@ func GetStudentApplicationStatuses() ([]StudentApplicationStatus, error) {
 	return entites, nil
 }
 
-func GetStudentApplicationStatus(id string) (StudentApplicationStatus, error) {
-	entity := StudentApplicationStatus{}
+func GetStudentApplicationStatus(id string) (domain.StudentApplicationStatus, error) {
+	entity := domain.StudentApplicationStatus{}
 	resp, _ := api.Rest().Get(studentApplicationSatusUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

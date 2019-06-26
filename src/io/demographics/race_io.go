@@ -10,8 +10,8 @@ const raceUrl = api.BASE_URL + "/demographics"
 
 type Races domain.Race
 
-func GetRaces() ([]Races, error) {
-	entites := []Races{}
+func GetRaces() ([]domain.Race, error) {
+	entites := []domain.Race{}
 	resp, _ := api.Rest().Get(raceUrl + "/all")
 
 	if resp.IsError() {
@@ -24,8 +24,8 @@ func GetRaces() ([]Races, error) {
 	return entites, nil
 }
 
-func GetRace(id string) (Races, error) {
-	entity := Races{}
+func GetRace(id string) (domain.Race, error) {
+	entity := domain.Race{}
 	resp, _ := api.Rest().Get(raceUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

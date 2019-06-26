@@ -10,8 +10,8 @@ const studentContactsUrl = api.BASE_URL + "/users"
 
 type StudentContacts domain.StudentContacts
 
-func GetStudentContacts() ([]StudentContacts, error) {
-	entites := []StudentContacts{}
+func GetStudentContacts() ([]domain.StudentContacts, error) {
+	entites := []domain.StudentContacts{}
 	resp, _ := api.Rest().Get(studentContactsUrl + "/all")
 
 	if resp.IsError() {
@@ -24,8 +24,8 @@ func GetStudentContacts() ([]StudentContacts, error) {
 	return entites, nil
 }
 
-func GetStudentContact(id string) (StudentContacts, error) {
-	entity := StudentContacts{}
+func GetStudentContact(id string) (domain.StudentContacts, error) {
+	entity := domain.StudentContacts{}
 	resp, _ := api.Rest().Get(studentContactsUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

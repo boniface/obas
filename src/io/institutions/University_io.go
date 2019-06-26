@@ -3,15 +3,15 @@ package institutions
 import (
 	"errors"
 	"obas/src/api"
-	domain "obas/src/domain/demographics"
+	domain "obas/src/domain/institutions"
 )
 
-const universityUrl = api.BASE_URL + "/demographics"
+const universityUrl = api.BASE_URL + "/institutions"
 
-type Universitys domain.Universitys
+type Universitys domain.University
 
-func GetUniversitys() ([]Universitys, error) {
-	entites := []Universitys{}
+func GetUniversitys() ([]domain.University, error) {
+	entites := []domain.University{}
 	resp, _ := api.Rest().Get(universityUrl + "/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -23,8 +23,8 @@ func GetUniversitys() ([]Universitys, error) {
 	return entites, nil
 }
 
-func GetUniversity(id string) (Universitys, error) {
-	entity := Universitys{}
+func GetUniversity(id string) (domain.University, error) {
+	entity := domain.University{}
 	resp, _ := api.Rest().Get(universityUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

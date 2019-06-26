@@ -11,14 +11,14 @@ import (
 
 func Users(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/", AdminHandler(app))
-	r.Get("/", ProcessingStatusTypeHandler(app))
-	r.Get("/", StudentApplicationStatusHandler(app))
-	r.Get("/", StudentContactsHandler(app))
-	r.Get("/", StudentDemographicsHandler(app))
-	r.Get("/", StudentDocumentsHandler(app))
-	r.Get("/", StudentProfileHandler(app))
-	r.Get("/", StudentResultsHandler(app))
+	r.Get("/Admin", AdminHandler(app))
+	r.Get("/ProcessingStatus", ProcessingStatusTypeHandler(app))
+	r.Get("/StudentApplication", StudentApplicationStatusHandler(app))
+	r.Get("/StudentContact", StudentContactsHandler(app))
+	r.Get("/StudentDemographics", StudentDemographicsHandler(app))
+	r.Get("/StudentDocuments", StudentDocumentsHandler(app))
+	r.Get("/StudentProfile", StudentProfileHandler(app))
+	r.Get("/StudentResults", StudentResultsHandler(app))
 	return r
 }
 
