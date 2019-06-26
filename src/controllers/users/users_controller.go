@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/go-chi/chi"
+	"html/template"
 
 	"net/http"
 	"obas/src/config"
@@ -36,13 +37,13 @@ func AdminHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{allAdmin, ""}
 
 		files := []string{
-			app.Path + "", //maybe the admin base page should go here
+			app.Path + "/", //maybe the admin base page should go here
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",
 			app.Path + "/base/footer.page.html",
 		}
-		ts, err := templates.ParseFiles(files...)
+		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return

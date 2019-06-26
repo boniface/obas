@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/go-chi/chi"
+	"html/template"
 	"net/http"
 	"obas/src/config"
 	io "obas/src/io/subjects"
@@ -29,9 +30,13 @@ func UniversityCoursesHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{allcourses, ""}
 
 		files := []string{
-			app.Path + "",
+			app.Path + "/subjects/subjects.page.html",
+			app.Path + "/base/base.page.html",
+			app.Path + "/base/navbar.page.html",
+			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/footer.page.html",
 		}
-		ts, err := templates.ParseFiles(files...)
+		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return
