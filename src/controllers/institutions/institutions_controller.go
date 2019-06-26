@@ -5,32 +5,32 @@ import (
 	"html/template"
 	"net/http"
 	"obas/src/config"
-	io "obas/src/io/subjects"
+	io "obas/src/io/institutions"
 )
 
-func Subjects(app *config.Env) http.Handler {
+func Institutions(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/", MatricSubjectsHandler(app))
-	r.Get("/", UniversityCoursesHandler(app))
+	r.Get("/", SchoolHandler(app))
+	r.Get("/", UniversitysHandler(app))
 	return r
 }
 
-func UniversityCoursesHandler(app *config.Env) http.HandlerFunc {
+func SchoolHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allcourses, err := io.GetUniversityCourses()
+		allSchools, err := io.GetSchools()
 
 		if err != nil {
 			app.ServerError(w, err)
 		}
 
 		type PageData struct {
-			courses []io.MatricSubjects
+			schools []io.Schools
 			name    string
 		}
-		data := PageData{allcourses, ""}
+		data := PageData{allSchools, ""}
 
 		files := []string{
-			app.Path + "/subjects/subjects.page.html",
+			app.Path + "/html/institutions/institutions.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",
@@ -49,22 +49,22 @@ func UniversityCoursesHandler(app *config.Env) http.HandlerFunc {
 	}
 }
 
-func MatricSubjectsHandler(app *config.Env) http.HandlerFunc {
+func UniversitysHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allsubjects, err := io.GetMatricSubjects()
+		allUniversitys, err := io.GetUniversitys()
 
 		if err != nil {
 			app.ServerError(w, err)
 		}
 
 		type PageData struct {
-			subjects []io.MatricSubjects
-			name     string
+			univ []io.Universitys
+			name string
 		}
-		data := PageData{allsubjects, ""}
+		data := PageData{allUniversitys, ""}
 
 		files := []string{
-			app.Path + "/subjects/subjects.page.html",
+			app.Path + "/html/institutions/institutions.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",

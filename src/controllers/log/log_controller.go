@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/go-chi/chi"
-	"log"
+	"html/template"
 	"net/http"
 	"obas/src/config"
 	"obas/src/io/log"
@@ -31,7 +31,7 @@ func logsHandler(app *config.Env) http.HandlerFunc {
 		files := []string{
 			app.Path + "",
 		}
-		ts, err := templates.ParseFiles(files...)
+		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return
