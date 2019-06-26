@@ -10,7 +10,7 @@ const universityCoursesUrl = api.BASE_URL + "/subjects"
 
 type universityCourses domain.UniversityCourses
 
-func GetUniversityCourses() ([]UniversityCourses, error) {
+func GetUniversityCourses() ([]domain.UniversityCourses, error) {
 	entites := []UniversityCourses{}
 	resp, _ := api.Rest().Get(universityCoursesUrl + "/all")
 

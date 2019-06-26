@@ -11,11 +11,11 @@ import (
 func Subjects(app *config.Env) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", MatricSubjectsHandler(app))
-	r.Get("/", UniversityCoursesHandler(app))
+	r.Get("/subjects", universityCoursesHandler(app))
 	return r
 }
 
-func UniversityCoursesHandler(app *config.Env) http.HandlerFunc {
+func universityCoursesHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		allcourses, err := io.GetUniversityCourses()
 

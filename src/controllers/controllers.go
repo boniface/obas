@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"obas/src/config"
 	controllers "obas/src/controllers/home"
+	controllers2 "obas/src/controllers/subjects"
 
 	"obas/src/controllers/login"
 )
@@ -18,6 +19,7 @@ func Controllers(env *config.Env) http.Handler {
 
 	mux.Handle("/", controllers.Home(env))
 	mux.Mount("/login", login.Login(env))
+	mux.Mount("/subjects", controllers2.Subjects(env))
 
 	fileServer := http.FileServer(http.Dir("./src/views/assets/"))
 	// Use the mux.Handle() function to register the file server as the handler for
