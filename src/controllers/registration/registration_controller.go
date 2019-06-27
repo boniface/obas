@@ -10,7 +10,7 @@ import (
 
 func Registrations(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/", registrationsHandler(app))
+	r.Get("/registration", registrationsHandler(app))
 	return r
 }
 
@@ -30,7 +30,7 @@ func registrationsHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{allregistrations, ""}
 
 		files := []string{
-			app.Path + "/html/registration/registration.page.html",
+			app.Path + "/registration/registration.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",

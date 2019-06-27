@@ -10,8 +10,8 @@ const matricSubjectUrl = api.BASE_URL + "/subjects"
 
 type MatricSubjects domain.MatricSubjects
 
-func GetMatricSubjects() ([]domain.MatricSubjects, error) {
-	entites := []domain.MatricSubjects{}
+func GetMatricSubjects() ([]MatricSubjects, error) {
+	entites := []MatricSubjects{}
 	resp, _ := api.Rest().Get(matricSubjectUrl + "/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -23,8 +23,8 @@ func GetMatricSubjects() ([]domain.MatricSubjects, error) {
 	return entites, nil
 }
 
-func GetMatricSubject(id string) (domain.MatricSubjects, error) {
-	entity := domain.MatricSubjects{}
+func GetMatricSubject(id string) (MatricSubjects, error) {
+	entity := MatricSubjects{}
 	resp, _ := api.Rest().Get(matricSubjectUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
