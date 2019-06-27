@@ -10,8 +10,8 @@ const universityCoursesUrl = api.BASE_URL + "/subjects"
 
 type UniversityCourses domain.UniversityCourses
 
-func GetUniversityCourses() ([]domain.UniversityCourses, error) {
-	entites := []domain.UniversityCourses{}
+func GetUniversityCourses() ([]UniversityCourses, error) {
+	entites := []UniversityCourses{}
 	resp, _ := api.Rest().Get(universityCoursesUrl + "/all")
 
 	if resp.IsError() {
@@ -24,8 +24,8 @@ func GetUniversityCourses() ([]domain.UniversityCourses, error) {
 	return entites, nil
 }
 
-func GetUniversityCourse(id string) (domain.UniversityCourses, error) {
-	entity := domain.UniversityCourses{}
+func GetUniversityCourse(id string) (UniversityCourses, error) {
+	entity := UniversityCourses{}
 	resp, _ := api.Rest().Get(universityCoursesUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

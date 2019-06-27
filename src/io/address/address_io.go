@@ -10,8 +10,8 @@ const addressUrl = api.BASE_URL + "/address"
 
 type Address domain.Address
 
-func GetAddresses() ([]domain.Address, error) {
-	entites := []domain.Address{}
+func GetAddresses() ([]Address, error) {
+	entites := []Address{}
 	resp, _ := api.Rest().Get(addressUrl + "/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -23,8 +23,8 @@ func GetAddresses() ([]domain.Address, error) {
 	return entites, nil
 }
 
-func GetAddress(id string) (domain.Address, error) {
-	entity := domain.Address{}
+func GetAddress(id string) (Address, error) {
+	entity := Address{}
 	resp, _ := api.Rest().Get(addressUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
