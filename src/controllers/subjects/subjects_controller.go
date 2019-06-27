@@ -51,17 +51,18 @@ func universityCoursesHandler(app *config.Env) http.HandlerFunc {
 
 func matricSubjectsHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allmatrics, err := io.GetMatricSubjects()
+		//allmatrics, err := io.GetMatricSubjects()
 
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//if err != nil {
+		//	fmt.Println(" IS this Error Called ", err)
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			matrics []io.MatricSubjects
-			name    string
+			//matrics []io.MatricSubjects
+			name string
 		}
-		data := PageData{allmatrics, ""}
+		data := PageData{""}
 
 		files := []string{
 			app.Path + "/subjects/subjects.page.html",
