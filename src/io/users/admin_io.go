@@ -10,8 +10,8 @@ const adminUrl = api.BASE_URL + "/users"
 
 type Admin domain.Admin
 
-func GetAdmins() ([]domain.Admin, error) {
-	entites := []domain.Admin{}
+func GetAdmins() ([]Admin, error) {
+	entites := []Admin{}
 	resp, _ := api.Rest().Get(adminUrl + "/all")
 
 	if resp.IsError() {

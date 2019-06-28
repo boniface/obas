@@ -5,7 +5,6 @@ import (
 	"html/template"
 	"net/http"
 	"obas/src/config"
-	io "obas/src/io/subjects"
 )
 
 func Subjects(app *config.Env) http.Handler {
@@ -17,22 +16,23 @@ func Subjects(app *config.Env) http.Handler {
 
 func universityCoursesHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allcourses, err := io.GetUniversityCourses()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//allcourses, err := io.GetUniversityCourses()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			courses []io.UniversityCourses
-			name    string
+			//courses []io.UniversityCourses
+			name string
 		}
-		data := PageData{allcourses, ""}
+		data := PageData{""}
 
 		files := []string{
 			app.Path + "/subjects/subjects.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
+			app.Path + "/base/contents.page.html",
 			app.Path + "/base/sidebar.page.html",
 			app.Path + "/base/footer.page.html",
 		}

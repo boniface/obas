@@ -10,8 +10,8 @@ const processingTypeSatusUrl = api.BASE_URL + "/users"
 
 type ProcessingStatusType domain.ProcessingStatusType
 
-func GetProcessingStatusTypes() ([]domain.ProcessingStatusType, error) {
-	entites := []domain.ProcessingStatusType{}
+func GetProcessingStatusTypes() ([]ProcessingStatusType, error) {
+	entites := []ProcessingStatusType{}
 	resp, _ := api.Rest().Get(processingTypeSatusUrl + "/all")
 
 	if resp.IsError() {
@@ -24,8 +24,8 @@ func GetProcessingStatusTypes() ([]domain.ProcessingStatusType, error) {
 	return entites, nil
 }
 
-func GetProcessingStatusType(id string) (domain.ProcessingStatusType, error) {
-	entity := domain.ProcessingStatusType{}
+func GetProcessingStatusType(id string) (ProcessingStatusType, error) {
+	entity := ProcessingStatusType{}
 	resp, _ := api.Rest().Get(processingTypeSatusUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

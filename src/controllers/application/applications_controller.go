@@ -3,36 +3,34 @@ package controllers
 import (
 	"github.com/go-chi/chi"
 	"html/template"
-
 	"net/http"
 	"obas/src/config"
-	io "obas/src/io/application"
 )
 
 func Applications(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/ApplicationType", ApplicationTypeHandler(app))
-	r.Get("/ApplicationResult", ApplicationResultHandler(app))
-	r.Get("/ApplicationStatus", ApplicationStatusHandler(app))
+	r.Get("/applicationType", ApplicationTypeHandler(app))
+	r.Get("/applicationResult", ApplicationResultHandler(app))
+	r.Get("/applicationStatus", ApplicationStatusHandler(app))
 	return r
 }
 
 func ApplicationTypeHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allApplicationsType, err := io.GetApplicationTypes()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//allApplicationsType, err := io.GetApplicationTypes()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			ApplicationsType []io.ApplicationType
-			name             string
+			//ApplicationsType []io.ApplicationType
+			name string
 		}
-		data := PageData{allApplicationsType, ""}
+		data := PageData{""}
 
 		files := []string{
-			app.Path + "/html/application/application.page.html",
+			app.Path + "/application/application.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",
@@ -53,20 +51,20 @@ func ApplicationTypeHandler(app *config.Env) http.HandlerFunc {
 
 func ApplicationResultHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allApplicationResult, err := io.GetApplicationResultes()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//allApplicationResult, err := io.GetApplicationResultes()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			ApplicationResults []io.ApplicationResult
-			name               string
+			//ApplicationResults []io.ApplicationResult
+			name string
 		}
-		data := PageData{allApplicationResult, ""}
+		data := PageData{""}
 
 		files := []string{
-			app.Path + "/html/application/application.page.html",
+			app.Path + "/application/application.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",
@@ -87,20 +85,20 @@ func ApplicationResultHandler(app *config.Env) http.HandlerFunc {
 
 func ApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allApplicationResult, err := io.GetApplicationResultes()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//allApplicationResult, err := io.GetApplicationResultes()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			ApplicationResults []io.ApplicationResult
-			name               string
+			//ApplicationResults []io.ApplicationResult
+			name string
 		}
-		data := PageData{allApplicationResult, ""}
+		data := PageData{""}
 
 		files := []string{
-			app.Path + "/html/application/application.page.html",
+			app.Path + "/application/application.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",
