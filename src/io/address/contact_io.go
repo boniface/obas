@@ -13,7 +13,7 @@ type ContactType domain.Roles
 func GetContactTypes() ([]ContactType, error) {
 	entites := []ContactType{}
 	resp, _ := api.Rest().Get(contactTypeUrl + "/all")
-	if resp.isError() {
+	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entites)
