@@ -33,8 +33,6 @@ func AddressesHandler(app *config.Env) http.HandlerFunc {
 		files := []string{
 			app.Path + "/address/address.page.html",
 			app.Path + "/base/base.page.html",
-			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
 			app.Path + "/base/footer.page.html",
 		}
 		ts, err := template.ParseFiles(files...)

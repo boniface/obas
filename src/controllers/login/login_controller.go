@@ -22,10 +22,6 @@ func loginHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		files := []string{
 			app.Path + "/login/login.page.html",
-			app.Path + "/base/base.page.html",
-			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
-			app.Path + "/base/footer.page.html",
 		}
 
 		ts, err := template.ParseFiles(files...)

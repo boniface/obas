@@ -26,21 +26,17 @@ func registrationsHandler(app *config.Env) http.HandlerFunc {
 			name string
 		}
 
-		data := PageData{""}
+		//data := PageData{""}
 
 		files := []string{
 			app.Path + "/registration/registration.page.html",
-			app.Path + "/base/base.page.html",
-			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
-			app.Path + "/base/footer.page.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return
 		}
-		err = ts.ExecuteTemplate(w, "base", data)
+		err = ts.Execute(w, nil)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		}
