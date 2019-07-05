@@ -5,30 +5,29 @@ import (
 	"html/template"
 	"net/http"
 	"obas/src/config"
-	io "obas/src/io/location"
 )
 
 func Locations(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/", LocationsHandler(app))
-	r.Get("/", LocationTypesHandler(app))
+	r.Get("/locations", LocationsHandler(app))
+	r.Get("/locationtype", LocationTypesHandler(app))
 	return r
 }
 
 func LocationsHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		alllocations, err := io.GetLocations()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//alllocations, err := io.GetLocations()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			locations []io.Location
-			name      string
+			//locations []io.Location
+			name string
 		}
 
-		data := PageData{alllocations, ""}
+		data := PageData{""}
 
 		files := []string{
 			app.Path + "/location/location.page.html",
@@ -51,18 +50,18 @@ func LocationsHandler(app *config.Env) http.HandlerFunc {
 
 func LocationTypesHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		alllocationTypes, err := io.GetLocationTypes()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//alllocationTypes, err := io.GetLocationTypes()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			locationsType []io.LocationType
-			name          string
+			//locationsType []io.LocationType
+			name string
 		}
 
-		data := PageData{alllocationTypes, ""}
+		data := PageData{""}
 
 		files := []string{
 			app.Path + "/location/location.page.html",

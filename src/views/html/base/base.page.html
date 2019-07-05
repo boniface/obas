@@ -21,31 +21,31 @@
     </head>
 
     <body>
+    <div class="wrapper">
 
-    <!--sidebar-->
+        <!--sidebar-->
 
-    {{template "sidebar".}}
+        {{template "sidebar"}}
 
-    <!--/sidebar-->
+        <!--/sidebar-->
+
+        <div class="main-panel">
+            <!-- Navbar -->
+            {{template "navbar"}}
+            <!-- End Navbar -->
+
+            <!--Contents-->
+            {{template "contents"}}
+
+            <!--/Contents-->
 
 
-        <!-- Navbar -->
-        {{template "navbar"}}
-        <!-- End Navbar -->
+            <!--Footer-->
 
+            {{template "footer"}}
 
-        <!--Contents-->
-        {{template "contents"}}
-
-        <!--/Contents-->
-
-
-        <!--Footer-->
-
-        {{template "footer".}}
-
-        <!--/Footer-->
-
+            <!--/Footer-->
+        </div>
 
     </div>
 

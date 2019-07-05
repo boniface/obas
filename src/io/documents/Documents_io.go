@@ -10,8 +10,8 @@ const documentUrl = api.BASE_URL + "/documents"
 
 type Documents domain.Documents
 
-func GetDocuments() ([]domain.Documents, error) {
-	entites := []domain.Documents{}
+func GetDocuments() ([]Documents, error) {
+	entites := []Documents{}
 	resp, _ := api.Rest().Get(documentUrl + "/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -23,8 +23,8 @@ func GetDocuments() ([]domain.Documents, error) {
 	return entites, nil
 }
 
-func GetDocument(id string) (domain.Documents, error) {
-	entity := domain.Documents{}
+func GetDocument(id string) (Documents, error) {
+	entity := Documents{}
 	resp, _ := api.Rest().Get(documentUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

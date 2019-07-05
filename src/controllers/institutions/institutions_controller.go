@@ -5,32 +5,31 @@ import (
 	"html/template"
 	"net/http"
 	"obas/src/config"
-	io "obas/src/io/institutions"
 )
 
 func Institutions(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/", SchoolHandler(app))
-	r.Get("/", UniversitysHandler(app))
+	r.Get("/school", SchoolHandler(app))
+	r.Get("/university", UniversityHandler(app))
 	return r
 }
 
 func SchoolHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allSchools, err := io.GetSchools()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//allSchools, err := io.GetSchools()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			schools []io.Schools
-			name    string
+			//schools []io.Schools
+			name string
 		}
-		data := PageData{allSchools, ""}
+		data := PageData{""}
 
 		files := []string{
-			app.Path + "/html/institutions/institutions.page.html",
+			app.Path + "/institutions/institutions.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",
@@ -49,22 +48,22 @@ func SchoolHandler(app *config.Env) http.HandlerFunc {
 	}
 }
 
-func UniversitysHandler(app *config.Env) http.HandlerFunc {
+func UniversityHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allUniversitys, err := io.GetUniversitys()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//allUniversitys, err := io.GetUniversitys()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			univ []io.Universitys
+			//univ []io.Universitys
 			name string
 		}
-		data := PageData{allUniversitys, ""}
+		data := PageData{""}
 
 		files := []string{
-			app.Path + "/html/institutions/institutions.page.html",
+			app.Path + "/institutions/institutions.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",

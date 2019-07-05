@@ -5,32 +5,31 @@ import (
 	"html/template"
 	"net/http"
 	"obas/src/config"
-	io "obas/src/io/documents"
 )
 
 func Documents(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/", DocumentsHandler(app))
-	r.Get("/", DocumentsTypeHandler(app))
+	r.Get("/document", DocumentsHandler(app))
+	r.Get("/documentstype", DocumentsTypeHandler(app))
 	return r
 }
 
 func DocumentsTypeHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		alldocs, err := io.GetDocuments()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//alldocs, err := io.GetDocuments()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			documents []io.Documents
-			name      string
+			//documents []io.Documents
+			name string
 		}
-		data := PageData{alldocs, ""}
+		data := PageData{""}
 
 		files := []string{
-			app.Path + "/html/documents/documents.page.html",
+			app.Path + "/documents/documents.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",
@@ -50,20 +49,20 @@ func DocumentsTypeHandler(app *config.Env) http.HandlerFunc {
 
 func DocumentsHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		alldocsType, err := io.GetDocumentTypes()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//alldocsType, err := io.GetDocumentTypes()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			documentsType []io.DocumentType
-			name          string
+			//documentsType []io.DocumentType
+			name string
 		}
-		data := PageData{alldocsType, ""}
+		data := PageData{""}
 
 		files := []string{
-			app.Path + "/html/documents/documents.page.html",
+			app.Path + "/documents/documents.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",

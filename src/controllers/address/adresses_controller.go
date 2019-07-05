@@ -6,36 +6,33 @@ import (
 
 	"net/http"
 	"obas/src/config"
-	io "obas/src/io/address"
 )
 
 func Addresses(app *config.Env) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", AddressesHandler(app))
-	r.Get("/AddressType", AddressTypeHandler(app))
-	r.Get("/ContactTypeType", ContactTypeTypeHandler(app))
+	r.Get("/addressType", AddressTypeHandler(app))
+	r.Get("/contactType", ContactTypeTypeHandler(app))
 	return r
 }
 
 func AddressesHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allAddresses, err := io.GetAddresses()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//allAddresses, err := io.GetAddresses()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			addresses []io.AddressType
-			name      string
+			//addresses []io.AddressType
+			name string
 		}
-		data := PageData{allAddresses, ""}
+		data := PageData{""}
 
 		files := []string{
-			app.Path + "/html/address/address.page.html",
+			app.Path + "/address/address.page.html",
 			app.Path + "/base/base.page.html",
-			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
 			app.Path + "/base/footer.page.html",
 		}
 		ts, err := template.ParseFiles(files...)
@@ -53,20 +50,20 @@ func AddressesHandler(app *config.Env) http.HandlerFunc {
 
 func AddressTypeHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allAddresses, err := io.GetAddresses()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//allAddresses, err := io.GetAddresses()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			addresses []io.AddressType
-			name      string
+			//addresses []io.AddressType
+			name string
 		}
-		data := PageData{allAddresses, ""}
+		data := PageData{""}
 
 		files := []string{
-			app.Path + "/html/address/address.page.html",
+			app.Path + "/address/address.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",
@@ -87,20 +84,20 @@ func AddressTypeHandler(app *config.Env) http.HandlerFunc {
 
 func ContactTypeTypeHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allContacts, err := io.GetContactTypes()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//allContacts, err := io.GetContactTypes()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			contacts []io.ContactType
-			name     string
+			//contacts []io.ContactType
+			name string
 		}
-		data := PageData{allContacts, ""}
+		data := PageData{""}
 
 		files := []string{
-			app.Path + "/html/address/address.page.html",
+			app.Path + "/address/address.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",

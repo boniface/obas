@@ -10,8 +10,8 @@ const applicationTypeUrl = api.BASE_URL + "/application"
 
 type ApplicationType domain.ApplicationType
 
-func GetApplicationTypes() ([]domain.ApplicationType, error) {
-	entites := []domain.ApplicationType{}
+func GetApplicationTypes() ([]ApplicationType, error) {
+	entites := []ApplicationType{}
 	resp, _ := api.Rest().Get(applicationTypeUrl + "/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -23,8 +23,8 @@ func GetApplicationTypes() ([]domain.ApplicationType, error) {
 	return entites, nil
 }
 
-func GetApplication(id string) (domain.ApplicationType, error) {
-	entity := domain.ApplicationType{}
+func GetApplication(id string) (ApplicationType, error) {
+	entity := ApplicationType{}
 	resp, _ := api.Rest().Get(applicationTypeUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

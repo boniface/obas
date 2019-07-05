@@ -10,8 +10,8 @@ const locationUrl = api.BASE_URL + "/location"
 
 type Location domain.Location
 
-func GetLocations() ([]domain.Location, error) {
-	entites := []domain.Location{}
+func GetLocations() ([]Location, error) {
+	entites := []Location{}
 	resp, _ := api.Rest().Get(locationUrl + "/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -23,8 +23,8 @@ func GetLocations() ([]domain.Location, error) {
 	return entites, nil
 }
 
-func GetLocation(id string) (domain.Location, error) {
-	entity := domain.Location{}
+func GetLocation(id string) (Location, error) {
+	entity := Location{}
 	resp, _ := api.Rest().Get(locationUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

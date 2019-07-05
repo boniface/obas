@@ -10,8 +10,8 @@ const logEventUrl = api.BASE_URL + "/log"
 
 type LogEvent domain.LogEvent
 
-func GetLogEvents() ([]domain.LogEvent, error) {
-	entites := []domain.LogEvent{}
+func GetLogEvents() ([]LogEvent, error) {
+	entites := []LogEvent{}
 	resp, _ := api.Rest().Get(logEventUrl + "/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())

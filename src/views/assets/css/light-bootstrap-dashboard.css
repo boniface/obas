@@ -302,6 +302,7 @@ body,
 .wrapper {
     min-height: 100vh;
     position: relative;
+
 }
 
 a {
@@ -484,7 +485,7 @@ input:focus {
     width: 260px;
     display: block;
     z-index: 1;
-    color: #fff;
+    color: #ffff00;
     font-weight: 200;
     background-size: cover;
     background-position: center center;
@@ -538,7 +539,7 @@ input:focus {
     font-weight: 400;
     line-height: 30px;
     white-space: nowrap;
-    color: #FFFFFF;
+    color: #ffff00;
     overflow: hidden;
 }
 
@@ -566,6 +567,7 @@ input:focus {
     width: 260px;
     z-index: 4;
     padding-bottom: 100px;
+    background-color: #006837;
 }
 
 .sidebar .sidebar-wrapper .nav .nav-item [data-toggle="collapse"] ~ div .nav .nav-item .nav-link {
@@ -595,7 +597,7 @@ input:focus {
     text-transform: uppercase;
     white-space: nowrap;
     position: relative;
-    color: #FFFFFF;
+    color: #ffff00;
     -webkit-transform: translate3d(0px, 0, 0);
     -moz-transform: translate3d(0px, 0, 0);
     -o-transform: translate3d(0px, 0, 0);
@@ -656,7 +658,7 @@ input:focus {
 }
 
 .sidebar .user .info a {
-    color: #FFFFFF;
+    color: #ffff00;
     padding: 8px 14px;
     display: block;
     white-space: nowrap;
@@ -721,7 +723,7 @@ input:focus {
 }
 
 .sidebar .nav .nav-item .nav-link {
-    color: #FFFFFF;
+    color: #ffff00;
     margin: 5px 15px 0px 10px;
     opacity: .86;
     border-radius: 4px;
@@ -753,7 +755,7 @@ input:focus {
 }
 
 .sidebar .nav .nav-item.active .nav-link {
-    color: #FFFFFF;
+    color: #ffff00;
     opacity: 1;
     background: rgba(255, 255, 255, 0.23);
 }
@@ -794,7 +796,7 @@ input:focus {
     float: left;
     font-size: 20px;
     margin: 10px 10px;
-    color: #FFFFFF;
+    color: #ffff00;
     line-height: 20px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -805,7 +807,7 @@ input:focus {
     padding: 5px 0px 5px 15px;
     display: block;
     font-size: 1.125rem;
-    color: #FFFFFF;
+    color: #ffff00;
     font-weight: 400;
     line-height: 30px;
     white-space: nowrap;
@@ -849,7 +851,7 @@ input:focus {
     padding: 7px 0px;
     display: block;
     font-size: 1.125rem;
-    color: #FFFFFF;
+    color: #ffff00;
     font-weight: 400;
     line-height: 30px;
     text-align: center;
@@ -1997,9 +1999,9 @@ fieldset[disabled] .btn-primary.active {
 }
 
 .btn-success {
-    border: 1px solid #87CB16;
-    color: #FFFFFF;
-    background-color: #87CB16;
+    border: 1px solid #ffea00;
+    color: #006837;
+    background-color: #ffea00;
     cursor: pointer;
 }
 
@@ -2167,9 +2169,9 @@ fieldset[disabled] .btn-info.active {
 }
 
 .btn-warning {
-    border: 1px solid #FFA534;
+    border: 1px solid #006837;
     color: #FFFFFF;
-    background-color: #FFA534;
+    background-color: #006837;
     cursor: pointer;
 }
 
@@ -4011,7 +4013,7 @@ fieldset[disabled] .form-control {
     font-weight: 400;
     margin: 5px 0px;
     font-size: 18px;
-    color: #888888;
+    color: #006837;
 }
 
 .navbar .navbar-brand:hover {
@@ -4063,7 +4065,7 @@ fieldset[disabled] .form-control {
 }
 
 .navbar .navbar-nav .nav-item .nav-link {
-    color: #888888;
+    color: #006837;
     padding: 10px 15px;
     margin: 10px 3px;
     position: relative;
@@ -13705,3 +13707,61 @@ select.selectpicker {
 .slider-danger.noUi-connect {
     background-color: #FB404B;
 }
+
+.modal-content {
+    background-color: #3e8068;
+    opacity: .8;
+    padding: 0 18px;
+    border-radius: 10px;
+}
+
+.user-img img {
+    margin: 60px 0 0 0;
+    width: 200px;
+}
+
+.user-img {
+    margin-top: -60px;
+    margin-bottom: 45px;
+}
+
+.user-img h3 {
+
+    color: white;
+    padding: 0 0 -10px 0;
+}
+
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group input {
+    height: 42px;
+    border-radius: 5px;
+    border: 0;
+    font-size: 18px;
+    letter-spacing: 2px;
+    padding-left: 54px;
+}
+
+.form-group::before {
+    font-family: 'Font Awesome\ 5 Free';
+    content: "\f1fa";
+    position: absolute;
+    font-size: 22px;
+    left: 28px;
+    padding-top: 4px;
+    color: #555e60;
+}
+
+.form-group:last-of-type::before {
+    content: "\f023";
+}
+
+.form-input button {
+    width: 40%;
+    margin: 5px 0 25px;
+}
+
+.btn-su

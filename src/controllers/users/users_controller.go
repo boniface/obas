@@ -6,38 +6,37 @@ import (
 
 	"net/http"
 	"obas/src/config"
-	io "obas/src/io/users"
 )
 
 func Users(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/Admin", AdminHandler(app))
-	r.Get("/ProcessingStatus", ProcessingStatusTypeHandler(app))
-	r.Get("/StudentApplication", StudentApplicationStatusHandler(app))
-	r.Get("/StudentContact", StudentContactsHandler(app))
-	r.Get("/StudentDemographics", StudentDemographicsHandler(app))
-	r.Get("/StudentDocuments", StudentDocumentsHandler(app))
-	r.Get("/StudentProfile", StudentProfileHandler(app))
-	r.Get("/StudentResults", StudentResultsHandler(app))
+	r.Get("/admin", AdminHandler(app))
+	r.Get("/processingStatus", ProcessingStatusTypeHandler(app))
+	r.Get("/studentApplication", StudentApplicationStatusHandler(app))
+	r.Get("/studentContact", StudentContactsHandler(app))
+	r.Get("/studentDemographics", StudentDemographicsHandler(app))
+	r.Get("/studentDocuments", StudentDocumentsHandler(app))
+	r.Get("/studentProfile", StudentProfileHandler(app))
+	r.Get("/studentResults", StudentResultsHandler(app))
 	return r
 }
 
 func AdminHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allAdmin, err := io.GetAdmins()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//allAdmin, err := io.GetAdmins()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			courses []io.Admin
-			name    string
+			//courses []io.Admin
+			name string
 		}
-		data := PageData{allAdmin, ""}
+		data := PageData{""}
 
 		files := []string{
-			app.Path + "/html/users/users.page.html",
+			app.Path + "/users/users.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",
@@ -58,20 +57,20 @@ func AdminHandler(app *config.Env) http.HandlerFunc {
 
 func ProcessingStatusTypeHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allProcess, err := io.GetProcessingStatusTypes()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//allProcess, err := io.GetProcessingStatusTypes()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			subjects []io.ProcessingStatusType
-			name     string
+			//subjects []io.ProcessingStatusType
+			name string
 		}
-		data := PageData{allProcess, ""}
+		data := PageData{""}
 
 		files := []string{
-			app.Path + "/html/users/users.page.html",
+			app.Path + "/users/users.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",
@@ -92,20 +91,20 @@ func ProcessingStatusTypeHandler(app *config.Env) http.HandlerFunc {
 
 func StudentApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allApplications, err := io.GetStudentApplicationStatuses()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//allApplications, err := io.GetStudentApplicationStatuses()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			subjects []io.StudentApplicationStatus
-			name     string
+			//subjects []io.StudentApplicationStatus
+			name string
 		}
-		data := PageData{allApplications, ""}
+		data := PageData{""}
 
 		files := []string{
-			app.Path + "/html/users/users.page.html",
+			app.Path + "/users/users.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",
@@ -126,20 +125,20 @@ func StudentApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 
 func StudentContactsHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allStudentContacts, err := io.GetStudentContacts()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//allStudentContacts, err := io.GetStudentContacts()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			subjects []io.StudentContacts
-			name     string
+			//subjects []io.StudentContacts
+			name string
 		}
-		data := PageData{allStudentContacts, ""}
+		data := PageData{""}
 
 		files := []string{
-			app.Path + "/html/users/users.page.html",
+			app.Path + "/users/users.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",
@@ -159,20 +158,20 @@ func StudentContactsHandler(app *config.Env) http.HandlerFunc {
 }
 func StudentDemographicsHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allStudentDemographics, err := io.GetStudentDemographics()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//allStudentDemographics, err := io.GetStudentDemographics()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			subjects []io.StudentDemographics
-			name     string
+			//subjects []io.StudentDemographics
+			name string
 		}
-		data := PageData{allStudentDemographics, ""}
+		data := PageData{""}
 
 		files := []string{
-			app.Path + "/html/users/users.page.html",
+			app.Path + "/users/users.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",
@@ -192,20 +191,20 @@ func StudentDemographicsHandler(app *config.Env) http.HandlerFunc {
 }
 func StudentDocumentsHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allStudentDocuments, err := io.GetStudentDocuments()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//allStudentDocuments, err := io.GetStudentDocuments()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			subjects []io.StudentDocuments
-			name     string
+			//subjects []io.StudentDocuments
+			name string
 		}
-		data := PageData{allStudentDocuments, ""}
+		data := PageData{""}
 
 		files := []string{
-			app.Path + "/html/users/users.page.html",
+			app.Path + "/users/users.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",
@@ -225,20 +224,20 @@ func StudentDocumentsHandler(app *config.Env) http.HandlerFunc {
 }
 func StudentProfileHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allStudentProfiles, err := io.GetStudentProfiles()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//allStudentProfiles, err := io.GetStudentProfiles()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			subjects []io.StudentProfiles
-			name     string
+			//subjects []io.StudentProfiles
+			name string
 		}
-		data := PageData{allStudentProfiles, ""}
+		data := PageData{""}
 
 		files := []string{
-			app.Path + "/html/users/users.page.html",
+			app.Path + "/users/users.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",
@@ -258,20 +257,20 @@ func StudentProfileHandler(app *config.Env) http.HandlerFunc {
 }
 func StudentResultsHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		allStudentResults, err := io.GetStudentResults()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//allStudentResults, err := io.GetStudentResults()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			subjects []io.StudentResults
-			name     string
+			//subjects []io.StudentResults
+			name string
 		}
-		data := PageData{allStudentResults, ""}
+		data := PageData{""}
 
 		files := []string{
-			app.Path + "/html/users/users.page.html",
+			app.Path + "/users/users.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebar.page.html",
