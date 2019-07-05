@@ -17,6 +17,7 @@ require (
 	github.com/prologic/bitcask v0.1.6 // indirect
 	github.com/sendgrid/rest v2.4.1+incompatible // indirect
 	github.com/sendgrid/sendgrid-go v3.5.0+incompatible // indirect
+	github.com/stretchr/testify v1.3.0
 	go.opencensus.io v0.22.0 // indirect
 	golang.org/x/crypto v0.0.0-20190621222207-cc06ce4a13d4 // indirect
 	golang.org/x/exp v0.0.0-20190510132918-efd6b22b2522 // indirect
