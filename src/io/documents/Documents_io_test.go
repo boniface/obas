@@ -5,32 +5,35 @@ import (
 	"testing"
 )
 
-func TestGetDocument(t *testing.T) {
-	value, err := GetDocument("12132")
+func TestGetDocuments(t *testing.T) {
+
+	value, err := GetDocuments()
 	assert.Nil(t, err)
-	assert.Equal(t, value, "hgkjhkj", "this should be ....")
+	//assert.Equal(t, value, "hgkjhkj", "this should be ....")
+	assert.True(t, len(value) > 0)
 }
 
-func TestGetDocuments(t *testing.T) {
-	value, err := GetDocument("er")
-	assert.NotNil(t, err)
-	assert.Equal(t, value, "d")
+func TestGetDocument(t *testing.T) {
+	expected := ""
+	value, err := GetDocument("")
+	assert.Nil(t, err)
+	assert.Equal(t, expected, value)
 }
 
 func TestCreateDocument(t *testing.T) {
-	value, err := CreateDocument("f")
-	assert.NotNil(t, err)
-	assert.Equal(t, value, "as")
+	value, err := CreateDocument("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 
 func TestUpdateDocument(t *testing.T) {
-	value, err := UpdateDocument("y")
-	assert.NotNil(t, err)
-	assert.Equal(t, value, "as")
+	value, err := UpdateDocument("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 
 func TestDeleteDocument(t *testing.T) {
-	value, err := DeleteDocument("e")
-	assert.NotNil(t, err)
-	assert.Equal(t, value, "as")
+	value, err := DeleteDocument("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
