@@ -7,7 +7,7 @@ import (
 
 func TestGetApplicationtype(t *testing.T) {
 	value, _ := GetApplicationtype("121")
-	assert.NotNil(t, value)
+	assert.NotNil(t, value)                    // we will need to change these assert according to what should be expected from the backend
 	assert.Equal(t, value, "expected entity value")
 }
 func TestGetApplicationTypes(t *testing.T) {
