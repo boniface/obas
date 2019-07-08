@@ -5,32 +5,32 @@ import (
 	"testing"
 )
 
-func TestGetDocument(t *testing.T) {
-	value, err := GetDocument("")
+func TestGetLocations(t *testing.T) {
+	value, err := GetLocations()
 	assert.Nil(t, err)
 	assert.Equal(t, value, "entity", "Return entity")
 }
 
-func TestGetDocuments(t *testing.T) {
-	value, err := GetDocuments()
+func TestGetLocation(t *testing.T) {
+	value, err := GetLocation("")
 	assert.NotNil(t, err)
 	assert.Equal(t, value, "Return entity")
 }
 
-func TestCreateDocument(t *testing.T) {
-	value, err := CreateDocument("")
+func TestCreateSchool(t *testing.T) {
+	value, err := CreateLocation("")
 	assert.NotNil(t, err)
 	assert.Equal(t, value, "Return entity")
 }
 
 func TestUpdateDocument(t *testing.T) {
-	value, err := UpdateDocument("")
+	value, err := UpdateLocation("")
 	assert.NotNil(t, err)
 	assert.Equal(t, value, "Return entity")
 }
 
 func TestDeleteDocument(t *testing.T) {
-	value, err := DeleteDocument("")
+	value, err := DeleteLocation("")
 	assert.NotNil(t, err)
 	assert.Equal(t, value, "Return entity")
 }

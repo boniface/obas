@@ -1,36 +1,36 @@
-package io
+package institutions
 
 import (
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-func TestGetDocument(t *testing.T) {
-	value, err := GetDocument("")
+func TestGetSchools(t *testing.T) {
+	value, err := GetSchools()
 	assert.Nil(t, err)
 	assert.Equal(t, value, "entity", "Return entity")
 }
 
-func TestGetDocuments(t *testing.T) {
-	value, err := GetDocuments()
+func TestGetSchool(t *testing.T) {
+	value, err := GetSchool("")
 	assert.NotNil(t, err)
 	assert.Equal(t, value, "Return entity")
 }
 
-func TestCreateDocument(t *testing.T) {
-	value, err := CreateDocument("")
+func TestCreateSchool(t *testing.T) {
+	value, err := CreateSchool("")
 	assert.NotNil(t, err)
 	assert.Equal(t, value, "Return entity")
 }
 
 func TestUpdateDocument(t *testing.T) {
-	value, err := UpdateDocument("")
+	value, err := UpdateSchool("")
 	assert.NotNil(t, err)
 	assert.Equal(t, value, "Return entity")
 }
 
 func TestDeleteDocument(t *testing.T) {
-	value, err := DeleteDocument("")
+	value, err := DeleteSchool("")
 	assert.NotNil(t, err)
 	assert.Equal(t, value, "Return entity")
 }
