@@ -6,28 +6,31 @@ import (
 )
 
 func TestGetApplicationStatuses(t *testing.T) {
-	value, _ := GetApplicationResultes()
-	assert.NotNil(t, value)
-	assert.Equal(t, value, "expected value")
+	value, err := GetApplicationResults()
+	assert.Nil(t, err)
+	assert.True(t, len(value) > 0)
 
 }
+
 func TestGetApplicationStatus(t *testing.T) {
-	value, _ := GetApplicationResult("1222")
-	assert.NotNil(t, value)
-	assert.Equal(t, value, "expected value")
+	expected := ""
+	value, err := GetApplicationResult("")
+	assert.Nil(t, err)
+	assert.Equal(t, value, expected)
 }
+
 func TestCreateApplicationStatus(t *testing.T) {
-	value, _ := CreateApplicationStatus(0)
-	assert.NotNil(t, value)
-	assert.Equal(t, value, "expected value")
+	value, err := CreateApplicationStatus("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 func TestUpdateApplicationStatus(t *testing.T) {
-	value, _ := UpdateApplicationStatus(0)
-	assert.NotNil(t, value)
-	assert.Equal(t, value, "expected value")
+	value, err := UpdateApplicationStatus("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 func TestDeleteApplicationStatus(t *testing.T) {
-	value, _ := DeleteApplicationStatus("1231")
-	assert.NotNil(t, value)
-	assert.Equal(t, value, "expected value")
+	value, err := DeleteApplicationStatus("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }

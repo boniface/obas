@@ -6,32 +6,32 @@ import (
 )
 
 func TestGetTitles(t *testing.T) {
-	value, _ := GetTitles()
-	assert.Equal(t, value, "expected here")
-	assert.NotNil(t, value)
+	value, err := GetTitles()
+	assert.Nil(t, err)
+	assert.True(t, len(value) > 0)
 }
 
 func TestGetTitle(t *testing.T) {
-	value, _ := GetTitle("121")
-	assert.Equal(t, value, "expected here")
-	assert.NotNil(t, value)
+	expected := ""
+	value, err := GetTitle("")
+	assert.Nil(t, err)
+	assert.Equal(t, expected, value)
 }
 
 func TestCreateTitle(t *testing.T) {
-	value, _ := CreateTitle(0)
-	assert.Equal(t, value, "expected here")
-	assert.NotNil(t, value)
+	value, err := CreateTitle("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 
 func TestUpdateTitle(t *testing.T) {
-	value, _ := UpdateTitle(0)
-	assert.Equal(t, value, "expected here")
-	assert.NotNil(t, value)
+	value, err := UpdateTitle("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 
 func TestDeleteTitle(t *testing.T) {
-	value, _ := DeleteTitle(0)
-	//assert.Equal(t,value,"expected here")
-	//assert.NotNil(t,value)
+	value, err := DeleteTitle("")
+	assert.Nil(t, err)
 	assert.True(t, value)
 }

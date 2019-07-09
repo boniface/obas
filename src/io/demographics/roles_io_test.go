@@ -6,31 +6,32 @@ import (
 )
 
 func TestGetRoles(t *testing.T) {
-	value, _ := GetRoles()
-	assert.Equal(t, value, "expected here")
-	assert.NotNil(t, value)
+	value, err := GetRoles()
+	assert.Nil(t, err)
+	assert.True(t, len(value) > 0)
 }
 
 func TestGetRole(t *testing.T) {
-	value, _ := GetRole("121")
-	assert.Equal(t, value, "expected here")
-	assert.NotNil(t, value)
+	expected := ""
+	value, err := GetRole("")
+	assert.Nil(t, err)
+	assert.Equal(t, expected, value)
 }
 
 func TestCreateRole(t *testing.T) {
-	value, _ := CreateRole(0)
-	assert.Equal(t, value, "expected here")
-	assert.NotNil(t, value)
+	value, err := CreateRole("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 
 func TestUpdateRole(t *testing.T) {
-	value, _ := UpdateRole(0)
-	assert.Equal(t, value, "expected here")
-	assert.NotNil(t, value)
+	value, err := UpdateRole("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 
 func TestDeleteRole(t *testing.T) {
-	value, _ := DeleteRole("121")
-	assert.Equal(t, value, "expected here")
-	assert.NotNil(t, value)
+	value, err := DeleteRole("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }

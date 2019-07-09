@@ -6,31 +6,32 @@ import (
 )
 
 func TestGetRaces(t *testing.T) {
-	value, _ := GetRaces()
-	assert.Equal(t, value, "expected here")
-	assert.NotNil(t, value)
+	value, err := GetRaces()
+	assert.Nil(t, err)
+	assert.True(t, len(value) > 0)
 }
 
 func TestGetRace(t *testing.T) {
-	value, _ := GetRace("121")
-	assert.Equal(t, value, "expected here")
-	assert.NotNil(t, value)
+	expected := ""
+	value, err := GetRace("")
+	assert.Nil(t, err)
+	assert.Equal(t, value, expected)
 }
 
 func TestCreateRace(t *testing.T) {
-	value, _ := CreateRace(0)
-	assert.Equal(t, value, "expected here")
-	assert.NotNil(t, value)
+	value, err := CreateRace("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 
 func TestUpdateRace(t *testing.T) {
-	value, _ := UpdateRace(0)
-	assert.Equal(t, value, "expected here")
+	value, err := UpdateRace("")
+	assert.Nil(t, err)
 	assert.NotNil(t, value)
 }
 
 func TestDeleteRace(t *testing.T) {
-	value, _ := DeleteRace(0)
-	assert.Equal(t, value, "expected here")
+	value, err := DeleteRace("")
+	assert.Nil(t, err)
 	assert.NotNil(t, value)
 }

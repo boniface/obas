@@ -5,28 +5,32 @@ import (
 	"testing"
 )
 
-func TestGetApplicationResultes(t *testing.T) {
-	valeu, _ := GetApplicationResultes()
-	assert.NotNil(t, valeu)
-	assert.Equal(t, valeu, "should be")
+func TestGetApplicationResults(t *testing.T) {
+	value, err := GetApplicationResults()
+	assert.Nil(t, err)
+	assert.True(t, len(value) > 0)
 }
+
 func TestGetApplicationResult(t *testing.T) {
-	valeu, _ := GetApplicationResult("12153")
-	assert.NotNil(t, valeu)
-	assert.Equal(t, valeu, "should be")
+	expected := ""
+	value, err := GetApplicationResult("")
+	assert.Nil(t, err)
+	assert.Equal(t, value, expected)
 }
+
 func TestCreateApplicationResult(t *testing.T) {
-	valeu, _ := CreateApplicationResult(0)
-	assert.NotNil(t, valeu)
-	assert.Equal(t, valeu, "should be")
+
+	value, err := CreateApplicationResult("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 func TestUpdateApplicationResult(t *testing.T) {
-	valeu, _ := UpdateApplicationResult(0)
-	assert.NotNil(t, valeu)
-	assert.Equal(t, valeu, "should be")
+	value, err := UpdateApplicationResult("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 func TestDeleteApplicationResult(t *testing.T) {
-	valeu, _ := DeleteApplicationResult("121") // the id of the entity that we want to delete
-	assert.NotNil(t, valeu)
-	//assert.Equal(t,valeu,"should be")
+	result, err := DeleteApplicationResult("")
+	assert.Nil(t, err)
+	assert.True(t, result)
 }

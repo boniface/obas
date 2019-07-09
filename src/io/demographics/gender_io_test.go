@@ -6,31 +6,32 @@ import (
 )
 
 func TestGetGenders(t *testing.T) {
-	value, _ := GetGenders()
-	assert.Equal(t, value, "expected here")
-	assert.NotNil(t, value)
+	value, err := GetGenders()
+	assert.Nil(t, err)
+	assert.NotNil(t, len(value) > 0)
 }
 
 func TestGetGender(t *testing.T) {
-	value, _ := GetGender("121")
-	assert.Equal(t, value, "expected here")
-	assert.NotNil(t, value)
+	expected := ""
+	value, err := GetGender("")
+	assert.Nil(t, err)
+	assert.Equal(t, value, expected)
 }
 
 func TestCreateGender(t *testing.T) {
-	value, _ := CreateGender(0)
-	assert.Equal(t, value, "expected here")
-	assert.NotNil(t, value)
+	value, err := CreateGender("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 
 func TestUpdateGender(t *testing.T) {
-	value, _ := UpdateGender(0)
-	assert.Equal(t, value, "expected here")
-	assert.NotNil(t, value)
+	value, err := UpdateGender("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 
 func TestDeleteGender(t *testing.T) {
-	value, _ := DeleteGender("121")
-	assert.Equal(t, value, "expected here")
-	assert.NotNil(t, value)
+	value, err := DeleteGender("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }

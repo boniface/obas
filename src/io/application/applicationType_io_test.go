@@ -5,28 +5,30 @@ import (
 	"testing"
 )
 
-func TestGetApplicationtype(t *testing.T) {
-	value, _ := GetApplicationtype("121")
-	assert.NotNil(t, value)                    // we will need to change these assert according to what should be expected from the backend
-	assert.Equal(t, value, "expected entity value")
-}
 func TestGetApplicationTypes(t *testing.T) {
-	value, _ := GetApplicationTypes()
-	assert.NotNil(t, value)
-	assert.Equal(t, value, "expected entity value")
+	value, err := GetApplicationTypes()
+	assert.Nil(t, err)
+	assert.True(t, len(value) > 0)
 }
+func TestGetApplicationtype(t *testing.T) {
+	expected := ""
+	value, err := GetApplicationType("")
+	assert.Nil(t, err)
+	assert.Equal(t, expected, value)
+}
+
 func TestCreateApplicationtype(t *testing.T) {
-	value, _ := GetApplicationtype("121")
-	assert.NotNil(t, value)
-	assert.Equal(t, value, "expected entity value")
+	value, err := CreateApplicationType("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 func TestUpdateApplication(t *testing.T) {
-	value, _ := UpdateApplicationtype(0)
-	assert.NotNil(t, value)
-	assert.Equal(t, value, "expected entity value")
+	value, err := UpdateApplicationType("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 func TestDeleteApplicationtype(t *testing.T) {
-	value, _ := DeleteApplicationtype("121")
-	assert.NotNil(t, value)
-	assert.Equal(t, value, "expected entity value")
+	value, err := DeleteApplicationType("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
