@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>Light Bootstrap Dashboard</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+          name='viewport'/>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
+    <!-- CSS Files -->
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../assets/css/light-bootstrap-dashboard.css?v=2.0.1" rel="stylesheet"/>
+
+</head>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #f1f1f1;
+        background-image: url(../assets/img/xtspic.jpg);
+        background-repeat: no-repeat;
+        background-size: auto auto;
+    }
+
+    #regForm {
+        background-color: #fff8fd;
+        margin: 40px auto;
+
+        font-family: Raleway, sans-serif;
+        padding: 40px;
+        width: 70%;
+        min-width: 300px;
+
+    }
+
+
+    h1 {
+        text-align: center;
+    }
+
+    input, select {
+        padding: 10px;
+        width: 100%;
+        font-size: 17px;
+        font-family: Raleway, sans-serif;
+        border: 1px solid #aaaaaa;
+    }
+
+    /* Mark input boxes that gets an error on validation: */
+    input.invalid {
+        background-color: #ffdddd;
+
+    }
+
+    /* Hide all steps by default: */
+    .tab {
+        display: none;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 17px;
+        font-family: Raleway, sans-serif;
+        cursor: pointer;
+    }
+
+    button:hover {
+        opacity: 0.8;
+    }
+
+    #prevBtn {
+        background-color: #bbbbbb;
+    }
+
+    /* Make circles that indicate the steps of the form: */
+    .step {
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #bbbbbb;
+        border: none;
+        border-radius: 50%;
+        display: inline-block;
+        opacity: 0.5;
+    }
+
+    .step.active {
+        opacity: 1;
+    }
+
+    /* Mark the steps that are finished and valid: */
+    .step.finish {
+        background-color: #4CAF50;
+    }
+
+    .checkbox-inline input[type="radio"] {
+        float: left;
+        display: inline;
+        vertical-align: middle;
+        width: 100px;
+    }
+
+    hr {
+        border: 2px solid #1bb722
+    }
+
+</style>
+
+<body>
+<div class="wrapper">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute">
+        <div class="container">
+            <div class="navbar-wrapper">
+                <a class="navbar-brand" href="#pablo">Motsepe Foundation</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                        aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-bar burger-lines"></span>
+                    <span class="navbar-toggler-bar burger-lines"></span>
+                    <span class="navbar-toggler-bar burger-lines"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse justify-content-end" id="navbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="../dashboard.html" class="nav-link">
+                            <i class="nc-icon nc-chart-pie-35"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a href="register.html" class="nav-link">
+                            <i class="nc-icon nc-badge"></i> Register
+                        </a>
+                    </li>
+                    <li class="nav-item  active ">
+                        <a href="login.html" class="nav-link">
+                            <i class="nc-icon nc-mobile"></i> Login
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a href="lock.html" class="nav-link">
+                            <i class="nc-icon nc-key-25"></i> Lock
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="content">
+        <!--<div class="sideb" data-color="green" data-image="../../assets/img/Mtspic.jpg"> -->
+
+        <div class="container-fluid">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-8 ml-auto mr-auto">
+                        <form id="regForm" action="">
+
+                            <!-- One "tab" for each step in the form: -->
+                            <!-- Personal details: -->
+                            <div class="tab">
+                                <h1>Personal details</h1>
+                                <hr>
+
+                                <p>
+                                    <label class="checkbox-inline">Male<input class="radio" type="radio" name="gender"
+                                                                              value="male" checked="checked">
+                                    </label>
+                                    <label class="checkbox-inline">Female<input class="radio" type="radio" name="gender"
+                                                                                value="male">
+                                    </label>
+                                </p>
+
+
+                                <p>Name:
+                                    <input placeholder="First name..." oninput="this.className = ''">
+                                </p>
+
+                                <p>Surname:
+                                    <input placeholder="Last name..." oninput="this.className = ''"></p>
+
+                                <p>Date of birth:<input type="date" placeholder="Date of birth..."
+                                                        oninput="this.className = ''"></p>
+                                <p>ID Number:<input type="" placeholder="ID Number..." oninput="this.className = ''">
+                                </p>
+                                <p><select id="Race..." oninput="this.className = ''">
+                                        <option value="">Select race</option>
+                                        <option value="id">Black</option>
+                                        <option value="ms">White</option>
+                                        <option value="ca">Indian</option>
+                                        <option value="da">Coloured</option>
+                                    </select>
+                                </p>
+
+                            </div>
+
+                            <!--Residential details-->
+                            <div class="tab">
+                                <h1>Residential details</h1>
+                                <hr>
+                                <p>Physical Address:<input placeholder="Physical Address..."
+                                                           oninput="this.className = ''"></p>
+                                <p>City:<input placeholder="City..." oninput="this.className = ''"></p>
+                                <p>Postal Code<input placeholder="Postal Code..." oninput="this.className = ''"></p>
+                            </div>
+
+                            <div class="tab">
+                                <h1>Next of Kin Contact details</h1>
+                                <hr>
+                                <p>Name:<input placeholder="Name..." oninput="this.className = ''"></p>
+                                <p>Relationship<input type="text" placeholder="Relationship..."
+                                                      oninput="this.className = ''"></p>
+                                <p>Cellphone<input placeholder="cellphone..." oninput="this.className = ''"></p>
+                                <p>Email:<input type="email" placeholder="Email Address..."
+                                                oninput="this.className = ''"></p>
+                            </div>
+
+                            <div class="tab">
+                                <h1>District Municipality</h1>
+                                <hr>
+                                <p>Province:<select id="Province..." oninput="this.className = '' " style="">
+                                        <option value="id">Eastern Cape</option>
+                                        <option value="ms">Free State</option>
+                                        <option value="ca">Gauteng</option>
+                                        <option value="da">KwaZulu-Natal</option>
+                                        <option value="de">Limpopo</option>
+                                        <option value="en">Mpumalanga</option>
+                                        <option value="es">Northern Cape</option>
+                                        <option value="el">North-West</option>
+                                        <option value="fr">Western Cape</option>
+                                        <option value="it">QwaQwa</option>
+                                        <option value="hu">Transkei</option>
+                                        <option value="nl">Nederlands</option>
+                                    </select>
+                                </p>
+                                <p>Development<select id="Development..." oninput="this.className = ''">
+                                        <option value="id">Eastern Cape</option>
+                                        <option value="ms">Free State</option>
+                                        <option value="ca">Gauteng</option>
+                                        <option value="da">KwaZulu-Natal</option>
+                                        <option value="de">Limpopo</option>
+                                        <option value="en">Mpumalanga</option>
+                                        <option value="es">Northern Cape</option>
+                                        <option value="el">North-West</option>
+                                        <option value="fr">Western Cape</option>
+                                        <option value="it">QwaQwa</option>
+                                        <option value="hu">Transkei</option>
+                                        <option value="nl">Nederlands</option>
+                                    </select>
+                                </p>
+                            </div>
+
+                            <div class="tab">
+                                <h1>Subject Form</h1>
+                                <hr>
+                                <p>Application Type:<select id="Application Type..." oninput="this.className = ''">
+                                        <option value="id">Student</option>
+                                        <option value="ms">matric</option>
+                                    </select>
+                                </p>
+                                <p>
+                                <div>
+                                    <span>Subject:
+                                        <select class="col-md-8" id="Subject..." oninput="this.className = ''">
+                                    </select>
+                                    </span>
+                                    <span>Result:
+                                        <input class="col-md-3" placeholder="Result.." oninput="this.className = ''"
+                                               maxlength="4" size="4">
+                                </span>
+                                </div>
+                                </p>
+
+
+                            </div>
+
+                            <div class="tab">
+                                <h1>Contact Detail</h1>
+                                <hr>
+
+                                <p><input placeholder="Cell Number..." oninput="this.className = ''"></p>
+                                <p><input placeholder="Alternative number..." oninput="this.className = ''"></p>
+                                <p><input placeholder="Alternative Email..." oninput="this.className = ''"></p>
+                                <p><input placeholder="Student Number..." oninput="this.className = ''"></p>
+                            </div>
+
+                            <div class="tab">
+                                <h1>Course Details</h1>
+                                <hr>
+                                <p><select id="" name="Do you have any outstanding Debt" oninput="this.className = '' "
+                                           style="">
+                                        <option value="id">Yes</option>
+                                        <option value="ms">No</option>
+
+                                    </select>
+                                </p>
+                                <p><select id="Intent study field..." oninput="this.className = ''">
+                                        <option value="id">Engineering and technology</option>
+                                        <option value="ms">Agriculture</option>
+                                        <option value="id">Business</option>
+                                        <option value="ms">Education</option>
+                                        <option value="id">Divinity</option>
+                                        <option value="ms">Agriculture</option>
+                                        <option value="id">History</option>
+                                        <option value="ms">Economics</option>
+                                        <option value="id">Geology</option>
+                                        <option value="ms">Zoology</option>
+                                        <option value="id">Psychology</option>
+                                        <option value="ms">Chemistry</option>
+
+                                    </select>
+                                </p>
+                                <p><select id="Duration..." oninput="this.className = '' " style="">
+                                        <option value="id">1 Year</option>
+                                        <option value="ms">2 Year</option>
+                                        <option value="id">3 Year</option>
+                                        <option value="ms">4 Year</option>
+                                        <option value="id">5 Year</option>
+
+                                    </select>
+                                </p>
+                            </div>
+
+                            <div class="tab">
+                                <h1>Upload Documents</h1>
+                                <hr>
+
+                                <p><input type="file" placeholder="ID..." oninput="this.className = ''"></p>
+                                <p><input type="file" placeholder="Parent/Guadian Id..." oninput="this.className = ''">
+                                </p>
+                                <p><input type="file" placeholder="Academic Transcript..."
+                                          oninput="this.className = ''"></p>
+                                <p><input type="file" placeholder="Acceptence letter..." oninput="this.className = ''">
+                                </p>
+                                <p><input type="file" placeholder="Pay Slip..." oninput="this.className = ''"></p>
+                                <p><input type="file" placeholder="SASSA..." oninput="this.className = ''"></p>
+                                <p><input type="file" placeholder="Affidavit..." oninput="this.className = ''"></p>
+                                <p><input type="file" placeholder="Proof of Residence..." oninput="this.className = ''">
+                                </p>
+                            </div>
+
+
+                            <div style="overflow:auto;">
+                                <div style="float:right;">
+                                    <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                                    <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+                                </div>
+                            </div>
+
+                            <!-- Circles which indicates the steps of the form: -->
+                            <div style="text-align:center;margin-top:40px;">
+                                <span class="step"></span>
+                                <span class="step"></span>
+                                <span class="step"></span>
+                                <span class="step"></span>
+                                <span class="step"></span>
+                                <span class="step"></span>
+                                <span class="step"></span>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!--
+<footer class="footer">
+      <div class="container">
+          <nav>
+              <ul class="footer=-menu">
+                  <li>
+                      <a href="#">
+                          Home
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#">
+                          Company
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#">
+                          Portfolio
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#">
+                          Blog
+                      </a>
+                  </li>
+              </ul>
+              <p class="copyright text-center">
+                  ©f
+                  <script>
+                      document.write(new Date().getFullYear())
+                  </script>
+                  <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
+              </p>
+          </nav>
+      </div>
+  </footer>-->
+</body>
+<script>
+    var currentTab = 0; // Current tab is set to be the first tab (0)
+    showTab(currentTab); // Display the current tab
+
+    function showTab(n) {
+        // This function will display the specified tab of the form...
+        var x = document.getElementsByClassName("tab");
+        x[n].style.display = "block";
+        //... and fix the Previous/Next buttons:
+        if (n == 0) {
+            document.getElementById("prevBtn").style.display = "none";
+        } else {
+            document.getElementById("prevBtn").style.display = "inline";
+        }
+        if (n == (x.length - 1)) {
+            document.getElementById("nextBtn").innerHTML = "Submit";
+        } else {
+            document.getElementById("nextBtn").innerHTML = "Next";
+        }
+        //... and run a function that will display the correct step indicator:
+        fixStepIndicator(n);
+    }
+
+    function nextPrev(n) {
+        // This function will figure out which tab to display
+        var x = document.getElementsByClassName("tab");
+        // Exit the function if any field in the current tab is invalid:
+        if (n == 1 && !validateForm()) return false;
+        // Hide the current tab:
+        x[currentTab].style.display = "none";
+        // Increase or decrease the current tab by 1:
+        currentTab = currentTab + n;
+        // if you have reached the end of the form...
+        if (currentTab >= x.length) {
+            // ... the form gets submitted:
+            document.getElementById("regForm").submit();
+            return false;
+        }
+        // Otherwise, display the correct tab:
+        showTab(currentTab);
+    }
+
+    function validateForm() {
+        // This function deals with validation of the form fields
+        var x, y, i, valid = true;
+        x = document.getElementsByClassName("tab");
+        y = x[currentTab].getElementsByTagName("input");
+        // A loop that checks every input field in the current tab:
+        for (i = 0; i < y.length; i++) {
+            // If a field is empty...
+            if (y[i].value == "") {
+                // add an "invalid" class to the field:
+                y[i].className += " invalid";
+                // and set the current valid status to false
+                valid = false;
+            }
+        }
+        // If the valid status is true, mark the step as finished and valid:
+        if (valid) {
+            document.getElementsByClassName("step")[currentTab].className += " finish";
+        }
+        return valid; // return the valid status
+    }
+
+    function fixStepIndicator(n) {
+        // This function removes the "active" class of all steps...
+        var i, x = document.getElementsByClassName("step");
+        for (i = 0; i < x.length; i++) {
+            x[i].className = x[i].className.replace(" active", "");
+        }
+        //... and adds the "active" class on the current step:
+        x[n].className += " active";
+    }
+</script>
+
+</body>
+<!--   Core JS Files   -->
+<script src="../assets/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
+<script src="../assets/js/core/popper.min.js" type="text/javascript"></script>
+<script src="../assets/js/core/bootstrap.min.js" type="text/javascript"></script>
+<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
+<script src="../assets/js/plugins/bootstrap-switch.js"></script>
+<!--  Google Maps Plugin    -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?YOUR_KEY_HERE"></script>
+<!--  Chartist Plugin  -->
+<script src="../assets/js/plugins/chartist.min.js"></script>
+<!--  Notifications Plugin    -->
+<script src="../assets/js/plugins/bootstrap-notify.js"></script>
+<!--  jVector Map  -->
+<script src="../assets/js/plugins/jquery-jvectormap.js" type="text/javascript"></script>
+<!--  Plugin for Date Time Picker and Full Calendar Plugin-->
+<script src="../assets/js/plugins/moment.min.js"></script>
+<!--  DatetimePicker   -->
+<script src="../assets/js/plugins/bootstrap-datetimepicker.js"></script>
+<!--  Sweet Alert  -->
+<script src="../assets/js/plugins/sweetalert2.min.js" type="text/javascript"></script>
+<!--  Tags Input  -->
+<script src="../assets/js/plugins/bootstrap-tagsinput.js" type="text/javascript"></script>
+<!--  Sliders  -->
+<script src="../assets/js/plugins/nouislider.js" type="text/javascript"></script>
+<!--  Bootstrap Select  -->
+<script src="../assets/js/plugins/bootstrap-selectpicker.js" type="text/javascript"></script>
+<!--  jQueryValidate  -->
+<script src="../assets/js/plugins/jquery.validate.min.js" type="text/javascript"></script>
+<!--  Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
+<script src="../assets/js/plugins/jquery.bootstrap-wizard.js"></script>
+<!--  Bootstrap Table Plugin -->
+<script src="../assets/js/plugins/bootstrap-table.js"></script>
+<!--  DataTable Plugin -->
+<script src="../assets/js/plugins/jquery.dataTables.min.js"></script>
+<!--  Full Calendar   -->
+<script src="../assets/js/plugins/fullcalendar.min.js"></script>
+<!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="../assets/js/light-bootstrap-dashboard.js?v=2.0.1" type="text/javascript"></script>
+<!-- Light Dashboard DEMO methods, don't include it in your project! -->
+<script src="../assets/js/demo.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Init Wizard
+        demo.initLBDWizard();
+    });
+</script>
+
+</html>

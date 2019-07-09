@@ -11,13 +11,13 @@ import (
 
 func main() {
 
-	var path = "./src/views/html"
+	var path = "./src/views/html/"
 	addr := flag.String("addr", ":4000", "HTTP network address")
 	flag.Parse()
 	env := &config.Env{
-		ErrorLog:      log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime),
-		InfoLog:       log.New(os.Stderr, "INFO\t", log.Ldate|log.Ltime|log.Lshortfile),
-		Path:          path,
+		ErrorLog: log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime),
+		InfoLog:  log.New(os.Stderr, "INFO\t", log.Ldate|log.Ltime|log.Lshortfile),
+		Path:     path,
 	}
 
 	srv := &http.Server{

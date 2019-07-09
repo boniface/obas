@@ -2,36 +2,39 @@ package controllers
 
 import (
 	"github.com/go-chi/chi"
-	"log"
+	"html/template"
 	"net/http"
 	"obas/src/config"
-	"obas/src/io/log"
 )
 
 func Logs(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/", logsHandler(app))
+	r.Get("/log", logsHandler(app))
 	return r
 }
 
 func logsHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		alllogs, err := io.GetLogEvents()
-
-		if err != nil {
-			app.ServerError(w, err)
-		}
+		//alllogs, err := io.GetLogEvents()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
 
 		type PageData struct {
-			logs []io.LogEvent
+			//logs []io.LogEvent
 			name string
 		}
-		data := PageData{alllogs, ""}
+		data := PageData{""}
 
 		files := []string{
-			app.Path + "",
+			app.Path + "/log/log.page.html",
+			app.Path + "/base/base.page.html",
+			app.Path + "/base/navbar.page.html",
+			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/footer.page.html",
 		}
-		ts, err := templates.ParseFiles(files...)
+		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return

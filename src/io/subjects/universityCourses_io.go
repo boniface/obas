@@ -8,7 +8,7 @@ import (
 
 const universityCoursesUrl = api.BASE_URL + "/subjects"
 
-type universityCourses domain.UniversityCourses
+type UniversityCourses domain.UniversityCourses
 
 func GetUniversityCourses() ([]UniversityCourses, error) {
 	entites := []UniversityCourses{}

@@ -10,8 +10,8 @@ const locationTypeUrl = api.BASE_URL + "/location"
 
 type LocationType domain.LocationType
 
-func GetLocationTypes() ([]LocationType, error) {
-	entites := []LocationType{}
+func GetLocationTypes() ([]domain.LocationType, error) {
+	entites := []domain.LocationType{}
 	resp, _ := api.Rest().Get(locationTypeUrl + "/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -23,8 +23,8 @@ func GetLocationTypes() ([]LocationType, error) {
 	return entites, nil
 }
 
-func GetLocationType(id string) (LocationType, error) {
-	entity := LocationType{}
+func GetLocationType(id string) (domain.LocationType, error) {
+	entity := domain.LocationType{}
 	resp, _ := api.Rest().Get(locationTypeUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

@@ -23,7 +23,7 @@ func GetApplicationTypes() ([]ApplicationType, error) {
 	return entites, nil
 }
 
-func GetApplicationtype(id string) (ApplicationType, error) {
+func GetApplication(id string) (ApplicationType, error) {
 	entity := ApplicationType{}
 	resp, _ := api.Rest().Get(applicationTypeUrl + "/get/" + id)
 	if resp.IsError() {
@@ -36,7 +36,7 @@ func GetApplicationtype(id string) (ApplicationType, error) {
 	return entity, nil
 }
 
-func CreateApplicationtype(entity interface{}) (bool, error) {
+func CreateApplication(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
 		Post(applicationTypeUrl + "/create")
@@ -46,7 +46,7 @@ func CreateApplicationtype(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateApplicationtype(entity interface{}) (bool, error) {
+func UpdateApplication(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
 		Post(applicationTypeUrl + "/update")
@@ -55,15 +55,12 @@ func UpdateApplicationtype(entity interface{}) (bool, error) {
 	}
 	return true, nil
 }
-func DeleteApplicationtype(id string) (ApplicationType, error) {
-	entity := ApplicationType{}
-	resp, _ := api.Rest().Get(applicationTypeUrl + "/delete/" + id)
+func DeleteApplication(entity interface{}) (bool, error) {
+	resp, _ := api.Rest().
+		SetBody(entity).
+		Post(applicationTypeUrl + "delete")
 	if resp.IsError() {
-		return entity, errors.New(resp.Status())
+		return false, errors.New(resp.Status())
 	}
-	err := api.JSON.Unmarshal(resp.Body(), &entity)
-	if err != nil {
-		return entity, errors.New(resp.Status())
-	}
-	return entity, nil
+	return true, nil
 }

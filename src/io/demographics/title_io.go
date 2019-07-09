@@ -10,8 +10,8 @@ const titleUrl = api.BASE_URL + "/demographics"
 
 type Titles domain.Title
 
-func GetTitles() ([]Titles, error) {
-	entites := []Titles{}
+func GetTitles() ([]domain.Title, error) {
+	entites := []domain.Title{}
 	resp, _ := api.Rest().Get(titleUrl + "/all")
 
 	if resp.IsError() {
@@ -24,8 +24,8 @@ func GetTitles() ([]Titles, error) {
 	return entites, nil
 }
 
-func GetTitle(id string) (Titles, error) {
-	entity := Titles{}
+func GetTitle(id string) (domain.Title, error) {
+	entity := domain.Title{}
 	resp, _ := api.Rest().Get(titleUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

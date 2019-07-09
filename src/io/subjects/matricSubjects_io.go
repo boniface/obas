@@ -13,6 +13,7 @@ type MatricSubjects domain.MatricSubjects
 func GetMatricSubjects() ([]MatricSubjects, error) {
 	entites := []MatricSubjects{}
 	resp, _ := api.Rest().Get(matricSubjectUrl + "/all")
+
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}

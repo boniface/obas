@@ -10,7 +10,7 @@ const addressTypeUrl = api.BASE_URL + "/address"
 
 type AddressType domain.AddressType
 
-func GetAddresses() ([]AddressType, error) {
+func GetAddressTypes() ([]AddressType, error) {
 	entites := []AddressType{}
 	resp, _ := api.Rest().Get(addressTypeUrl + "/all")
 	if resp.IsError() {
@@ -23,8 +23,8 @@ func GetAddresses() ([]AddressType, error) {
 	return entites, nil
 }
 
-func GetAddress(id string) (AddressType, error) {
-	entity := AddressType{}
+func GetAddressType(id string) (domain.AddressType, error) {
+	entity := domain.AddressType{}
 	resp, _ := api.Rest().Get(addressTypeUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
@@ -36,7 +36,7 @@ func GetAddress(id string) (AddressType, error) {
 	return entity, nil
 }
 
-func CreateAddress(entity interface{}) (bool, error) {
+func CreateAddressType(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
 		Post(addressTypeUrl + "/create")
@@ -47,7 +47,7 @@ func CreateAddress(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateAddress(entity interface{}) (bool, error) {
+func UpdateAddressType(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
 		Post(addressTypeUrl + "/update")
@@ -58,7 +58,7 @@ func UpdateAddress(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func DeleteAddress(entity interface{}) (bool, error) {
+func DeleteAddressType(entity interface{}) (bool, error) {
 
 	resp, _ := api.Rest().
 		SetBody(entity).

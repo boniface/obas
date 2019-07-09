@@ -3,15 +3,15 @@ package io
 import (
 	"errors"
 	"obas/src/api"
-	domain "obas/src/domain/demographics"
+	domain "obas/src/domain/address"
 )
 
 const contactTypeUrl = api.BASE_URL + "/address"
 
-type ContactType domain.Roles
+type ContactType domain.ContactType
 
-func GetContactTypes() ([]ContactType, error) {
-	entites := []ContactType{}
+func GetContactTypes() ([]domain.ContactType, error) {
+	entites := []domain.ContactType{}
 	resp, _ := api.Rest().Get(contactTypeUrl + "/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -23,8 +23,8 @@ func GetContactTypes() ([]ContactType, error) {
 	return entites, nil
 }
 
-func GetContactType(id string) (ContactType, error) {
-	entity := ContactType{}
+func GetContactType(id string) (domain.ContactType, error) {
+	entity := domain.ContactType{}
 	resp, _ := api.Rest().Get(contactTypeUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

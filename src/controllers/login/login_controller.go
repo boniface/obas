@@ -80,6 +80,5 @@ func passwordHandler(app *config.Env) http.HandlerFunc {
 func getAccountsHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-
 	}
 }
