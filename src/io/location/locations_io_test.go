@@ -8,29 +8,30 @@ import (
 func TestGetLocations(t *testing.T) {
 	value, err := GetLocations()
 	assert.Nil(t, err)
-	assert.Equal(t, value, "entity", "Return entity")
+	assert.True(t, len(value) > 0)
 }
 
 func TestGetLocation(t *testing.T) {
+	expected := ""
 	value, err := GetLocation("")
-	assert.NotNil(t, err)
-	assert.Equal(t, value, "Return entity")
+	assert.Nil(t, err)
+	assert.Equal(t, value, expected)
 }
 
 func TestCreateSchool(t *testing.T) {
 	value, err := CreateLocation("")
-	assert.NotNil(t, err)
-	assert.Equal(t, value, "Return entity")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 
 func TestUpdateDocument(t *testing.T) {
 	value, err := UpdateLocation("")
-	assert.NotNil(t, err)
-	assert.Equal(t, value, "Return entity")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 
 func TestDeleteDocument(t *testing.T) {
 	value, err := DeleteLocation("")
-	assert.NotNil(t, err)
-	assert.Equal(t, value, "Return entity")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }

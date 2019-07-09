@@ -8,29 +8,30 @@ import (
 func TestGetLocationTypes(t *testing.T) {
 	value, err := GetLocationTypes()
 	assert.Nil(t, err)
-	assert.Equal(t, value, "entity", "Return entity")
+	assert.True(t, len(value) > 0)
 }
 
 func TestGetLocationType(t *testing.T) {
+	expected := ""
 	value, err := GetLocationType("")
-	assert.NotNil(t, err)
-	assert.Equal(t, value, "Return entity")
+	assert.Nil(t, err)
+	assert.Equal(t, value, expected)
 }
 
 func TestCreateLocationType(t *testing.T) {
 	value, err := CreateLocationType("")
-	assert.NotNil(t, err)
-	assert.Equal(t, value, "Return entity")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 
 func TestUpdateLocationType(t *testing.T) {
 	value, err := UpdateLocationType("")
-	assert.NotNil(t, err)
-	assert.Equal(t, value, "Return entity")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 
 func TestDeleteLocationType(t *testing.T) {
 	value, err := DeleteLocationType("")
-	assert.NotNil(t, err)
-	assert.Equal(t, value, "Return entity")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }

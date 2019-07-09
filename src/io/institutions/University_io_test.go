@@ -8,29 +8,30 @@ import (
 func TestGetUniversitys(t *testing.T) {
 	value, err := GetUniversitys()
 	assert.Nil(t, err)
-	assert.Equal(t, value, "entity", "Return entity")
+	assert.True(t, len(value) > 0)
 }
 
 func TestGetUniversity(t *testing.T) {
+	expected := ""
 	value, err := GetUniversity("")
-	assert.NotNil(t, err)
-	assert.Equal(t, value, "Return entity")
+	assert.Nil(t, err)
+	assert.Equal(t, value, expected)
 }
 
 func TestCreateUniversity(t *testing.T) {
 	value, err := CreateUniversity("")
-	assert.NotNil(t, err)
-	assert.Equal(t, value, "Return entity")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 
 func TestUpdateUniversity(t *testing.T) {
 	value, err := UpdateUniversity("")
-	assert.NotNil(t, err)
-	assert.Equal(t, value, "Return entity")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 
 func TestDeleteUniversity(t *testing.T) {
 	value, err := DeleteUniversity("")
-	assert.NotNil(t, err)
-	assert.Equal(t, value, "Return entity")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }

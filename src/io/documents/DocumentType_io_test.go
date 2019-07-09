@@ -6,30 +6,33 @@ import (
 )
 
 func TestGetDocumentTypes(t *testing.T) {
-	value, _ := GetDocument("")
-	assert.NotNil(t, value)
+	value, err := GetDocuments()
+	assert.Nil(t, err)
+
+	assert.True(t, len(value) > 0)
 }
 
-func TestGetDocumentsTypes(t *testing.T) {
-	value, _ := GetDocument("")
-	assert.NotNil(t, value)
-	//assert.Equal(t, value, "Return entity")
+func TestGetDocumentsType(t *testing.T) {
+	expected := ""
+	value, err := GetDocument("")
+	assert.Nil(t, err)
+	assert.Equal(t, value, expected)
 }
 
 func TestCreateDocumentTypes(t *testing.T) {
-	value, _ := CreateDocument("")
-	assert.NotNil(t, value)
-	assert.Equal(t, value, "Return entity")
+	value, err := CreateDocument("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 
 func TestUpdateDocumentTypes(t *testing.T) {
-	value, _ := UpdateDocument("")
-	assert.NotNil(t, value)
-	assert.Equal(t, value, "Return entity")
+	value, err := UpdateDocument("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
 
 func TestDeleteDocumentTypes(t *testing.T) {
-	value, _ := DeleteDocument("")
-	assert.NotNil(t, value)
-	assert.Equal(t, value, "Return entity")
+	value, err := DeleteDocument("")
+	assert.Nil(t, err)
+	assert.True(t, value)
 }
