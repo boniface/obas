@@ -55,12 +55,15 @@ func UpdateApplicationStatus(entity interface{}) (bool, error) {
 	}
 	return true, nil
 }
-func DeleteApplicationStatus(entity interface{}) (bool, error) {
-	resp, _ := api.Rest().
-		SetBody(entity).
-		Post(applicationStatusUrl + "delete")
+func DeleteApplicationStatus(id string) (ApplicationStatus, error) {
+	entity := ApplicationStatus{}
+	resp, _ := api.Rest().Get(applicationStatusUrl + "/delete/" + id)
 	if resp.IsError() {
-		return false, errors.New(resp.Status())
+		return entity, errors.New(resp.Status())
 	}
-	return true, nil
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(resp.Status())
+	}
+	return entity, nil
 }
