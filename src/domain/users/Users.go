@@ -59,3 +59,6 @@ type Admin struct {
 
 type AdminRole struct {
 }
+
+type Users struct {
+}

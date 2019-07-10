@@ -10,6 +10,7 @@ import (
 
 func Users(app *config.Env) http.Handler {
 	r := chi.NewRouter()
+	r.Get("/", UsersHandler(app))
 	r.Get("/admin", AdminHandler(app))
 	r.Get("/processingStatus", ProcessingStatusTypeHandler(app))
 	r.Get("/studentApplication", StudentApplicationStatusHandler(app))
@@ -19,6 +20,40 @@ func Users(app *config.Env) http.Handler {
 	r.Get("/studentProfile", StudentProfileHandler(app))
 	r.Get("/studentResults", StudentResultsHandler(app))
 	return r
+}
+
+func UsersHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		//allUsers, err := io.GetUsers()
+		//
+		//if err != nil {
+		//	app.ServerError(w, err)
+		//}
+
+		type PageData struct {
+			//courses []io.Users
+			name string
+		}
+		data := PageData{""}
+
+		files := []string{
+			app.Path + "/users/users.page.html",
+			app.Path + "/base/base.page.html",
+			app.Path + "/base/navbar.page.html",
+			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/footer.page.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.ExecuteTemplate(w, "base", data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+
+	}
 }
 
 func AdminHandler(app *config.Env) http.HandlerFunc {
