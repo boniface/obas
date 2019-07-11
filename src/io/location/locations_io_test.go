@@ -5,33 +5,33 @@ import (
 	"testing"
 )
 
-func TestDocuments(t *testing.T) {
-	value, err := GetDocuments()
+func TestGetLocations(t *testing.T) {
+	value, err := GetLocations()
 	assert.Nil(t, err)
 	assert.True(t, len(value) > 0)
 }
 
-func TestGetDocument(t *testing.T) {
+func TestGetLocation(t *testing.T) {
 	expected := ""
-	value, err := GetDocument("")
+	value, err := GetLocation("")
 	assert.Nil(t, err)
 	assert.Equal(t, value, expected)
 }
 
-func TestCreateDocument(t *testing.T) {
-	value, err := CreateDocument("")
+func TestCreateSchool(t *testing.T) {
+	value, err := CreateLocation("")
 	assert.Nil(t, err)
 	assert.True(t, value)
 }
 
 func TestUpdateDocument(t *testing.T) {
-	value, err := UpdateDocument("")
+	value, err := UpdateLocation("")
 	assert.Nil(t, err)
 	assert.True(t, value)
 }
 
 func TestDeleteDocument(t *testing.T) {
-	value, err := DeleteDocument("")
+	value, err := DeleteLocation("")
 	assert.Nil(t, err)
 	assert.True(t, value)
 }

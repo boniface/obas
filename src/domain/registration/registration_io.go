@@ -3,17 +3,18 @@ package io
 import (
 	"errors"
 	"obas/src/api"
-	domain "obas/src/domain/users"
+	domain "obas/src/domain/registration"
 )
 
-const adminUrl = api.BASE_URL + "/users"
 
-type Admin domain.Admin
 
-func GetAdmins() ([]Admin, error) {
-	entites := []Admin{}
-	resp, _ := api.Rest().Get(adminUrl + "/all")
+const EmailUrl = api.BASE_URL + "/registration"
 
+type Email domain.Roles
+
+func GetEmail() ([]Email, error) {
+	entites := []Email{}
+	resp, _ := api.Rest().Get(emailUrl + "/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
@@ -24,9 +25,9 @@ func GetAdmins() ([]Admin, error) {
 	return entites, nil
 }
 
-func GetAdmin(id string) (Admin, error) {
-	entity := Admin{}
-	resp, _ := api.Rest().Get(adminUrl + "/get/" + id)
+func GetEmail(id string) (Email, error) {
+	entity := Roles{}
+	resp, _ := api.Rest().Get(emailUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -37,10 +38,10 @@ func GetAdmin(id string) (Admin, error) {
 	return entity, nil
 }
 
-func CreateAdmin(entity interface{}) (bool, error) {
+func CreateEmail(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(adminUrl + "/create")
+		Post(emailUrl + "/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -48,10 +49,10 @@ func CreateAdmin(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateAdmin(entity interface{}) (bool, error) {
+func UpdateEmail(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(adminUrl + "/update")
+		Post(emailUrl + "/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -59,13 +60,13 @@ func UpdateAdmin(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func DeleteAdmin(entity interface{}) (bool, error) {
+func DeleteEmail(entity interface{}) (bool, error) {
+
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(adminUrl + "/delete")
+		Post(emailUrl + "/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
-
 	return true, nil
 }

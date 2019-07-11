@@ -6,13 +6,13 @@ import (
 	domain "obas/src/domain/users"
 )
 
-const adminUrl = api.BASE_URL + "/users"
+const usersUrl = api.BASE_URL + "/users"
 
-type Admin domain.Admin
+type Users domain.Users
 
-func GetAdmins() ([]Admin, error) {
-	entites := []Admin{}
-	resp, _ := api.Rest().Get(adminUrl + "/all")
+func GetUsers() ([]Users, error) {
+	entites := []Users{}
+	resp, _ := api.Rest().Get(usersUrl + "/all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -24,9 +24,9 @@ func GetAdmins() ([]Admin, error) {
 	return entites, nil
 }
 
-func GetAdmin(id string) (Admin, error) {
-	entity := Admin{}
-	resp, _ := api.Rest().Get(adminUrl + "/get/" + id)
+func GetUser(id string) (Users, error) {
+	entity := Users{}
+	resp, _ := api.Rest().Get(usersUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -37,10 +37,10 @@ func GetAdmin(id string) (Admin, error) {
 	return entity, nil
 }
 
-func CreateAdmin(entity interface{}) (bool, error) {
+func CreateUser(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(adminUrl + "/create")
+		Post(usersUrl + "/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -48,10 +48,10 @@ func CreateAdmin(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateAdmin(entity interface{}) (bool, error) {
+func UpdateUser(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(adminUrl + "/update")
+		Post(usersUrl + "/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -59,10 +59,10 @@ func UpdateAdmin(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func DeleteAdmin(entity interface{}) (bool, error) {
+func DeleteUser(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(adminUrl + "/delete")
+		Post(usersUrl + "/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

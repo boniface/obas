@@ -10,7 +10,7 @@ const applicationResultUrl = api.BASE_URL + "/application"
 
 type ApplicationResult domain.ApplicationResult
 
-func GetApplicationResultes() ([]ApplicationResult, error) {
+func GetApplicationResults() ([]ApplicationResult, error) {
 	entites := []ApplicationResult{}
 	resp, _ := api.Rest().Get(applicationResultUrl + "/all")
 	if resp.IsError() {
@@ -58,7 +58,7 @@ func UpdateApplicationResult(entity interface{}) (bool, error) {
 func DeleteApplicationResult(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(applicationResultUrl + "delete")
+		Post(applicationResultUrl + "/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

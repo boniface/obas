@@ -58,7 +58,7 @@ func UpdateApplicationStatus(entity interface{}) (bool, error) {
 func DeleteApplicationStatus(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(applicationStatusUrl + "delete")
+		Post(applicationStatusUrl + "/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
