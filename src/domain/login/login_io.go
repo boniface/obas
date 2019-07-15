@@ -1,11 +1,17 @@
 package io
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
 	"obas/src/api"
 	domain "obas/src/domain/login"
-	
+	"time"
 )
+
 func checkUserName(res http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	ctx := appengine.NewContext(req)
 	bs, err := ioutil.ReadAll(req.Body)
