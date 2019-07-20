@@ -1,12 +1,15 @@
 package io
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
+	domain "obas/src/domain/address"
 	"testing"
 )
 
 func TestCreateAddress(t *testing.T) {
-	value, err := CreateAddress("")
+	addrType := domain.AddressType{"EMAIL", "EMAIL ADDRESS"}
+	value, err := CreateAddressType(addrType)
 	assert.Nil(t, err)
 	assert.True(t, value)
 }
@@ -18,8 +21,9 @@ func TestGetAddress(t *testing.T) {
 
 }
 func TestGetAddresses(t *testing.T) {
-	value, err := GetAddresses()
+	value, err := GetAddressTypes()
 	assert.Nil(t, err)
+	fmt.Println(" The Results", value)
 	assert.True(t, len(value) > 0)
 }
 

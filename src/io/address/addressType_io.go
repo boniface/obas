@@ -13,6 +13,7 @@ type AddressType domain.AddressType
 func GetAddressTypes() ([]AddressType, error) {
 	entites := []AddressType{}
 	resp, _ := api.Rest().Get(addressTypeUrl + "/all")
+
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
