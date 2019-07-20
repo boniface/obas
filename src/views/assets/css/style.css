@@ -85,6 +85,7 @@ h1, h2, h3, h4, h5, h6 {
 p {
     margin-top: 0;
     margin-bottom: 1rem
+    
 }
 
 abbr[data-original-title], abbr[title] {
@@ -353,6 +354,7 @@ template {
 
 .h5, h5 {
     font-size: 1.25rem
+    
 }
 
 .h6, h6 {
@@ -12350,7 +12352,9 @@ ul, li {
     font-size: 32px;
     font-weight: bold;
     line-height: 1.2;
-    margin: 0 0 15px;
+    margin: 0 0 20px;
+    color: #ffea00;
+    padding: 0 0 10px;
 }
 
 #MainContainer h3 {
@@ -12358,6 +12362,7 @@ ul, li {
     font-weight: bold;
     line-height: 1.2;
     margin: 0 0 10px;
+    color: white;
 }
 
 #MainContainer h4 {
@@ -12414,7 +12419,7 @@ ul, li {
 }
 
 #Header.header-fixed {
-    background: rgba(0, 0, 0, 0.8);
+    background: #006837;
     transition: all 0.3s ease-in-out;
 }
 
@@ -12491,7 +12496,7 @@ ul, li {
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: #0098aa;
+    background-color: #ffea00;
     visibility: hidden;
     -webkit-transform: scaleX(0);
     transform: scaleX(0);
@@ -12645,7 +12650,7 @@ ul, li {
 
 #HeroBanner .hero-content p {
     font-size: 28px;
-    color: #fff;
+    color: #07854a;
     margin: 0 0 30px;
 }
 
@@ -12654,16 +12659,18 @@ ul, li {
     color: #fff;
     text-decoration: none;
     border: 2px solid #fff;
-    border-radius: 0;
+    border-radius: 10px;
     display: inline-block;
     padding: 10px 20px;
     transition: all 0.3s ease-in-out;
+    margin: 16px 0 0;
 }
 
 #HeroBanner .hero-content .hero-cta:hover {
-    background-color: #0098aa;
-    border: 2px solid #0098aa;
+    background-color: #ffea00;
+    border: 2px solid #ffea00;
     transition: all 0.3s ease-in-out;
+    color: #006837;
 }
 
 /* services section style goes here */
@@ -13029,7 +13036,7 @@ ul, li {
 
 /* footer style goes here */
 #Footer {
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: #006837;
     padding: 50px 0;
 }
 
