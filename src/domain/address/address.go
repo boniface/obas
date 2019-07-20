@@ -5,8 +5,8 @@ type AddressType struct {
 	AddressName   string `json:"addressName"`
 }
 type ContactType struct {
-	Id   string `json:"Id"`
-	Name string `json:"Name"`
+	ContactTypeId string `json:"contactTypeId"`
+	Name          string `json:"Name"`
 }
 
 type Address struct {

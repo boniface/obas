@@ -9,8 +9,8 @@ import (
 
 func Locations(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/locations", LocationsHandler(app))
-	r.Get("/locationtype", LocationTypesHandler(app))
+	r.Get("/", LocationsHandler(app))
+	r.Get("/type", LocationTypesHandler(app))
 	return r
 }
 

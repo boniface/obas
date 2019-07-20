@@ -9,8 +9,8 @@ import (
 
 func Documents(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/document", DocumentsHandler(app))
-	r.Get("/documentstype", DocumentsTypeHandler(app))
+	r.Get("/", DocumentsHandler(app))
+	r.Get("/type", DocumentsTypeHandler(app))
 	return r
 }
 
