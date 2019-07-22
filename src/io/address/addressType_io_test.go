@@ -8,7 +8,7 @@ import (
 )
 
 func TestCreateAddressType(t *testing.T) {
-	addrType := domain.AddressType{"EMAIL", "EMAIL ADDRESS"}
+	addrType := domain.AddressType{"TWITTER", "TWITTER HANDLE"}
 	value, err := CreateAddressType(addrType)
 	assert.Nil(t, err)
 	assert.True(t, value)
