@@ -8,8 +8,3 @@ type ContactType struct {
 	ContactTypeId string `json:"contactTypeId"`
 	Name          string `json:"Name"`
 }
-
-type Address struct {
-	Id   string `json:"Id"`
-	Name string `json:"Name"`
-}
