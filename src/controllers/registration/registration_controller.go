@@ -9,7 +9,7 @@ import (
 
 func Registrations(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/registration", registrationsHandler(app))
+	r.Get("/", registrationsHandler(app))
 	return r
 }
 

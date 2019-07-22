@@ -9,7 +9,7 @@ import (
 
 func Logs(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/log", logsHandler(app))
+	r.Get("/", logsHandler(app))
 	return r
 }
 
