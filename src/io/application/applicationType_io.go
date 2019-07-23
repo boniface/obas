@@ -2,6 +2,7 @@ package io
 
 import (
 	"errors"
+	"fmt"
 	"obas/src/api"
 	domain "obas/src/domain/application"
 )
@@ -12,12 +13,14 @@ type ApplicationType domain.ApplicationType
 
 func GetApplicationTypes() ([]ApplicationType, error) {
 	entites := []ApplicationType{}
-	resp, _ := api.Rest().Get(applicationTypeUrl + "/all")
+	resp, serverEr := api.Rest().Get(applicationTypeUrl + "/all")
 	if resp.IsError() {
+		fmt.Println(" Is request from Server Okay", serverEr)
 		return entites, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entites)
 	if err != nil {
+		fmt.Println("Did Json Coversion Take Place Okay", err)
 		return entites, errors.New(resp.Status())
 	}
 	return entites, nil
