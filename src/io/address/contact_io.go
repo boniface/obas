@@ -10,8 +10,8 @@ const contactTypeUrl = api.BASE_URL + "/address"
 
 type ContactType domain.ContactType
 
-func GetContactTypes() ([]domain.ContactType, error) {
-	entites := []domain.ContactType{}
+func GetContactTypes() ([]ContactType, error) {
+	entites := []ContactType{}
 	resp, _ := api.Rest().Get(contactTypeUrl + "/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())

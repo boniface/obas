@@ -10,8 +10,8 @@ import (
 
 func Addresses(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/type", AddressTypeHandler(app))
-	r.Get("/contact/type", ContactTypeTypeHandler(app))
+	r.Get("/all", AddressTypeHandler(app))
+	r.Get("/contact/all", ContactTypeTypeHandler(app))
 	return r
 }
 

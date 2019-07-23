@@ -8,7 +8,6 @@ import (
 )
 
 func TestGetContacts(t *testing.T) {
-
 	value, err := GetContactTypes()
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)

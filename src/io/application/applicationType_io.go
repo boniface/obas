@@ -23,8 +23,8 @@ func GetApplicationTypes() ([]ApplicationType, error) {
 	return entites, nil
 }
 
-func GetApplicationType(id string) (ApplicationType, error) {
-	entity := ApplicationType{}
+func GetApplicationType(id string) (domain.ApplicationType, error) {
+	entity := domain.ApplicationType{}
 	resp, _ := api.Rest().Get(applicationTypeUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
