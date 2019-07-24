@@ -25,7 +25,7 @@ func GetContactTypes() ([]ContactType, error) {
 
 func GetContactType(id string) (domain.ContactType, error) {
 	entity := domain.ContactType{}
-	resp, _ := api.Rest().Get(contactTypeUrl + "/get/" + id)
+	resp, _ := api.Rest().Get(contactTypeUrl + "/contact/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
