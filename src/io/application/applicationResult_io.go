@@ -12,7 +12,7 @@ type ApplicationResult domain.ApplicationResult
 
 func GetApplicationResults() ([]ApplicationResult, error) {
 	entites := []ApplicationResult{}
-	resp, _ := api.Rest().Get(applicationResultUrl + "/all")
+	resp, _ := api.Rest().Get(applicationResultUrl + "/status/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
@@ -39,7 +39,7 @@ func GetApplicationResult(id string) (ApplicationResult, error) {
 func CreateApplicationResult(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(applicationResultUrl + "/create")
+		Post(applicationResultUrl + "/status/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -49,7 +49,7 @@ func CreateApplicationResult(entity interface{}) (bool, error) {
 func UpdateApplicationResult(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(applicationResultUrl + "/update")
+		Post(applicationResultUrl + "/status/update")
 	if resp.IsError() {
 		return true, nil
 	}
@@ -58,7 +58,7 @@ func UpdateApplicationResult(entity interface{}) (bool, error) {
 func DeleteApplicationResult(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(applicationResultUrl + "/delete")
+		Post(applicationResultUrl + "/status/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

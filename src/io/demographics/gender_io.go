@@ -12,7 +12,7 @@ type Genders domain.Gender
 
 func GetGenders() ([]Genders, error) {
 	entites := []Genders{}
-	resp, _ := api.Rest().Get(genderUrl + "/all")
+	resp, _ := api.Rest().Get(genderUrl + "/gender/all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())

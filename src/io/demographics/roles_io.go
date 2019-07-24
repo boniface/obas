@@ -12,7 +12,7 @@ type Roles domain.Roles
 
 func GetRoles() ([]domain.Roles, error) {
 	entites := []domain.Roles{}
-	resp, _ := api.Rest().Get(roleUrl + "/all")
+	resp, _ := api.Rest().Get(roleUrl + "/roles/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}

@@ -8,7 +8,7 @@ import (
 )
 
 func TestCreateAddressType(t *testing.T) {
-	addrType := domain.AddressType{"VIBER", "VIBER HANDLE"}
+	addrType := domain.AddressType{"UBER", "UBER DRIVER"}
 	value, err := CreateAddressType(addrType)
 	assert.Nil(t, err)
 	assert.True(t, value)
