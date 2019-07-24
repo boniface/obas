@@ -5,7 +5,7 @@ import (
 	"obas/src/config"
 )
 
-const BASE_URL string = "http://localhost:9000"
+const BASE_URL string = "http://155.238.156.51:9000"
 
 func Rest() *resty.Request {
 	return resty.R().SetAuthToken("").

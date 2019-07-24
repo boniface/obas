@@ -12,7 +12,7 @@ type Documents domain.Documents
 
 func GetDocuments() ([]Documents, error) {
 	entites := []Documents{}
-	resp, _ := api.Rest().Get(documentUrl + "/all")
+	resp, _ := api.Rest().Get(documentUrl + "/doc/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}

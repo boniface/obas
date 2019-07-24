@@ -10,9 +10,9 @@ const contactTypeUrl = api.BASE_URL + "/address"
 
 type ContactType domain.ContactType
 
-func GetContactTypes() ([]domain.ContactType, error) {
-	entites := []domain.ContactType{}
-	resp, _ := api.Rest().Get(contactTypeUrl + "/all")
+func GetContactTypes() ([]ContactType, error) {
+	entites := []ContactType{}
+	resp, _ := api.Rest().Get(contactTypeUrl + "/contact/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
@@ -39,7 +39,7 @@ func GetContactType(id string) (domain.ContactType, error) {
 func CreateContactType(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(contactTypeUrl + "/create")
+		Post(contactTypeUrl + "/contact/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

@@ -12,7 +12,7 @@ type Races domain.Race
 
 func GetRaces() ([]domain.Race, error) {
 	entites := []domain.Race{}
-	resp, _ := api.Rest().Get(raceUrl + "/all")
+	resp, _ := api.Rest().Get(raceUrl + "/race/all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())

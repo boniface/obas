@@ -12,7 +12,7 @@ type Titles domain.Title
 
 func GetTitles() ([]domain.Title, error) {
 	entites := []domain.Title{}
-	resp, _ := api.Rest().Get(titleUrl + "/all")
+	resp, _ := api.Rest().Get(titleUrl + "/title/all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())

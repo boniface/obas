@@ -1,14 +1,15 @@
 package io
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestGetDocumentTypes(t *testing.T) {
-	value, err := GetDocuments()
+	value, err := GetDocumentTy + pes()
 	assert.Nil(t, err)
-
+	fmt.Println(" The Results", value)
 	assert.True(t, len(value) > 0)
 }
 

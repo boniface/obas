@@ -8,7 +8,6 @@ import (
 )
 
 func TestGetContacts(t *testing.T) {
-
 	value, err := GetContactTypes()
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
@@ -24,7 +23,7 @@ func TestGetContactType(t *testing.T) {
 }
 
 func TestCreateContactType(t *testing.T) {
-	contType := domain.ContactType{"CONTACT", "CONTACT ADDRESS"}
+	contType := domain.ContactType{"UCT", "UCT ADDRESS"}
 	value, err := CreateContactType(contType)
 	assert.Nil(t, err)
 	assert.True(t, value)

@@ -1,6 +1,7 @@
 package io
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -8,6 +9,7 @@ import (
 func TestGetRaces(t *testing.T) {
 	value, err := GetRaces()
 	assert.Nil(t, err)
+	fmt.Println(" The Results", value)
 	assert.True(t, len(value) > 0)
 }
 
