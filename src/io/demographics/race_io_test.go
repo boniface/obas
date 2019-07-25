@@ -3,6 +3,7 @@ package io
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	domain "obas/src/domain/demographics"
 	"testing"
 )
 
@@ -14,26 +15,31 @@ func TestGetRaces(t *testing.T) {
 }
 
 func TestGetRace(t *testing.T) {
-	expected := ""
-	value, err := GetRace("")
+	expected := "ASIAN"
+	value, err := GetRace("8")
 	assert.Nil(t, err)
-	assert.Equal(t, value, expected)
+	fmt.Println(" The Results", value)
+	assert.Equal(t, value.RaceName, expected)
 }
 
 func TestCreateRace(t *testing.T) {
-	value, err := CreateRace("")
+	race := domain.Race{"50", "RED"}
+	value, err := CreateRace(race)
 	assert.Nil(t, err)
 	assert.True(t, value)
 }
 
 func TestUpdateRace(t *testing.T) {
-	value, err := UpdateRace("")
+	race := domain.Race{"50", "RED"}
+	value, err := UpdateRace(race)
 	assert.Nil(t, err)
+	fmt.Println(" The Results", value)
 	assert.NotNil(t, value)
 }
 
 func TestDeleteRace(t *testing.T) {
-	value, err := DeleteRace("")
+	race := domain.Race{"50", "RED"}
+	value, err := DeleteRace(race)
 	assert.Nil(t, err)
 	assert.NotNil(t, value)
 }

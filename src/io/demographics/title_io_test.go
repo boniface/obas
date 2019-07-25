@@ -3,6 +3,7 @@ package io
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	domain "obas/src/domain/demographics"
 	"testing"
 )
 
@@ -14,26 +15,32 @@ func TestGetTitles(t *testing.T) {
 }
 
 func TestGetTitle(t *testing.T) {
-	expected := ""
-	value, err := GetTitle("")
+	expected := "DR"
+	value, err := GetTitle("51")
 	assert.Nil(t, err)
-	assert.Equal(t, expected, value)
+	fmt.Println(" The Results", value)
+	assert.Equal(t, expected, value.TitleName)
 }
 
 func TestCreateTitle(t *testing.T) {
-	value, err := CreateTitle("")
+	title := domain.Title{"47", "SIR"}
+	value, err := CreateTitle(title)
 	assert.Nil(t, err)
+	fmt.Println(" The Results", value)
 	assert.True(t, value)
 }
 
 func TestUpdateTitle(t *testing.T) {
-	value, err := UpdateTitle("")
+	title := domain.Title{"47", "SIR"}
+	value, err := UpdateTitle(title)
 	assert.Nil(t, err)
+	fmt.Println(" The Results", value)
 	assert.True(t, value)
 }
 
 func TestDeleteTitle(t *testing.T) {
-	value, err := DeleteTitle("")
+	title := domain.Title{"47", "SIR"}
+	value, err := DeleteTitle(title)
 	assert.Nil(t, err)
 	assert.True(t, value)
 }

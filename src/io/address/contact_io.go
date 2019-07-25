@@ -50,7 +50,7 @@ func CreateContactType(entity interface{}) (bool, error) {
 func UpdateContactType(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(contactTypeUrl + "/update")
+		Post(contactTypeUrl + "/contact/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -62,7 +62,7 @@ func DeleteContactType(entity interface{}) (bool, error) {
 
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(contactTypeUrl + "/delete")
+		Post(contactTypeUrl + "/contact/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

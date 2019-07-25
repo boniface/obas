@@ -3,6 +3,7 @@ package io
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	domain "obas/src/domain/demographics"
 	"testing"
 )
 
@@ -14,26 +15,30 @@ func TestGetGenders(t *testing.T) {
 }
 
 func TestGetGender(t *testing.T) {
-	expected := ""
-	value, err := GetGender("")
+	expected := "MALE"
+	value, err := GetGender("5")
 	assert.Nil(t, err)
-	assert.Equal(t, value, expected)
+	fmt.Println(" The Results", value)
+	assert.Equal(t, value.GenderName, expected)
 }
 
 func TestCreateGender(t *testing.T) {
-	value, err := CreateGender("")
+	gend := domain.Gender{"4", "FEMALE"}
+	value, err := CreateGender(gend)
 	assert.Nil(t, err)
 	assert.True(t, value)
 }
 
 func TestUpdateGender(t *testing.T) {
-	value, err := UpdateGender("")
+	gend := domain.Gender{"4", "FEMALE"}
+	value, err := UpdateGender(gend)
 	assert.Nil(t, err)
 	assert.True(t, value)
 }
 
 func TestDeleteGender(t *testing.T) {
-	value, err := DeleteGender("")
+	gend := domain.Gender{"4", "FEMALE"}
+	value, err := DeleteGender(gend)
 	assert.Nil(t, err)
 	assert.True(t, value)
 }

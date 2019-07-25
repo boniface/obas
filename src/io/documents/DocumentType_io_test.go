@@ -7,7 +7,7 @@ import (
 )
 
 func TestGetDocumentTypes(t *testing.T) {
-	value, err := GetDocumentTy + pes()
+	value, err := GetDocumentTypes()
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
 	assert.True(t, len(value) > 0)

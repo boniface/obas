@@ -3,6 +3,7 @@ package io
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	domain "obas/src/domain/demographics"
 	"testing"
 )
 
@@ -14,26 +15,31 @@ func TestGetRoles(t *testing.T) {
 }
 
 func TestGetRole(t *testing.T) {
-	expected := ""
-	value, err := GetRole("")
+	expected := "ADMIN"
+	value, err := GetRole("6")
 	assert.Nil(t, err)
-	assert.Equal(t, expected, value)
+	fmt.Println(" The Results", value)
+	assert.Equal(t, expected, value.RoleName)
 }
 
 func TestCreateRole(t *testing.T) {
-	value, err := CreateRole("")
+	role := domain.Roles{"21", "GUEST"}
+	value, err := CreateRole(role)
 	assert.Nil(t, err)
 	assert.True(t, value)
 }
 
 func TestUpdateRole(t *testing.T) {
-	value, err := UpdateRole("")
+	role := domain.Roles{"22", "GUEST"}
+	value, err := UpdateRole(role)
 	assert.Nil(t, err)
+	fmt.Println(" The Results", value)
 	assert.True(t, value)
 }
 
 func TestDeleteRole(t *testing.T) {
-	value, err := DeleteRole("")
+	role := domain.Roles{"21", "GUEST"}
+	value, err := DeleteRole(role)
 	assert.Nil(t, err)
 	assert.True(t, value)
 }

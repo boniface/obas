@@ -26,7 +26,7 @@ func GetTitles() ([]domain.Title, error) {
 
 func GetTitle(id string) (domain.Title, error) {
 	entity := domain.Title{}
-	resp, _ := api.Rest().Get(titleUrl + "/get/" + id)
+	resp, _ := api.Rest().Get(titleUrl + "/title/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -40,7 +40,7 @@ func GetTitle(id string) (domain.Title, error) {
 func CreateTitle(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(titleUrl + "/create")
+		Post(titleUrl + "/title/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -51,7 +51,7 @@ func CreateTitle(entity interface{}) (bool, error) {
 func UpdateTitle(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(titleUrl + "/update")
+		Post(titleUrl + "/title/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -62,7 +62,7 @@ func UpdateTitle(entity interface{}) (bool, error) {
 func DeleteTitle(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(titleUrl + "/delete")
+		Post(titleUrl + "/title/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
