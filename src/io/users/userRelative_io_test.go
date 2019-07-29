@@ -5,7 +5,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	domain "obas/src/domain/users"
 	"testing"
-	"time"
 )
 
 func TestGetUserRelatives(t *testing.T) {
@@ -42,7 +41,7 @@ func TestUpdateUserRelative(t *testing.T) {
 }
 
 func TestDeleteUserRelative(t *testing.T) {
-	relative := domain.UserRelative{"m@gt.com", "JEAN", "PAUL", "MATUTO", time.Time{}}
+	relative := domain.UserRelative{"m@gt.com", "JEAN", "PAUL", "MATUTO", "m@h.com"}
 	result, err := DeleteUserRelative(relative)
 	assert.Nil(t, err)
 	assert.True(t, result)
