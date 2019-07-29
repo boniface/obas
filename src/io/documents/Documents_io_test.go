@@ -24,14 +24,14 @@ func TestGetDocument(t *testing.T) {
 }
 
 func TestCreateDocument(t *testing.T) {
-	doc := domain.Documents{"FG", "25", "FR", "MATRIC", "DS", "QA", "2019", "NONE"}
+	doc := domain.Documents{"FG", "25", "FR", "MATRIC", "DS", "QA", time.Now(), "NONE"}
 	value, err := CreateDocument(doc)
 	assert.Nil(t, err)
 	assert.True(t, value)
 }
 
 func TestUpdateDocument(t *testing.T) {
-	doc := domain.Documents{"FG", "25", "FR", "MATRIC", "DS", "QA", time.Time{2019, 03, 1}, "NONE"}
+	doc := domain.Documents{"FG", "25", "FR", "MATRIC", "DS", "QA", time.Now(), "NONE"}
 	value, err := UpdateDocument(doc)
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
@@ -39,7 +39,7 @@ func TestUpdateDocument(t *testing.T) {
 }
 
 func TestDeleteDocument(t *testing.T) {
-	doc := domain.Documents{"FG", "25", "FR", "MATRIC", "DS", "QA", 25 / 03 / 2019, "NONE"}
+	doc := domain.Documents{"FG", "25", "FR", "MATRIC", "DS", "QA", time.Now(), "NONE"}
 	value, err := DeleteDocument(doc)
 	assert.Nil(t, err)
 	assert.True(t, value)

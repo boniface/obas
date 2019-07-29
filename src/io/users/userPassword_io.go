@@ -6,13 +6,13 @@ import (
 	domain "obas/src/domain/users"
 )
 
-const studentDemographicsUrl = api.BASE_URL + "/users"
+const usersPwdUrl = api.BASE_URL + "/users"
 
-type StudentDemographics domain.StudentDemographics
+type UsersPwd domain.UserPassword
 
-func GetStudentDemographics() ([]domain.StudentDemographics, error) {
-	entites := []domain.StudentDemographics{}
-	resp, _ := api.Rest().Get(studentDemographicsUrl + "/all")
+func GetUserPasswords() ([]UsersPwd, error) {
+	entites := []UsersPwd{}
+	resp, _ := api.Rest().Get(usersPwdUrl + "/password/all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -24,9 +24,9 @@ func GetStudentDemographics() ([]domain.StudentDemographics, error) {
 	return entites, nil
 }
 
-func GetStudentDemographic(id string) (domain.StudentDemographics, error) {
-	entity := domain.StudentDemographics{}
-	resp, _ := api.Rest().Get(studentDemographicsUrl + "/get/" + id)
+func GetUserPassword(id string) (UsersPwd, error) {
+	entity := UsersPwd{}
+	resp, _ := api.Rest().Get(usersPwdUrl + "/password/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -37,10 +37,10 @@ func GetStudentDemographic(id string) (domain.StudentDemographics, error) {
 	return entity, nil
 }
 
-func CreateStudentDemographics(entity interface{}) (bool, error) {
+func CreateUserPassword(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(studentDemographicsUrl + "/create")
+		Post(usersPwdUrl + "/password/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -48,10 +48,10 @@ func CreateStudentDemographics(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateStudentDemographics(entity interface{}) (bool, error) {
+func UpdateUserPassword(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(studentDemographicsUrl + "/update")
+		Post(usersPwdUrl + "/password/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -59,10 +59,10 @@ func UpdateStudentDemographics(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func DeleteStudentDemographics(entity interface{}) (bool, error) {
+func DeleteUserPassword(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(studentDemographicsUrl + "/delete")
+		Post(usersPwdUrl + "/password/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

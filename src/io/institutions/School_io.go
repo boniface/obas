@@ -12,7 +12,7 @@ type Schools domain.School
 
 func GetSchools() ([]domain.School, error) {
 	entites := []domain.School{}
-	resp, _ := api.Rest().Get(schoolUrl + "/all")
+	resp, _ := api.Rest().Get(schoolUrl + "/school/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
@@ -25,7 +25,7 @@ func GetSchools() ([]domain.School, error) {
 
 func GetSchool(id string) (domain.School, error) {
 	entity := domain.School{}
-	resp, _ := api.Rest().Get(schoolUrl + "/get/" + id)
+	resp, _ := api.Rest().Get(schoolUrl + "/school/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -39,7 +39,7 @@ func GetSchool(id string) (domain.School, error) {
 func CreateSchool(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(schoolUrl + "/create")
+		Post(schoolUrl + "/school/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -50,7 +50,7 @@ func CreateSchool(entity interface{}) (bool, error) {
 func UpdateSchool(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(schoolUrl + "/update")
+		Post(schoolUrl + "/school/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -61,7 +61,7 @@ func DeleteSchool(entity interface{}) (bool, error) {
 
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(schoolUrl + "/delete")
+		Post(schoolUrl + "/school/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

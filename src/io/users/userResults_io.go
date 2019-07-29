@@ -6,13 +6,13 @@ import (
 	domain "obas/src/domain/users"
 )
 
-const studentResultUrl = api.BASE_URL + "/users"
+const userResultUrl = api.BASE_URL + "/users"
 
-type StudentResults domain.StudentResults
+type uResults domain.UserResults
 
-func GetStudentResults() ([]StudentResults, error) {
-	entites := []StudentResults{}
-	resp, _ := api.Rest().Get(studentResultUrl + "/all")
+func GetUserResults() ([]uResults, error) {
+	entites := []uResults{}
+	resp, _ := api.Rest().Get(userResultUrl + "/results/all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -24,9 +24,9 @@ func GetStudentResults() ([]StudentResults, error) {
 	return entites, nil
 }
 
-func GetStudentResult(id string) (StudentResults, error) {
-	entity := StudentResults{}
-	resp, _ := api.Rest().Get(studentResultUrl + "/get/" + id)
+func GetUserResult(id string) (uResults, error) {
+	entity := uResults{}
+	resp, _ := api.Rest().Get(userResultUrl + "/results/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -37,10 +37,10 @@ func GetStudentResult(id string) (StudentResults, error) {
 	return entity, nil
 }
 
-func CreateStudentResults(entity interface{}) (bool, error) {
+func CreateUserResults(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(studentResultUrl + "/create")
+		Post(userResultUrl + "/results/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -48,10 +48,10 @@ func CreateStudentResults(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateStudentResults(entity interface{}) (bool, error) {
+func UpdateUserResults(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(studentResultUrl + "/update")
+		Post(userResultUrl + "/results/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -59,10 +59,10 @@ func UpdateStudentResults(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func DeleteStudentResults(entity interface{}) (bool, error) {
+func DeleteUserResults(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(studentResultUrl + "/delete")
+		Post(userResultUrl + "/results/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

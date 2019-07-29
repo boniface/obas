@@ -6,13 +6,13 @@ import (
 	domain "obas/src/domain/users"
 )
 
-const studentApplicationSatusUrl = api.BASE_URL + "/users"
+const userDocUrl = api.BASE_URL + "/users"
 
-type StudentApplicationStatus domain.StudentApplicationStatus
+type UserDocuments domain.UserDocuments
 
-func GetStudentApplicationStatuses() ([]StudentApplicationStatus, error) {
-	entites := []StudentApplicationStatus{}
-	resp, _ := api.Rest().Get(studentApplicationSatusUrl + "/all")
+func GetUserDocuments() ([]UserDocuments, error) {
+	entites := []UserDocuments{}
+	resp, _ := api.Rest().Get(userDocUrl + "/documents/all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -24,9 +24,9 @@ func GetStudentApplicationStatuses() ([]StudentApplicationStatus, error) {
 	return entites, nil
 }
 
-func GetStudentApplicationStatus(id string) (StudentApplicationStatus, error) {
-	entity := StudentApplicationStatus{}
-	resp, _ := api.Rest().Get(studentApplicationSatusUrl + "/get/" + id)
+func GetUserDocument(id string) (UserDocuments, error) {
+	entity := UserDocuments{}
+	resp, _ := api.Rest().Get(userDocUrl + "/documents/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -37,10 +37,10 @@ func GetStudentApplicationStatus(id string) (StudentApplicationStatus, error) {
 	return entity, nil
 }
 
-func CreateStudentApplicationStatus(entity interface{}) (bool, error) {
+func CreateUserDocument(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(studentApplicationSatusUrl + "/create")
+		Post(userDocUrl + "/documents/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -48,10 +48,10 @@ func CreateStudentApplicationStatus(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateStudentApplicationStatus(entity interface{}) (bool, error) {
+func UpdateUserDocument(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(studentApplicationSatusUrl + "/update")
+		Post(userDocUrl + "/documents/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -59,10 +59,10 @@ func UpdateStudentApplicationStatus(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func DeleteStudentApplicationStatus(entity interface{}) (bool, error) {
+func DeleteUserDocument(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(studentApplicationSatusUrl + "/delete")
+		Post(userDocUrl + "/documents/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

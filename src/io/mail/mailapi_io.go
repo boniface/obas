@@ -7,13 +7,13 @@ import (
 	domain "obas/src/domain/mail"
 )
 
-const mailconfig = api.BASE_URL + "/mail"
+const mailapiUrl = api.BASE_URL + "/mail"
 
-type LogEvent domain.MailConfig
+type MailApi domain.MailApi
 
-func GetMailConfigs() ([]domain.MailConfig, error) {
-	entities := []domain.MailConfig{}
-	resp, _ := api.Rest().Get(mailconfig + "/all")
+func GetMailApis() ([]MailApi, error) {
+	entities := []MailApi{}
+	resp, _ := api.Rest().Get(mailapiUrl + "/api/all")
 	if resp.IsError() {
 		return entities, errors.New(resp.Status())
 	}
@@ -25,9 +25,9 @@ func GetMailConfigs() ([]domain.MailConfig, error) {
 
 }
 
-func GetMailConfig(id string) (domain.MailConfig, error) {
-	entity := domain.MailConfig{}
-	resp, _ := api.Rest().Get(mailconfig + "/get/" + id)
+func GetMailApi(id string) (domain.MailApi, error) {
+	entity := domain.MailApi{}
+	resp, _ := api.Rest().Get(mailapiUrl + "/api/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -39,20 +39,20 @@ func GetMailConfig(id string) (domain.MailConfig, error) {
 
 }
 
-func CreateMailConfig(entity domain.MailConfig) (bool, error) {
+func CreateMailApi(entity domain.MailApi) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(mailconfig + "/create")
+		Post(mailapiUrl + "/api/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
 	return true, nil
 
 }
-func UpdateMailConfig(entity domain.MailConfig) (bool, error) {
+func UpdateMailApi(entity domain.MailApi) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(mailconfig + "/update")
+		Post(mailapiUrl + "/api/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -60,10 +60,10 @@ func UpdateMailConfig(entity domain.MailConfig) (bool, error) {
 
 }
 
-func DeleteMailConfig(entity domain.MailConfig) (bool, error) {
+func DeleteMailApi(entity domain.MailApi) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(mailconfig + "/delete")
+		Post(mailapiUrl + "/api/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

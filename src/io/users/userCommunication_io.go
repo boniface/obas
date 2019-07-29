@@ -6,13 +6,13 @@ import (
 	domain "obas/src/domain/users"
 )
 
-const processingTypeSatusUrl = api.BASE_URL + "/users"
+const usersComUrl = api.BASE_URL + "/users"
 
-type ProcessingStatusType domain.ProcessingStatusType
+type UsersCom domain.UserCommunication
 
-func GetProcessingStatusTypes() ([]ProcessingStatusType, error) {
-	entites := []ProcessingStatusType{}
-	resp, _ := api.Rest().Get(processingTypeSatusUrl + "/all")
+func GetUserCommunications() ([]UsersCom, error) {
+	entites := []UsersCom{}
+	resp, _ := api.Rest().Get(usersComUrl + "/communication/all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -24,9 +24,9 @@ func GetProcessingStatusTypes() ([]ProcessingStatusType, error) {
 	return entites, nil
 }
 
-func GetProcessingStatusType(id string) (ProcessingStatusType, error) {
-	entity := ProcessingStatusType{}
-	resp, _ := api.Rest().Get(processingTypeSatusUrl + "/get/" + id)
+func GetUserCommunication(id string) (UsersCom, error) {
+	entity := UsersCom{}
+	resp, _ := api.Rest().Get(usersComUrl + "/communication/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -37,10 +37,10 @@ func GetProcessingStatusType(id string) (ProcessingStatusType, error) {
 	return entity, nil
 }
 
-func CreateProcessingStatusType(entity interface{}) (bool, error) {
+func CreateUserCommunication(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(processingTypeSatusUrl + "/create")
+		Post(usersComUrl + "/communication/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -48,10 +48,10 @@ func CreateProcessingStatusType(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateProcessingStatusType(entity interface{}) (bool, error) {
+func UpdateUserCommunication(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(processingTypeSatusUrl + "/update")
+		Post(usersComUrl + "/communication/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -59,10 +59,10 @@ func UpdateProcessingStatusType(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func DeleteProcessingStatustype(entity interface{}) (bool, error) {
+func DeleteUserCommunication(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(processingTypeSatusUrl + "/delete")
+		Post(usersComUrl + "/communication/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

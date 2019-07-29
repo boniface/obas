@@ -2,6 +2,7 @@ package io
 
 import (
 	"github.com/stretchr/testify/assert"
+	domain "obas/src/domain/subjects"
 	"testing"
 )
 
@@ -13,28 +14,31 @@ func TestGetMatricSubjects(t *testing.T) {
 }
 
 func TestGetMatricSubject(t *testing.T) {
-	expected := ""
+	expected := "THIDJ"
 	result, err := GetMatricSubject("")
 	assert.Nil(t, err)
-	assert.Equal(t, expected, result)
+	assert.Equal(t, expected, result.Description)
 
 }
 
 func TestCreateMatricSubject(t *testing.T) {
-	result, err := CreateMatricSubject("")
+	sub := domain.MatricSubjects{"DS04", "MATH", "MATH", "FIRST"}
+	result, err := CreateMatricSubject(sub)
 	assert.Nil(t, err)
 	assert.True(t, result)
 
 }
 
 func TestUpdateMatricSubject(t *testing.T) {
-	result, err := UpdateMatricSubject("")
+	sub := domain.MatricSubjects{"M023", "PHYSICS", "PHYSICS", "FIRST"}
+	result, err := UpdateMatricSubject(sub)
 	assert.Nil(t, err)
 	assert.True(t, result)
 }
 
 func TestDeleteMatricSubject(t *testing.T) {
-	result, err := DeleteMatricSubject("")
+	sub := domain.MatricSubjects{"M023", "PHYSICS", "PHYSICS", "FIRST"}
+	result, err := DeleteMatricSubject(sub)
 	assert.Nil(t, err)
 	assert.True(t, result)
 
