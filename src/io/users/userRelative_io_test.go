@@ -15,8 +15,8 @@ func TestGetUserRelatives(t *testing.T) {
 }
 
 func TestGetUserRelative(t *testing.T) {
-	expected := "JEAN"
-	result, err := GetUserRelative("7896541230")
+	expected := "AJ"
+	result, err := GetUserRelative("1")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)
 	assert.Equal(t, expected, result.Name)
@@ -33,7 +33,7 @@ func TestCreateUserRelative(t *testing.T) {
 }
 
 func TestUpdateUserRelative(t *testing.T) {
-	relative := domain.UserRelative{"36", "JOSH", "073321456850", "BROTHERS", "acl@gogo.com"}
+	relative := domain.UserRelative{"36", "JOSH4", "173321456850", "MARRIED", "acl@gogo.com"}
 	result, err := UpdateUserRelative(relative)
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)
@@ -41,7 +41,7 @@ func TestUpdateUserRelative(t *testing.T) {
 }
 
 func TestDeleteUserRelative(t *testing.T) {
-	relative := domain.UserRelative{"m@gt.com", "JEAN", "PAUL", "MATUTO", "m@h.com"}
+	relative := domain.UserRelative{"36", "JOSH", "073321456850", "BROTHERS", "acl@gogo.com"}
 	result, err := DeleteUserRelative(relative)
 	assert.Nil(t, err)
 	assert.True(t, result)

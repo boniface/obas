@@ -2,6 +2,7 @@ package io
 
 import (
 	"errors"
+	"fmt"
 	"obas/src/api"
 	domain "obas/src/domain/users"
 )
@@ -12,9 +13,10 @@ type UsersPwd domain.UserPassword
 
 func GetUserPasswords() ([]UsersPwd, error) {
 	entites := []UsersPwd{}
-	resp, _ := api.Rest().Get(usersPwdUrl + "/password/all")
+	resp, serverEr := api.Rest().Get(usersPwdUrl + "/password/all")
 
 	if resp.IsError() {
+		fmt.Println(" Is request from Server Okay", serverEr)
 		return entites, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entites)

@@ -27,7 +27,6 @@ func TestCreateUserResults(t *testing.T) {
 	uResults := domain.UserResults{"12", "PASS"}
 	result, err := CreateUserResults(uResults)
 	assert.Nil(t, err)
-	fmt.Println(" The Results", result)
 	assert.True(t, result)
 
 }

@@ -15,16 +15,16 @@ func TestGetUserDemographics(t *testing.T) {
 }
 
 func TestGetUserDemographic(t *testing.T) {
-	expected := "25"
-	result, err := GetUserDemographic("56")
+	expected := "genderTest"
+	result, err := GetUserDemographic("1")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)
-	assert.Equal(t, expected, result.UserDemographicsId)
+	assert.Equal(t, expected, result.GenderId)
 
 }
 
 func TestCreateUserDemographics(t *testing.T) {
-	userDemo := domain.UserDemographics{"56", "25", "86"}
+	userDemo := domain.UserDemographics{"516", "215", "826"}
 	result, err := CreateUserDemographics(userDemo)
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)

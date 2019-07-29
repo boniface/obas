@@ -15,15 +15,15 @@ func TestGetUserCommunications(t *testing.T) {
 }
 
 func TestGetUserCommunication(t *testing.T) {
-	expected := "COURIER"
-	value, err := GetUserCommunication("42")
+	expected := "EMAILS"
+	value, err := GetUserCommunication("63")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
 	assert.Equal(t, value.Description, expected)
 }
 
 func TestCreateUserCommunication(t *testing.T) {
-	uCom := domain.UserCommunication{"63", "EMAILS"}
+	uCom := domain.UserCommunication{"65", "POSTAL"}
 	value, err := CreateUserCommunication(uCom)
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
@@ -31,7 +31,7 @@ func TestCreateUserCommunication(t *testing.T) {
 }
 
 func TestUpdateUserCommunication(t *testing.T) {
-	uCom := domain.UserCommunication{"63", "EMAILS"}
+	uCom := domain.UserCommunication{"75", "PTBOX"}
 	value, err := UpdateUserCommunication(uCom)
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)

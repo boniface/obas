@@ -2,21 +2,19 @@ package io
 
 import (
 	"errors"
-	"fmt"
 	"obas/src/api"
 	domain "obas/src/domain/users"
 )
 
-const userRelUrl = api.BASE_URL + "/users"
+const userSubUrl = api.BASE_URL + "/users"
 
-type uRelative domain.UserRelative
+type uSubjects domain.UserSubjects
 
-func GetUserRelatives() ([]uRelative, error) {
-	entites := []uRelative{}
-	resp, serverEr := api.Rest().Get(userRelUrl + "/relative/all")
+func GetUserSubjects() ([]uSubjects, error) {
+	entites := []uSubjects{}
+	resp, _ := api.Rest().Get(userSubUrl + "/subjects/all")
 
 	if resp.IsError() {
-		fmt.Println(" Is request from Server Okay", serverEr)
 		return entites, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entites)
@@ -26,9 +24,9 @@ func GetUserRelatives() ([]uRelative, error) {
 	return entites, nil
 }
 
-func GetUserRelative(id string) (uRelative, error) {
-	entity := uRelative{}
-	resp, _ := api.Rest().Get(userRelUrl + "/relative/get/" + id)
+func GetUserSubject(id string) (uSubjects, error) {
+	entity := uSubjects{}
+	resp, _ := api.Rest().Get(userSubUrl + "/subjects/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -39,10 +37,10 @@ func GetUserRelative(id string) (uRelative, error) {
 	return entity, nil
 }
 
-func CreateUserRelative(entity interface{}) (bool, error) {
+func CreateUserSubject(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(userRelUrl + "/relative/create")
+		Post(userSubUrl + "/subjects/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -50,10 +48,10 @@ func CreateUserRelative(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateUserRelative(entity interface{}) (bool, error) {
+func UpdateUserSubject(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(userRelUrl + "/relative/update")
+		Post(userSubUrl + "/subjects/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -61,10 +59,10 @@ func UpdateUserRelative(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func DeleteUserRelative(entity interface{}) (bool, error) {
+func DeleteUserSubject(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(userRelUrl + "/relative/delete")
+		Post(userSubUrl + "/subjects/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

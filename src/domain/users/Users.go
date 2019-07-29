@@ -54,7 +54,7 @@ type UserInstitution struct {
 }
 
 type UserPassword struct {
-	UserId   string `json:"userId"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
@@ -67,8 +67,8 @@ type UserRelative struct {
 }
 
 type UserResults struct {
-	UserResultId string `json:"userResultId"`
-	Description  string `json:"description"`
+	UserResultsId string `json:"userResultsId"`
+	Description   string `json:"description"`
 }
 
 type UserRole struct {
