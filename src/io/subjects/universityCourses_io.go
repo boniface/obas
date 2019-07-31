@@ -6,13 +6,13 @@ import (
 	domain "obas/src/domain/subjects"
 )
 
-const universityCoursesUrl = api.BASE_URL + "/subjects"
+const univCourseUrl = api.BASE_URL + "/subjects"
 
 type UniversityCourses domain.UniversityCourses
 
 func GetUniversityCourses() ([]UniversityCourses, error) {
 	entites := []UniversityCourses{}
-	resp, _ := api.Rest().Get(universityCoursesUrl + "/university/all")
+	resp, _ := api.Rest().Get(univCourseUrl + "/university/all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -26,7 +26,7 @@ func GetUniversityCourses() ([]UniversityCourses, error) {
 
 func GetUniversityCourse(id string) (UniversityCourses, error) {
 	entity := UniversityCourses{}
-	resp, _ := api.Rest().Get(universityCoursesUrl + "/university/get/" + id)
+	resp, _ := api.Rest().Get(univCourseUrl + "/university/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -40,7 +40,7 @@ func GetUniversityCourse(id string) (UniversityCourses, error) {
 func CreateUniversityCourses(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(universityCoursesUrl + "/university/create")
+		Post(univCourseUrl + "/university/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -51,7 +51,7 @@ func CreateUniversityCourses(entity interface{}) (bool, error) {
 func UpdateUniversityCourses(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(universityCoursesUrl + "/university/update")
+		Post(univCourseUrl + "/university/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -62,7 +62,7 @@ func UpdateUniversityCourses(entity interface{}) (bool, error) {
 func DeleteUniversityCourses(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(universityCoursesUrl + "/university/delete")
+		Post(univCourseUrl + "/university/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
