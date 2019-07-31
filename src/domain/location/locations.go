@@ -16,11 +16,11 @@ type ContactType struct {
 }
 
 type Location struct {
-	LocationId   string       `json:"locationId"`
-	Name         string       `json:"Name"`
-	LocationType LocationType `json:"locationType"`
-	Latitude     string       `json:"Latitude"`
-	Longitude    string       `json:"Longitude"`
-	ParentId     string       `json:"parentId"`
+	LocationId     string `json:"locationId"`
+	Name           string `json:"name"`
+	LocationTypeId string `json:"locationTypeId"`
+	Latitude       string `json:"latitude"`
+	Longitude      string `json:"longitude"`
+	ParentId       string `json:"parentId"`
 	//Children     []Location   `json:"Children"`
 }
