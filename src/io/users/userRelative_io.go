@@ -2,19 +2,21 @@ package io
 
 import (
 	"errors"
+	"fmt"
 	"obas/src/api"
 	domain "obas/src/domain/users"
 )
 
-const studentDemographicsUrl = api.BASE_URL + "/users"
+const userRelUrl = api.BASE_URL + "/users"
 
-type StudentDemographics domain.StudentDemographics
+type uRelative domain.UserRelative
 
-func GetStudentDemographics() ([]domain.StudentDemographics, error) {
-	entites := []domain.StudentDemographics{}
-	resp, _ := api.Rest().Get(studentDemographicsUrl + "/all")
+func GetUserRelatives() ([]uRelative, error) {
+	entites := []uRelative{}
+	resp, serverEr := api.Rest().Get(userRelUrl + "/relative/all")
 
 	if resp.IsError() {
+		fmt.Println(" Is request from Server Okay", serverEr)
 		return entites, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entites)
@@ -24,9 +26,9 @@ func GetStudentDemographics() ([]domain.StudentDemographics, error) {
 	return entites, nil
 }
 
-func GetStudentDemographic(id string) (domain.StudentDemographics, error) {
-	entity := domain.StudentDemographics{}
-	resp, _ := api.Rest().Get(studentDemographicsUrl + "/get/" + id)
+func GetUserRelative(id string) (uRelative, error) {
+	entity := uRelative{}
+	resp, _ := api.Rest().Get(userRelUrl + "/relative/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -37,10 +39,10 @@ func GetStudentDemographic(id string) (domain.StudentDemographics, error) {
 	return entity, nil
 }
 
-func CreateStudentDemographics(entity interface{}) (bool, error) {
+func CreateUserRelative(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(studentDemographicsUrl + "/create")
+		Post(userRelUrl + "/relative/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -48,10 +50,10 @@ func CreateStudentDemographics(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateStudentDemographics(entity interface{}) (bool, error) {
+func UpdateUserRelative(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(studentDemographicsUrl + "/update")
+		Post(userRelUrl + "/relative/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -59,10 +61,10 @@ func UpdateStudentDemographics(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func DeleteStudentDemographics(entity interface{}) (bool, error) {
+func DeleteUserRelative(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(studentDemographicsUrl + "/delete")
+		Post(userRelUrl + "/relative/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

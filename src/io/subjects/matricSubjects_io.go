@@ -12,7 +12,7 @@ type MatricSubjects domain.MatricSubjects
 
 func GetMatricSubjects() ([]MatricSubjects, error) {
 	entites := []MatricSubjects{}
-	resp, _ := api.Rest().Get(matricSubjectUrl + "/all")
+	resp, _ := api.Rest().Get(matricSubjectUrl + "/matric/all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -26,7 +26,7 @@ func GetMatricSubjects() ([]MatricSubjects, error) {
 
 func GetMatricSubject(id string) (MatricSubjects, error) {
 	entity := MatricSubjects{}
-	resp, _ := api.Rest().Get(matricSubjectUrl + "/get/" + id)
+	resp, _ := api.Rest().Get(matricSubjectUrl + "/matric/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -40,7 +40,7 @@ func GetMatricSubject(id string) (MatricSubjects, error) {
 func CreateMatricSubject(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(matricSubjectUrl + "/create")
+		Post(matricSubjectUrl + "/matric/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -51,7 +51,7 @@ func CreateMatricSubject(entity interface{}) (bool, error) {
 func UpdateMatricSubject(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(matricSubjectUrl + "/update")
+		Post(matricSubjectUrl + "/matric/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -63,7 +63,7 @@ func DeleteMatricSubject(entity interface{}) (bool, error) {
 
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(matricSubjectUrl + "/delete")
+		Post(matricSubjectUrl + "/matric/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

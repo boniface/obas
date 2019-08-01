@@ -11,6 +11,7 @@ func Mails(app *config.Env) http.Handler {
 	r.Get("/", MailsHandler(app))
 	r.Get("/mailconfig", MailConfigHandler(app))
 	r.Get("/smtpconfig", SmtpConfigHandler(app))
+	r.Get("/mailapi", MailApiHandler(app))
 	return r
 }
 

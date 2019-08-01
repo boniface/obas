@@ -2,19 +2,21 @@ package io
 
 import (
 	"errors"
+	"fmt"
 	"obas/src/api"
-	domain "obas/src/domain/registration"
+	domain "obas/src/domain/users"
 )
 
-const registerUrl = api.BASE_URL + "/registration"
+const userRoleUrl = api.BASE_URL + "/users"
 
-type Register domain.Register
+type uRole domain.UserRole
 
-func GetRegisters() ([]Register, error) {
-	entites := []Register{}
-	resp, _ := api.Rest().Get(registerUrl + "/all")
+func GetUserRoles() ([]uRole, error) {
+	entites := []uRole{}
+	resp, serverEr := api.Rest().Get(userRoleUrl + "/role/all")
 
 	if resp.IsError() {
+		fmt.Println(" Is request from Server Okay", serverEr, resp)
 		return entites, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entites)
@@ -24,9 +26,9 @@ func GetRegisters() ([]Register, error) {
 	return entites, nil
 }
 
-func GetRegister(id string) (Register, error) {
-	entity := Register{}
-	resp, _ := api.Rest().Get(registerUrl + "/get/" + id)
+func GetUserRole(id string) (uRole, error) {
+	entity := uRole{}
+	resp, _ := api.Rest().Get(userRoleUrl + "/role/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -37,10 +39,10 @@ func GetRegister(id string) (Register, error) {
 	return entity, nil
 }
 
-func CreateRegister(entity interface{}) (bool, error) {
+func CreateUserRole(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(registerUrl + "/create")
+		Post(userRoleUrl + "/role/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -48,10 +50,10 @@ func CreateRegister(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateRegister(entity interface{}) (bool, error) {
+func UpdateUserRole(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(registerUrl + "/update")
+		Post(userRoleUrl + "/role/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -59,10 +61,10 @@ func UpdateRegister(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func DeleteRegister(entity interface{}) (bool, error) {
+func DeleteUserRole(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(registerUrl + "/delete")
+		Post(userRoleUrl + "/role/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

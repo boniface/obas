@@ -6,13 +6,13 @@ import (
 	domain "obas/src/domain/users"
 )
 
-const usersUrl = api.BASE_URL + "/users"
+const userResultUrl = api.BASE_URL + "/users"
 
-type Users domain.Users
+type uResults domain.UserResults
 
-func GetUsers() ([]Users, error) {
-	entites := []Users{}
-	resp, _ := api.Rest().Get(usersUrl + "/all")
+func GetUserResults() ([]uResults, error) {
+	entites := []uResults{}
+	resp, _ := api.Rest().Get(userResultUrl + "/results/all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -24,9 +24,9 @@ func GetUsers() ([]Users, error) {
 	return entites, nil
 }
 
-func GetUser(id string) (Users, error) {
-	entity := Users{}
-	resp, _ := api.Rest().Get(usersUrl + "/get/" + id)
+func GetUserResult(id string) (uResults, error) {
+	entity := uResults{}
+	resp, _ := api.Rest().Get(userResultUrl + "/results/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -37,10 +37,10 @@ func GetUser(id string) (Users, error) {
 	return entity, nil
 }
 
-func CreateUser(entity interface{}) (bool, error) {
+func CreateUserResults(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(usersUrl + "/create")
+		Post(userResultUrl + "/results/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -48,10 +48,10 @@ func CreateUser(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateUser(entity interface{}) (bool, error) {
+func UpdateUserResults(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(usersUrl + "/update")
+		Post(userResultUrl + "/results/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -59,10 +59,10 @@ func UpdateUser(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func DeleteUser(entity interface{}) (bool, error) {
+func DeleteUserResults(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(usersUrl + "/delete")
+		Post(userResultUrl + "/results/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

@@ -2,18 +2,21 @@ package io
 
 import (
 	"errors"
+	"fmt"
 	"obas/src/api"
-	domain "obas/src/domain/location"
+	domain "obas/src/domain/users"
 )
 
-const locationTypeUrl = api.BASE_URL + "/location"
+const usersPwdUrl = api.BASE_URL + "/users"
 
-type LocationType domain.LocationType
+type UsersPwd domain.UserPassword
 
-func GetLocationTypes() ([]domain.LocationType, error) {
-	entites := []domain.LocationType{}
-	resp, _ := api.Rest().Get(locationTypeUrl + "/type/all")
+func GetUserPasswords() ([]UsersPwd, error) {
+	entites := []UsersPwd{}
+	resp, serverEr := api.Rest().Get(usersPwdUrl + "/password/all")
+
 	if resp.IsError() {
+		fmt.Println(" Is request from Server Okay", serverEr)
 		return entites, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entites)
@@ -23,9 +26,9 @@ func GetLocationTypes() ([]domain.LocationType, error) {
 	return entites, nil
 }
 
-func GetLocationType(id string) (domain.LocationType, error) {
-	entity := domain.LocationType{}
-	resp, _ := api.Rest().Get(locationTypeUrl + "/type/get/" + id)
+func GetUserPassword(id string) (UsersPwd, error) {
+	entity := UsersPwd{}
+	resp, _ := api.Rest().Get(usersPwdUrl + "/password/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -35,10 +38,11 @@ func GetLocationType(id string) (domain.LocationType, error) {
 	}
 	return entity, nil
 }
-func CreateLocationType(entity interface{}) (bool, error) {
+
+func CreateUserPassword(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(locationTypeUrl + "/type/create")
+		Post(usersPwdUrl + "/password/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -46,10 +50,10 @@ func CreateLocationType(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateLocationType(entity interface{}) (bool, error) {
+func UpdateUserPassword(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(locationTypeUrl + "/type/update")
+		Post(usersPwdUrl + "/password/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -57,12 +61,13 @@ func UpdateLocationType(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func DeleteLocationType(entity interface{}) (bool, error) {
+func DeleteUserPassword(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(locationTypeUrl + "/type/delete")
+		Post(usersPwdUrl + "/password/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
+
 	return true, nil
 }

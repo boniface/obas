@@ -4,66 +4,11 @@ import (
 	"time"
 )
 
-type Student struct {
-	Email     string `json:"email"`
-	FirstName string `json:"firstName"`
-	Surname   string `json:"surname"`
-	Identity  string `json:"identity"`
-}
-
-type StudentAddress struct {
-	Email           string            `json:"Email"`
-	PhysicalAddress string            `json:"PhysicalAddress"`
-	City            location.Location `json:"City"`
-}
-
-type StudentContacts struct {
-}
-
-type StudentDemographics struct {
-}
-
-type StudentResults struct {
-}
-
-type StudentProfile struct {
-}
-type StudentApplicationStatus struct {
-	Email  string    `json:"Email"`
-	Date   time.Time `json:"Date"`
-	Status string    `json:"Status"`
-}
-
-type ProcessingStatusType struct {
-	Id   string `json:"Id"`
-	Name string `json:"Name"`
-}
-
-type StudentDocuments struct {
-	Email        string       `json:"Email"`
-	DocumentType DocumentType `json:"DocumentType"`
-	Description  string       `json:"Description"`
-	DocumentUrl  string       `json:"DocumentUrl"`
-}
-
-type DocumentType struct {
-	Id   string `json:"Id"`
-	Type string `json:"Type"`
-}
-
-type Admin struct {
-	Email string    `json:"Email"`
-	Role  AdminRole `json:"Role"`
-}
-
-type AdminRole struct {
-}
-
-type Users struct {
+type User struct {
 	Email       string    `json:"email"`
 	FirstName   string    `json:"firstName"`
 	MiddleName  string    `json:"middleName"`
-	lastName    string    `json:"lastName"`
+	LastName    string    `json:"lastName"`
 	DateOfBirth time.Time `json:"dateOfBirth"`
 }
 
@@ -109,7 +54,7 @@ type UserInstitution struct {
 }
 
 type UserPassword struct {
-	UserId   string `json:"userId"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
@@ -121,9 +66,9 @@ type UserRelative struct {
 	Email          string `json:"email"`
 }
 
-type UserResult struct {
-	UserResultId string `json:"userResultId"`
-	Description  string `json:"description"`
+type UserResults struct {
+	UserResultsId string `json:"userResultsId"`
+	Description   string `json:"description"`
 }
 
 type UserRole struct {

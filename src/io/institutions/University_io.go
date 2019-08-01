@@ -12,7 +12,7 @@ type Universitys domain.University
 
 func GetUniversitys() ([]domain.University, error) {
 	entites := []domain.University{}
-	resp, _ := api.Rest().Get(universityUrl + "/all")
+	resp, _ := api.Rest().Get(universityUrl + "/university/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
@@ -25,7 +25,7 @@ func GetUniversitys() ([]domain.University, error) {
 
 func GetUniversity(id string) (domain.University, error) {
 	entity := domain.University{}
-	resp, _ := api.Rest().Get(universityUrl + "/get/" + id)
+	resp, _ := api.Rest().Get(universityUrl + "/university/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -39,7 +39,7 @@ func GetUniversity(id string) (domain.University, error) {
 func CreateUniversity(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(universityUrl + "/create")
+		Post(universityUrl + "/university/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -50,7 +50,7 @@ func CreateUniversity(entity interface{}) (bool, error) {
 func UpdateUniversity(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(universityUrl + "/update")
+		Post(universityUrl + "/university/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -62,7 +62,7 @@ func DeleteUniversity(entity interface{}) (bool, error) {
 
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(universityUrl + "/delete")
+		Post(universityUrl + "/university/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

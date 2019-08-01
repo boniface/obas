@@ -6,13 +6,13 @@ import (
 	domain "obas/src/domain/users"
 )
 
-const processingTypeSatusUrl = api.BASE_URL + "/users"
+const userDocUrl = api.BASE_URL + "/users"
 
-type ProcessingStatusType domain.ProcessingStatusType
+type UserDocuments domain.UserDocuments
 
-func GetProcessingStatusTypes() ([]ProcessingStatusType, error) {
-	entites := []ProcessingStatusType{}
-	resp, _ := api.Rest().Get(processingTypeSatusUrl + "/all")
+func GetUserDocuments() ([]UserDocuments, error) {
+	entites := []UserDocuments{}
+	resp, _ := api.Rest().Get(userDocUrl + "/documents/all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -24,9 +24,9 @@ func GetProcessingStatusTypes() ([]ProcessingStatusType, error) {
 	return entites, nil
 }
 
-func GetProcessingStatusType(id string) (ProcessingStatusType, error) {
-	entity := ProcessingStatusType{}
-	resp, _ := api.Rest().Get(processingTypeSatusUrl + "/get/" + id)
+func GetUserDocument(id string) (UserDocuments, error) {
+	entity := UserDocuments{}
+	resp, _ := api.Rest().Get(userDocUrl + "/documents/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -37,10 +37,10 @@ func GetProcessingStatusType(id string) (ProcessingStatusType, error) {
 	return entity, nil
 }
 
-func CreateProcessingStatusType(entity interface{}) (bool, error) {
+func CreateUserDocument(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(processingTypeSatusUrl + "/create")
+		Post(userDocUrl + "/documents/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -48,10 +48,10 @@ func CreateProcessingStatusType(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateProcessingStatusType(entity interface{}) (bool, error) {
+func UpdateUserDocument(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(processingTypeSatusUrl + "/update")
+		Post(userDocUrl + "/documents/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -59,10 +59,10 @@ func UpdateProcessingStatusType(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func DeleteProcessingStatustype(entity interface{}) (bool, error) {
+func DeleteUserDocument(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(processingTypeSatusUrl + "/delete")
+		Post(userDocUrl + "/documents/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

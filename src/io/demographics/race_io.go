@@ -26,7 +26,7 @@ func GetRaces() ([]domain.Race, error) {
 
 func GetRace(id string) (domain.Race, error) {
 	entity := domain.Race{}
-	resp, _ := api.Rest().Get(raceUrl + "/get/" + id)
+	resp, _ := api.Rest().Get(raceUrl + "/race/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -40,7 +40,7 @@ func GetRace(id string) (domain.Race, error) {
 func CreateRace(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(raceUrl + "/create")
+		Post(raceUrl + "/race/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -51,7 +51,7 @@ func CreateRace(entity interface{}) (bool, error) {
 func UpdateRace(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(raceUrl + "/update")
+		Post(raceUrl + "/race/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -62,7 +62,7 @@ func UpdateRace(entity interface{}) (bool, error) {
 func DeleteRace(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(raceUrl + "/delete")
+		Post(raceUrl + "/race/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

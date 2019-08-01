@@ -12,7 +12,7 @@ type ApplicationResult domain.ApplicationResult
 
 func GetApplicationResults() ([]ApplicationResult, error) {
 	entites := []ApplicationResult{}
-	resp, _ := api.Rest().Get(applicationResultUrl + "/status/all")
+	resp, _ := api.Rest().Get(applicationResultUrl + "/result/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
@@ -25,7 +25,7 @@ func GetApplicationResults() ([]ApplicationResult, error) {
 
 func GetApplicationResult(id string) (ApplicationResult, error) {
 	entity := ApplicationResult{}
-	resp, _ := api.Rest().Get(applicationResultUrl + "/get/" + id)
+	resp, _ := api.Rest().Get(applicationResultUrl + "/result/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -39,7 +39,7 @@ func GetApplicationResult(id string) (ApplicationResult, error) {
 func CreateApplicationResult(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(applicationResultUrl + "/status/create")
+		Post(applicationResultUrl + "/result/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -49,7 +49,7 @@ func CreateApplicationResult(entity interface{}) (bool, error) {
 func UpdateApplicationResult(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(applicationResultUrl + "/status/update")
+		Post(applicationResultUrl + "/result/update")
 	if resp.IsError() {
 		return true, nil
 	}
@@ -58,7 +58,7 @@ func UpdateApplicationResult(entity interface{}) (bool, error) {
 func DeleteApplicationResult(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(applicationResultUrl + "/status/delete")
+		Post(applicationResultUrl + "/result/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

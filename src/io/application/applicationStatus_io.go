@@ -12,7 +12,7 @@ type ApplicationStatus domain.ApplicationStatus
 
 func GetApplicationStatuses() ([]ApplicationStatus, error) {
 	entites := []ApplicationStatus{}
-	resp, _ := api.Rest().Get(applicationStatusUrl + "/all")
+	resp, _ := api.Rest().Get(applicationStatusUrl + "/status/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
@@ -25,7 +25,7 @@ func GetApplicationStatuses() ([]ApplicationStatus, error) {
 
 func GetApplicationStatus(id string) (ApplicationStatus, error) {
 	entity := ApplicationStatus{}
-	resp, _ := api.Rest().Get(applicationStatusUrl + "/get/" + id)
+	resp, _ := api.Rest().Get(applicationStatusUrl + "/status/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -39,7 +39,7 @@ func GetApplicationStatus(id string) (ApplicationStatus, error) {
 func CreateApplicationStatus(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(applicationStatusUrl + "/create")
+		Post(applicationStatusUrl + "/status/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -49,7 +49,7 @@ func CreateApplicationStatus(entity interface{}) (bool, error) {
 func UpdateApplicationStatus(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(applicationStatusUrl + "/update")
+		Post(applicationStatusUrl + "/status/update")
 	if resp.IsError() {
 		return true, nil
 	}
@@ -58,7 +58,7 @@ func UpdateApplicationStatus(entity interface{}) (bool, error) {
 func DeleteApplicationStatus(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(applicationStatusUrl + "/delete")
+		Post(applicationStatusUrl + "/status/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

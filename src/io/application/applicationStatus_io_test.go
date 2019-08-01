@@ -3,6 +3,7 @@ package io
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	domain "obas/src/domain/application"
 	"testing"
 )
 
@@ -15,24 +16,29 @@ func TestGetApplicationStatuses(t *testing.T) {
 }
 
 func TestGetApplicationStatus(t *testing.T) {
-	expected := ""
-	value, err := GetApplicationResult("")
+	expected := "Pending"
+	value, err := GetApplicationResult("212")
 	assert.Nil(t, err)
-	assert.Equal(t, value, expected)
+	fmt.Println(" The Results", value)
+	assert.Equal(t, value.Date, expected)
 }
 
 func TestCreateApplicationStatus(t *testing.T) {
-	value, err := CreateApplicationStatus("")
+	appType := domain.ApplicationStatus{"212", "Pending", "2020"}
+	value, err := CreateApplicationStatus(appType)
 	assert.Nil(t, err)
 	assert.True(t, value)
 }
 func TestUpdateApplicationStatus(t *testing.T) {
-	value, err := UpdateApplicationStatus("")
+	appType := domain.ApplicationStatus{"212", "Pending", "2020"}
+	value, err := UpdateApplicationStatus(appType)
 	assert.Nil(t, err)
+	fmt.Println(" The Results", value)
 	assert.True(t, value)
 }
 func TestDeleteApplicationStatus(t *testing.T) {
-	value, err := DeleteApplicationStatus("")
+	appType := domain.ApplicationStatus{"212", "Pending", "2020"}
+	value, err := DeleteApplicationStatus(appType)
 	assert.Nil(t, err)
 	assert.True(t, value)
 }

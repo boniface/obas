@@ -2,17 +2,19 @@ package io
 
 import (
 	"errors"
+	"fmt"
 	"obas/src/api"
-	domain "obas/src/domain/location"
+	domain "obas/src/domain/users"
 )
 
-const locationTypeUrl = api.BASE_URL + "/location"
+const userSubUrl = api.BASE_URL + "/users"
 
-type LocationType domain.LocationType
+type uSubjects domain.UserSubjects
 
-func GetLocationTypes() ([]domain.LocationType, error) {
-	entites := []domain.LocationType{}
-	resp, _ := api.Rest().Get(locationTypeUrl + "/type/all")
+func GetUserSubjects() ([]uSubjects, error) {
+	entites := []uSubjects{}
+	resp, _ := api.Rest().Get(userSubUrl + "/subjects/all")
+
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
@@ -23,9 +25,9 @@ func GetLocationTypes() ([]domain.LocationType, error) {
 	return entites, nil
 }
 
-func GetLocationType(id string) (domain.LocationType, error) {
-	entity := domain.LocationType{}
-	resp, _ := api.Rest().Get(locationTypeUrl + "/type/get/" + id)
+func GetUserSubject(id string) (uSubjects, error) {
+	entity := uSubjects{}
+	resp, _ := api.Rest().Get(userSubUrl + "/subjects/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -35,10 +37,11 @@ func GetLocationType(id string) (domain.LocationType, error) {
 	}
 	return entity, nil
 }
-func CreateLocationType(entity interface{}) (bool, error) {
+
+func CreateUserSubject(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(locationTypeUrl + "/type/create")
+		Post(userSubUrl + "/subjects/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -46,23 +49,25 @@ func CreateLocationType(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateLocationType(entity interface{}) (bool, error) {
-	resp, _ := api.Rest().
+func UpdateUserSubject(entity interface{}) (bool, error) {
+	resp, serverEr := api.Rest().
 		SetBody(entity).
-		Post(locationTypeUrl + "/type/update")
+		Post(userSubUrl + "/subjects/update")
 	if resp.IsError() {
+		fmt.Println(" Is request from Server Okay", serverEr)
 		return false, errors.New(resp.Status())
 	}
 
 	return true, nil
 }
 
-func DeleteLocationType(entity interface{}) (bool, error) {
+func DeleteUserSubject(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(locationTypeUrl + "/type/delete")
+		Post(userSubUrl + "/subjects/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
+
 	return true, nil
 }

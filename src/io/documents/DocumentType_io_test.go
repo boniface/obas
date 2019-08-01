@@ -3,37 +3,43 @@ package io
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	domain "obas/src/domain/documents"
 	"testing"
 )
 
 func TestGetDocumentTypes(t *testing.T) {
-	value, err := GetDocumentTy + pes()
+	value, err := GetDocumentTypes()
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
 	assert.True(t, len(value) > 0)
 }
 
 func TestGetDocumentsType(t *testing.T) {
-	expected := ""
-	value, err := GetDocument("")
+	expected := "COURSES"
+	value, err := GetDocument("2")
 	assert.Nil(t, err)
+	fmt.Println(" The Results", value)
 	assert.Equal(t, value, expected)
 }
 
 func TestCreateDocumentTypes(t *testing.T) {
-	value, err := CreateDocument("")
+	docType := domain.DocumentType{"2", "COURSES"}
+	value, err := CreateDocument(docType)
 	assert.Nil(t, err)
 	assert.True(t, value)
 }
 
 func TestUpdateDocumentTypes(t *testing.T) {
-	value, err := UpdateDocument("")
+	docType := domain.DocumentType{"2", "COURSES"}
+	value, err := UpdateDocument(docType)
 	assert.Nil(t, err)
+	fmt.Println(" The Results", value)
 	assert.True(t, value)
 }
 
 func TestDeleteDocumentTypes(t *testing.T) {
-	value, err := DeleteDocument("")
+	docType := domain.DocumentType{"2", "COURSES"}
+	value, err := DeleteDocumentType(docType)
 	assert.Nil(t, err)
 	assert.True(t, value)
 }

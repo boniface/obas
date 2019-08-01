@@ -6,13 +6,13 @@ import (
 	domain "obas/src/domain/users"
 )
 
-const studentProfileUrl = api.BASE_URL + "/users"
+const userIntUrl = api.BASE_URL + "/users"
 
-type StudentProfiles domain.StudentProfile
+type UsersInt domain.UserInstitution
 
-func GetStudentProfiles() ([]domain.StudentProfile, error) {
-	entites := []domain.StudentProfile{}
-	resp, _ := api.Rest().Get(studentProfileUrl + "/all")
+func GetUserIntstitutions() ([]UsersInt, error) {
+	entites := []UsersInt{}
+	resp, _ := api.Rest().Get(userIntUrl + "/institution/all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -24,9 +24,9 @@ func GetStudentProfiles() ([]domain.StudentProfile, error) {
 	return entites, nil
 }
 
-func GetStudentProfile(id string) (domain.StudentProfile, error) {
-	entity := domain.StudentProfile{}
-	resp, _ := api.Rest().Get(studentProfileUrl + "/get/" + id)
+func GetUserIntstitution(id string) (UsersInt, error) {
+	entity := UsersInt{}
+	resp, _ := api.Rest().Get(userIntUrl + "/institution/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -37,10 +37,10 @@ func GetStudentProfile(id string) (domain.StudentProfile, error) {
 	return entity, nil
 }
 
-func CreateStudentProfiles(entity interface{}) (bool, error) {
+func CreateUserIntstitution(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(studentProfileUrl + "/create")
+		Post(userIntUrl + "/institution/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -48,10 +48,10 @@ func CreateStudentProfiles(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateStudentProfiles(entity interface{}) (bool, error) {
+func UpdateUserIntstitution(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(studentProfileUrl + "/update")
+		Post(userIntUrl + "/institution/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -59,10 +59,10 @@ func UpdateStudentProfiles(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func DeleteStudentProfiles(entity interface{}) (bool, error) {
+func DeleteUserIntstitution(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(studentProfileUrl + "/delete")
+		Post(userIntUrl + "/institution/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

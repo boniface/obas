@@ -6,13 +6,13 @@ import (
 	domain "obas/src/domain/users"
 )
 
-const studentDocumentsUrl = api.BASE_URL + "/users"
+const uDemographicsUrl = api.BASE_URL + "/users"
 
-type StudentDocuments domain.StudentDocuments
+type uDemographics domain.UserDemographics
 
-func GetStudentDocuments() ([]domain.StudentDocuments, error) {
-	entites := []domain.StudentDocuments{}
-	resp, _ := api.Rest().Get(studentDocumentsUrl + "/all")
+func GetUserDemographics() ([]uDemographics, error) {
+	entites := []uDemographics{}
+	resp, _ := api.Rest().Get(uDemographicsUrl + "/demographics/all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -24,9 +24,9 @@ func GetStudentDocuments() ([]domain.StudentDocuments, error) {
 	return entites, nil
 }
 
-func GetStudentDocument(id string) (domain.StudentDocuments, error) {
-	entity := domain.StudentDocuments{}
-	resp, _ := api.Rest().Get(studentDocumentsUrl + "/get/" + id)
+func GetUserDemographic(id string) (uDemographics, error) {
+	entity := uDemographics{}
+	resp, _ := api.Rest().Get(uDemographicsUrl + "/demographics/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -37,10 +37,10 @@ func GetStudentDocument(id string) (domain.StudentDocuments, error) {
 	return entity, nil
 }
 
-func CreateStudentDocuments(entity interface{}) (bool, error) {
+func CreateUserDemographics(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(studentDocumentsUrl + "/create")
+		Post(uDemographicsUrl + "/demographics/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -48,10 +48,10 @@ func CreateStudentDocuments(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateStudentDocuments(entity interface{}) (bool, error) {
+func UpdateUserDemographics(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(studentDocumentsUrl + "/update")
+		Post(uDemographicsUrl + "/demographics/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -59,10 +59,10 @@ func UpdateStudentDocuments(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func DeleteStudentDocuments(entity interface{}) (bool, error) {
+func DeleteUserDemographics(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(studentDocumentsUrl + "/delete")
+		Post(uDemographicsUrl + "/demographics/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

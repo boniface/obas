@@ -7,6 +7,8 @@ import (
 	"testing"
 )
 
+//var entity = domain.AddressType{AddressTypeID: "EMAIL", AddressName: "EMAIL ADDRESS"}
+
 func TestCreateAddressType(t *testing.T) {
 	addrType := domain.AddressType{"UBER", "UBER DRIVER"}
 	value, err := CreateAddressType(addrType)
@@ -14,10 +16,11 @@ func TestCreateAddressType(t *testing.T) {
 	assert.True(t, value)
 }
 func TestGetAddressType(t *testing.T) {
-	expected := ""
-	value, err := GetAddressType("")
+	expected := "UBER DRIVER"
+	value, err := GetAddressType("UBER")
 	assert.Nil(t, err)
-	assert.Equal(t, value, expected)
+	fmt.Println(" The Results", value)
+	assert.Equal(t, value.AddressName, expected)
 
 }
 func TestGetAddressTypes(t *testing.T) {
@@ -28,13 +31,15 @@ func TestGetAddressTypes(t *testing.T) {
 }
 
 func TestUpdateAddressType(t *testing.T) {
-	value, err := UpdateAddressType("")
+	addrType := domain.AddressType{"UBER", "UBER DRIVER"}
+	value, err := UpdateAddressType(addrType)
 	assert.Nil(t, err)
+	fmt.Println(" The Results", value)
 	assert.True(t, value)
 }
 
 func TestDeleteAddressType(t *testing.T) {
-	addrType := domain.AddressType{"SNAPCHAT", "SNAPCHAT HANDLE"}
+	addrType := domain.AddressType{"UBER", "UBER DRIVER"}
 	value, err := DeleteAddressType(addrType)
 	assert.Nil(t, err)
 	assert.True(t, value)

@@ -3,13 +3,14 @@ package io
 import (
 	"encoding/json"
 	"errors"
+	"net/mail"
 	"obas/src/api"
 )
 
 const roleurl = api.BASE_URL + "/login"
 
 type User users.User
-type MessageResponse mail.MessageResponse
+type MessageResponse mail.Message
 type UserGeneratedToken security.UserGeneratedToken
 type Account users.Account
 type Profile login.Profile
