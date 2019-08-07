@@ -17,6 +17,7 @@
     <link href="../assets/css/light-bootstrap-dashboard.css?v=2.0.1" rel="stylesheet"/>
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="../assets/css/demo.css" rel="stylesheet"/>
+    <link href="../assets/css/form.css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -31,7 +32,7 @@
             <div class="logo"
                  style="padding-left: 40px;padding-top: 0px;padding-bottom: 0px;background: #ffea00;height: 60px">
 
-                <a href="TechAdmin_dashboard.html" class="simple-text logo-normal">
+                <a href="Tech_dashboard.html" class="simple-text logo-normal">
 
                     <img src="../assets/img/Logo-04.png" alt="Logo"
                          style="width: 176px; height: 55px;alignment: center">
@@ -92,7 +93,7 @@
                         <ul class="nav">
                             <li class="nav-item ">
 
-                                <a class="nav-link" href="TechAdmin_user_View.html">
+                                <a class="nav-link" href="Tech_user_View.html">
 
                                     <span class="sidebar-mini">V</span>
                                     <span class="sidebar-normal">View Profile</span>
@@ -100,7 +101,7 @@
                             </li>
                             <li class="nav-item ">
 
-                                <a class="nav-link" href="TechAdmin_user.html">
+                                <a class="nav-link" href="Tech_user.html">
 
                                     <span class="sidebar-mini">E</span>
                                     <span class="sidebar-normal">Edit Profile</span>
@@ -112,7 +113,7 @@
                 </li>
                 <li class="nav-item ">
 
-                    <a class="nav-link" href="TechAdmin_dashboard.html">
+                    <a class="nav-link" href="Tech_dashboard.html">
 
                         <i class="nc-icon nc-chart-pie-35"></i>
                         <p>Dashboard</p>
@@ -138,7 +139,7 @@
                         <ul class="nav">
                             <li class="nav-item ">
 
-                                <a class="nav-link" href="TechAdminAdminApplication.html">
+                                <a class="nav-link" href="TechAdminApplication.html">
 
                                     <span class="sidebar-mini">A</span>
                                     <span class="sidebar-normal">Application</span>
@@ -146,7 +147,7 @@
                             </li>
                             <li class="nav-item ">
 
-                                <a class="nav-link" href="TechAdminAdminApplicant.html">
+                                <a class="nav-link" href="TechAdminApplicant.html">
 
                                     <span class="sidebar-mini">A</span>
                                     <span class="sidebar-normal">Applicant</span>
@@ -154,7 +155,7 @@
                             </li>
                             <li class="nav-item ">
 
-                                <a class="nav-link" href="TechAdminAdminRemove.html">
+                                <a class="nav-link" href="TechAdminRemove.html">
 
                                     <span class="sidebar-mini">R</span>
                                     <span class="sidebar-normal">Remove</span>
@@ -162,7 +163,7 @@
                             </li>
                             <li class="nav-item ">
 
-                                <a class="nav-link" href="TechAdminAdminDocuments.html">
+                                <a class="nav-link" href="TechAdminDocuments.html">
 
                                     <span class="sidebar-mini">D</span>
                                     <span class="sidebar-normal">Documents</span>
@@ -286,251 +287,168 @@
         </nav>
         <!-- End Navbar -->
         <div class="content">
+
             <div class="container-fluid">
-
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="card strpied-tabled-with-hover">
                             <div class="card-header ">
-                                <h4 class="card-title">Application Status</h4>
-
+                                <h4 class="card-title">Admin Dashboard</h4>
+                                <!-- <p class="card-category">Applicant</p> -->
                             </div>
                             <div class="card-body table-full-width table-responsive">
                                 <table class="table table-hover table-striped">
+                                    <p>
+                                    <h4 style="color: #000000">
+                                        <center>Applicants</center>
+                                    </h4>
+                                    </p>
                                     <thead>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Salary</th>
-                                    <th>Country</th>
-                                    <th>City</th>
+                                    <th>Select</th>
+                                    <th>Application Code</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Phone</th>
                                     </thead>
                                     <tbody>
                                     <tr>
                                         <td>1</td>
-                                        <td>Dakota Rice</td>
-                                        <td>$36,738</td>
-                                        <td>Niger</td>
-                                        <td>Oud-Turnhout</td>
+                                        <td>CTR050</td>
+                                        <td>joseph@gmail.com</td>
+                                        <td>In process</td>
+                                        <td>0625401763</td>
                                     </tr>
                                     <tr>
                                         <td>2</td>
-                                        <td>Minerva Hooper</td>
-                                        <td>$23,789</td>
-                                        <td>Curaçao</td>
-                                        <td>Sinaai-Waas</td>
+                                        <td>CTR051</td>
+                                        <td>emile@gmail.com</td>
+                                        <td>In process</td>
+                                        <td>0816400725</td>
                                     </tr>
                                     <tr>
                                         <td>3</td>
-                                        <td>Sage Rodriguez</td>
-                                        <td>$56,142</td>
-                                        <td>Netherlands</td>
-                                        <td>Baileux</td>
+                                        <td>CTR052</td>
+                                        <td>nombila@gmail.com</td>
+                                        <td>In process</td>
+                                        <td>07163453600</td>
                                     </tr>
                                     <tr>
                                         <td>4</td>
-                                        <td>Philip Chaney</td>
-                                        <td>$38,735</td>
-                                        <td>Korea, South</td>
-                                        <td>Overland Park</td>
+                                        <td>CTR053</td>
+                                        <td>cyfo@gmail.com</td>
+                                        <td>In process</td>
+                                        <td>08554982</td>
                                     </tr>
                                     <tr>
                                         <td>5</td>
-                                        <td>Doris Greene</td>
-                                        <td>$63,542</td>
-                                        <td>Malawi</td>
+                                        <td>CTR054</td>
+                                        <td>japhet@gmail.com</td>
+                                        <td>In process</td>
                                         <td>Feldkirchen in Kärnten</td>
                                     </tr>
                                     <tr>
                                         <td>6</td>
-                                        <td>Mason Porter</td>
-                                        <td>$78,615</td>
-                                        <td>Chile</td>
-                                        <td>Gloucester</td>
+                                        <td>CTR055</td>
+                                        <td>espoir@gmail.com</td>
+                                        <td>In process</td>
+                                        <td>0657007265</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>CTR055</td>
+                                        <td>aj@gmail.com</td>
+                                        <td>In process</td>
+                                        <td>0845201867</td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-
-
                     </div>
-                    <div class="col-md-6">
-                        <div class="card ">
-                            <div class="card-header ">
-                                <h4 class="card-title">Public Preferences</h4>
-                                <p class="card-category">Pie Chart</p>
-                            </div>
-                            <div class="card-body ">
-                                <div id=chartPreferences class="ct-chart ct-perfect-fourth"></div>
-                            </div>
-                            <div class="card-footer ">
-                                <div class="legend">
-                                    <i class="fa fa-circle text-info"></i> Open
-                                    <i class="fa fa-circle text-danger"></i> Bounce
-                                    <i class="fa fa-circle text-warning"></i> Unsubscribe
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card bootstrap-table">
+                            <div class="card-body table-full-width">
+                                <div class="toolbar">
+                                    <!--        Here you can write extra buttons/actions for the toolbar              -->
                                 </div>
-                                <hr>
-                                <div class="stats">
-                                    <i class="fa fa-clock-o"></i> Campaign sent 2 days ago
-                                </div>
+                                <table id="bootstrap-table" class="table">
+                                    <thead>
+                                    <th data-field="state" data-checkbox="true"></th>
+                                    <th data-field="id" class="text-center">ID</th>
+                                    <th data-field="name" data-sortable="true">Select all</th>
+                                    <th data-field="salary" data-sortable="true">Status</th>
+
+                                    <th data-field="actions" data-events="operateEvents"
+                                        data-formatter="operateFormatter"></th>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td>1</td>
+                                        <td>CTR050</td>
+                                        <td>In process</td>
+
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>2</td>
+                                        <td>CTR051</td>
+                                        <td>In process</td>
+
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>3</td>
+                                        <td>CTR052</td>
+                                        <td>In process</td>
+
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>4</td>
+                                        <td>CTR053</td>
+                                        <td>In process</td>
+
+                                        <td></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="card strpied-tabled-with-hover">
-                            <div class="card-header ">
-                                <h4 class="card-title">Application Results</h4>
-
-                            </div>
-                            <div class="card-body table-full-width table-responsive">
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Salary</th>
-                                    <th>Country</th>
-                                    <th>City</th>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Dakota Rice</td>
-                                        <td>$36,738</td>
-                                        <td>Niger</td>
-                                        <td>Oud-Turnhout</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Minerva Hooper</td>
-                                        <td>$23,789</td>
-                                        <td>Curaçao</td>
-                                        <td>Sinaai-Waas</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Sage Rodriguez</td>
-                                        <td>$56,142</td>
-                                        <td>Netherlands</td>
-                                        <td>Baileux</td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Philip Chaney</td>
-                                        <td>$38,735</td>
-                                        <td>Korea, South</td>
-                                        <td>Overland Park</td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Doris Greene</td>
-                                        <td>$63,542</td>
-                                        <td>Malawi</td>
-                                        <td>Feldkirchen in Kärnten</td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>Mason Porter</td>
-                                        <td>$78,615</td>
-                                        <td>Chile</td>
-                                        <td>Gloucester</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card ">
-                            <div class="card-header ">
-                                <h4 class="card-title">NASDAQ: AAPL</h4>
-                                <p class="card-category">Line Chart with Points</p>
-                            </div>
-                            <div class="card-body ">
-                                <div id="chartStock" class="ct-chart "></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card strpied-tabled-with-hover">
-                            <div class="card-header ">
-                                <h4 class="card-title">Application Type</h4>
-
-                            </div>
-                            <div class="card-body table-full-width table-responsive">
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Salary</th>
-                                    <th>Country</th>
-                                    <th>City</th>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Dakota Rice</td>
-                                        <td>$36,738</td>
-                                        <td>Niger</td>
-                                        <td>Oud-Turnhout</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Minerva Hooper</td>
-                                        <td>$23,789</td>
-                                        <td>Curaçao</td>
-                                        <td>Sinaai-Waas</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Sage Rodriguez</td>
-                                        <td>$56,142</td>
-                                        <td>Netherlands</td>
-                                        <td>Baileux</td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Philip Chaney</td>
-                                        <td>$38,735</td>
-                                        <td>Korea, South</td>
-                                        <td>Overland Park</td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Doris Greene</td>
-                                        <td>$63,542</td>
-                                        <td>Malawi</td>
-                                        <td>Feldkirchen in Kärnten</td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>Mason Porter</td>
-                                        <td>$78,615</td>
-                                        <td>Chile</td>
-                                        <td>Gloucester</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card ">
-                            <div class="card-header ">
-                                <h4 class="card-title">Activity</h4>
-                                <p class="card-category">Multiple Bars Chart</p>
-                            </div>
-                            <div class="card-body ">
-                                <div id="chartActivity" class="ct-chart"></div>
-                            </div>
-                        </div>
+                    <div class="col-md-12">
+                        <form id="contact" action="" method="post">
+                            <!-- <h3>Colorlib Contact Form</h3>
+                            <h4>Contact us for custom quote</h4> -->
+                            <!-- <fieldset>
+                              <input placeholder="Your name" type="text" tabindex="1" required autofocus>
+                            </fieldset>
+                            <fieldset>
+                              <input placeholder="Your Email Address" type="email" tabindex="2" required>
+                            </fieldset>
+                            <fieldset>
+                              <input placeholder="Your Phone Number (optional)" type="tel" tabindex="3" required>
+                            </fieldset>
+                            <fieldset>
+                              <input placeholder="Your Web Site (optional)" type="url" tabindex="4" required>
+                            </fieldset> -->
+                            <fieldset>
+                                <textarea placeholder="Type your message here...." tabindex="5" required></textarea>
+                            </fieldset>
+                            <fieldset>
+                                <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Send
+                                </button>
+                            </fieldset>
+                            <!-- <p class="copyright">Designed by <a href="https://cput.ac.za" target="_blank" title="Cput">Hub</a></p> -->
+                        </form>
                     </div>
                 </div>
 
@@ -596,73 +514,12 @@
 <!-- Light Dashboard DEMO methods, don't include it in your project! -->
 <script src="../assets/js/demo.js"></script>
 <script type="text/javascript">
-    var $table = $('#bootstrap-table');
+    $(document).ready(function () {
+        // Javascript method's body can be found in assets/js/demos.js
+        demo.initDashboardPageCharts();
 
-    function operateFormatter(value, row, index) {
-        return [].join('');
-    }
 
-    $().ready(function () {
-        window.operateEvents = {
-            'click .view': function (e, value, row, index) {
-                info = JSON.stringify(row);
-
-                swal('You click view icon, row: ', info);
-                console.log(info);
-            },
-            'click .edit': function (e, value, row, index) {
-                info = JSON.stringify(row);
-
-                swal('You click edit icon, row: ', info);
-                console.log(info);
-            },
-            'click .remove': function (e, value, row, index) {
-                console.log(row);
-                $table.bootstrapTable('remove', {
-                    field: 'id',
-                    values: [row.id]
-                });
-            }
-        };
-
-        $table.bootstrapTable({
-            toolbar: ".toolbar",
-            clickToSelect: false,
-            showRefresh: false,
-            search: false,
-            showToggle: false,
-            showColumns: false,
-            pagination: true,
-            searchAlign: 'left',
-            pageSize: 8,
-            clickToSelect: false,
-            pageList: [8, 10, 25, 50, 100],
-
-            formatShowingRows: function (pageFrom, pageTo, totalRows) {
-                //do nothing here, we don't want to show the text "showing x of y from..."
-            },
-            formatRecordsPerPage: function (pageNumber) {
-                return pageNumber + " rows visible";
-            },
-            icons: {
-                refresh: 'fa fa-refresh',
-                toggle: 'fa fa-th-list',
-                columns: 'fa fa-columns',
-                detailOpen: 'fa fa-plus-circle',
-                detailClose: 'fa fa-minus-circle'
-            }
-        });
-
-        //activate the tooltips after the data table is initialized
-        $('[rel="tooltip"]').tooltip();
-
-        $(window).resize(function () {
-            $table.bootstrapTable('resetView');
-        });
-
-        $().ready(function () {
-            demo.initCharts();
-        });
+        demo.initVectorMap();
 
     });
 </script>

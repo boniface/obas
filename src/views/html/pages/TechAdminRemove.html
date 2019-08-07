@@ -17,8 +17,6 @@
     <link href="../assets/css/light-bootstrap-dashboard.css?v=2.0.1" rel="stylesheet"/>
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="../assets/css/demo.css" rel="stylesheet"/>
-    <link href="../assets/css/searchbar.css" rel="stylesheet"/>
-
 </head>
 
 <body>
@@ -33,7 +31,7 @@
             <div class="logo"
                  style="padding-left: 40px;padding-top: 0px;padding-bottom: 0px;background: #ffea00;height: 60px">
 
-                <a href="TechAdmin_dashboard.html" class="simple-text logo-normal">
+                <a href="Tech_dashboard.html" class="simple-text logo-normal">
 
                     <img src="../assets/img/Logo-04.png" alt="Logo"
                          style="width: 176px; height: 55px;alignment: center">
@@ -94,7 +92,7 @@
                         <ul class="nav">
                             <li class="nav-item ">
 
-                                <a class="nav-link" href="TechAdmin_user_View.html">
+                                <a class="nav-link" href="Tech_user_View.html">
 
                                     <span class="sidebar-mini">V</span>
                                     <span class="sidebar-normal">View Profile</span>
@@ -102,7 +100,7 @@
                             </li>
                             <li class="nav-item ">
 
-                                <a class="nav-link" href="TechAdmin_user.html">
+                                <a class="nav-link" href="Tech_user.html">
 
                                     <span class="sidebar-mini">E</span>
                                     <span class="sidebar-normal">Edit Profile</span>
@@ -114,7 +112,7 @@
                 </li>
                 <li class="nav-item ">
 
-                    <a class="nav-link" href="TechAdmin_dashboard.html">
+                    <a class="nav-link" href="Tech_dashboard.html">
 
                         <i class="nc-icon nc-chart-pie-35"></i>
                         <p>Dashboard</p>
@@ -140,7 +138,7 @@
                         <ul class="nav">
                             <li class="nav-item ">
 
-                                <a class="nav-link" href="TechAdminAdminApplication.html">
+                                <a class="nav-link" href="TechAdminApplication.html">
 
                                     <span class="sidebar-mini">A</span>
                                     <span class="sidebar-normal">Application</span>
@@ -148,7 +146,7 @@
                             </li>
                             <li class="nav-item ">
 
-                                <a class="nav-link" href="TechAdminAdminApplicant.html">
+                                <a class="nav-link" href="TechAdminApplicant.html">
 
                                     <span class="sidebar-mini">A</span>
                                     <span class="sidebar-normal">Applicant</span>
@@ -156,7 +154,7 @@
                             </li>
                             <li class="nav-item ">
 
-                                <a class="nav-link" href="TechAdminAdminRemove.html">
+                                <a class="nav-link" href="TechAdminRemove.html">
 
                                     <span class="sidebar-mini">R</span>
                                     <span class="sidebar-normal">Remove</span>
@@ -164,7 +162,7 @@
                             </li>
                             <li class="nav-item ">
 
-                                <a class="nav-link" href="TechAdminAdminDocuments.html">
+                                <a class="nav-link" href="TechAdminDocuments.html">
 
                                     <span class="sidebar-mini">D</span>
                                     <span class="sidebar-normal">Documents</span>
@@ -288,196 +286,279 @@
         </nav>
         <!-- End Navbar -->
         <div class="content">
+
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="card bootstrap-table">
-                            <div class="card-body table-full-width">
-                                <div class="toolbar">
-                                    <!--        Here you can write extra buttons/actions for the toolbar              -->
-                                </div>
-                                <table id="bootstrap-table" class="table">
-                                    <thead>
-
-                                    <th data-field="id" class="text-center">ID</th>
-                                    <th data-field="name" data-sortable="true">Name</th>
-                                    <th data-field="salary" data-sortable="true">Salary</th>
-                                    <th data-field="country" data-sortable="true">Country</th>
-                                    <th data-field="city">City</th>
-
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-
-                                        <td>1</td>
-                                        <td>Dakota Rice</td>
-                                        <td>$36,738</td>
-                                        <td>Niger</td>
-                                        <td>Oud-Turnhout</td>
-
-                                    </tr>
-                                    <tr>
-
-                                        <td>2</td>
-                                        <td>Minerva Hooper</td>
-                                        <td>$23,789</td>
-                                        <td>Curaçao</td>
-                                        <td>Sinaai-Waas</td>
-
-                                    </tr>
-                                    <tr>
-
-                                        <td>3</td>
-                                        <td>Sage Rodriguez</td>
-                                        <td>$56,142</td>
-                                        <td>Netherlands</td>
-                                        <td>Baileux</td>
-
-                                    </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-
-                    <div class="col-md-12">
-
-
+                    <div class="col-md-6">
                         <div class="card table-with-links">
-
                             <div class="card-header ">
-                                <h4 class="card-title">Documents Table</h4>
-                                <p class="card-category">Search with Student Id</p>
-                                <div class="search">
-                                    <input type="text" class="searchTerm" placeholder="Ex: 216093850">
-                                    <button type="submit" class="searchButton">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </div>
+                                <h4 class="card-title" style="color: #000000">
+                                    <center>Remove Application</center>
+                                </h4>
+                                <!-- <p class="card-category">Here is a subtitle for this table</p> -->
                             </div>
-                            <div class="wrap">
-
-                            </div>
-                            <div class="card-body table-full-width">
+                            <div class="card-body table-full-width" style="height:650px">
                                 <table class="table">
-
                                     <thead>
                                     <tr>
+
+
                                         <th class="text-center">#</th>
-                                        <th>Document ID</th>
-                                        <th>Document Type</th>
-                                        <th class="text-right">Date</th>
-                                        <th class="text-right">Description</th>
-                                        <th class="text-right">View Documents</th>
+                                        <th>Name</th>
+                                        <th>Surname</th>
+                                        <th>Email</th>
+                                        <th class="text-right">Remove</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr>
                                         <td class="text-center">1</td>
-                                        <td>Andrew Mike</td>
-                                        <td>Develop</td>
-                                        <td class="text-right">&euro; 99,225</td>
-                                        <td class="text-right">&euro; 99,225</td>
-                                        <td class="td-actions text-right">
-                                            <a href="#" rel="tooltip" title="View Profile" class="fa fa-image"
-                                               onclick="demo.showSwal('basic')"></a>
+                                        <td>Andrew</td>
+                                        <td>Mike</td>
+                                        <td>AndrewMike@gmail.com</td>
 
-
+                                        <!-- <td>Develop</td> -->
+                                        <!-- <td class="text-right">&euro; 99,225</td> -->
+                                        <td class="td-actions text-center">
+                                            <!-- <a href="#" rel="tooltip" title="View Profile" class="btn btn-info btn-link btn-xs">
+                                                <i class="fa fa-user"></i>
+                                            </a> -->
+                                            <!-- <a href="#" rel="tooltip" title="Edit Profile" class="btn btn-success btn-link btn-xs">
+                                                <i class="fa fa-edit"></i>
+                                            </a> -->
+                                            <a href="#" rel="tooltip" title="Remove"
+                                               class="btn btn-danger btn-link btn-xs"
+                                               onclick="demo.showSwal('warning-message-and-confirmation')">
+                                                <i class="fa fa-times"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="text-center">2</td>
-                                        <td>John Doe</td>
-                                        <td>Design</td>
-                                        <td class="text-right">&euro; 89,241</td>
-                                        <td class="text-right">&euro; 99,225</td>
-                                        <td class="td-actions text-right">
-                                            <a href="#" rel="tooltip" title="View Profile" class="fa fa-image"
-                                               onclick="demo.showSwal('basic')"></a>
+                                        <td>John</td>
+                                        <td>Stones</td>
+                                        <td>johnstones@gmail.com</td>
 
+                                        <!-- <td>Develop</td> -->
+                                        <!-- <td class="text-right">&euro; 99,225</td> -->
+                                        <td class="td-actions text-center">
+                                            <!-- <a href="#" rel="tooltip" title="View Profile" class="btn btn-info btn-link btn-xs">
+                                                <i class="fa fa-user"></i>
+                                            </a> -->
+                                            <!-- <a href="#" rel="tooltip" title="Edit Profile" class="btn btn-success btn-link btn-xs">
+                                                <i class="fa fa-edit"></i>
+                                            </a> -->
+                                            <a href="#" rel="tooltip" title="Remove"
+                                               class="btn btn-danger btn-link btn-xs"
+                                               onclick="demo.showSwal('warning-message-and-confirmation')">
+                                                <i class="fa fa-times"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="text-center">3</td>
-                                        <td>Alex Mike</td>
-                                        <td>Design</td>
-                                        <td class="text-right">&euro; 92,144</td>
-                                        <td class="text-right">&euro; 99,225</td>
-                                        <td class="td-actions text-right">
-                                            <a href="#" rel="tooltip" title="View Profile" class="fa fa-image"
-                                               onclick="demo.showSwal('basic')"></a>
+                                        <td>John</td>
+                                        <td>Stones</td>
+                                        <td>johnstones@gmail.com</td>
 
+                                        <!-- <td>Develop</td> -->
+                                        <!-- <td class="text-right">&euro; 99,225</td> -->
+                                        <td class="td-actions text-center">
+                                            <!-- <a href="#" rel="tooltip" title="View Profile" class="btn btn-info btn-link btn-xs">
+                                                <i class="fa fa-user"></i>
+                                            </a> -->
+                                            <!-- <a href="#" rel="tooltip" title="Edit Profile" class="btn btn-success btn-link btn-xs">
+                                                <i class="fa fa-edit"></i>
+                                            </a> -->
+                                            <a href="#" rel="tooltip" title="Remove"
+                                               class="btn btn-danger btn-link btn-xs"
+                                               onclick="demo.showSwal('warning-message-and-confirmation')">
+                                                <i class="fa fa-times"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="text-center">4</td>
-                                        <td>Mike Monday</td>
-                                        <td>Marketing</td>
-                                        <td class="text-right">&euro; 49,990</td>
-                                        <td class="text-right">&euro; 99,225</td>
-                                        <td class="td-actions text-right">
-                                            <a href="#" rel="tooltip" title="View Profile" class="fa fa-image"
-                                               onclick="demo.showSwal('basic')"></a>
+                                        <td>John</td>
+                                        <td>Stones</td>
+                                        <td>johnstones@gmail.com</td>
 
+                                        <!-- <td>Develop</td> -->
+                                        <!-- <td class="text-right">&euro; 99,225</td> -->
+                                        <td class="td-actions text-center">
+                                            <!-- <a href="#" rel="tooltip" title="View Profile" class="btn btn-info btn-link btn-xs">
+                                                <i class="fa fa-user"></i>
+                                            </a> -->
+                                            <!-- <a href="#" rel="tooltip" title="Edit Profile" class="btn btn-success btn-link btn-xs">
+                                                <i class="fa fa-edit"></i>
+                                            </a> -->
+                                            <a href="#" rel="tooltip" title="Remove"
+                                               class="btn btn-danger btn-link btn-xs"
+                                               onclick="demo.showSwal('warning-message-and-confirmation')">
+                                                <i class="fa fa-times"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="text-center">5</td>
-                                        <td>Paul Dickens</td>
-                                        <td>Communication</td>
-                                        <td class="text-right">415645
+                                        <td>Andrew</td>
+                                        <td>Mike</td>
+                                        <td>AndrewMike@gmail.com</td>
 
-                                        </td>
-                                        <td class="text-right">&euro; 99,225</td>
-
-                                        <td class="td-actions text-right">
-                                            <a href="#" rel="tooltip" title="View Profile" class="fa fa-image"
-                                               onclick="demo.showSwal('basic')"></a>
-
+                                        <!-- <td>Develop</td> -->
+                                        <!-- <td class="text-right">&euro; 99,225</td> -->
+                                        <td class="td-actions text-center">
+                                            <!-- <a href="#" rel="tooltip" title="View Profile" class="btn btn-info btn-link btn-xs">
+                                                <i class="fa fa-user"></i>
+                                            </a> -->
+                                            <!-- <a href="#" rel="tooltip" title="Edit Profile" class="btn btn-success btn-link btn-xs">
+                                                <i class="fa fa-edit"></i>
+                                            </a> -->
+                                            <a href="#" rel="tooltip" title="Remove"
+                                               class="btn btn-danger btn-link btn-xs"
+                                               onclick="demo.showSwal('warning-message-and-confirmation')">
+                                                <i class="fa fa-times"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="text-center">6</td>
-                                        <td>Paul Dickens</td>
-                                        <td>Communication</td>
-                                        <td class="text-right">415645
+                                        <td>Andrew</td>
+                                        <td>Mike</td>
+                                        <td>AndrewMike@gmail.com</td>
 
-                                        </td>
-                                        <td class="text-right">&euro; 99,225</td>
-
-                                        <td class="td-actions text-right">
-                                            <a href="#" rel="tooltip" title="View Profile" class="fa fa-image"
-                                               onclick="demo.showSwal('basic')"></a>
-
+                                        <!-- <td>Develop</td> -->
+                                        <!-- <td class="text-right">&euro; 99,225</td> -->
+                                        <td class="td-actions text-center">
+                                            <!-- <a href="#" rel="tooltip" title="View Profile" class="btn btn-info btn-link btn-xs">
+                                                <i class="fa fa-user"></i>
+                                            </a> -->
+                                            <!-- <a href="#" rel="tooltip" title="Edit Profile" class="btn btn-success btn-link btn-xs">
+                                                <i class="fa fa-edit"></i>
+                                            </a> -->
+                                            <a href="#" rel="tooltip" title="Remove"
+                                               class="btn btn-danger btn-link btn-xs"
+                                               onclick="demo.showSwal('warning-message-and-confirmation')">
+                                                <i class="fa fa-times"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="text-center">7</td>
-                                        <td>Paul Dickens</td>
-                                        <td>Communication</td>
-                                        <td class="text-right">415645
+                                        <td>John</td>
+                                        <td>Stones</td>
+                                        <td>johnstones@gmail.com</td>
 
+                                        <!-- <td>Develop</td> -->
+                                        <!-- <td class="text-right">&euro; 99,225</td> -->
+                                        <td class="td-actions text-center">
+                                            <!-- <a href="#" rel="tooltip" title="View Profile" class="btn btn-info btn-link btn-xs">
+                                                <i class="fa fa-user"></i>
+                                            </a> -->
+                                            <!-- <a href="#" rel="tooltip" title="Edit Profile" class="btn btn-success btn-link btn-xs">
+                                                <i class="fa fa-edit"></i>
+                                            </a> -->
+                                            <a href="#" rel="tooltip" title="Remove"
+                                               class="btn btn-danger btn-link btn-xs"
+                                               onclick="demo.showSwal('warning-message-and-confirmation')">
+                                                <i class="fa fa-times"></i>
+                                            </a>
                                         </td>
-                                        <td class="text-right">&euro; 99,225</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">8</td>
+                                        <td>John</td>
+                                        <td>Stones</td>
+                                        <td>johnstones@gmail.com</td>
 
-                                        <td class="td-actions text-right">
-                                            <a href="#" rel="tooltip" title="View Profile" class="fa fa-image"
-                                               onclick="demo.showSwal('basic')"></a>
+                                        <!-- <td>Develop</td> -->
+                                        <!-- <td class="text-right">&euro; 99,225</td> -->
+                                        <td class="td-actions text-center">
+                                            <!-- <a href="#" rel="tooltip" title="View Profile" class="btn btn-info btn-link btn-xs">
+                                                <i class="fa fa-user"></i>
+                                            </a> -->
+                                            <!-- <a href="#" rel="tooltip" title="Edit Profile" class="btn btn-success btn-link btn-xs">
+                                                <i class="fa fa-edit"></i>
+                                            </a> -->
+                                            <a href="#" rel="tooltip" title="Remove"
+                                               class="btn btn-danger btn-link btn-xs"
+                                               onclick="demo.showSwal('warning-message-and-confirmation')">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">9</td>
+                                        <td>Andrew</td>
+                                        <td>Mike</td>
+                                        <td>AndrewMike@gmail.com</td>
 
+                                        <!-- <td>Develop</td> -->
+                                        <!-- <td class="text-right">&euro; 99,225</td> -->
+                                        <td class="td-actions text-center">
+                                            <!-- <a href="#" rel="tooltip" title="View Profile" class="btn btn-info btn-link btn-xs">
+                                                <i class="fa fa-user"></i>
+                                            </a> -->
+                                            <!-- <a href="#" rel="tooltip" title="Edit Profile" class="btn btn-success btn-link btn-xs">
+                                                <i class="fa fa-edit"></i>
+                                            </a> -->
+                                            <a href="#" rel="tooltip" title="Remove"
+                                               class="btn btn-danger btn-link btn-xs"
+                                               onclick="demo.showSwal('warning-message-and-confirmation')">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">10</td>
+                                        <td>John</td>
+                                        <td>Stones</td>
+                                        <td>johnstones@gmail.com</td>
+
+                                        <!-- <td>Develop</td> -->
+                                        <!-- <td class="text-right">&euro; 99,225</td> -->
+                                        <td class="td-actions text-center">
+                                            <!-- <a href="#" rel="tooltip" title="View Profile" class="btn btn-info btn-link btn-xs">
+                                                <i class="fa fa-user"></i>
+                                            </a> -->
+                                            <!-- <a href="#" rel="tooltip" title="Edit Profile" class="btn btn-success btn-link btn-xs">
+                                                <i class="fa fa-edit"></i>
+                                            </a> -->
+                                            <a href="#" rel="tooltip" title="Remove"
+                                               class="btn btn-danger btn-link btn-xs"
+                                               onclick="demo.showSwal('warning-message-and-confirmation')">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">11</td>
+                                        <td>John</td>
+                                        <td>Stones</td>
+                                        <td>johnstones@gmail.com</td>
+
+                                        <!-- <td>Develop</td> -->
+                                        <!-- <td class="text-right">&euro; 99,225</td> -->
+                                        <td class="td-actions text-center">
+                                            <!-- <a href="#" rel="tooltip" title="View Profile" class="btn btn-info btn-link btn-xs">
+                                                <i class="fa fa-user"></i>
+                                            </a> -->
+                                            <!-- <a href="#" rel="tooltip" title="Edit Profile" class="btn btn-success btn-link btn-xs">
+                                                <i class="fa fa-edit"></i>
+                                            </a> -->
+                                            <a href="#" rel="tooltip" title="Remove"
+                                               class="btn btn-danger btn-link btn-xs"
+                                               onclick="demo.showSwal('warning-message-and-confirmation')">
+                                                <i class="fa fa-times"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
 
         </div>
@@ -539,74 +620,12 @@
 <!-- Light Dashboard DEMO methods, don't include it in your project! -->
 <script src="../assets/js/demo.js"></script>
 <script type="text/javascript">
-    var $table = $('#bootstrap-table');
+    $(document).ready(function () {
+        // Javascript method's body can be found in assets/js/demos.js
+        demo.initDashboardPageCharts();
 
-    function operateFormatter(value, row, index) {
-        return [
-            '<a rel="tooltip" title="View" class="btn btn-link btn-info table-action view" href="javascript:void(0)">',
-            '<i class="fa fa-image"></i>',
-            '</a>',
-        ].join('');
-    }
 
-    $().ready(function () {
-        window.operateEvents = {
-            'click .view': function (e, value, row, index) {
-                info = JSON.stringify(row);
-
-                swal('You click view icon, row: ', info);
-                console.log(info);
-            },
-            'click .edit': function (e, value, row, index) {
-                info = JSON.stringify(row);
-
-                swal('You click edit icon, row: ', info);
-                console.log(info);
-            },
-            'click .remove': function (e, value, row, index) {
-                console.log(row);
-                $table.bootstrapTable('remove', {
-                    field: 'id',
-                    values: [row.id]
-                });
-            }
-        };
-
-        $table.bootstrapTable({
-            toolbar: ".toolbar",
-            clickToSelect: false,
-            showRefresh: false,
-            search: true,
-            showToggle: false,
-            showColumns: false,
-            pagination: true,
-            searchAlign: 'left',
-            pageSize: 8,
-            clickToSelect: false,
-            pageList: [8, 10, 25, 50, 100],
-
-            formatShowingRows: function (pageFrom, pageTo, totalRows) {
-                //do nothing here, we don't want to show the text "showing x of y from..."
-            },
-            formatRecordsPerPage: function (pageNumber) {
-                return pageNumber + " rows visible";
-            },
-            icons: {
-                refresh: 'fa fa-refresh',
-                toggle: 'fa fa-th-list',
-                columns: 'fa fa-columns',
-                detailOpen: 'fa fa-plus-circle',
-                detailClose: 'fa fa-minus-circle'
-            }
-        });
-
-        //activate the tooltips after the data table is initialized
-        $('[rel="tooltip"]').tooltip();
-
-        $(window).resize(function () {
-            $table.bootstrapTable('resetView');
-        });
-
+        demo.initVectorMap();
 
     });
 </script>
