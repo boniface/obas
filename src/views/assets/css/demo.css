@@ -40,6 +40,12 @@
     margin: 0 auto;
 }
 
+.card #chartPreferencesResults {
+    width: 60%;
+    margin: 0 auto;
+}
+
+
 #navbar-full .navbar {
     border-radius: 0 !important;
     margin-bottom: 15px;
@@ -261,7 +267,6 @@
         height: 640px;
         overflow: hidden;
     }
-
     .parallax .parallax-image img {
         height: 100%;
         width: auto;
@@ -329,7 +334,6 @@
     .btn-morphing {
         margin-bottom: 10px;
     }
-
     .parallax .motto {
         top: 170px;
         margin-top: 0;
