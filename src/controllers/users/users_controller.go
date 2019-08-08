@@ -11,7 +11,7 @@ import (
 func Users(app *config.Env) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", UsersHandler(app))
-	r.Get("/content", AdminHandler(app))
+	r.Get("/admin", AdminHandler(app))
 	r.Get("/processingStatus", ProcessingStatusTypeHandler(app))
 	r.Get("/studentApplication", StudentApplicationStatusHandler(app))
 	r.Get("/studentContact", StudentContactsHandler(app))
