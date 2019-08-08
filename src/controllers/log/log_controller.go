@@ -31,7 +31,7 @@ func logsHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/log/log.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/sidebarOld.page.html",
 			app.Path + "/base/footer.page.html",
 		}
 		ts, err := template.ParseFiles(files...)

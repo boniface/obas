@@ -33,7 +33,7 @@ func universityCoursesHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/contents.page.html",
-			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/sidebarOld.page.html",
 			app.Path + "/base/footer.page.html",
 		}
 		ts, err := template.ParseFiles(files...)
@@ -68,7 +68,7 @@ func matricSubjectsHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/subjects/subjects.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/sidebarOld.page.html",
 			app.Path + "/base/footer.page.html",
 		}
 		ts, err := template.ParseFiles(files...)

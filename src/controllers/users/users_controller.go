@@ -11,7 +11,7 @@ import (
 func Users(app *config.Env) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", UsersHandler(app))
-	r.Get("/admin", AdminHandler(app))
+	r.Get("/content", AdminHandler(app))
 	r.Get("/processingStatus", ProcessingStatusTypeHandler(app))
 	r.Get("/studentApplication", StudentApplicationStatusHandler(app))
 	r.Get("/studentContact", StudentContactsHandler(app))
@@ -40,7 +40,7 @@ func UsersHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/users/users.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/sidebarOld.page.html",
 			app.Path + "/base/footer.page.html",
 		}
 		ts, err := template.ParseFiles(files...)
@@ -74,7 +74,7 @@ func AdminHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/users/users.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/sidebarOld.page.html",
 			app.Path + "/base/footer.page.html",
 		}
 		ts, err := template.ParseFiles(files...)
@@ -108,7 +108,7 @@ func ProcessingStatusTypeHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/users/users.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/sidebarOld.page.html",
 			app.Path + "/base/footer.page.html",
 		}
 		ts, err := template.ParseFiles(files...)
@@ -142,7 +142,7 @@ func StudentApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/users/users.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/sidebarOld.page.html",
 			app.Path + "/base/footer.page.html",
 		}
 		ts, err := template.ParseFiles(files...)
@@ -176,7 +176,7 @@ func StudentContactsHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/users/users.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/sidebarOld.page.html",
 			app.Path + "/base/footer.page.html",
 		}
 		ts, err := template.ParseFiles(files...)
@@ -209,7 +209,7 @@ func StudentDemographicsHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/users/users.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/sidebarOld.page.html",
 			app.Path + "/base/footer.page.html",
 		}
 		ts, err := template.ParseFiles(files...)
@@ -242,7 +242,7 @@ func StudentDocumentsHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/users/users.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/sidebarOld.page.html",
 			app.Path + "/base/footer.page.html",
 		}
 		ts, err := template.ParseFiles(files...)
@@ -275,7 +275,7 @@ func StudentProfileHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/users/users.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/sidebarOld.page.html",
 			app.Path + "/base/footer.page.html",
 		}
 		ts, err := template.ParseFiles(files...)
@@ -308,7 +308,7 @@ func StudentResultsHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/users/users.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/sidebarOld.page.html",
 			app.Path + "/base/footer.page.html",
 		}
 		ts, err := template.ParseFiles(files...)
