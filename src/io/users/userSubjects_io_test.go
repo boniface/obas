@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-var Subject = domain.UserSubjects{"35", "BUSINESS", "THEORY", "FIRST"}
+var Subject = domain.UserSubjects{"56", "INFORMATION", "THEORY", "FIRST"}
 
 func TestGetUserSubjects(t *testing.T) {
 	result, err := GetUserSubjects()
@@ -34,8 +34,8 @@ func TestCreateUserSubject(t *testing.T) {
 }
 
 func TestUpdateUserSubject(t *testing.T) {
-	var expected = "DATABASE"
-	var updated = domain.UserSubjects{"40", "DATABASE", "UML DIAGRAM", "SECOND"}
+	var expected = "SOFTWARE"
+	var updated = domain.UserSubjects{"40", "SOFTWARE", "UML DIAGRAM", "SECOND"}
 	result, err := UpdateUserSubject(updated)
 	assert.Nil(t, err)
 	assert.True(t, result)

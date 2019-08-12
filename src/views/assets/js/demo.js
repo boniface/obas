@@ -303,6 +303,7 @@ demo = {
         $('.card-wizard').bootstrapWizard({
             'tabClass': 'nav nav-pills',
             'nextSelector': '.btn-next',
+            'backSelector': '.btn-back',
             'previousSelector': '.btn-previous',
 
             onNext: function (tab, navigation, index) {
@@ -527,6 +528,7 @@ demo = {
         Chartist.Line('#chartPerformance', dataPerformance, optionsPerformance);
 
 
+
         /*  **************** NASDAQ: AAPL - single line with points ******************** */
 
         var dataStock = {
@@ -557,6 +559,7 @@ demo = {
         Chartist.Line('#chartStock', dataStock, optionsStock);
 
 
+
         /*  **************** Users Behaviour - Multiple Lines ******************** */
 
 
@@ -580,6 +583,7 @@ demo = {
 
 
         Chartist.Line('#chartBehaviour', dataSales, optionsSales);
+
 
 
         /*  **************** Public Preferences - Pie Chart ******************** */
@@ -642,6 +646,7 @@ demo = {
         ];
 
         Chartist.Bar('#chartViews', dataViews, optionsViews, responsiveOptionsViews);
+
 
 
         var data = {
@@ -1176,6 +1181,7 @@ demo = {
         marker.setMap(map);
 
 
+
         // Satellite Map
         var myLatlng = new google.maps.LatLng(40.748817, -73.985428);
         var mapOptions = {
@@ -1342,6 +1348,20 @@ demo = {
                 closeOnConfirm: false,
             }, function () {
                 swal("Deleted!", "Your imaginary file has been deleted.", "success");
+            });
+
+        } else if (type == 'warning-message-and-confirmation2') {
+            swal({
+                title: "Are you sure?",
+                text: '',
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn btn-info btn-fill",
+                confirmButtonText: "Yes, I am!",
+                cancelButtonClass: "btn btn-danger btn-fill",
+                closeOnConfirm: false,
+            }, function () {
+                swal("The System was shutdown");
             });
 
         } else if (type == 'warning-message-and-cancel') {

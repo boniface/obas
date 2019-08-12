@@ -7,6 +7,8 @@ import (
 	"testing"
 )
 
+var appResult = domain.UserApplicationResult{"22", "DECISION COLLECTION"}
+
 func TestGetUserApplicationResults(t *testing.T) {
 	result, err := GetUserApplicationResults()
 	assert.Nil(t, err)
@@ -15,16 +17,14 @@ func TestGetUserApplicationResults(t *testing.T) {
 }
 
 func TestGetUserApplicationResult(t *testing.T) {
-	expected := "SUCCESS"
-	result, err := GetUserApplicationResult("24")
+	expected := appResult
+	result, err := GetUserApplicationResult(appResult.UserApplicationResultId)
 	assert.Nil(t, err)
-	fmt.Println(" The Results", result)
-	assert.Equal(t, expected, result.Description)
+	assert.Equal(t, expected, result)
 
 }
 
 func TestCreateUserApplicationResult(t *testing.T) {
-	appResult := domain.UserApplicationResult{"25", "SUCCESSFUL"}
 	result, err := CreateUserApplicationResult(appResult)
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)
@@ -33,15 +33,18 @@ func TestCreateUserApplicationResult(t *testing.T) {
 }
 
 func TestUpdateUserApplicationResult(t *testing.T) {
-	appResult := domain.UserApplicationResult{"25", "Pending"}
-	result, err := UpdateUserApplicationResult(appResult)
+	var expected = "PENDING"
+	var updated = domain.UserApplicationResult{"22", "PENDING"}
+	result, err := UpdateUserApplicationResult(updated)
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)
 	assert.True(t, result)
+	value, err := GetUserApplicationResult(appResult.UserApplicationResultId)
+	assert.Equal(t, expected, value.Description)
 }
 
 func TestDeleteUserApplicationResult(t *testing.T) {
-	appResult := domain.UserApplicationResult{"25", "SUCCESSFUL"}
+	appResult := domain.UserApplicationResult{"29", "SUCCESSFUL"}
 	result, err := DeleteUserApplicationResult(appResult)
 	assert.Nil(t, err)
 	assert.True(t, result)
