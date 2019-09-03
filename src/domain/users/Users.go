@@ -12,8 +12,6 @@ type User struct {
 	DateOfBirth time.Time `json:"dateOfBirth"`
 }
 
-// i found them in the obasapi domain so i added them but i'm not sure if i should
-
 type UserAddress struct {
 	UserAddressId   string `json:"userAddressId"`
 	PhysicalAddress string `json:"physicalAddress"`
