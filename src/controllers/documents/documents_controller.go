@@ -32,7 +32,7 @@ func DocumentsTypeHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/documents/documents.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/sidebarOld.page.html",
 			app.Path + "/base/footer.page.html",
 		}
 		ts, err := template.ParseFiles(files...)
@@ -65,7 +65,7 @@ func DocumentsHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/documents/documents.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/sidebarOld.page.html",
 			app.Path + "/base/footer.page.html",
 		}
 		ts, err := template.ParseFiles(files...)

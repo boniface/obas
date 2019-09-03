@@ -2,6 +2,7 @@ package io
 
 import (
 	"errors"
+	"fmt"
 	"obas/src/api"
 	domain "obas/src/domain/users"
 )
@@ -49,10 +50,11 @@ func CreateUserSubject(entity interface{}) (bool, error) {
 }
 
 func UpdateUserSubject(entity interface{}) (bool, error) {
-	resp, _ := api.Rest().
+	resp, serverEr := api.Rest().
 		SetBody(entity).
 		Post(userSubUrl + "/subjects/update")
 	if resp.IsError() {
+		fmt.Println(" Is request from Server Okay", serverEr)
 		return false, errors.New(resp.Status())
 	}
 

@@ -7,6 +7,8 @@ import (
 	"testing"
 )
 
+var univ = domain.University{"14", "DUT", "TECHNO", "EC"}
+
 func TestGetUniversitys(t *testing.T) {
 	value, err := GetUniversitys()
 	assert.Nil(t, err)
@@ -15,29 +17,29 @@ func TestGetUniversitys(t *testing.T) {
 }
 
 func TestGetUniversity(t *testing.T) {
-	expected := "DUT"
-	value, err := GetUniversity("14")
+	expected := univ
+	value, err := GetUniversity(univ.UniversityId)
 	assert.Nil(t, err)
-	fmt.Println(" The Results", value)
 	assert.Equal(t, value, expected)
 }
 
 func TestCreateUniversity(t *testing.T) {
-	univ := domain.University{"14", "DUT", "TECHNO", "EC"}
 	value, err := CreateUniversity(univ)
 	assert.Nil(t, err)
 	assert.True(t, value)
 }
 
 func TestUpdateUniversity(t *testing.T) {
-	univ := domain.University{"14", "DUT", "TECHNO", "KZN"}
-	value, err := UpdateUniversity(univ)
+	var expected = "DUT"
+	var univ = domain.University{"14", "DUT", "ALL", "KZN"}
+	result, err := UpdateUniversity(univ)
 	assert.Nil(t, err)
-	assert.True(t, value)
+	assert.True(t, result)
+	value, err := GetUniversity(univ.UniversityId)
+	assert.Equal(t, expected, value.UniversityName)
 }
 
 func TestDeleteUniversity(t *testing.T) {
-	univ := domain.University{"14", "DUT", "TECHNO", "KZN"}
 	value, err := DeleteUniversity(univ)
 	assert.Nil(t, err)
 	assert.True(t, value)

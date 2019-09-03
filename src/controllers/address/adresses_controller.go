@@ -33,7 +33,7 @@ func AddressTypeHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/address/address.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/sidebarOld.page.html",
 			app.Path + "/base/footer.page.html",
 		}
 		ts, err := template.ParseFiles(files...)
@@ -67,7 +67,7 @@ func ContactTypeTypeHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/address/address.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/sidebarOld.page.html",
 			app.Path + "/base/footer.page.html",
 		}
 		ts, err := template.ParseFiles(files...)

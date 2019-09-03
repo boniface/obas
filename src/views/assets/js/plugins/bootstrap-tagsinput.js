@@ -616,7 +616,6 @@
             };
         }
     }
-
     /**
      * HtmlEncodes the given value
      */

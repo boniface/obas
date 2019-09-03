@@ -7,6 +7,8 @@ import (
 	"testing"
 )
 
+var sch = domain.School{"98", "CAPETOWN HIGH", "CBD", "WC"}
+
 func TestGetSchools(t *testing.T) {
 	value, err := GetSchools()
 	assert.Nil(t, err)
@@ -15,30 +17,30 @@ func TestGetSchools(t *testing.T) {
 }
 
 func TestGetSchool(t *testing.T) {
-	expected := "NGP HIGH"
-	value, err := GetSchool("89")
+	expected := sch
+	value, err := GetSchool(sch.SchoolId)
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
 	assert.Equal(t, value, expected)
 }
 
 func TestCreateSchool(t *testing.T) {
-	sch := domain.School{"89", "NGP HIGH", "DFG", "WC"}
 	value, err := CreateSchool(sch)
 	assert.Nil(t, err)
 	assert.True(t, value)
 }
 
 func TestUpdateSchool(t *testing.T) {
-	sch := domain.School{"87", "NGP HIGH", "DFG", "WC"}
-	value, err := UpdateSchool(sch)
+	var expected = "NGP HIGH"
+	var updated = domain.School{"87", "NGP HIGH", "DFG", "WC"}
+	result, err := UpdateSchool(updated)
 	assert.Nil(t, err)
-	fmt.Println(" The Results", value)
-	assert.True(t, value)
+	assert.True(t, result)
+	value, err := GetSchool(sch.SchoolId)
+	assert.Equal(t, expected, value.SchoolName)
 }
 
 func TestDeleteSchool(t *testing.T) {
-	sch := domain.School{"87", "NGP HIGH", "DFG", "WC"}
 	value, err := DeleteSchool(sch)
 	assert.Nil(t, err)
 	assert.True(t, value)
