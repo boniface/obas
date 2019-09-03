@@ -1,6 +1,6 @@
 ## Test Cases Samples for Obas
-
-`import (
+```golang
+import (
  	"github.com/stretchr/testify/assert"
  	"testing"
  )
@@ -49,3 +49,4 @@
  	assert.Nil(t, err)
  	assert.True(t, len(result) > 0)
  }`
+ ```
