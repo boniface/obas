@@ -8,16 +8,16 @@ func init() {
 		return &val
 	}
 	unmarshalCases = append(unmarshalCases, unmarshalCase{
-		ptr: (**interface{})(nil),
+		ptr:   (**interface{})(nil),
 		input: `"hello"`,
 	}, unmarshalCase{
-		ptr: (**interface{})(nil),
+		ptr:   (**interface{})(nil),
 		input: `1e1`,
 	}, unmarshalCase{
-		ptr: (**interface{})(nil),
+		ptr:   (**interface{})(nil),
 		input: `1.0e1`,
 	}, unmarshalCase{
-		ptr: (*[]interface{})(nil),
+		ptr:   (*[]interface{})(nil),
 		input: `[1.0e1]`,
 	}, unmarshalCase{
 		ptr: (*struct {
