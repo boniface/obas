@@ -559,7 +559,6 @@ demo = {
         Chartist.Line('#chartStock', dataStock, optionsStock);
 
 
-
         /*  **************** Users Behaviour - Multiple Lines ******************** */
 
 
@@ -583,7 +582,6 @@ demo = {
 
 
         Chartist.Line('#chartBehaviour', dataSales, optionsSales);
-
 
 
         /*  **************** Public Preferences - Pie Chart ******************** */
@@ -646,7 +644,6 @@ demo = {
         ];
 
         Chartist.Bar('#chartViews', dataViews, optionsViews, responsiveOptionsViews);
-
 
 
         var data = {
@@ -1179,7 +1176,6 @@ demo = {
         });
 
         marker.setMap(map);
-
 
 
         // Satellite Map

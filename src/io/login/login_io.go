@@ -1,10 +1,12 @@
-package io
+package login
 
 import (
 	"encoding/json"
 	"errors"
 	"net/mail"
 	"obas/src/api"
+	"obas/src/controllers/login"
+	"obas/src/domain/users"
 )
 
 const roleurl = api.BASE_URL + "/login"

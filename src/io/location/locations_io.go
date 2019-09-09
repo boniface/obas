@@ -2,6 +2,7 @@ package io
 
 import (
 	"errors"
+	"fmt"
 	"obas/src/api"
 	domain "obas/src/domain/location"
 )
@@ -12,8 +13,9 @@ type Location domain.Location
 
 func GetLocations() ([]Location, error) {
 	entites := []Location{}
-	resp, _ := api.Rest().Get(locationUrl + "/all")
+	resp, serverEr := api.Rest().Get(locationUrl + "/all")
 	if resp.IsError() {
+		fmt.Println(" Is request from Server Okay", serverEr)
 		return entites, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entites)

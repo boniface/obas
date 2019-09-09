@@ -15,15 +15,16 @@ func TestGetUniversityCourses(t *testing.T) {
 }
 
 func TestGetUniversityCourse(t *testing.T) {
-	expected := "GEO"
-	result, err := GetUniversityCourse("25")
+	expected := "UCT"
+	result, err := GetUniversityCourse("ADS04")
 	assert.Nil(t, err)
+	fmt.Println(" The Results", result)
 	assert.Equal(t, expected, result.Name)
 
 }
 
 func TestCreateUniversityCourses(t *testing.T) {
-	result := domain.UniversityCourses{"G056", "GEO", "GEO", "SECOND", "SECOND"}
+	result := domain.UniversityCourses{"ADS04", "3YEAR", "UCT", "FULL", "THIRD"}
 	value, err := CreateUniversityCourses(result)
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
@@ -32,7 +33,7 @@ func TestCreateUniversityCourses(t *testing.T) {
 }
 
 func TestUpdateUniversityCourses(t *testing.T) {
-	result := domain.UniversityCourses{"G058", "GEO", "GEO", "SECOND", "SECOND"}
+	result := domain.UniversityCourses{"ADS04", "3YEAR", "UCT", "FULL", "THIRD"}
 	value, err := UpdateUniversityCourses(result)
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
@@ -40,7 +41,7 @@ func TestUpdateUniversityCourses(t *testing.T) {
 }
 
 func TestDeleteUniversityCourses(t *testing.T) {
-	result := domain.UniversityCourses{"G056", "GEO", "GEO", "SECOND", "SECOND"}
+	result := domain.UniversityCourses{"ADS04", "3YEAR", "UCT", "FULL", "THIRD"}
 	value, err := DeleteUniversityCourses(result)
 	assert.Nil(t, err)
 	assert.True(t, value)
