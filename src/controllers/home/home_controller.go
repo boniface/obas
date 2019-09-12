@@ -1,4 +1,4 @@
-package home
+package controllers
 
 import (
 	"github.com/go-chi/chi"
@@ -17,7 +17,7 @@ func Home(app *config.Env) http.Handler {
 func indexHanler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		files := []string{
-			app.Path + "/index.html",
+			app.Path + "index.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {

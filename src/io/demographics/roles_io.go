@@ -10,9 +10,9 @@ const roleUrl = api.BASE_URL + "/demographics"
 
 type Roles domain.Roles
 
-func GetRoles() ([]Roles, error) {
-	entites := []Roles{}
-	resp, _ := api.Rest().Get(roleUrl + "/all")
+func GetRoles() ([]domain.Roles, error) {
+	entites := []domain.Roles{}
+	resp, _ := api.Rest().Get(roleUrl + "/roles/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
@@ -23,9 +23,9 @@ func GetRoles() ([]Roles, error) {
 	return entites, nil
 }
 
-func GetRole(id string) (Roles, error) {
-	entity := Roles{}
-	resp, _ := api.Rest().Get(roleUrl + "/get/" + id)
+func GetRole(id string) (domain.Roles, error) {
+	entity := domain.Roles{}
+	resp, _ := api.Rest().Get(roleUrl + "/roles/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -39,7 +39,7 @@ func GetRole(id string) (Roles, error) {
 func CreateRole(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(roleUrl + "/create")
+		Post(roleUrl + "/roles/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -50,7 +50,7 @@ func CreateRole(entity interface{}) (bool, error) {
 func UpdateRole(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(roleUrl + "/update")
+		Post(roleUrl + "/roles/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -62,7 +62,7 @@ func DeleteRole(entity interface{}) (bool, error) {
 
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(roleUrl + "/delete")
+		Post(roleUrl + "/roles/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

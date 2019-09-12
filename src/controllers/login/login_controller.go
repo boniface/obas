@@ -21,7 +21,7 @@ func Login(app *config.Env) http.Handler {
 func loginHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		files := []string{
-			app.Path + "/login/login.page.html",
+			app.Path + "base/login/login.page.html",
 		}
 
 		ts, err := template.ParseFiles(files...)
@@ -79,7 +79,6 @@ func passwordHandler(app *config.Env) http.HandlerFunc {
 
 func getAccountsHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-
 
 	}
 }
