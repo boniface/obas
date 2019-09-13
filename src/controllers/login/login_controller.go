@@ -15,7 +15,6 @@ func Login(app *config.Env) http.Handler {
 	r.Get("/password", passwordHandler(app))
 	r.Get("/verify", passwordHandler(app))
 	return r
-
 }
 
 func loginHandler(app *config.Env) http.HandlerFunc {
@@ -23,7 +22,6 @@ func loginHandler(app *config.Env) http.HandlerFunc {
 		files := []string{
 			app.Path + "base/login/login.page.html",
 		}
-
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
@@ -32,7 +30,6 @@ func loginHandler(app *config.Env) http.HandlerFunc {
 		err = ts.Execute(w, nil)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
-
 		}
 
 	}

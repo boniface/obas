@@ -17,7 +17,7 @@ func Register(app *config.Env) http.Handler {
 
 func RegisterHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		print("i'm here")
+
 		files := []string{
 			app.Path + "base/register/register.page.html",
 		}
