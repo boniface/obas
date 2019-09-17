@@ -26,7 +26,7 @@ FROM build_base AS builder
 # Here we copy the rest of the source code
 COPY . .
 # And compile the project
-RUN CGO_ENABLED=1 GOOS=linux go build -a -installsuffix cgo -o hashlinks .
+RUN CGO_ENABLED=1 GOOS=linux go build -a -installsuffix cgo -o obas .
 
 #In this last stage, we start from a fresh Alpine image, to reduce the image size and not ship the Go compiler in our production artifacts.
 FROM alpine AS obas
