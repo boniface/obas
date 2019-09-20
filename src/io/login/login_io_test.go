@@ -19,6 +19,6 @@ func TestLogin_io(t *testing.T) {
 	if err != nil {
 		fmt.Println("This has errors: ", err.Error())
 	}
-	fmt.Println(" thre Result is ", result)
-	assert.True(t, result)
+	fmt.Println(" thre Result is ", err)
+	assert.NotNil(t, result)
 }
