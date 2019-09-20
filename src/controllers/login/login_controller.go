@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"net/http"
 	"obas/src/config"
+	"obas/src/io/login"
 )
 
 // Route Path
@@ -49,14 +50,12 @@ func forgotPassword(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		w.Write([]byte("welcome"))
-
 	}
 }
 
 func passwordHandler(app *config.Env) http.HandlerFunc {
 
 	return func(w http.ResponseWriter, r *http.Request) {
-
 		files := []string{
 			app.Path + "/login/password.page.html",
 		}
@@ -69,13 +68,20 @@ func passwordHandler(app *config.Env) http.HandlerFunc {
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		}
-
 	}
-
 }
-
 func getAccountsHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-
+		r.ParseForm()
+		email := r.PostFormValue("email")
+		password := r.PostFormValue("password")
+		result, err := login.Login_io(email, password)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			//println("error")
+			return
+		}
+		app.InfoLog.Println("LogIn is ", result)
+		http.Redirect(w, r, "/users", 301)
 	}
 }

@@ -56,18 +56,18 @@
     <!-- Banner starts here -->
     <section id="HeroBanner">
         <div class="box-content">
-            <form method="post" action="../../index.html">
+            <form method="post" action="/login/accounts" novalidate>
                 <div class="box">
                     <h1>login</h1>
 
                     <input type="email" name="email" value="email" onFocus="field_focus(this, 'email');"
                            onblur="field_blur(this, 'email');" class="email"/>
 
-                    <input type="password" name="email" value="email" onFocus="field_focus(this, 'email');"
-                           onblur="field_blur(this, 'email');" class="email"/>
+                    <input type="password" name="password" value="password" onFocus="field_focus(this, 'password');"
+                           onblur="field_blur(this, 'password');" class="password"/>
 
                     <a href="#">
-                        <div class="btn">Sign In</div>
+                        <div type="email" class="btn">Sign In</div>
                     </a> <!-- End Btn -->
 
                 </div> <!-- End Box -->
@@ -102,7 +102,7 @@
 </body>
 <script>
 
-   /*** function field_focus(field, email) {
+   function field_focus(field, email) {
         if (field.value == email) {
             field.value = '';
         }
@@ -121,8 +121,8 @@
 
     //Stop click event
     $('a').click(function (event) {
-        event.preventDefault();
-    });*/
+       // alert("we are in")
+    });
 
 </script>
 </html>
