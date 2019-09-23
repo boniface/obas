@@ -10,7 +10,7 @@ const loginURL = api.BASE_URL + "/login"
 
 type Register loginDomain.Register
 
-func DoRegister(email string)(bool, error) {
+func DoRegister(email string) (bool, error) {
 	entity := Register{}
 	entity.Email = email
 	resp, _ := api.Rest().

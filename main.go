@@ -4,8 +4,8 @@ import (
 	"flag"
 	"log"
 	"net/http"
-	"obas/src/config"
-	"obas/src/controllers"
+	"obas/config"
+	"obas/controllers"
 	"os"
 )
 

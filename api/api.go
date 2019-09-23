@@ -2,7 +2,7 @@ package api
 
 import (
 	"gopkg.in/resty.v1"
-	"obas/src/config"
+	"obas/config"
 )
 
 const BASE_URL string = "https://ict.cput.ac.za/obasapi"

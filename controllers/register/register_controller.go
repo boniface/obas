@@ -37,7 +37,7 @@ func RegisterHome(app *config.Env) http.HandlerFunc {
 }
 
 func RegisterHandler(app *config.Env) http.HandlerFunc {
-	return func(w http.ResponseWriter, r * http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 		email := r.PostFormValue("email")
 		registered, err := login.DoRegister(email)
