@@ -3,9 +3,9 @@ package controllers
 import (
 	"github.com/go-chi/chi"
 	"html/template"
+	"obas/config"
 
 	"net/http"
-	"obas/src/config"
 )
 
 func Addresses(app *config.Env) http.Handler {

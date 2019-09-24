@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- favicons -->
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
@@ -36,7 +36,7 @@
                 <a href="javascript:void(0)" class="menu-trigger hidden-lg-up"><span>&nbsp;</span></a>
                 <div class="main-menu hidden-md-down">
                     <ul class="menu-list">
-                        <li><a class="nav-link" href="/" data-target="#HeroBanner">Home</a></li>
+                        <li><a class="nav-link" href="home" data-target="#HeroBanner">Home</a></li>
                         <li><a class="nav-link" href="login" data-target="#About">Login</a></li>
                         <li><a class="nav-link" href="register" data-target="#Portfolio">Register</a></li>
                     </ul>
@@ -44,7 +44,7 @@
             </div>
             <div class="mobile-menu hidden-lg-up">
                 <ul class="mobile-menu-list">
-                    <li><a class="nav-link" href="/" data-target="#HeroBanner">Home</a></li>
+                    <li><a class="nav-link" href="home" data-target="#HeroBanner">Home</a></li>
                     <li><a class="nav-link" href="login" data-target="#About">Login</a></li>
                     <li><a class="nav-link" href="register" data-target="#Portfolio">Register</a></li>
 
@@ -56,18 +56,16 @@
     <!-- Banner starts here -->
     <section id="HeroBanner">
         <div class="box-content">
-            <form method="post" action="/register/register" novalidate>
+            <form method="post" action="../../index.html">
                 <div class="box">
                     <h1>Registration</h1>
 
-                    <label>
-                        <input type="email" name="email" value="email" onFocus="field_focus(this, 'email');"
-                               onblur="field_blur(this, 'email');" class="email"/>
-                    </label>
+                    <input type="email" name="email" value="email" onFocus="field_focus(this, 'email');"
+                           onblur="field_blur(this, 'email');" class="email"/>
 
-                    <!-- a href="#"-->
-                        <button type="submit" class="btn">Submit</button>
-                    <!--/a --> <!-- End Btn -->
+                    <a href="#">
+                        <div class="btn">Submit</div>
+                    </a> <!-- End Btn -->
 
                 </div> <!-- End Box -->
 
@@ -98,8 +96,8 @@
 </section>
 </body>
 <script>
-    var myemail;
-   function field_focus(field, email) {
+
+    function field_focus(field, email) {
         if (field.value == email) {
             field.value = '';
         }
@@ -108,7 +106,6 @@
     function field_blur(field, email) {
         if (field.value == '') {
             field.value = email;
-            myemail=email.toString();
         }
     }
 
@@ -118,10 +115,8 @@
     });
 
     //Stop click event
-      $('a').click(function (event) {
-
-          //alert("weeee"+myemail)
-       // event.preventDefault();
+    $('a').click(function (event) {
+        event.preventDefault();
     });
 
 </script>

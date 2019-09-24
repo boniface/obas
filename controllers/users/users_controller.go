@@ -5,23 +5,20 @@ import (
 	"html/template"
 
 	"net/http"
-	"obas/src/config"
+	"obas/config"
 )
 
 func Users(app *config.Env) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", UsersHandler(app))
 	r.Get("/admin", AdminHandler(app))
-	r.Get("/student", StudentHandler(app))
-	r.Get("/support", TechnoHandler(app))
-
-	/*r.Get("/processingStatus", ProcessingStatusTypeHandler(app))
+	r.Get("/processingStatus", ProcessingStatusTypeHandler(app))
 	r.Get("/studentApplication", StudentApplicationStatusHandler(app))
 	r.Get("/studentContact", StudentContactsHandler(app))
 	r.Get("/studentDemographics", StudentDemographicsHandler(app))
 	r.Get("/studentDocuments", StudentDocumentsHandler(app))
 	r.Get("/studentProfile", StudentProfileHandler(app))
-	r.Get("/studentResults", StudentResultsHandler(app))*/
+	r.Get("/studentResults", StudentResultsHandler(app))
 	return r
 }
 
@@ -74,10 +71,10 @@ func AdminHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{""}
 
 		files := []string{
-			app.Path + "content/admin/admin_dashboard.page.html",
+			app.Path + "/users/users.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
+			app.Path + "/base/sidebarOld.page.html",
 			app.Path + "/base/footer.page.html",
 		}
 		ts, err := template.ParseFiles(files...)
@@ -93,75 +90,7 @@ func AdminHandler(app *config.Env) http.HandlerFunc {
 	}
 }
 
-func StudentHandler(app *config.Env) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		//allUsers, err := io.GetUsers()
-		//
-		//if err != nil {
-		//	app.ServerError(w, err)
-		//}
-
-		type PageData struct {
-			//courses []io.Users
-			name string
-		}
-		data := PageData{""}
-
-		files := []string{
-			app.Path + "content/student/student_dashboard.page.html",
-			app.Path + "/base/base.page.html",
-			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
-			app.Path + "/base/footer.page.html",
-		}
-		ts, err := template.ParseFiles(files...)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			return
-		}
-		err = ts.ExecuteTemplate(w, "base", data)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-		}
-
-	}
-}
-
-func TechnoHandler(app *config.Env) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		//allUsers, err := io.GetUsers()
-		//
-		//if err != nil {
-		//	app.ServerError(w, err)
-		//}
-
-		type PageData struct {
-			//courses []io.Users
-			name string
-		}
-		data := PageData{""}
-
-		files := []string{
-			app.Path + "content/tech/tech_dashboard.page.html",
-			app.Path + "/base/base.page.html",
-			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
-			app.Path + "/base/footer.page.html",
-		}
-		ts, err := template.ParseFiles(files...)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			return
-		}
-		err = ts.ExecuteTemplate(w, "base", data)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-		}
-
-	}
-}
-
-/*func ProcessingStatusTypeHandler(app *config.Env) http.HandlerFunc {
+func ProcessingStatusTypeHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		//allProcess, err := io.GetProcessingStatusTypes()
 		//
@@ -394,4 +323,3 @@ func StudentResultsHandler(app *config.Env) http.HandlerFunc {
 
 	}
 }
-*/

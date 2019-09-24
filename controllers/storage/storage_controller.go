@@ -3,7 +3,7 @@ package controllers
 import (
 	"github.com/go-chi/chi"
 	"net/http"
-	"obas/src/config"
+	"obas/config"
 )
 
 func Storages(app *config.Env) http.Handler {
