@@ -13,9 +13,9 @@ import (
 	controllers8 "obas/controllers/institutions"
 	controllers9 "obas/controllers/location"
 	controllers10 "obas/controllers/log"
+	controllers3 "obas/controllers/registration"
 	controllers2 "obas/controllers/subjects"
 	controllers11 "obas/controllers/users"
-	controllers3 "obas/src/controllers/registration"
 
 	"obas/controllers/login"
 )
