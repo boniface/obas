@@ -7,20 +7,18 @@ import (
 	"obas/config"
 )
 
-// Route Path
-func Register(app *config.Env) http.Handler {
+func Home(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/", RegisterHandler(app))
+	//r.Use(middleware.RequireAuthenticatedUser)
+	r.Get("/", indexHanler(app))
 	return r
-
 }
 
-func RegisterHandler(app *config.Env) http.HandlerFunc {
+func indexHanler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		files := []string{
-			app.Path + "/register/register.page.html",
+			app.Path + "index.html",
 		}
-
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
@@ -29,9 +27,6 @@ func RegisterHandler(app *config.Env) http.HandlerFunc {
 		err = ts.Execute(w, nil)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
-
 		}
-
 	}
-
 }
