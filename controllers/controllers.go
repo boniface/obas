@@ -13,9 +13,9 @@ import (
 	controllers8 "obas/controllers/institutions"
 	controllers9 "obas/controllers/location"
 	controllers10 "obas/controllers/log"
+	controllers3 "obas/controllers/registration"
 	controllers2 "obas/controllers/subjects"
 	controllers11 "obas/controllers/users"
-	controllers3 "obas/src/controllers/registration"
 
 	"obas/controllers/login"
 )
@@ -39,7 +39,7 @@ func Controllers(env *config.Env) http.Handler {
 	mux.Mount("/location", controllers9.Locations(env))
 	mux.Mount("/log", controllers10.Logs(env))
 
-	fileServer := http.FileServer(http.Dir("./src/views/assets/"))
+	fileServer := http.FileServer(http.Dir("./views/assets/"))
 	// Use the mux.Handle() function to register the file server as the handler for
 	// all URL paths that start with "/assets/". For matching paths, we strip the
 	// "/static" prefix before the request reaches the file server.
