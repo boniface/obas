@@ -1,22 +1,22 @@
-package login
+package io
 
 import (
 	"encoding/json"
 	"errors"
 	"net/mail"
 	"obas/api"
-	"obas/controllers/login"
-	"obas/src/domain/users"
+	domain2 "obas/domain/login"
+	"obas/domain/users"
 )
 
 const roleurl = api.BASE_URL + "/login"
 
-type User users.User
+type User domain.User
 type MessageResponse mail.Message
-type UserGeneratedToken security.UserGeneratedToken
+type UserGeneratedToken User.UserGeneratedToken
 type Account users.Account
 type Profile login.Profile
-type LoginCredential login.LoginCredential
+type LoginCredential domain2.Login
 
 func ResetPasswordRequest(resetKey string) (MessageResponse, error) {
 	entity := MessageResponse{}

@@ -2,8 +2,8 @@ package io
 
 import (
 	"errors"
-	"obas/src/api"
-	domain "obas/src/domain/log"
+	"obas/api"
+	domain "obas/domain/log"
 )
 
 const logEventUrl = api.BASE_URL + "/log"

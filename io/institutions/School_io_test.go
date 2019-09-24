@@ -3,7 +3,7 @@ package institutions
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
-	domain "obas/src/domain/institutions"
+	domain "obas/domain/institutions"
 	"testing"
 )
 

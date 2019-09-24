@@ -2,8 +2,8 @@ package io
 
 import (
 	"errors"
-	"obas/src/api"
-	domain "obas/src/domain/application"
+	"obas/api"
+	domain "obas/domain/application"
 )
 
 const applicationResultUrl = api.BASE_URL + "/application"

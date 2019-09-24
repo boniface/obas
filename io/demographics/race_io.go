@@ -2,8 +2,8 @@ package io
 
 import (
 	"errors"
-	"obas/src/api"
-	domain "obas/src/domain/demographics"
+	"obas/api"
+	domain "obas/domain/demographics"
 )
 
 const raceUrl = api.BASE_URL + "/demographics"
