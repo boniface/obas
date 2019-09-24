@@ -4,7 +4,7 @@ import (
 	"github.com/go-chi/chi"
 	"html/template"
 	"net/http"
-	"obas/src/config"
+	"obas/config"
 )
 
 func Locations(app *config.Env) http.Handler {

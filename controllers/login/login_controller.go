@@ -4,7 +4,7 @@ import (
 	"github.com/go-chi/chi"
 	"html/template"
 	"net/http"
-	"obas/src/config"
+	"obas/config"
 )
 
 // Route Path
@@ -15,13 +15,15 @@ func Login(app *config.Env) http.Handler {
 	r.Get("/password", passwordHandler(app))
 	r.Get("/verify", passwordHandler(app))
 	return r
+
 }
 
 func loginHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		files := []string{
-			app.Path + "base/login/login.page.html",
+			app.Path + "/login/login.page.html",
 		}
+
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
@@ -30,6 +32,7 @@ func loginHandler(app *config.Env) http.HandlerFunc {
 		err = ts.Execute(w, nil)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
+
 		}
 
 	}

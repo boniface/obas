@@ -4,20 +4,20 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"net/http"
-	"obas/src/config"
-	controllers4 "obas/src/controllers/address"
-	controllers6 "obas/src/controllers/application"
-	controllers5 "obas/src/controllers/demographics"
-	controllers7 "obas/src/controllers/documents"
-	controllers "obas/src/controllers/home"
-	controllers8 "obas/src/controllers/institutions"
-	controllers9 "obas/src/controllers/location"
-	controllers10 "obas/src/controllers/log"
-	"obas/src/controllers/register"
-	controllers2 "obas/src/controllers/subjects"
-	controllers11 "obas/src/controllers/users"
+	"obas/config"
+	controllers4 "obas/controllers/address"
+	controllers6 "obas/controllers/application"
+	controllers5 "obas/controllers/demographics"
+	controllers7 "obas/controllers/documents"
+	controllers "obas/controllers/home"
+	controllers8 "obas/controllers/institutions"
+	controllers9 "obas/controllers/location"
+	controllers10 "obas/controllers/log"
+	controllers2 "obas/controllers/subjects"
+	controllers11 "obas/controllers/users"
+	controllers3 "obas/src/controllers/registration"
 
-	"obas/src/controllers/login"
+	"obas/controllers/login"
 )
 
 func Controllers(env *config.Env) http.Handler {
@@ -28,7 +28,7 @@ func Controllers(env *config.Env) http.Handler {
 
 	mux.Handle("/", controllers.Home(env))
 	mux.Mount("/login", login.Login(env))
-	mux.Mount("/register", register.Register(env))
+	mux.Handle("/register", controllers3.Register(env))
 	mux.Mount("/users", controllers11.Users(env))
 	mux.Mount("/subjects", controllers2.Subjects(env))
 	mux.Mount("/address", controllers4.Addresses(env))

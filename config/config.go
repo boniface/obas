@@ -8,9 +8,9 @@ import (
 )
 
 type Env struct {
-	ErrorLog      *log.Logger
-	InfoLog       *log.Logger
-	Path          string
+	ErrorLog *log.Logger
+	InfoLog  *log.Logger
+	Path     string
 }
 
 type templateData struct {
