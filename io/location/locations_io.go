@@ -3,8 +3,8 @@ package io
 import (
 	"errors"
 	"fmt"
-	"obas/src/api"
-	domain "obas/src/domain/location"
+	"obas/api"
+	domain "obas/domain/location"
 )
 
 const locationUrl = api.BASE_URL + "/location"

@@ -2,8 +2,8 @@ package institutions
 
 import (
 	"errors"
-	"obas/src/api"
-	domain "obas/src/domain/institutions"
+	"obas/api"
+	domain "obas/domain/institutions"
 )
 
 const universityUrl = api.BASE_URL + "/institutions"

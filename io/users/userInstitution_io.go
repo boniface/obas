@@ -2,8 +2,8 @@ package io
 
 import (
 	"errors"
-	"obas/src/api"
-	domain "obas/src/domain/users"
+	"obas/api"
+	domain "obas/domain/users"
 )
 
 const userIntUrl = api.BASE_URL + "/users"

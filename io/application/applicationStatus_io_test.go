@@ -3,7 +3,7 @@ package io
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
-	domain "obas/src/domain/application"
+	domain "obas/domain/application"
 	"testing"
 )
 
