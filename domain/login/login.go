@@ -1,10 +1,10 @@
 package domain
 
 type Login struct {
-	Email    string `json:"Email"`
-	Password string `json:"Password"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
-type ForgottenPassword struct {
-	Email string `json:"Email"`
+type Register struct {
+	Email string `json:"email"`
 }
