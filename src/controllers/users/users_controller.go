@@ -107,13 +107,12 @@ func StudentHandler(app *config.Env) http.HandlerFunc {
 		}
 		data := PageData{""}
 
-		files := []string{
-			app.Path + "content/student/student_dashboard.page.html",
-			app.Path + "/base/base.page.html",
-			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebar.page.html",
-			app.Path + "/base/footer.page.html",
-		}
+		files := []string{app.Path + "content/student/student_dashboard.page.html"}/**app.Path + "content/student/student_dashboard.page.html",
+		app.Path + "/base/base.page.html",
+		app.Path + "/base/navbar.page.html",
+		app.Path + "/base/sidebar.page.html",
+		app.Path + "/base/footer.page.html",*/
+
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())

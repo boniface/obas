@@ -82,6 +82,6 @@ func getAccountsHandler(app *config.Env) http.HandlerFunc {
 			return
 		}
 		app.InfoLog.Println("LogIn is ", result)
-		http.Redirect(w, r, "/users", 301)
+		http.Redirect(w, r, "/users/student", 301)
 	}
 }
