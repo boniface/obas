@@ -12496,7 +12496,7 @@ ul, li {
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: #ffea00;
+   background-color: #ffea00;
     visibility: hidden;
     -webkit-transform: scaleX(0);
     transform: scaleX(0);
