@@ -3,7 +3,6 @@ package controllers
 import (
 	"github.com/go-chi/chi"
 	"html/template"
-
 	"net/http"
 	"obas/config"
 )
@@ -12,6 +11,7 @@ func Users(app *config.Env) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", UsersHandler(app))
 	r.Get("/admin", AdminHandler(app))
+	r.Get("/student", StudentHandler(app))
 	r.Get("/processingStatus", ProcessingStatusTypeHandler(app))
 	r.Get("/studentApplication", StudentApplicationStatusHandler(app))
 	r.Get("/studentContact", StudentContactsHandler(app))
@@ -20,6 +20,27 @@ func Users(app *config.Env) http.Handler {
 	r.Get("/studentProfile", StudentProfileHandler(app))
 	r.Get("/studentResults", StudentResultsHandler(app))
 	return r
+}
+
+func StudentHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		files := []string{
+			app.Path + "content/student/student_dashboard.page.html",
+		}
+
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, nil)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+
+		}
+
+	}
+
 }
 
 func UsersHandler(app *config.Env) http.HandlerFunc {
@@ -37,11 +58,12 @@ func UsersHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{""}
 
 		files := []string{
-			app.Path + "/users/users.page.html",
+			app.Path + "base/register/register.page.html",
+			/**app.Path + "/users/users.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebarOld.page.html",
-			app.Path + "/base/footer.page.html",
+			app.Path + "/base/footer.page.html",*/
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -126,36 +148,11 @@ func ProcessingStatusTypeHandler(app *config.Env) http.HandlerFunc {
 
 func StudentApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		//allApplications, err := io.GetStudentApplicationStatuses()
-		//
-		//if err != nil {
-		//	app.ServerError(w, err)
-		//}
 
-		type PageData struct {
-			//subjects []io.StudentApplicationStatus
-			name string
-		}
-		data := PageData{""}
-
-		files := []string{
-			app.Path + "/users/users.page.html",
-			app.Path + "/base/base.page.html",
-			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebarOld.page.html",
-			app.Path + "/base/footer.page.html",
-		}
-		ts, err := template.ParseFiles(files...)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			return
-		}
-		err = ts.ExecuteTemplate(w, "base", data)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-		}
-
+		//app.InfoLog.Println("Login is successful. Result is ", loginToken)
+		http.Redirect(w, r, "/user/student", 301)
 	}
+	//app.Path + "content/student/Student_Application.html",
 }
 
 func StudentContactsHandler(app *config.Env) http.HandlerFunc {
