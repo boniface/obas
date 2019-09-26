@@ -8,6 +8,7 @@ import (
 	"obas/src/config"
 )
 
+//noinspection ALL
 func Addresses(app *config.Env) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/all", AddressTypeHandler(app))
@@ -15,6 +16,7 @@ func Addresses(app *config.Env) http.Handler {
 	return r
 }
 
+//noinspection ALL
 func AddressTypeHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		//allAddresses, err := io.GetAddresses()
