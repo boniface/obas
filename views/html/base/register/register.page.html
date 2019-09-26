@@ -35,16 +35,22 @@
                 </div>
                 <a href="javascript:void(0)" class="menu-trigger hidden-lg-up"><span>&nbsp;</span></a>
                 <div class="main-menu hidden-md-down">
-                    <ul class="menu-list">
-                        <li><a class="nav-link" href="home" data-target="#HeroBanner">Home</a></li>
+                  <!--  <ul class="menu-list">
+                        <li><a class="nav-link" href="/" data-target="#HeroBanner">Home</a></li>
                         <li><a class="nav-link" href="login" data-target="#About">Login</a></li>
                         <li><a class="nav-link" href="register" data-target="#Portfolio">Register</a></li>
+
+                    </ul>-->
+                    <ul>
+                        <li><a  href="/" >Home</a></li>
+                        <li><a  href="login" >Login</a></li>
+                        <li><a class="active" href="register" >Register</a></li>
                     </ul>
                 </div>
             </div>
             <div class="mobile-menu hidden-lg-up">
                 <ul class="mobile-menu-list">
-                    <li><a class="nav-link" href="home" data-target="#HeroBanner">Home</a></li>
+                    <li><a class="nav-link" href="/" data-target="#HeroBanner">Home</a></li>
                     <li><a class="nav-link" href="login" data-target="#About">Login</a></li>
                     <li><a class="nav-link" href="register" data-target="#Portfolio">Register</a></li>
 
@@ -56,16 +62,14 @@
     <!-- Banner starts here -->
     <section id="HeroBanner">
         <div class="box-content">
-            <form method="post" action="../../index.html">
+            <form method="post" action="/register/register">
                 <div class="box">
                     <h1>Registration</h1>
 
                     <input type="email" name="email" value="email" onFocus="field_focus(this, 'email');"
                            onblur="field_blur(this, 'email');" class="email"/>
 
-                    <a href="#">
-                        <div class="btn">Submit</div>
-                    </a> <!-- End Btn -->
+                    <button type="submit" class="btn">Submit</button><!-- End Btn -->
 
                 </div> <!-- End Box -->
 
@@ -116,7 +120,7 @@
 
     //Stop click event
     $('a').click(function (event) {
-        event.preventDefault();
+        // event.preventDefault();
     });
 
 </script>
