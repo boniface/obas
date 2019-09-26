@@ -1,8 +1,7 @@
-905c8ffbfa41b8a66dda0ba8e5d90908c3447522		branch 'master' of https://go.googlesource.com/tools
+ff9f1409240a6589b749f29c118cc0ac9bd5bcde		branch 'master' of https://go.googlesource.com/tools
 e7e52e73e2735bea994c85b62483cc6376dd8d74		branch 'release-branch.go1.10' of https://go.googlesource.com/tools
 e9f45831faab4562ce3f53f7196b67c08f948e86		branch 'release-branch.go1.11' of https://go.googlesource.com/tools
 aa82965741a9fecd12b026fbb3d3c6ed3231b8f8		branch 'release-branch.go1.12' of https://go.googlesource.com/tools
-65e3620a7ae7ac25e8494a60f0e5ef4e4fba03b3		branch 'release-branch.go1.13' of https://go.googlesource.com/tools
 f8f91591b720f65816369d36e577b525d0926902		branch 'release-branch.go1.2' of https://go.googlesource.com/tools
 b5e7da4a16c82e64159ccf8eda8babcecef44b88		branch 'release-branch.go1.3' of https://go.googlesource.com/tools
 abf43428cc239218424c7a44dc9b5987cd351c3e		branch 'release-branch.go1.4' of https://go.googlesource.com/tools
@@ -15,6 +14,3 @@ c887be1b2ebd11663d4bf2fbca508c449172339e		branch 'release-branch.go1.6' of https
 0f333750496e11a0c45ae2995df8dea7750e44cc		tag 'gopls/v0.1.1' of https://go.googlesource.com/tools
 8002bb0d793e3485337114ea9750d838e9664400		tag 'gopls/v0.1.2' of https://go.googlesource.com/tools
 470c9603e38e2c9997a85540514d71cd9b891163		tag 'gopls/v0.1.3' of https://go.googlesource.com/tools
-5770cfe733413ac37143e874911b6f9766fef105		tag 'gopls/v0.1.4' of https://go.googlesource.com/tools
-a1d98a135387d572910a2e113a1c716c1b896271		tag 'gopls/v0.1.5' of https://go.googlesource.com/tools
-fa599a76d7defdc3c98ee450315bae73629de044		tag 'gopls/v0.1.6' of https://go.googlesource.com/tools
