@@ -11,7 +11,7 @@ import (
 
 func main() {
 
-	var path = "./src/views/html/"
+	var path = "./src/views/html"
 	addr := flag.String("addr", ":4000", "HTTP network address")
 	flag.Parse()
 	env := &config.Env{
