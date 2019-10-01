@@ -1,7 +1,6 @@
 package register
 
 import (
-	"fmt"
 	"github.com/go-chi/chi"
 	"html/template"
 	"net/http"
@@ -48,7 +47,7 @@ func RegisterHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 			return
 		}
-		fmt.Println(" am here?")
+
 		app.InfoLog.Println("Registration is ", registered)
 		http.Redirect(w, r, "/login/redirection", 301)
 	}
