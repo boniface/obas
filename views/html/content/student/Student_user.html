@@ -254,7 +254,7 @@
                                             <img src="../../../assets/img/full-screen-image-3.jpg" alt="...">
                                         </div>
                                     </div>
-                                    <div class="card-body ">
+                                    <div  class="card-body ">
                                         <div class="author">
                                             <a href="#">
                                                 <img class="avatar border-gray" src="../../../assets/img/default-avatar.png"
@@ -330,43 +330,43 @@
                                       </ul>-->
                                     <div class="row justify-content-center">
                                         <ul class="nav nav-tabs">
-                                            <li class="nav-item">
+                                            <li class="nav-item myTab" >
                                                 <a class="nav-link active" href="#tab1" data-toggle="tab" role="tab"
                                                    aria-controls="tab1" aria-selected="true"
                                                    style=" background-color: #006837; color:#fcf8e3;width: 300px; border: #fcf8e3 4px solid">Personal
                                                     details</a>
                                             </li>
-                                            <li class="nav-item">
+                                            <li class="nav-item myTab" >
                                                 <a class="nav-link" href="#tab2" data-toggle="tab" role="tab"
                                                    aria-controls="tab2" aria-selected="true"
                                                    style=" background-color: #006837; color:#fcf8e3;width: 300px; border: #fcf8e3 4px solid">Guardian
                                                     details</a>
                                             </li>
-                                            <li class="nav-item">
+                                            <li class="nav-item myTab" >
                                                 <a class="nav-link" href="#tab3" data-toggle="tab" role="tab"
                                                    aria-controls="tab3" aria-selected="true"
                                                    style=" background-color: #006837; color:#fcf8e3;width: 300px; border: #fcf8e3 4px solid">Residential
                                                     details</a>
                                             </li>
-                                            <li class="nav-item">
+                                            <li class="nav-item myTab">
                                                 <a class="nav-link" href="#tab4" data-toggle="tab" role="tab"
                                                    aria-controls="tab3" aria-selected="true"
                                                    style=" background-color: #006837; color:#fcf8e3;width: 300px; border: #fcf8e3 4px solid">Subject
                                                     details</a>
                                             </li>
-                                            <li class="nav-item">
+                                            <li class="nav-item myTab" >
                                                 <a class="nav-link" href="#tab5" data-toggle="tab" role="tab"
                                                    aria-controls="tab5" aria-selected="true"
                                                    style=" background-color: #006837; color:#fcf8e3;width: 300px; border: #fcf8e3 4px solid">District
                                                     and Municipality</a>
                                             </li>
-                                            <li class="nav-item">
+                                            <li class="nav-item myTab" >
                                                 <a class="nav-link" href="#tab6" data-toggle="tab" role="tab"
                                                    aria-controls="tab6" aria-selected="true"
                                                    style=" background-color: #006837; color:#fcf8e3;width: 300px; border: #fcf8e3 4px solid">Course
                                                     details</a>
                                             </li>
-                                            <li class="nav-item">
+                                            <li class="nav-item myTab" >
                                                 <a class="nav-link" href="#tab7" data-toggle="tab" role="tab"
                                                    aria-controls="tab7" aria-selected="true"
                                                    style=" background-color: #006837; color:#fcf8e3;width: 300px; border: #fcf8e3 4px solid">Registration
@@ -436,6 +436,14 @@
                                                                    placeholder="ex: hello@creative-tim.com"/>
                                                         </div>
                                                     </div>
+                                                </div>
+                                                <div class="row justify-content-center">
+
+                                                    <button type="button" style="" class="btn btn-info btn-wd btn-next pull-right">
+                                                        Update
+                                                    </button>
+
+                                                    <div class="clearfix"></div>
                                                 </div>
                                             </div>
 
@@ -784,14 +792,14 @@
                                                 </div>
                                             </div>
 
-                                            <div class="card-footer text-center">
+                                           <!-- <div class="card-footer text-center">
 
                                                 <button type="button" class="btn btn-info btn-wd btn-next pull-right">
                                                     Update
                                                 </button>
 
                                                 <div class="clearfix"></div>
-                                            </div>
+                                            </div>-->
 
 
                                         </div>
@@ -973,5 +981,14 @@
 <script src="../../../assets/js/light-bootstrap-dashboard.js?v=2.0.1" type="text/javascript"></script>
 <!-- Light Dashboard DEMO methods, don't include it in your project! -->
 <script src="../../../assets/js/demo.js"></script>
+<script>
+    function sendDetails() {
+    alert("we are in");
+
+    }
+   var el1=document.getElementsByClassName('myTab');
+   // var el2=el1.getElementsByClassName('nav-item')
+    el.click=sendDetails;
+</script>
 
 </html>

@@ -4,7 +4,11 @@ FROM golang:alpine AS build_base
 
 RUN apk add bash ca-certificates git gcc g++ libc-dev
 
+
+
 WORKDIR /go/src/obas
+
+
 
 RUN mkdir /go/bin/obas
 # Force the go compiler to use modules
