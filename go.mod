@@ -3,6 +3,7 @@ module obas
 go 1.12
 
 require (
+	github.com/alexedwards/scs/v2 v2.2.0
 	github.com/go-chi/chi v4.0.2+incompatible
 	github.com/go-chi/docgen v1.0.5 // indirect
 	github.com/go-chi/valve v0.0.0-20170920024740-9e45288364f4 // indirect

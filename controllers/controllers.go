@@ -25,6 +25,7 @@ func Controllers(env *config.Env) http.Handler {
 	mux.Use(middleware.RequestID)
 	mux.Use(middleware.RealIP)
 	mux.Use(middleware.Logger)
+	mux.Use(env.Session.LoadAndSave)
 
 	mux.Handle("/", controllers.Home(env))
 	mux.Mount("/login", login.Login(env))

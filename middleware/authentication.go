@@ -1,12 +1,17 @@
 package middleware
 
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+)
 
 func RequireAuthenticatedUser(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// If the user is not authenticated, redirect them to the login page and
 		// return from the middleware chain so that no subsequent handlers in
 		// the chain are executed.
+
+		fmt.Println(" The Context ", r.Context().Value("message"))
 
 		if 0 == 0 {
 			http.Redirect(w, r, "/login", 302)
