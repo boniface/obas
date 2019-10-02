@@ -13,7 +13,6 @@ func Login(app *config.Env) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", loginHome(app))
 	r.Get("/error", loginError(app))
-	r.Get("/redirection", loginRedirection(app))
 	r.Post("/login", loginHandler(app))
 	r.Post("/accounts", getAccountsHandler(app))
 	r.Get("/password", passwordHandler(app))
@@ -35,31 +34,10 @@ func loginHome(app *config.Env) http.HandlerFunc {
 		err = ts.Execute(w, nil)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
-
 		}
-
-	}
-
-}
-func loginRedirection(app *config.Env) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		files := []string{
-			app.Path + "base/login/login.page_redirection.html",
-		}
-
-		ts, err := template.ParseFiles(files...)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			return
-		}
-		err = ts.Execute(w, nil)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-
-		}
-
 	}
 }
+
 func loginError(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		files := []string{
@@ -74,9 +52,7 @@ func loginError(app *config.Env) http.HandlerFunc {
 		err = ts.Execute(w, nil)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
-
 		}
-
 	}
 }
 
@@ -128,9 +104,7 @@ func passwordHandler(app *config.Env) http.HandlerFunc {
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		}
-
 	}
-
 }
 
 func getAccountsHandler(app *config.Env) http.HandlerFunc {

@@ -18,7 +18,7 @@ func main() {
 	sessionManager = scs.New()
 	sessionManager.Lifetime = 24 * time.Hour
 
-	var path = "./src/views/html"
+	var path = "./views/html/"
 	addr := flag.String("addr", ":4000", "HTTP network address")
 	flag.Parse()
 	env := &config.Env{

@@ -22,7 +22,6 @@ func RegisterHome(app *config.Env) http.HandlerFunc {
 		files := []string{
 			app.Path + "base/register/register.page.html",
 		}
-
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
@@ -31,7 +30,6 @@ func RegisterHome(app *config.Env) http.HandlerFunc {
 		err = ts.Execute(w, nil)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
-
 		}
 	}
 }
@@ -45,7 +43,35 @@ func RegisterHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 			return
 		}
-		app.InfoLog.Println("Registration is ", registered)
-		http.Redirect(w, r, "/login/redirection", 301)
+		type PageData struct {
+			Email string
+			Title string
+			Info string
+		}
+		var redirect, title, info string
+		if registered {
+			redirect = app.Path + "base/login/login.page.html"
+			title = "Registration is successful"
+			info = "A temporary password has been sent to your email. Please log in with the temporary password."
+		} else {
+			redirect = app.Path + "base/register/register.page.html"
+			title = "Registration NOT successful"
+			info = "An error occurred. Please try again or contact administrator."
+		}
+		data := PageData{email, title, info}
+		files := []string{
+			redirect,
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+		//app.InfoLog.Println("Registration is ", registered)
+		//http.Redirect(w, r, "/login/redirection", 301)
 	}
 }
