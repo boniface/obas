@@ -5958,7 +5958,7 @@ fieldset[disabled] .form-control {
 }
 
 .card-user .card-body {
-    min-height: 240px;
+    min-height: 20px;
 }
 
 .card-user .card-header.no-padding {
