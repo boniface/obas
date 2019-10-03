@@ -1,15 +1,19 @@
 package controllers
 
 import (
+	"context"
+	"fmt"
 	"github.com/go-chi/chi"
 	"html/template"
 	"obas/config"
+	"obas/middleware"
 
 	"net/http"
 )
 
 func Addresses(app *config.Env) http.Handler {
 	r := chi.NewRouter()
+	r.Use(middleware.RequireAuthenticatedUser)
 	r.Get("/all", AddressTypeHandler(app))
 	r.Get("/contact/all", ContactTypeTypeHandler(app))
 	return r
@@ -17,11 +21,16 @@ func Addresses(app *config.Env) http.Handler {
 
 func AddressTypeHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		app.Session.Put(r.Context(), "message", "Hello from a session!")
+		msg := app.Session.Get(r.Context(), "message")
+		context.WithValue(r.Context(), "message", "123")
 		//allAddresses, err := io.GetAddresses()
 		//
 		//if err != nil {
 		//	app.ServerError(w, err)
 		//}
+
+		fmt.Println(" The Session ", msg)
 
 		type PageData struct {
 			//addresses []io.AddressType
