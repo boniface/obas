@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"github.com/alexedwards/scs/v2"
 	"log"
 	"net/http"
 	"runtime/debug"
@@ -11,6 +12,7 @@ type Env struct {
 	ErrorLog *log.Logger
 	InfoLog  *log.Logger
 	Path     string
+	Session  scs.SessionManager
 }
 
 type templateData struct {
