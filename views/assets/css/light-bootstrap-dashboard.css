@@ -5041,7 +5041,7 @@ fieldset[disabled] .form-control {
 .nav-icons .nav-item .nav-link {
     display: block;
     padding: 0px 16px;
-    color: #9A9A9A;
+    color: #006837;
     text-align: center;
     opacity: 0.8;
     filter: alpha(opacity=80);
@@ -5065,7 +5065,7 @@ fieldset[disabled] .form-control {
 .nav-text .nav-item.active .nav-link,
 .nav-icons .nav-item .nav-link.active,
 .nav-icons .nav-item.active .nav-link {
-    color: #23CCEF;
+    color: #006837;
 }
 
 .nav-icons > li {
