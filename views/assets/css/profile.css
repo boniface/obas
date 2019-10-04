@@ -1,0 +1,11 @@
+/** custom style starts here */
+
+.label-font-color {
+    color: #FFFFFF !important;
+}
+
+button {
+    margin: 0 5px 5px 0;
+}
+
+/** custom style ends here */
