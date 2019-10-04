@@ -66,11 +66,6 @@ func StudentProfileHandler(app *config.Env) http.HandlerFunc {
 
 func UsersHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		//allUsers, err := io.GetUsers()
-		//
-		//if err != nil {
-		//	app.ServerError(w, err)
-		//}
 
 		type PageData struct {
 			//courses []io.Users
@@ -169,9 +164,23 @@ func ProcessingStatusTypeHandler(app *config.Env) http.HandlerFunc {
 
 func StudentApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		files := []string{
+			app.Path + "content/student/Student_Application.html",
+		}
 
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, nil)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+
+		}
 		//app.InfoLog.Println("Login is successful. Result is ", loginToken)
-		http.Redirect(w, r, "/user/student", 301)
+
+		//http.Redirect(w, r, "/user/student", 301)
 	}
 	//app.Path + "content/student/Student_Application.html",
 }
