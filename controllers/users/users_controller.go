@@ -12,13 +12,12 @@ func Users(app *config.Env) http.Handler {
 	r.Get("/", UsersHandler(app))
 	r.Get("/admin", AdminHandler(app))
 	r.Get("/student", StudentHandler(app))
-	r.Get("/student_profile", StudentProfileHandler(app))
+	r.Get("/student/profile", StudentProfileHandler(app))
 	r.Get("/processingStatus", ProcessingStatusTypeHandler(app))
 	r.Get("/studentApplication", StudentApplicationStatusHandler(app))
 	r.Get("/studentContact", StudentContactsHandler(app))
 	r.Get("/studentDemographics", StudentDemographicsHandler(app))
 	r.Get("/studentDocuments", StudentDocumentsHandler(app))
-	r.Get("/studentProfile", StudentProfileHandler(app))
 	r.Get("/studentResults", StudentResultsHandler(app))
 
 	return r
@@ -43,6 +42,26 @@ func StudentHandler(app *config.Env) http.HandlerFunc {
 
 	}
 
+}
+
+func StudentProfileHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		files := []string{
+			app.Path + "content/student/student_profile.html",
+		}
+
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, nil)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+
+		}
+
+	}
 }
 
 func UsersHandler(app *config.Env) http.HandlerFunc {
@@ -256,25 +275,7 @@ func StudentDocumentsHandler(app *config.Env) http.HandlerFunc {
 
 	}
 }
-func StudentProfileHandler(app *config.Env) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		files := []string{
-			app.Path + "content/student/student_profile.html",
-		}
 
-		ts, err := template.ParseFiles(files...)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			return
-		}
-		err = ts.Execute(w, nil)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-
-		}
-
-	}
-}
 func StudentResultsHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		//allStudentResults, err := io.GetStudentResults()
