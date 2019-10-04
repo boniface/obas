@@ -10,6 +10,7 @@ import (
 const loginURL = api.BASE_URL + "/login"
 
 type Register loginDomain.Register
+type Forget loginDomain.ForgetPassword
 type Login loginDomain.Login
 type LoginToken loginDomain.LoginToken
 
@@ -19,6 +20,21 @@ func DoRegister(email string) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
 		Post(loginURL + "/register")
+	if resp.IsError() {
+		return false, errors.New(resp.Status())
+	}
+	return true, nil
+}
+
+/**
+i don't know yet what is the response from the backend on this request.
+*/
+func DoRest(email string) (bool, error) {
+	entity := Forget{}
+	entity.Email = email
+	resp, _ := api.Rest().
+		SetBody(entity).
+		Post(loginURL + "/forgotpassword")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
