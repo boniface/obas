@@ -8,12 +8,15 @@ type Login struct {
 type Register struct {
 	Email string `json:"email"`
 }
+
 type ForgetPassword struct {
 	Email string `json:"email"`
 }
-type RestPassword struct {
+
+type ResetPassword struct {
 	Password string `json:"password"`
 }
+
 type LoginToken struct {
 	Email string `json:"email"`
 	Token string `json:"token"`

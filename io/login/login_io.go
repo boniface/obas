@@ -12,7 +12,7 @@ const loginURL = api.BASE_URL + "/login"
 type Register loginDomain.Register
 type Forget loginDomain.ForgetPassword
 type Login loginDomain.Login
-type Password loginDomain.RestPassword
+type Password loginDomain.ResetPassword
 type LoginToken loginDomain.LoginToken
 
 func DoRegister(email string) (bool, error) {
@@ -41,11 +41,10 @@ func DoForgetPassword(email string) (bool, error) {
 	}
 	return true, nil
 }
-func DoRest(password string) (bool, error){
-	entity :=Password{}
-	entity.Password=password
-	resp,_ :=api.Rest().SetBody(entity).Post(loginURL+ "/passwordreset")
-	if resp.IsError(){
+
+func DoReset(resetKey string) (bool, error) {
+	resp, _ := api.Rest().Get(loginURL + "/passwordreset/" + resetKey)
+	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
 	return true, nil

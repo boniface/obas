@@ -13,13 +13,11 @@ func Login(app *config.Env) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", loginHome(app))
 	r.Get("/error", loginError(app))
-	r.Get("/resetError", resetError(app))
+	r.Get("/forgetpassword", forgetPasswordHandler(app))
+	r.Get("/passwordreset/{resetkey}", passwordResetHandler(app))
 	r.Post("/login", loginHandler(app))
-	r.Post("/reset", passwordResetHandler(app))
-	r.Post("/forgotPassword", forgotpasswordHandler(app))
+	r.Post("/processforgetpassword", processForgetPasswordHandler(app))
 	r.Post("/accounts", getAccountsHandler(app))
-	r.Get("/password", passwordHandler(app))
-	r.Get("/verify", passwordHandler(app))
 	return r
 }
 
@@ -28,7 +26,6 @@ func loginHome(app *config.Env) http.HandlerFunc {
 		files := []string{
 			app.Path + "base/login/login.page.html",
 		}
-
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
@@ -46,7 +43,6 @@ func loginError(app *config.Env) http.HandlerFunc {
 		files := []string{
 			app.Path + "base/login/login.page_Error.html",
 		}
-
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
@@ -59,7 +55,7 @@ func loginError(app *config.Env) http.HandlerFunc {
 	}
 }
 
-func resetError(app *config.Env) http.HandlerFunc {
+func forgetPasswordHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		files := []string{
 			app.Path + "base/login/forgotpassword.page.html",
@@ -79,25 +75,51 @@ func resetError(app *config.Env) http.HandlerFunc {
 
 func passwordResetHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		r.ParseForm()
-		email := r.PostFormValue("password")
-		result, err := login.DoRest(email)
+		resetKey := chi.URLParam(r, "resetkey")
+		result, err := login.DoReset(resetKey)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
-			http.Redirect(w, r, "/login/resetError", 301)
+			return
 		}
-		app.InfoLog.Println("Login is successful. Result is ", result)
-		http.Redirect(w, r, "/login", 301)
+		type PageData struct {
+			Email string
+			Title string
+			Info  string
+		}
+		var redirect, title, info string
+		if result {
+			redirect = app.Path + "base/login/login.page.html"
+			title = "Password Reset Successful"
+			info = "A temporary password has been sent to your email. Please log in with the temporary password."
+		} else {
+			redirect = app.Path + "base/login/forgotpassword.page.html"
+			title = "Password Reset NOT Successful"
+			info = "An error occurred. Please try again or contact administrator."
+		}
+		data := PageData{"do_not_reply@ict.cput.ac.za", title, info}
+		files := []string{
+			redirect,
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
 	}
 }
-func forgotpasswordHandler(app *config.Env) http.HandlerFunc {
+
+func processForgetPasswordHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 		email := r.PostFormValue("email")
 		result, err := login.DoForgetPassword(email)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
-			http.Redirect(w, r, "/login/resetError", 301)
+			http.Redirect(w, r, "/login/forgetpassword", 301)
 		}
 		app.InfoLog.Println("Login is successful. Result is ", result)
 		http.Redirect(w, r, "/login", 301)
@@ -132,25 +154,6 @@ func forgotPassword(app *config.Env) http.HandlerFunc {
 
 		w.Write([]byte("welcome"))
 
-	}
-}
-
-func passwordHandler(app *config.Env) http.HandlerFunc {
-
-	return func(w http.ResponseWriter, r *http.Request) {
-
-		files := []string{
-			app.Path + "base/login/passwordReset.page.html",
-		}
-		ts, err := template.ParseFiles(files...)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			return
-		}
-		err = ts.Execute(w, nil)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-		}
 	}
 }
 
