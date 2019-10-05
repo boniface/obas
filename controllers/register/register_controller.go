@@ -71,7 +71,5 @@ func RegisterHandler(app *config.Env) http.HandlerFunc {
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		}
-		//app.InfoLog.Println("Registration is ", registered)
-		//http.Redirect(w, r, "/login/redirection", 301)
 	}
 }
