@@ -1,10 +1,18 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/go-chi/chi"
 	"html/template"
 	"net/http"
 	"obas/config"
+	usersIO "obas/io/users"
+	"strings"
+	"time"
+)
+
+const (
+	layoutOBAS =  "2006-01-02"
 )
 
 func Users(app *config.Env) http.Handler {
@@ -20,47 +28,86 @@ func Users(app *config.Env) http.Handler {
 	r.Get("/studentDocuments", StudentDocumentsHandler(app))
 	r.Get("/studentResults", StudentResultsHandler(app))
 
+	r.Post("/student/profile/update", UpdateStudentProfileHandler(app))
+
 	return r
 }
 
 func StudentHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "email")
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+		}
+		type PageData struct {
+			Student usersIO.User
+		}
+		data := PageData{user}
 		files := []string{
 			app.Path + "content/student/student_dashboard.page.html",
 		}
-
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return
 		}
-		err = ts.Execute(w, nil)
+		err = ts.Execute(w, data)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
-
 		}
-
 	}
 
 }
 
 func StudentProfileHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "email")
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+		}
+		type PageData struct {
+			Student usersIO.User
+			DateOfBirth string
+		}
+		dobString := strings.Split(user.DateOfBirth.String(), " ")[0] // split date and get in format: yyy-mm-dd
+		data := PageData{user, dobString}
 		files := []string{
 			app.Path + "content/student/student_profile.html",
 		}
-
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return
 		}
-		err = ts.Execute(w, nil)
+		err = ts.Execute(w, data)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
-
 		}
+	}
+}
 
+func UpdateStudentProfileHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		r.ParseForm()
+		email := app.Session.GetString(r.Context(), "email")
+		token := app.Session.GetString(r.Context(), "token")
+		firstName := r.PostFormValue("first_name")
+		lastName := r.PostFormValue("last_name")
+		dateOfBirthStr := r.PostFormValue("dateOfBirth")
+		dateOfBirth, _ := time.Parse(layoutOBAS, dateOfBirthStr)
+		user := usersIO.User{email, firstName, "", lastName, dateOfBirth}
+		fmt.Println("User to update: ", user)
+		updated, err := usersIO.UpdateUser(user, token)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		app.InfoLog.Println("Update response is ", updated)
+		http.Redirect(w, r, "/users/student/profile", 301)
 	}
 }
 
@@ -178,11 +225,7 @@ func StudentApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 
 		}
-		//app.InfoLog.Println("Login is successful. Result is ", loginToken)
-
-		//http.Redirect(w, r, "/user/student", 301)
 	}
-	//app.Path + "content/student/Student_Application.html",
 }
 
 func StudentContactsHandler(app *config.Env) http.HandlerFunc {

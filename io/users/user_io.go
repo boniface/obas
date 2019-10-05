@@ -1,17 +1,17 @@
-package io
+package users
 
 import (
 	"errors"
-	"obas/src/api"
-	domain "obas/src/domain/users"
+	"obas/api"
+	userDomain "obas/domain/users"
 )
 
 const usersUrl = api.BASE_URL + "/users"
 
-type Users domain.User
+type User userDomain.User
 
-func GetUsers() ([]Users, error) {
-	entites := []Users{}
+func GetUsers() ([]User, error) {
+	entites := []User{}
 	resp, _ := api.Rest().Get(usersUrl + "/all")
 
 	if resp.IsError() {
@@ -24,8 +24,8 @@ func GetUsers() ([]Users, error) {
 	return entites, nil
 }
 
-func GetUser(id string) (Users, error) {
-	entity := Users{}
+func GetUser(id string) (User, error) {
+	entity := User{}
 	resp, _ := api.Rest().Get(usersUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
@@ -48,8 +48,9 @@ func CreateUser(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateUser(entity interface{}) (bool, error) {
+func UpdateUser(entity User, token string) (bool, error) {
 	resp, _ := api.Rest().
+		SetAuthToken(token).
 		SetBody(entity).
 		Post(usersUrl + "/update")
 	if resp.IsError() {

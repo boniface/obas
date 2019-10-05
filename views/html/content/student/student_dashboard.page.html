@@ -38,11 +38,16 @@
             </div>
             <div class="user">
                 <div class="photo">
-                    <img src="../../../assets/img/default-avatar.png"/>
+                    <!--img src="../../../assets/img/default-avatar.png"/-->
+                    <img src="../../../assets/img/faces/face-1.jpg"/>
                 </div>
                 <div class="info">
                     <a class="nav-item">
-                        <span>Tania Andrew
+                        <span>
+                            {{ if .Student.FirstName }}
+                                {{ .Student.FirstName }}
+                            {{ else }} first-name
+                            {{ end }}
                             <!-- <b class="caret"></b>-->
                         </span>
                     </a>

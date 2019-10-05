@@ -1,10 +1,10 @@
-package io
+package users
 
 import (
 	"errors"
 	"fmt"
-	"obas/src/api"
-	domain "obas/src/domain/users"
+	"obas/api"
+	domain "obas/domain/users"
 )
 
 const userAddressUrl = api.BASE_URL + "/users"

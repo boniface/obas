@@ -135,6 +135,8 @@ func loginHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 			http.Redirect(w, r, "/login/error", 301)
 		}
+		app.Session.Put(r.Context(), "email", loginToken.Email)
+		app.Session.Put(r.Context(), "token", loginToken.Token)
 		app.InfoLog.Println("Login is successful. Result is ", loginToken)
 		http.Redirect(w, r, "/users/student", 301)
 	}
