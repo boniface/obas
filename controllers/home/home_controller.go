@@ -9,7 +9,7 @@ import (
 
 func Home(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	//r.Use(middleware.RequireAuthenticatedUser)
+	//r.Use(middleware.LoginSession{SessionManager: app.Session}.RequireAuthenticatedUser)
 	r.Get("/", indexHanler(app))
 	return r
 }

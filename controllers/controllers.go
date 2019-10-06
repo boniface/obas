@@ -29,6 +29,7 @@ func Controllers(env *config.Env) http.Handler {
 
 	mux.Handle("/", controllers.Home(env))
 	mux.Mount("/login", login.Login(env))
+	mux.Mount("/logout", login.LogOut(env))
 	mux.Mount("/register", controllers3.Register(env))
 	mux.Mount("/users", controllers11.Users(env))
 	mux.Mount("/subjects", controllers2.Subjects(env))
