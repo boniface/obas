@@ -1,0 +1,19 @@
+/** custom style starts here */
+
+.label-font-color {
+    color: #FFFFFF !important;
+}
+
+button {
+    margin: 0 5px 5px 0;
+}
+
+.nav-icons .nav-item .nav-link.active {
+    color: #006837;
+}
+
+.nav-icons .nav-item.active .nav-link {
+    color: #006837;
+}
+
+/** custom style ends here */

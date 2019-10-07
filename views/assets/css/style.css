@@ -394,7 +394,8 @@ hr {
     margin-top: 1rem;
     margin-bottom: 1rem;
     border: 0;
-    border-top: 1px solid rgba(0, 0, 0, .1)
+    /*border-top: 1px solid rgba(0, 0, 0, .1);*/
+    border-top: 1px solid rgba(255, 234, 0, .5);
 }
 
 .small, small {
@@ -12809,6 +12810,14 @@ ul, li {
 #Footer .social-share ul li a:hover .fa-instagram {
     color: #fb3958;
 }
+
+/** custom style starts here */
+
+.green {
+    background-color: #006837;
+}
+
+/** custom style ends here */
 
 
 

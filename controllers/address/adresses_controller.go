@@ -11,6 +11,7 @@ import (
 	"net/http"
 )
 
+//noinspection ALL
 func Addresses(app *config.Env) http.Handler {
 	r := chi.NewRouter()
 	r.Use(middleware.LoginSession{SessionManager: app.Session}.RequireAuthenticatedUser)
@@ -19,6 +20,7 @@ func Addresses(app *config.Env) http.Handler {
 	return r
 }
 
+//noinspection ALL
 func AddressTypeHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		app.Session.Put(r.Context(), "message", "Hello from a session!")
