@@ -160,15 +160,11 @@ func loginHandler(app *config.Env) http.HandlerFunc {
 			app.Session.Put(r.Context(), "message", "Wrong Credentials!")
 			http.Redirect(w, r, "/", 301)
 		}
-
-		app.Session.Put(r.Context(), "email", loginToken.Email)
+		app.Session.Cookie.Name = "UserID"
+		app.Session.Put(r.Context(), "userId", loginToken.Email)
 		app.Session.Put(r.Context(), "token", loginToken.Token)
 		app.InfoLog.Println("Login is successful. Result is ", loginToken)
 		http.Redirect(w, r, "/users/student", 301)
-		app.Session.Cookie.Name = "UserID"
-		app.Session.Put(r.Context(), "UserID", loginToken.Email)
-		app.Session.Put(r.Context(), "Token", loginToken.Token)
-		http.Redirect(w, r, "/", 301)
 	}
 }
 

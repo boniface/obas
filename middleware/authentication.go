@@ -23,8 +23,8 @@ func (session LoginSession) RequireAuthenticatedUser(next http.Handler) http.Han
 }
 
 func VeryFyTheToken(manager *scs.SessionManager, request *http.Request) bool {
-	email := manager.GetString(request.Context(), "UserID")
-	token := manager.GetString(request.Context(), "Token")
+	email := manager.GetString(request.Context(), "userId")
+	token := manager.GetString(request.Context(), "token")
 	webToken, err := jwt.ParseSigned(token)
 	if err != nil {
 		fmt.Println("failed to parse JWT:%+v", err)
