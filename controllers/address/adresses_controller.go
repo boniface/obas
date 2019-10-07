@@ -14,7 +14,7 @@ import (
 //noinspection ALL
 func Addresses(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Use(middleware.RequireAuthenticatedUser)
+	r.Use(middleware.LoginSession{SessionManager: app.Session}.RequireAuthenticatedUser)
 	r.Get("/all", AddressTypeHandler(app))
 	r.Get("/contact/all", ContactTypeTypeHandler(app))
 	return r

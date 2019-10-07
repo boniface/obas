@@ -2,22 +2,37 @@ package middleware
 
 import (
 	"fmt"
+	"github.com/alexedwards/scs/v2"
+	"gopkg.in/square/go-jose.v2/jwt"
 	"net/http"
 )
 
-func RequireAuthenticatedUser(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// If the user is not authenticated, redirect them to the login page and
-		// return from the middleware chain so that no subsequent handlers in
-		// the chain are executed.
+type LoginSession struct {
+	SessionManager *scs.SessionManager
+}
 
-		fmt.Println(" The Context ", r.Context().Value("message"))
-
-		if 0 == 0 {
-			http.Redirect(w, r, "/login", 302)
+func (session LoginSession) RequireAuthenticatedUser(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(write http.ResponseWriter, request *http.Request) {
+		if !VeryFyTheToken(session.SessionManager, request) {
+			http.Redirect(write, request, "/login", 302)
 			return
 		}
 		// Otherwise call the next handler in the chain.
-		next.ServeHTTP(w, r)
+		next.ServeHTTP(write, request)
 	})
+}
+
+func VeryFyTheToken(manager *scs.SessionManager, request *http.Request) bool {
+	email := manager.GetString(request.Context(), "UserID")
+	token := manager.GetString(request.Context(), "Token")
+	webToken, err := jwt.ParseSigned(token)
+	if err != nil {
+		fmt.Println("failed to parse JWT:%+v", err)
+		return false
+	}
+	var claims map[string]interface{}
+	// decode JWT token without verifying the signature g)
+	_ = webToken.UnsafeClaimsWithoutVerification(&claims)
+	manager.Put(request.Context(), "role", claims["role"])
+	return email == claims["email"]
 }

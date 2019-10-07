@@ -12,7 +12,7 @@ type Env struct {
 	ErrorLog *log.Logger
 	InfoLog  *log.Logger
 	Path     string
-	Session  scs.SessionManager
+	Session  *scs.SessionManager
 }
 
 type templateData struct {
