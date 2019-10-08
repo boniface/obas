@@ -15,4 +15,5 @@ require (
 	golang.org/x/net v0.0.0-20190628185345-da137c7871d7 // indirect
 	golang.org/x/text v0.3.2 // indirect
 	gopkg.in/resty.v1 v1.12.0
+	gopkg.in/square/go-jose.v2 v2.3.1
 )
