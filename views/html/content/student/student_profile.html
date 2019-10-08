@@ -300,50 +300,197 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="map-logo" aria-labelledby="info-tab">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="card-title">Location of product</h4>
-                                        <p class="category">Here is some text</p>
-                                    </div>
+                                <div class="card green">
                                     <div class="card-body">
-                                        <p>Another Text. The first thing you notice when you hold the phone is how great
-                                            it feels in your hand. The cover glass curves down around the sides to meet
-                                            the anodized aluminum enclosure in a remarkable, simplified design.</p>
-                                        <p>Larger, yet dramatically thinner.It’s one continuous form where hardware and
-                                            software function in perfect unison, creating a new generation of phone
-                                            that’s better by any measure.</p>
+                                        <form id="profileForm" method="post" action="/users/student/profile/update">
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <label class="control-label" style="color: #ffffff">Registered Email: {{ .Student.Email }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-5">
+                                                    <label class="control-label label-font-color">First Name</label>
+                                                    <input class="form-control" type="text" id="first" name="first_name" value="{{ .Student.FirstName }}" placeholder="ex: Mike"/>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <label class="control-label label-font-color">Last Name</label>
+                                                    <input class="form-control" type="text" name="last_name" value="{{ .Student.LastName }}" required="true" placeholder="ex: Andrew"/>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-5">
+                                                    <label class="control-label label-font-color">Date of Birth</label>
+                                                    <input type="date" name="dateOfBirth" class="form-control datepicker" value="{{ .DateOfBirth }}" placeholder="Date Picker Here"/>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div class="form-group">
+                                                        <label class="control-label" style="color: #ffffff">Id Number</label>
+                                                        <input class="form-control" type="text" name="number" placeholder="215954688"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <button type="button" id="editButton" class="btn btn-wd btn-warning btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-warning"></i>
+                                                    </span>
+                                                    Edit
+                                                </button>
+                                                <button type="submit" id="updateButton" class="btn btn-wd btn-info btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-exclamation"></i>
+                                                    </span>
+                                                    Update
+                                                </button>
+                                                <button type="reset" id="clearButton" class="btn btn-wd btn-danger btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-times"></i>
+                                                    </span>
+                                                    Clear
+                                                </button>
+                                                <button type="button" id="cancelButton" class="btn btn-wd btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-arrow-left"></i>
+                                                    </span>
+                                                    Cancel
+                                                </button>
+
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="legal-logo" aria-labelledby="info-tab">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="card-title">Legal items</h4>
-                                        <p class="category">More information here</p>
-                                    </div>
+                                <div class="card green">
                                     <div class="card-body">
-                                        <p>The first thing you notice when you hold the phone is how great it feels in
-                                            your hand. The cover glass curves down around the sides to meet the anodized
-                                            aluminum enclosure in a remarkable, simplified design.</p>
-                                        <p>Larger, yet dramatically thinner.It’s one continuous form where hardware and
-                                            software function in perfect unison, creating a new generation of phone
-                                            that’s better by any measure.</p>
+                                        <form id="profileForm" method="post" action="/users/student/profile/update">
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <label class="control-label" style="color: #ffffff">Registered Email: {{ .Student.Email }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-5">
+                                                    <label class="control-label label-font-color">First Name</label>
+                                                    <input class="form-control" type="text" id="first" name="first_name" value="{{ .Student.FirstName }}" placeholder="ex: Mike"/>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <label class="control-label label-font-color">Last Name</label>
+                                                    <input class="form-control" type="text" name="last_name" value="{{ .Student.LastName }}" required="true" placeholder="ex: Andrew"/>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-5">
+                                                    <label class="control-label label-font-color">Date of Birth</label>
+                                                    <input type="date" name="dateOfBirth" class="form-control datepicker" value="{{ .DateOfBirth }}" placeholder="Date Picker Here"/>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div class="form-group">
+                                                        <label class="control-label" style="color: #ffffff">Id Number</label>
+                                                        <input class="form-control" type="text" name="number" placeholder="215954688"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <button type="button" id="editButton" class="btn btn-wd btn-warning btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-warning"></i>
+                                                    </span>
+                                                    Edit
+                                                </button>
+                                                <button type="submit" id="updateButton" class="btn btn-wd btn-info btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-exclamation"></i>
+                                                    </span>
+                                                    Update
+                                                </button>
+                                                <button type="reset" id="clearButton" class="btn btn-wd btn-danger btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-times"></i>
+                                                    </span>
+                                                    Clear
+                                                </button>
+                                                <button type="button" id="cancelButton" class="btn btn-wd btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-arrow-left"></i>
+                                                    </span>
+                                                    Cancel
+                                                </button>
+
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="help-logo" aria-labelledby="info-tab">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="card-title">Help center</h4>
-                                        <p class="category">More information here</p>
-                                    </div>
+                                <div class="card green">
                                     <div class="card-body">
-                                        <p>From the seamless transition of glass and metal to the streamlined profile,
-                                            every detail was carefully considered to enhance your experience. So while
-                                            its display is larger, the phone feels just right.</p>
-                                        <p>Another Text. The first thing you notice when you hold the phone is how great
-                                            it feels in your hand. The cover glass curves down around the sides to meet
-                                            the anodized aluminum enclosure in a remarkable, simplified design.</p>
+                                        <form id="profileForm" method="post" action="/users/student/profile/update">
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <label class="control-label" style="color: #ffffff">Registered Email: {{ .Student.Email }}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-5">
+                                                    <label class="control-label label-font-color">First Name</label>
+                                                    <input class="form-control" type="text" id="first" name="first_name" value="{{ .Student.FirstName }}" placeholder="ex: Mike"/>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <label class="control-label label-font-color">Last Name</label>
+                                                    <input class="form-control" type="text" name="last_name" value="{{ .Student.LastName }}" required="true" placeholder="ex: Andrew"/>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-5">
+                                                    <label class="control-label label-font-color">Date of Birth</label>
+                                                    <input type="date" name="dateOfBirth" class="form-control datepicker" value="{{ .DateOfBirth }}" placeholder="Date Picker Here"/>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div class="form-group">
+                                                        <label class="control-label" style="color: #ffffff">Id Number</label>
+                                                        <input class="form-control" type="text" name="number" placeholder="215954688"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <button type="button" id="editButton" class="btn btn-wd btn-warning btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-warning"></i>
+                                                    </span>
+                                                    Edit
+                                                </button>
+                                                <button type="submit" id="updateButton" class="btn btn-wd btn-info btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-exclamation"></i>
+                                                    </span>
+                                                    Update
+                                                </button>
+                                                <button type="reset" id="clearButton" class="btn btn-wd btn-danger btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-times"></i>
+                                                    </span>
+                                                    Clear
+                                                </button>
+                                                <button type="button" id="cancelButton" class="btn btn-wd btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-arrow-left"></i>
+                                                    </span>
+                                                    Cancel
+                                                </button>
+
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

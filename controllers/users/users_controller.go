@@ -100,14 +100,17 @@ func UpdateStudentProfileHandler(app *config.Env) http.HandlerFunc {
 		dateOfBirthStr := r.PostFormValue("dateOfBirth")
 		dateOfBirth, _ := time.Parse(layoutOBAS, dateOfBirthStr)
 		user := usersIO.User{email, firstName, "", lastName, dateOfBirth}
-		fmt.Println("User to update: ", user)
+		fmt.Println("User to create: ", user)
 		updated, err := usersIO.UpdateUser(user, token)
+		fmt.Println("result of create: ", updated)
+
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return
 		}
 		app.InfoLog.Println("Update response is ", updated)
 		http.Redirect(w, r, "/users/student/profile", 301)
+		//http.Redirect(w, r, "/users/student/profile", 301)
 	}
 }
 

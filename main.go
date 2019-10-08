@@ -19,7 +19,7 @@ func Environment() *config.Env {
 	env := &config.Env{
 		ErrorLog: log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime),
 		InfoLog:  log.New(os.Stderr, "INFO\t", log.Ldate|log.Ltime|log.Lshortfile),
-		Path:     "./src/views/html",
+		Path:     "./views/html/",
 		Session:  sessionManager,
 	}
 	return env
