@@ -16,6 +16,7 @@ type UserAddress struct {
 	UserAddressId   string `json:"userAddressId"`
 	PhysicalAddress string `json:"physicalAddress"`
 	PostalCode      string `json:"postalCode"`
+
 }
 
 type UserApplicationResult struct {

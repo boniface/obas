@@ -38,7 +38,13 @@ func RegisterHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 		email := r.PostFormValue("email")
+
+		println(email, "register with this email")
+
 		registered, err := login.DoRegister(email)
+
+		println("registration is: ", registered)
+
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return
