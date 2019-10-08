@@ -52,8 +52,7 @@ func UpdateUser(entity User, token string) (bool, error) {
 	resp, _ := api.Rest().
 		SetAuthToken(token).
 		SetBody(entity).
-		//Post(usersUrl + "/update")
-		Post(usersUrl + "/create")
+		Post(usersUrl + "/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
