@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	layoutOBAS =  "2006-01-02"
+	layoutOBAS = "2006-01-02"
 )
 
 func Users(app *config.Env) http.Handler {
@@ -22,10 +22,10 @@ func Users(app *config.Env) http.Handler {
 	r.Get("/student", StudentHandler(app))
 	r.Get("/student/profile", StudentProfileHandler(app))
 	r.Get("/processingStatus", ProcessingStatusTypeHandler(app))
-	r.Get("/studentApplication", StudentApplicationStatusHandler(app))
+	r.Get("/student/application", StudentApplicationStatusHandler(app))
 	r.Get("/studentContact", StudentContactsHandler(app))
 	r.Get("/studentDemographics", StudentDemographicsHandler(app))
-	r.Get("/studentDocuments", StudentDocumentsHandler(app))
+	r.Get("/student/documents", StudentDocumentsHandler(app))
 	r.Get("/studentResults", StudentResultsHandler(app))
 
 	r.Post("/student/profile/update", UpdateStudentProfileHandler(app))
@@ -70,7 +70,7 @@ func StudentProfileHandler(app *config.Env) http.HandlerFunc {
 			http.Redirect(w, r, "/login", 301)
 		}
 		type PageData struct {
-			Student usersIO.User
+			Student     usersIO.User
 			DateOfBirth string
 		}
 		dobString := strings.Split(user.DateOfBirth.String(), " ")[0] // split date and get in format: yyy-mm-dd
