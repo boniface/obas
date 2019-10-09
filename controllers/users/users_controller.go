@@ -35,7 +35,7 @@ func Users(app *config.Env) http.Handler {
 
 func StudentHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		email := app.Session.GetString(r.Context(), "email")
+		email := app.Session.GetString(r.Context(), "userId")
 		user, err := usersIO.GetUser(email)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
@@ -63,7 +63,7 @@ func StudentHandler(app *config.Env) http.HandlerFunc {
 
 func StudentProfileHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		email := app.Session.GetString(r.Context(), "email")
+		email := app.Session.GetString(r.Context(), "userId")
 		user, err := usersIO.GetUser(email)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
@@ -93,7 +93,7 @@ func StudentProfileHandler(app *config.Env) http.HandlerFunc {
 func UpdateStudentProfileHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
-		email := app.Session.GetString(r.Context(), "email")
+		email := app.Session.GetString(r.Context(), "userId")
 		token := app.Session.GetString(r.Context(), "token")
 		firstName := r.PostFormValue("first_name")
 		lastName := r.PostFormValue("last_name")
@@ -102,6 +102,8 @@ func UpdateStudentProfileHandler(app *config.Env) http.HandlerFunc {
 		user := usersIO.User{email, firstName, "", lastName, dateOfBirth}
 		fmt.Println("User to update: ", user)
 		updated, err := usersIO.UpdateUser(user, token)
+		fmt.Println("result of update: ", updated)
+
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return
