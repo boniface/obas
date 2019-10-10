@@ -191,38 +191,38 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="location-tab" href="#map-logo" role="tab" data-toggle="tab">
+                                    <a class="nav-link" id="location-tab" href="#guardian-logo" role="tab" data-toggle="tab">
                                         <i class="nc-icon nc-pin-3"></i>
                                         <br> Guardian
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="legal-info-tab" href="#legal-logo" role="tab"
+                                    <a class="nav-link" id="legal-info-tab" href="#residential-logo" role="tab"
                                        data-toggle="tab">
                                         <i class="nc-icon nc-bank"></i>
                                         <br> Residential
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="help-tab" href="#help-logo" role="tab" data-toggle="tab">
+                                    <a class="nav-link" id="help-tab" href="#subjects-logo" role="tab" data-toggle="tab">
                                         <i class="nc-icon nc-single-copy-04"></i>
                                         <br> Subjects
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="help-tab" href="#help-logo" role="tab" data-toggle="tab">
+                                    <a class="nav-link" id="district-tab" href="#district-logo" role="tab" data-toggle="tab">
                                         <i class="nc-icon nc-support-17"></i>
                                         <br> District and Municipality
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="help-tab" href="#help-logo" role="tab" data-toggle="tab">
+                                    <a class="nav-link" id="help-tab" href="#courseDetails" role="tab" data-toggle="tab">
                                         <i class="nc-icon nc-support-17"></i>
                                         <br> Course details
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="help-tab" href="#help-logo" role="tab" data-toggle="tab">
+                                    <a class="nav-link" id="help-tab" href="#registrationDetails" role="tab" data-toggle="tab">
                                         <i class="nc-icon nc-support-17"></i>
                                         <br> Registration details
                                     </a>
@@ -300,7 +300,7 @@
                                 </div>
                             </div>
 
-                            <div class="tab-pane fade" id="map-logo" aria-labelledby="info-tab">
+                            <div class="tab-pane fade" id="guardian-logo" aria-labelledby="info-tab">
                                 <div class="card green">
                                     <div class="card-body">
                                         <form id="guardianForm" method="post" action="/users/student/profile/update">
@@ -366,10 +366,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="legal-logo" aria-labelledby="info-tab">
+
+                            <div class="tab-pane fade" id="residential-logo" aria-labelledby="info-tab">
                                 <div class="card green">
                                     <div class="card-body">
-                                        <form id="profileForm" method="post" action="/users/student/profile/update">
+                                        <form id="residentialForm" method="post" action="/users/student/profile/update">
                                             <div class="row justify-content-center">
                                                 <div class="col-md-10">
                                                     <div class="form-group">
@@ -379,22 +380,30 @@
                                             </div>
                                             <div class="row justify-content-center">
                                                 <div class="col-md-5">
-                                                    <label class="control-label label-font-color">Postal Address</label>
+                                                    <div class="form-group">
+                                                        <label class="control-label" style="color: #ffffff">Address Type</label>
+                                                        <select name="cities" class="selectpicker" data-title="address type" data-style="btn-default btn-outline" data-menu-style="dropdown-blue" >
+                                                            <option value="id" >physical Address</option>
+                                                            <option value="ms">postal Address</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-5">
+                                                    <label class="control-label label-font-color">Address</label>
                                                     <input class="form-control" type="text" name="number" placeholder="P.O. Box 10, Bellville 8002"/>
                                                 </div>
+                                            </div>
+                                            <div class="row justify-content-center">
                                                 <div class="col-md-5">
-                                                    <label class="control-label label-font-color">City</label>
+                                                    <label class="control-label label-font-color">postal code</label>
                                                     <input class="form-control" type="text" name="number" placeholder="Cape Town"/>
                                                 </div>
                                             </div>
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-10">
-                                                    <label class="control-label label-font-color">Physical Code</label>
-                                                    <input class="form-control" type="text" name="number" placeholder="123 abc street, Observatory 8003, Cape Town 8001"/>
-                                                </div>
-                                             </div>
 
                                             <div class="row justify-content-center">
+
                                                 <button type="button" id="editButton" class="btn btn-wd btn-warning btn-outline">
                                                     <span class="btn-label">
                                                         <i class="fa fa-warning"></i>
@@ -420,16 +429,19 @@
                                                     Cancel
                                                 </button>
 
+
                                                 <div class="clearfix"></div>
+
                                             </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="help-logo" aria-labelledby="info-tab">
+
+                            <div class="tab-pane fade" id="subjects-logo" aria-labelledby="info-tab">
                                 <div class="card green">
                                     <div class="card-body">
-                                        <form id="profileForm" method="post" action="/users/student/profile/update">
+                                        <form id="subjectsForm" method="post" action="/users/student/profile/update">
                                             <div class="row justify-content-center">
                                                 <div class="col-md-10">
                                                     <div class="form-group">
@@ -437,34 +449,118 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="row justify-content-center">
-                                                <div class="col-md-5">
-                                                    <label class="control-label label-font-color">First Name</label>
-                                                    <input class="form-control" type="text" id="first" name="first_name" value="{{ .Student.FirstName }}" placeholder="ex: Mike"/>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <label class="control-label label-font-color">Last Name</label>
-                                                    <input class="form-control" type="text" name="last_name" value="{{ .Student.LastName }}" required="true" placeholder="ex: Andrew"/>
-                                                </div>
-                                            </div>
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-5">
-                                                    <label class="control-label label-font-color">Date of Birth</label>
-                                                    <input type="date" name="dateOfBirth" class="form-control datepicker" value="{{ .DateOfBirth }}" placeholder="Date Picker Here"/>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <div class="form-group">
-                                                        <label class="control-label" style="color: #ffffff">Id Number</label>
-                                                        <input class="form-control" type="text" name="number" placeholder="215954688"/>
+
+                                                <div class="row justify-content-center">
+                                                    <div class="col-md-10">
+                                                        <div class="form-group">
+                                                            <label class="control-label" style="color: #ffffff">Application Type</label>
+                                                            <select name="cities" class="selectpicker" data-title="Student" data-style="btn-default btn-outline" data-menu-style="dropdown-blue" >
+                                                                <option value="id">Student</option>
+                                                                <option value="ms">Matric</option>
+
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <div class="row justify-content-center">
+                                                    <div class="col-md-5 ">
+                                                        <div class="form-group">
+                                                            <label class="control-label" style="color: #ffffff">Subject 1</label>
+                                                            <input class="form-control" type="text" name="subject_1" placeholder="subject name" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label" style="color: #ffffff">Result of Subject 1</label>
+                                                            <input class="form-control" type="number" name="Result_1" required="true" placeholder="Result" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label" style="color: #ffffff">Subject 2</label>
+                                                            <input class="form-control" type="text" name="subject_2" required="true" placeholder="subject name" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label" style="color: #ffffff">Result of Subject 2</label>
+                                                            <input class="form-control" type="number" name="Result_2" required="true" placeholder="Result" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label" style="color: #ffffff">Subject 3</label>
+                                                            <input class="form-control" type="text" name="subject_3" required="true" placeholder="subject name" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label" style="color: #ffffff">Result of Subject 3</label>
+                                                            <input class="form-control" type="number" name="Result_3" required="true" placeholder="Result" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label" style="color: #ffffff">Subject 4</label>
+                                                            <input class="form-control" type="text" name="subject_4" required="true" placeholder="subject name" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label" style="color: #ffffff">Result of Subject 4</label>
+                                                            <input class="form-control" type="number" name="Result_4" required="true" placeholder="Result" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label" style="color: #ffffff">Subject 5</label>
+                                                            <input class="form-control" type="text" name="subject_5" required="true" placeholder="subject name" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label" style="color: #ffffff">Result of Subject 5</label>
+                                                            <input class="form-control" type="number" name="Result_5" required="true" placeholder="Result" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label" style="color: #ffffff">Subject 6</label>
+                                                            <input class="form-control" type="text" name="subject_4" required="true" placeholder="subject name" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label" style="color: #ffffff">Result of Subject 6</label>
+                                                            <input class="form-control" type="number" name="Result_4" required="true" placeholder="Result" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label" style="color: #ffffff">Subject 7</label>
+                                                            <input class="form-control" type="text" name="subject_4" required="true" placeholder="subject name" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label" style="color: #ffffff">Result of Subject 7</label>
+                                                            <input class="form-control" type="number" name="Result_4" required="true" placeholder="Result" />
+                                                        </div>
+                                                    </div>
+
+                                                </div>
                                             </div>
+
                                             <div class="row justify-content-center">
                                                 <button type="button" id="editButton" class="btn btn-wd btn-warning btn-outline">
                                                     <span class="btn-label">
                                                         <i class="fa fa-warning"></i>
                                                     </span>
-                                                    Edit
+                                                    EditRV
                                                 </button>
                                                 <button type="submit" id="updateButton" class="btn btn-wd btn-info btn-outline">
                                                     <span class="btn-label">
@@ -491,6 +587,237 @@
                                     </div>
                                 </div>
                             </div>
+
+
+                            <div class="tab-pane fade " id="district-logo" role="tabpanel" aria-labelledby="info-tab">
+                                <div class="card green">
+                                    <div class="card-body">
+                                <form id="districtsForm" method="post" action="/users/student/profile/update">
+                                <h4 style="color: #ffffff" class="text-center">District Municipality</h4>
+                                <div class="row justify-content-center">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label class="control-label" style="color: #ffffff">Province</label>
+                                            <select name="cities" class="selectpicker" data-title="Example: " data-style="btn-default btn-outline" data-menu-style="dropdown-blue" >
+                                                <option value="id">Eastern Cape</option>
+                                                <option value="ms">Free State</option>
+                                                <option value="ca">Gauteng</option>
+                                                <option value="da">KwaZulu-Natal</option>
+                                                <option value="de">Limpopo</option>
+                                                <option value="en">Mpumalanga</option>
+                                                <option value="es">Northern Cape</option>
+                                                <option value="el">North-West</option>
+                                                <option value="fr">Western Cape</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label class="control-label" style="color: #ffffff">District</label>
+                                            <select name="cities" class="selectpicker" data-title="Province" data-style="btn-default btn-outline" data-menu-style="dropdown-blue" placeholder="Province">
+                                                <option value="id">Eastern Cape</option>
+                                                <option value="ms">Free State</option>
+                                                <option value="ca">Gauteng</option>
+                                                <option value="da">KwaZulu-Natal</option>
+                                                <option value="de">Limpopo</option>
+                                                <option value="en">Mpumalanga</option>
+                                                <option value="es">Northern Cape</option>
+                                                <option value="el">North-West</option>
+                                                <option value="fr">Western Cape</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                        <div class="row justify-content-center">
+                                            <div class="col-md-5">
+                                            <button type="button" id="editButton" class="btn btn-wd btn-warning btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-warning"></i>
+                                                    </span>
+                                                EditRV
+                                            </button>
+                                            <button type="submit" id="updateButton" class="btn btn-wd btn-info btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-exclamation"></i>
+                                                    </span>
+                                                Update
+                                            </button>
+
+                                            <button type="button" id="cancelButton" class="btn btn-wd btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-arrow-left"></i>
+                                                    </span>
+                                                Cancel
+                                            </button>
+
+                                            <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+
+                                        </form>
+                                        </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade " id="courseDetails" role="tabpanel">
+                                <div class="card green">
+                                    <div class="card-body">
+                                <form id="courseDetailsForm" method="post" action="/users/student/profile/update">
+
+                                <h4 style="color: #ffffff" class="text-center">Course Details</h4>
+
+                                <div class="row justify-content-center">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label class="control-label" style="color: #ffffff">Debt</label>
+                                            <select name="cities" class="selectpicker" data-title="Do you have any outstanding Debt" data-style="btn-default btn-outline" data-menu-style="dropdown-blue" placeholder="Do you have any outstanding Debt">
+                                                <option value="id">Yes</option>
+                                                <option value="ms">No</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label class="control-label" style="color: #ffffff">Intent Study Field</label>
+                                            <select name="cities" class="selectpicker" data-title="Intent study field" data-style="btn-default btn-outline" data-menu-style="dropdown-blue" placeholder="Architecture">
+                                                <option value="id">Engineering and technology</option>
+                                                <option value="ms">Agriculture</option>
+                                                <option value="id">Business</option>
+                                                <option value="ms">Education</option>
+                                                <option value="id">Divinity</option>
+                                                <option value="ms">Agriculture</option>
+                                                <option value="id">History</option>
+                                                <option value="ms">Economics</option>
+                                                <option value="id">Geology</option>
+                                                <option value="ms">Zoology</option>
+                                                <option value="id">Psychology</option>
+                                                <option value="ms">Chemistry</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label class="control-label" style="color: #ffffff">Duration</label>
+                                            <select name="cities" class="selectpicker" data-title="Example: 3" data-style="btn-default btn-outline" required="true" data-menu-style="dropdown-blue" placeholder="Duration">
+                                                <option value="id">1 Year</option>
+                                                <option value="ms">2 Years</option>
+                                                <option value="id">3 Years</option>
+                                                <option value="ms">4 Years</option>
+                                                <option value="id">5 Years</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-5">
+                                            <button type="button" id="editButton" class="btn btn-wd btn-warning btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-warning"></i>
+                                                    </span>
+                                                EditRV
+                                            </button>
+                                            <button type="submit" id="updateButton" class="btn btn-wd btn-info btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-exclamation"></i>
+                                                    </span>
+                                                Update
+                                            </button>
+
+                                            <button type="button" id="cancelButton" class="btn btn-wd btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-arrow-left"></i>
+                                                    </span>
+                                                Cancel
+                                            </button>
+
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                    </form>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="tab-pane fade" id="registrationDetails" role="tabpanel">
+                                <div class="card green">
+                                    <div class="card-body">
+                                        <form id="registrationDetailsForm" method="post" action="/users/student/profile/update">
+                                <h4 style="color: #ffffff" class="text-center">Password Update</h4>
+                                <div class="row justify-content-center">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label class="control-label" style="color: #ffffff">Previous Password</label>
+                                            <input class="form-control" type="text" name="name" placeholder="########" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label class="control-label" style="color: #ffffff">New Password</label>
+                                            <input class="form-control" type="text" name="phone_number" placeholder="********" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-5">
+                                                    <div class="form-group">
+                                                        <label class="control-label" style="color: #ffffff">Veryfy Password</label>
+                                                        <input class="form-control" type="text" name="phone_number" placeholder="********" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                  <div class="row justify-content-center">
+                                    <button type="button" id="editButton" class="btn btn-wd btn-warning btn-outline">
+                                         <span class="btn-label">
+                                             <i class="fa fa-warning"></i>
+                                                    </span>
+                                                    EditRV
+                                                </button>
+                                                <button type="submit" id="updateButton" class="btn btn-wd btn-info btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-exclamation"></i>
+                                                    </span>
+                                                    Update
+                                                </button>
+                                                <button type="reset" id="clearButton" class="btn btn-wd btn-danger btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-times"></i>
+                                                    </span>
+                                                    Clear
+                                                </button>
+                                                <button type="button" id="cancelButton" class="btn btn-wd btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-arrow-left"></i>
+                                                    </span>
+                                                    Cancel
+                                                </button>
+
+                                                <div class="clearfix"></div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
