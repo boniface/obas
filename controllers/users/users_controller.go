@@ -22,10 +22,10 @@ func Users(app *config.Env) http.Handler {
 	r.Get("/student", StudentHandler(app))
 	r.Get("/student/profile", StudentProfileHandler(app))
 	r.Get("/processingStatus", ProcessingStatusTypeHandler(app))
-	r.Get("/studentApplication", StudentApplicationStatusHandler(app))
+	r.Get("/student/application", StudentApplicationStatusHandler(app))
 	r.Get("/studentContact", StudentContactsHandler(app))
 	r.Get("/studentDemographics", StudentDemographicsHandler(app))
-	r.Get("/studentDocuments", StudentDocumentsHandler(app))
+	r.Get("/student/documents", StudentDocumentsHandler(app))
 	r.Get("/studentResults", StudentResultsHandler(app))
 
 	r.Post("/student/profile/update", UpdateStudentProfileHandler(app))
@@ -298,33 +298,20 @@ func StudentDemographicsHandler(app *config.Env) http.HandlerFunc {
 }
 func StudentDocumentsHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		//allStudentDocuments, err := io.GetStudentDocuments()
-		//
-		//if err != nil {
-		//	app.ServerError(w, err)
-		//}
-
-		type PageData struct {
-			//subjects []io.StudentDocuments
-			name string
-		}
-		data := PageData{""}
-
 		files := []string{
-			app.Path + "/users/users.page.html",
-			app.Path + "/base/base.page.html",
-			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebarOld.page.html",
-			app.Path + "/base/footer.page.html",
+
+			app.Path + "content/student/Student_Documents.html",
 		}
+
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return
 		}
-		err = ts.ExecuteTemplate(w, "base", data)
+		err = ts.Execute(w, nil)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
+
 		}
 
 	}

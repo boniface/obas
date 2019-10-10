@@ -205,7 +205,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="help-tab" href="#help-logo" role="tab" data-toggle="tab">
-                                        <i class="nc-icon nc-support-17"></i>
+                                        <i class="nc-icon nc-single-copy-04"></i>
                                         <br> Subjects
                                     </a>
                                 </li>
@@ -272,7 +272,7 @@
                                                     <span class="btn-label">
                                                         <i class="fa fa-warning"></i>
                                                     </span>
-                                                    Edit
+                                                    EditO
                                                 </button>
                                                 <button type="submit" id="updateButton" class="btn btn-wd btn-info btn-outline">
                                                     <span class="btn-label">
@@ -299,10 +299,11 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="tab-pane fade" id="map-logo" aria-labelledby="info-tab">
                                 <div class="card green">
                                     <div class="card-body">
-                                        <form id="profileForm" method="post" action="/users/student/profile/update">
+                                        <form id="guardianForm" method="post" action="/users/student/profile/update">
                                             <div class="row justify-content-center">
                                                 <div class="col-md-10">
                                                     <div class="form-group">
@@ -310,48 +311,49 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="row justify-content-center">
                                                 <div class="col-md-5">
-                                                    <label class="control-label label-font-color">First Name</label>
-                                                    <input class="form-control" type="text" id="first" name="first_name" value="{{ .Student.FirstName }}" placeholder="ex: Mike"/>
+                                                    <label class="control-label label-font-color">Guardian Name</label>
+                                                    <input class="form-control" type="text" id="first" name="first_name" value="{{ .Student.FirstName }}" placeholder="ex: Themba"/>
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <label class="control-label label-font-color">Last Name</label>
-                                                    <input class="form-control" type="text" name="last_name" value="{{ .Student.LastName }}" required="true" placeholder="ex: Andrew"/>
+                                                    <label class="control-label label-font-color">Relationship</label>
+                                                    <input class="form-control" type="text" name="last_name" value="{{ .Student.LastName }}" required="true" placeholder="ex: Aunt"/>
                                                 </div>
                                             </div>
                                             <div class="row justify-content-center">
                                                 <div class="col-md-5">
-                                                    <label class="control-label label-font-color">Date of Birth</label>
-                                                    <input type="date" name="dateOfBirth" class="form-control datepicker" value="{{ .DateOfBirth }}" placeholder="Date Picker Here"/>
+                                                    <label class="control-label label-font-color">Cellphone</label>
+                                                    <input class="form-control" type="text" name="number" placeholder="0845621198"/>
                                                 </div>
                                                 <div class="col-md-5">
                                                     <div class="form-group">
-                                                        <label class="control-label" style="color: #ffffff">Id Number</label>
-                                                        <input class="form-control" type="text" name="number" placeholder="215954688"/>
+                                                        <label class="control-label" style="color: #ffffff">Email Address</label>
+                                                        <input class="form-control" type="text" name="number" placeholder="guardian@gmail.com"/>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row justify-content-center">
-                                                <button type="button" id="editButton" class="btn btn-wd btn-warning btn-outline">
+                                                <button type="button" id="guardianEditButton" class="btn btn-wd btn-warning btn-outline">
                                                     <span class="btn-label">
                                                         <i class="fa fa-warning"></i>
                                                     </span>
                                                     Edit
                                                 </button>
-                                                <button type="submit" id="updateButton" class="btn btn-wd btn-info btn-outline">
+                                                <button type="submit" id="guardianupdateButton" class="btn btn-wd btn-info btn-outline">
                                                     <span class="btn-label">
                                                         <i class="fa fa-exclamation"></i>
                                                     </span>
                                                     Update
                                                 </button>
-                                                <button type="reset" id="clearButton" class="btn btn-wd btn-danger btn-outline">
+                                                <button type="reset" id="guardianclearButton" class="btn btn-wd btn-danger btn-outline">
                                                     <span class="btn-label">
                                                         <i class="fa fa-times"></i>
                                                     </span>
                                                     Clear
                                                 </button>
-                                                <button type="button" id="cancelButton" class="btn btn-wd btn-outline">
+                                                <button type="button" id="guardiancancelButton" class="btn btn-wd btn-outline">
                                                     <span class="btn-label">
                                                         <i class="fa fa-arrow-left"></i>
                                                     </span>
@@ -377,26 +379,21 @@
                                             </div>
                                             <div class="row justify-content-center">
                                                 <div class="col-md-5">
-                                                    <label class="control-label label-font-color">First Name</label>
-                                                    <input class="form-control" type="text" id="first" name="first_name" value="{{ .Student.FirstName }}" placeholder="ex: Mike"/>
+                                                    <label class="control-label label-font-color">Postal Address</label>
+                                                    <input class="form-control" type="text" name="number" placeholder="P.O. Box 10, Bellville 8002"/>
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <label class="control-label label-font-color">Last Name</label>
-                                                    <input class="form-control" type="text" name="last_name" value="{{ .Student.LastName }}" required="true" placeholder="ex: Andrew"/>
+                                                    <label class="control-label label-font-color">City</label>
+                                                    <input class="form-control" type="text" name="number" placeholder="Cape Town"/>
                                                 </div>
                                             </div>
                                             <div class="row justify-content-center">
-                                                <div class="col-md-5">
-                                                    <label class="control-label label-font-color">Date of Birth</label>
-                                                    <input type="date" name="dateOfBirth" class="form-control datepicker" value="{{ .DateOfBirth }}" placeholder="Date Picker Here"/>
+                                                <div class="col-md-10">
+                                                    <label class="control-label label-font-color">Physical Code</label>
+                                                    <input class="form-control" type="text" name="number" placeholder="123 abc street, Observatory 8003, Cape Town 8001"/>
                                                 </div>
-                                                <div class="col-md-5">
-                                                    <div class="form-group">
-                                                        <label class="control-label" style="color: #ffffff">Id Number</label>
-                                                        <input class="form-control" type="text" name="number" placeholder="215954688"/>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                             </div>
+
                                             <div class="row justify-content-center">
                                                 <button type="button" id="editButton" class="btn btn-wd btn-warning btn-outline">
                                                     <span class="btn-label">

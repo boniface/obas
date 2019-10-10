@@ -1,7 +1,12 @@
 $(document).ready(function(){
 
     $("#profileForm input").prop("disabled", true);
-    $("#updateButton, #clearButton, #cancelButton").attr("disabled", true);
+    $("#updateButton, #clearButton, #cancelButton, #").attr("disabled", true);
+
+    // <!-- guardianForm-->
+    $("#guardianForm input").prop("disabled",true);
+    $("#guardianupdateButton, #guardianclearButton, #guardiancancelButton, #").attr("disabled",true);
+
 
     $("#editButton").click(function () {
         $("#profileForm input").prop("disabled", false);
@@ -16,4 +21,13 @@ $(document).ready(function(){
         $("#editButton").attr("disabled", false);
     })
 
+
+   // <!-- guardianForm-->
+
+
+    $("#guardianEditButton").click(function () {
+        $("#guardianForm input").prop("disabled",false);
+        $("#guardianupdateButton,#guardianclearButton,#guardiancancelButton").attr("disabled",false);
+        $("#guardianEditButton").attr("disabled",false);
+    })
 });
