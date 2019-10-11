@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"net/http"
 	"obas/config"
+	addressIO "obas/io/address"
 	usersIO "obas/io/users"
 	"strings"
 	"time"
@@ -69,12 +70,26 @@ func StudentProfileHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 			http.Redirect(w, r, "/login", 301)
 		}
+		address, err := addressIO.GetAddressTypes()
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+		for _, x := range address {
+			fmt.Println(x.AddressName)
+		}
+		lastAddress := address[len(address)-1]
+		lastName := lastAddress.AddressName
+		fmt.Println(lastName, "<<<<<<<<<<<<<")
+		//fmt.Println(address[:1],">>>>>>>>>>>>")
+
+		fmt.Println(address)
 		type PageData struct {
 			Student     usersIO.User
+			Address     []addressIO.AddressType
 			DateOfBirth string
 		}
 		dobString := strings.Split(user.DateOfBirth.String(), " ")[0] // split date and get in format: yyy-mm-dd
-		data := PageData{user, dobString}
+		data := PageData{user, address, dobString}
 		files := []string{
 			app.Path + "content/student/student_profile.html",
 		}
@@ -95,11 +110,12 @@ func UpdateStudentProfileHandler(app *config.Env) http.HandlerFunc {
 		r.ParseForm()
 		email := app.Session.GetString(r.Context(), "userId")
 		token := app.Session.GetString(r.Context(), "token")
+		idNumber := r.PostFormValue("id_number")
 		firstName := r.PostFormValue("first_name")
 		lastName := r.PostFormValue("last_name")
 		dateOfBirthStr := r.PostFormValue("dateOfBirth")
 		dateOfBirth, _ := time.Parse(layoutOBAS, dateOfBirthStr)
-		user := usersIO.User{email, firstName, "", lastName, dateOfBirth}
+		user := usersIO.User{email, idNumber, firstName, "", lastName, dateOfBirth}
 		fmt.Println("User to update: ", user)
 		updated, err := usersIO.UpdateUser(user, token)
 		fmt.Println("result of update: ", updated)

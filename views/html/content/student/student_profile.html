@@ -275,7 +275,7 @@
                                                     <div class="form-group">
                                                         <label class="control-label" style="color: #ffffff">Id
                                                             Number</label>
-                                                        <input class="form-control" type="text" name="number"
+                                                        <input class="form-control" type="text" name="id_number" value="{{ .Student.IdNumber }}"
                                                                placeholder="215954688"/>
                                                     </div>
                                                 </div>
@@ -286,7 +286,7 @@
                                                     <span class="btn-label">
                                                         <i class="fa fa-warning"></i>
                                                     </span>
-                                                    EditO
+                                                    Edit
                                                 </button>
                                                 <button type="submit" id="updateButton"
                                                         class="btn btn-wd btn-info btn-outline">
@@ -321,24 +321,15 @@
                                     <div class="card-body">
                                         <form id="guardianForm" method="post" action="/users/student/profile/update">
                                             <div class="row justify-content-center">
-                                                <div class="col-md-10">
-                                                    <div class="form-group">
-                                                        <label class="control-label" style="color: #ffffff">Registered
-                                                            Email: {{ .Student.Email }}</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row justify-content-center">
                                                 <div class="col-md-5">
                                                     <label class="control-label label-font-color">Guardian Name</label>
                                                     <input class="form-control" type="text" id="first" name="first_name"
-                                                           value="{{ .Student.FirstName }}" placeholder="ex: Themba"/>
+                                                           value="" placeholder="ex: Themba"/>
                                                 </div>
                                                 <div class="col-md-5">
                                                     <label class="control-label label-font-color">Relationship</label>
                                                     <input class="form-control" type="text" name="last_name"
-                                                           value="{{ .Student.LastName }}" required="true"
+                                                           value="" required="true"
                                                            placeholder="ex: Aunt"/>
                                                 </div>
                                             </div>
@@ -346,14 +337,14 @@
                                                 <div class="col-md-5">
                                                     <label class="control-label label-font-color">Cellphone</label>
                                                     <input class="form-control" type="text" name="number"
-                                                           placeholder="0845621198"/>
+                                                           value=""  placeholder="0845621198"/>
                                                 </div>
                                                 <div class="col-md-5">
                                                     <div class="form-group">
                                                         <label class="control-label" style="color: #ffffff">Email
                                                             Address</label>
                                                         <input class="form-control" type="text" name="number"
-                                                               placeholder="guardian@gmail.com"/>
+                                                               value=""   placeholder="guardian@gmail.com"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -409,8 +400,8 @@
                                                                         data-title="address type"
                                                                         data-style="btn-default btn-outline"
                                                                         data-menu-style="dropdown-blue">
-                                                                    <option value="id">physical Address</option>
-                                                                    <option value="ms">postal Address</option>
+                                                                    <option value="id">for _,x:=range address{x.AddressName}</option>
+                                                                    <option value="ms"></option>
                                                                 </select>
                                                             </div>
                                                         </div>
