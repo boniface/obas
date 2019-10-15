@@ -1,11 +1,8 @@
 $(document).ready(function(){
 
     $("#profileForm input").prop("disabled", true);
-    $("#updateButton, #clearButton, #cancelButton, #").attr("disabled", true);
+    $("#updateButton, #clearButton, #cancelButton").attr("disabled", true);
 
-    // <!-- guardianForm-->
-    $("#guardianForm input").prop("disabled",true);
-    $("#guardianupdateButton, #guardianclearButton, #guardiancancelButton, #").attr("disabled",true);
 
 
     $("#editButton").click(function () {
@@ -19,15 +16,18 @@ $(document).ready(function(){
         $("#profileForm input").prop("disabled", true);
         $("#updateButton, #clearButton, #cancelButton").attr("disabled", true);
         $("#editButton").attr("disabled", false);
-    })
+    });
 
 
    // <!-- guardianForm-->
+    $("#guardianForm input").prop("disabled",true);
+    $("#guardianupdateButton, #guardianclearButton, #guardiancancelButton").attr("disabled",true);
 
 
     $("#guardianEditButton").click(function () {
         $("#guardianForm input").prop("disabled",false);
         $("#guardianupdateButton,#guardianclearButton,#guardiancancelButton").attr("disabled",false);
         $("#guardianEditButton").attr("disabled",false);
-    })
+    });
+    // <!-- guardianForm-->
 });
