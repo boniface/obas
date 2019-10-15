@@ -29,6 +29,7 @@ func Users(app *config.Env) http.Handler {
 	r.Get("/student", StudentHandler(app))
 	r.Get("/student/profile/personal", StudentProfilePersonalHandler(app))
 	r.Get("/student/profile/address", StudentProfileAddressHandler(app))
+	r.Get("/student/profile/guardian", StudentProfileGuardianHandler(app))
 	r.Get("/processingStatus", ProcessingStatusTypeHandler(app))
 	r.Get("/student/application", StudentApplicationStatusHandler(app))
 	r.Get("/studentContact", StudentContactsHandler(app))
@@ -38,8 +39,44 @@ func Users(app *config.Env) http.Handler {
 
 	r.Post("/student/profile/personal/update", UpdateStudentProfilePersonalHandler(app))
 	r.Post("/student/profile/address/addresstype", StudentProfileAddressTypeHandler(app))
+	r.Post("/student/profile/address/update", StudentProfileAddressUpdateHandler(app))
 
 	return r
+}
+
+func StudentProfileGuardianHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			//http.Redirect(w, r, "/login", 301)
+		}
+
+		type PageData struct {
+			Student usersIO.User
+		}
+
+		data := PageData{user}
+		files := []string{
+			app.Path + "content/student/profile/guardian.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+	}
+}
+
+func StudentProfileAddressUpdateHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+	}
 }
 
 func StudentProfileAddressHandler(app *config.Env) http.HandlerFunc {
@@ -67,13 +104,15 @@ func StudentProfileAddressHandler(app *config.Env) http.HandlerFunc {
 		}
 
 		type PageData struct {
-			Student      usersIO.User
-			AddressTypes []addressIO.AddressType
-			Addresses    []AddressPlaceHolder
-			Address      usersIO.UserAddress
+			Student       usersIO.User
+			AddressTypes  []addressIO.AddressType
+			Addresses     []AddressPlaceHolder
+			Address       usersIO.UserAddress
+			AddressTypeID string
+			AddressName   string
 		}
 
-		data := PageData{user, addressTypes, addresses, usersIO.UserAddress{}}
+		data := PageData{user, addressTypes, addresses, usersIO.UserAddress{}, "", ""}
 		files := []string{
 			app.Path + "content/student/profile/address.html",
 		}
@@ -111,8 +150,12 @@ func StudentProfileAddressTypeHandler(app *config.Env) http.HandlerFunc {
 		}
 
 		addresses := []AddressPlaceHolder{}
+		var addressName string
 
 		for _, addressType := range addressTypes {
+			if addressTypeId == addressType.AddressTypeID {
+				addressName = addressType.AddressName
+			}
 			userAddress, err := usersIO.GetUserAddress(email, addressType.AddressTypeID)
 			if err != nil {
 				app.ErrorLog.Println(err.Error())
@@ -122,13 +165,15 @@ func StudentProfileAddressTypeHandler(app *config.Env) http.HandlerFunc {
 		}
 
 		type PageData struct {
-			Student      usersIO.User
-			AddressTypes []addressIO.AddressType
-			Addresses    []AddressPlaceHolder
-			Address      usersIO.UserAddress
+			Student       usersIO.User
+			AddressTypes  []addressIO.AddressType
+			Addresses     []AddressPlaceHolder
+			Address       usersIO.UserAddress
+			AddressTypeID string
+			AddressName   string
 		}
 
-		data := PageData{user, addressTypes, addresses, userAddress}
+		data := PageData{user, addressTypes, addresses, userAddress, addressTypeId, addressName}
 		files := []string{
 			app.Path + "content/student/profile/address.html",
 		}
