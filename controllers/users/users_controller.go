@@ -27,9 +27,7 @@ func Users(app *config.Env) http.Handler {
 	r.Get("/", UsersHandler(app))
 	r.Get("/admin", AdminHandler(app))
 	r.Get("/student", StudentHandler(app))
-	r.Get("/student/profile/personal", StudentProfilePersonalHandler(app))
-	r.Get("/student/profile/address", StudentProfileAddressHandler(app))
-	r.Get("/student/profile/guardian", StudentProfileGuardianHandler(app))
+
 	r.Get("/processingStatus", ProcessingStatusTypeHandler(app))
 	r.Get("/student/application", StudentApplicationStatusHandler(app))
 	r.Get("/studentContact", StudentContactsHandler(app))
@@ -37,10 +35,13 @@ func Users(app *config.Env) http.Handler {
 	r.Get("/student/documents", StudentDocumentsHandler(app))
 	r.Get("/studentResults", StudentResultsHandler(app))
 
-	r.Get("/student/registration", StudentProfileRegistrationHandler(app))
-	r.Get("/student/course", StudentProfileCourseHandler(app))
-	r.Get("/student/subject", studentProfileSubjectHandler(app))
-	r.Get("student/district", studentProfileDistrictHandler(app))
+	r.Get("/student/profile/personal", StudentProfilePersonalHandler(app))
+	r.Get("/student/profile/address", StudentProfileAddressHandler(app))
+	r.Get("/student/profile/guardian", StudentProfileGuardianHandler(app))
+	r.Get("/student/profile/registration", StudentProfileRegistrationHandler(app))
+	r.Get("/student/profile/courses", StudentProfileCourseHandler(app))
+	r.Get("/student/profile/subjects", studentProfileSubjectHandler(app))
+	r.Get("/student/profile/districts", studentProfileDistrictHandler(app))
 
 	r.Post("/student/profile/personal/update", UpdateStudentProfilePersonalHandler(app))
 	r.Post("/student/profile/address/addresstype", StudentProfileAddressTypeHandler(app))
@@ -64,7 +65,7 @@ func StudentProfileRegistrationHandler(app *config.Env) http.HandlerFunc {
 
 		data := PageData{user}
 		files := []string{
-			app.Path + "content/student/profile/guardian.html", //***************
+			app.Path + "content/student/profile/registration.html", //***************
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -94,7 +95,7 @@ func StudentProfileCourseHandler(app *config.Env) http.HandlerFunc {
 
 		data := PageData{user}
 		files := []string{
-			app.Path + "content/student/profile/guardian.html", //***************
+			app.Path + "content/student/profile/courses.html", //***************
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -124,7 +125,7 @@ func studentProfileDistrictHandler(app *config.Env) http.HandlerFunc {
 
 		data := PageData{user}
 		files := []string{
-			app.Path + "content/student/profile/guardian.html", //***************
+			app.Path + "content/student/profile/distric_and_municipality.html", //***************
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -153,7 +154,7 @@ func studentProfileSubjectHandler(app *config.Env) http.HandlerFunc {
 
 		data := PageData{user}
 		files := []string{
-			app.Path + "content/student/profile/guardian.html", //***************
+			app.Path + "content/student/profile/subject.html ", //***************
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
