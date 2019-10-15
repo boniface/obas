@@ -16,12 +16,19 @@ const (
 	layoutOBAS = "2006-01-02"
 )
 
+type AddressPlaceHolder struct {
+	AddressName string
+	Address     string
+	PostalCode  string
+}
+
 func Users(app *config.Env) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", UsersHandler(app))
 	r.Get("/admin", AdminHandler(app))
 	r.Get("/student", StudentHandler(app))
-	r.Get("/student/profile", StudentProfileHandler(app))
+	r.Get("/student/profile/personal", StudentProfilePersonalHandler(app))
+	r.Get("/student/profile/address", StudentProfileAddressHandler(app))
 	r.Get("/processingStatus", ProcessingStatusTypeHandler(app))
 	r.Get("/student/application", StudentApplicationStatusHandler(app))
 	r.Get("/studentContact", StudentContactsHandler(app))
@@ -29,9 +36,112 @@ func Users(app *config.Env) http.Handler {
 	r.Get("/student/documents", StudentDocumentsHandler(app))
 	r.Get("/studentResults", StudentResultsHandler(app))
 
-	r.Post("/student/profile/update", UpdateStudentProfileHandler(app))
+	r.Post("/student/profile/personal/update", UpdateStudentProfilePersonalHandler(app))
+	r.Post("/student/profile/address/addresstype", StudentProfileAddressTypeHandler(app))
 
 	return r
+}
+
+func StudentProfileAddressHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			//http.Redirect(w, r, "/login", 301)
+		}
+		addressTypes, err := addressIO.GetAddressTypes()
+		if err != nil {
+			app.ErrorLog.Println(err.Error(), addressTypes)
+		}
+
+		addresses := []AddressPlaceHolder{}
+
+		for _, addressType := range addressTypes {
+			userAddress, err := usersIO.GetUserAddress(email, addressType.AddressTypeID)
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+			} else {
+				addresses = append(addresses, AddressPlaceHolder{addressType.AddressName, userAddress.Address, userAddress.PostalCode})
+			}
+		}
+
+		type PageData struct {
+			Student      usersIO.User
+			AddressTypes []addressIO.AddressType
+			Addresses    []AddressPlaceHolder
+			Address      usersIO.UserAddress
+		}
+
+		data := PageData{user, addressTypes, addresses, usersIO.UserAddress{}}
+		files := []string{
+			app.Path + "content/student/profile/address.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+	}
+}
+
+func StudentProfileAddressTypeHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			//http.Redirect(w, r, "/login", 301)
+		}
+		r.ParseForm()
+		addressTypeId := r.PostFormValue("addresstypes")
+		userAddress, err := usersIO.GetUserAddress(email, addressTypeId)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+		fmt.Println(userAddress)
+
+		addressTypes, err := addressIO.GetAddressTypes()
+		if err != nil {
+			app.ErrorLog.Println(err.Error(), addressTypes)
+		}
+
+		addresses := []AddressPlaceHolder{}
+
+		for _, addressType := range addressTypes {
+			userAddress, err := usersIO.GetUserAddress(email, addressType.AddressTypeID)
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+			} else {
+				addresses = append(addresses, AddressPlaceHolder{addressType.AddressName, userAddress.Address, userAddress.PostalCode})
+			}
+		}
+
+		type PageData struct {
+			Student      usersIO.User
+			AddressTypes []addressIO.AddressType
+			Addresses    []AddressPlaceHolder
+			Address      usersIO.UserAddress
+		}
+
+		data := PageData{user, addressTypes, addresses, userAddress}
+		files := []string{
+			app.Path + "content/student/profile/address.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+	}
 }
 
 func StudentHandler(app *config.Env) http.HandlerFunc {
@@ -40,7 +150,7 @@ func StudentHandler(app *config.Env) http.HandlerFunc {
 		user, err := usersIO.GetUser(email)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
-			http.Redirect(w, r, "/login", 301)
+			//http.Redirect(w, r, "/login", 301)
 		}
 		type PageData struct {
 			Student usersIO.User
@@ -62,36 +172,24 @@ func StudentHandler(app *config.Env) http.HandlerFunc {
 
 }
 
-func StudentProfileHandler(app *config.Env) http.HandlerFunc {
+func StudentProfilePersonalHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		email := app.Session.GetString(r.Context(), "userId")
 		user, err := usersIO.GetUser(email)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
-			http.Redirect(w, r, "/login", 301)
-		}
-		address, err := addressIO.GetAddressTypes()
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-		}
-		for _, x := range address {
-			fmt.Println(x.AddressName)
-		}
-		lastAddress := address[len(address)-1]
-		lastName := lastAddress.AddressName
-		fmt.Println(lastName, "<<<<<<<<<<<<<")
-		//fmt.Println(address[:1],">>>>>>>>>>>>")
-
-		fmt.Println(address)
-		type PageData struct {
-			Student     usersIO.User
-			Address     []addressIO.AddressType
-			DateOfBirth string
+			//http.Redirect(w, r, "/login", 301)
 		}
 		dobString := strings.Split(user.DateOfBirth.String(), " ")[0] // split date and get in format: yyy-mm-dd
-		data := PageData{user, address, dobString}
+
+		type PageData struct {
+			Student     usersIO.User
+			DateOfBirth string
+		}
+
+		data := PageData{user, dobString}
 		files := []string{
-			app.Path + "content/student/student_profile.html",
+			app.Path + "content/student/profile/personal.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -105,7 +203,7 @@ func StudentProfileHandler(app *config.Env) http.HandlerFunc {
 	}
 }
 
-func UpdateStudentProfileHandler(app *config.Env) http.HandlerFunc {
+func UpdateStudentProfilePersonalHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 		email := app.Session.GetString(r.Context(), "userId")
