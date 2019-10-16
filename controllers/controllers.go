@@ -5,19 +5,19 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"net/http"
 	"obas/config"
-	controllers4 "obas/controllers/address"
-	controllers6 "obas/controllers/application"
-	controllers5 "obas/controllers/demographics"
-	controllers7 "obas/controllers/documents"
-	controllers "obas/controllers/home"
-	controllers8 "obas/controllers/institutions"
-	controllers9 "obas/controllers/location"
-	controllers10 "obas/controllers/log"
-	controllers3 "obas/controllers/register"
-	controllers2 "obas/controllers/subjects"
-	controllers11 "obas/controllers/users"
-
-	"obas/controllers/login"
+	addressControllers "obas/controllers/address"
+	applicationControllers "obas/controllers/application"
+	demographicsControllers "obas/controllers/demographics"
+	documentsControllers "obas/controllers/documents"
+	homeControllers "obas/controllers/home"
+	institutionsControllers "obas/controllers/institutions"
+	locationControllers "obas/controllers/location"
+	logControllers "obas/controllers/log"
+	loginControllers "obas/controllers/login"
+	logoutControllers "obas/controllers/logout"
+	registerControllers "obas/controllers/register"
+	subjectsControllers "obas/controllers/subjects"
+	usersControllers "obas/controllers/users"
 )
 
 func Controllers(env *config.Env) http.Handler {
@@ -27,19 +27,19 @@ func Controllers(env *config.Env) http.Handler {
 	mux.Use(middleware.Logger)
 	mux.Use(env.Session.LoadAndSave)
 
-	mux.Handle("/", controllers.Home(env))
-	mux.Mount("/login", login.Login(env))
-	mux.Mount("/logout", login.LogOut(env))
-	mux.Mount("/register", controllers3.Register(env))
-	mux.Mount("/users", controllers11.Users(env))
-	mux.Mount("/subjects", controllers2.Subjects(env))
-	mux.Mount("/address", controllers4.Addresses(env))
-	mux.Mount("/demographics", controllers5.Demographics(env))
-	mux.Mount("/application", controllers6.Applications(env))
-	mux.Mount("/documents", controllers7.Documents(env))
-	mux.Mount("/institution", controllers8.Institutions(env))
-	mux.Mount("/location", controllers9.Locations(env))
-	mux.Mount("/log", controllers10.Logs(env))
+	mux.Handle("/", homeControllers.Home(env))
+	mux.Mount("/login", loginControllers.Login(env))
+	mux.Mount("/logout", logoutControllers.Logout(env))
+	mux.Mount("/register", registerControllers.Register(env))
+	mux.Mount("/users", usersControllers.Users(env))
+	mux.Mount("/subjects", subjectsControllers.Subjects(env))
+	mux.Mount("/address", addressControllers.Addresses(env))
+	mux.Mount("/demographics", demographicsControllers.Demographics(env))
+	mux.Mount("/application", applicationControllers.Applications(env))
+	mux.Mount("/documents", documentsControllers.Documents(env))
+	mux.Mount("/institution", institutionsControllers.Institutions(env))
+	mux.Mount("/location", locationControllers.Locations(env))
+	mux.Mount("/log", logControllers.Logs(env))
 
 	fileServer := http.FileServer(http.Dir("./views/assets/"))
 	// Use the mux.Handle() function to register the file server as the handler for

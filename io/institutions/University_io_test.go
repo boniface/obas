@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-var univ = domain.University{"14", "DUT", "TECHNO", "EC"}
+var univ = domain.University{ "", "14", "DUT", "TECHNO", "EC"}
 
 func TestGetUniversitys(t *testing.T) {
 	value, err := GetUniversitys()
@@ -31,7 +31,7 @@ func TestCreateUniversity(t *testing.T) {
 
 func TestUpdateUniversity(t *testing.T) {
 	var expected = "DUT"
-	var univ = domain.University{"14", "DUT", "ALL", "KZN"}
+	var univ = domain.University{"14", "", "DUT", "ALL", "KZN"}
 	result, err := UpdateUniversity(univ)
 	assert.Nil(t, err)
 	assert.True(t, result)

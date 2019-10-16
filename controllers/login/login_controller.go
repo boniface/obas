@@ -8,6 +8,11 @@ import (
 	"obas/io/login"
 )
 
+type PageData struct {
+	Title string
+	Info  string
+}
+
 // Route Path
 func Login(app *config.Env) http.Handler {
 	r := chi.NewRouter()
@@ -21,32 +26,18 @@ func Login(app *config.Env) http.Handler {
 	return r
 }
 
-func LogOut(app *config.Env) http.Handler {
-	r := chi.NewRouter()
-	r.Get("/", logoutHandler(app))
-	return r
-}
-
-func logoutHandler(app *config.Env) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		_ = app.Session.Destroy(r.Context())
-		files := []string{
-			app.Path + "base/login/login.page.html",
-		}
-		ts, err := template.ParseFiles(files...)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			return
-		}
-		err = ts.Execute(w, nil)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-		}
-	}
-}
-
 func loginHome(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		message := app.Session.GetString(r.Context(), "message")
+
+		var data PageData
+
+		if message != "" {
+			data = PageData{"Login Error!", message}
+		} else {
+			data = PageData{}
+		}
+
 		files := []string{
 			app.Path + "base/login/login.page.html",
 		}
@@ -55,7 +46,7 @@ func loginHome(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 			return
 		}
-		err = ts.Execute(w, nil)
+		err = ts.Execute(w, data)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		}
@@ -105,11 +96,6 @@ func passwordResetHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 			return
 		}
-		type PageData struct {
-			Email string
-			Title string
-			Info  string
-		}
 		var redirect, title, info string
 		if result {
 			redirect = app.Path + "base/login/login.page.html"
@@ -120,7 +106,7 @@ func passwordResetHandler(app *config.Env) http.HandlerFunc {
 			title = "Password Reset NOT Successful"
 			info = "An error occurred. Please try again or contact administrator."
 		}
-		data := PageData{"do_not_reply@ict.cput.ac.za", title, info}
+		data := PageData{title, info}
 		files := []string{
 			redirect,
 		}
@@ -144,6 +130,7 @@ func processForgetPasswordHandler(app *config.Env) http.HandlerFunc {
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			http.Redirect(w, r, "/login/forgetpassword", 301)
+			return
 		}
 		app.InfoLog.Println("Login is successful. Result is ", result)
 		http.Redirect(w, r, "/login", 301)
@@ -158,21 +145,14 @@ func loginHandler(app *config.Env) http.HandlerFunc {
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			app.Session.Put(r.Context(), "message", "Wrong Credentials!")
-			http.Redirect(w, r, "/", 301)
+			http.Redirect(w, r, "/login", 301)
+			return
 		}
 		app.Session.Cookie.Name = "UserID"
 		app.Session.Put(r.Context(), "userId", loginToken.Email)
 		app.Session.Put(r.Context(), "token", loginToken.Token)
 		app.InfoLog.Println("Login is successful. Result is ", loginToken)
 		http.Redirect(w, r, "/users/student", 301)
-	}
-}
-
-func logout(app *config.Env) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-
-		w.Write([]byte("welcome"))
-
 	}
 }
 

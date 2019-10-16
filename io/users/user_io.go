@@ -26,6 +26,7 @@ func GetUsers() ([]User, error) {
 
 func GetUser(id string) (User, error) {
 	entity := User{}
+	//entity = User{id, "4829830090930", "Arinze", "", "Anikwue", time.Now()}
 	resp, _ := api.Rest().Get(usersUrl + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

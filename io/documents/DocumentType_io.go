@@ -1,9 +1,9 @@
-package io
+package documents
 
 import (
 	"errors"
-	"obas/src/api"
-	domain "obas/src/domain/documents"
+	"obas/api"
+	domain "obas/domain/documents"
 )
 
 const documentTypeUrl = api.BASE_URL + "/documents"

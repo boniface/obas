@@ -25,9 +25,14 @@ func GetUserAddresses() ([]UserAddress, error) {
 	return entites, nil
 }
 
-func GetUserAddress(id string) (UserAddress, error) {
+func GetUserAddress(userId string, addressTypeId string) (UserAddress, error) {
 	entity := UserAddress{}
-	resp, _ := api.Rest().Get(userAddressUrl + "/address/get/" + id)
+	//if addressTypeId == "1" {
+	//	entity = UserAddress{userId, addressTypeId, "81 Loop Street", "8001"}
+	//} else if addressTypeId == "2" {
+	//	entity = UserAddress{userId, addressTypeId, "P.0.Box 3278 Brackenfell", "6792"}
+	//}
+	resp, _ := api.Rest().Get(userAddressUrl + "/address/get/" + userId + "/" + addressTypeId)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -50,7 +55,7 @@ func CreateUserAddress(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateUserAddress(entity interface{}) (bool, error) {
+func UpdateUserAddress(entity UserAddress, token string) (bool, error) {
 	resp, serverEr := api.Rest().
 		SetBody(entity).
 		Post(userAddressUrl + "/address/update")

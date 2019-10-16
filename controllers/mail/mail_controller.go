@@ -15,6 +15,11 @@ func Mails(app *config.Env) http.Handler {
 	return r
 }
 
+func MailApiHandler(env *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+	}
+}
+
 func MailsHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		//allmails, err :=io.Get

@@ -6,6 +6,7 @@ import (
 
 type User struct {
 	Email       string    `json:"email"`
+	IdNumber    string    `json:"idNumber"`
 	FirstName   string    `json:"firstName"`
 	MiddleName  string    `json:"middleName"`
 	LastName    string    `json:"lastName"`
@@ -13,10 +14,10 @@ type User struct {
 }
 
 type UserAddress struct {
-	UserAddressId   string `json:"userAddressId"`
-	PhysicalAddress string `json:"physicalAddress"`
-	PostalCode      string `json:"postalCode"`
-
+	UserId        string `json:"userId"`
+	AddressTypeId string `json:"addressTypeId"`
+	Address       string `json:"address"`
+	PostalCode    string `json:"postalCode"`
 }
 
 type UserApplicationResult struct {
@@ -30,10 +31,9 @@ type UserCommunication struct {
 }
 
 type UserContacts struct {
-	UserContactId     string `json:"userContactId"`
-	CellNumber        string `json:"cellNumber"`
-	AlternativeNumber string `json:"alternativeNumber"`
-	AlternativeEmail  string `json:"alternativeEmail"`
+	UserId        string `json:"userId"`
+	ContactTypeId string `json:"contactTypeId"`
+	Contact       string `json:"contact"`
 }
 
 type UserDemographics struct {

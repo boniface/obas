@@ -1,10 +1,10 @@
-package io
+package application
 
 import (
 	"errors"
 	"fmt"
-	"obas/src/api"
-	domain "obas/src/domain/application"
+	"obas/api"
+	domain "obas/domain/application"
 )
 
 const applicationTypeUrl = api.BASE_URL + "/application"

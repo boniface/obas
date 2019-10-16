@@ -1,4 +1,4 @@
-package io
+package address
 
 import (
 	"errors"
@@ -12,17 +12,23 @@ const addressTypeUrl = api.BASE_URL + "/address"
 type AddressType domain.AddressType
 
 func GetAddressTypes() ([]AddressType, error) {
-	entites := []AddressType{}
+	entities := []AddressType{}
+	//addT1 := AddressType{"123", "Physical Address"}
+	//addT2 := AddressType{"246", "Postal Address"}
+	//
+	//allAdd := []AddressType{addT1, addT2}
+	//
+	//entities = allAdd
 	resp, _ := api.Rest().Get(addressTypeUrl + "/all")
 
 	if resp.IsError() {
-		return entites, errors.New(resp.Status())
+		return entities, errors.New(resp.Status())
 	}
-	err := api.JSON.Unmarshal(resp.Body(), &entites)
+	err := api.JSON.Unmarshal(resp.Body(), &entities)
 	if err != nil {
-		return entites, errors.New(resp.Status())
+		return entities, errors.New(resp.Status())
 	}
-	return entites, nil
+	return entities, nil
 }
 
 func GetAddressType(id string) (domain.AddressType, error) {

@@ -27,9 +27,6 @@ func DoRegister(email string) (bool, error) {
 	return true, nil
 }
 
-/**
-i don't know yet what is the response from the backend on this request.
-*/
 func DoForgetPassword(email string) (bool, error) {
 	entity := Forget{}
 	entity.Email = email
@@ -59,6 +56,7 @@ func DoLogin(email string, password string) (LoginToken, error) {
 		return LoginToken{}, errors.New(resp.Status())
 	}
 	respEntity := LoginToken{}
+	//respEntity = LoginToken{entity.Email, "aerefasd.foqerwfdasdfaoduo"}
 	err := json.Unmarshal(resp.Body(), &respEntity)
 	if err != nil {
 		return respEntity, errors.New(resp.Status())

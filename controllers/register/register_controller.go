@@ -50,9 +50,8 @@ func RegisterHandler(app *config.Env) http.HandlerFunc {
 			return
 		}
 		type PageData struct {
-			Email string
 			Title string
-			Info string
+			Info  string
 		}
 		var redirect, title, info string
 		if registered {
@@ -64,7 +63,7 @@ func RegisterHandler(app *config.Env) http.HandlerFunc {
 			title = "Registration NOT successful"
 			info = "An error occurred. Please try again or contact administrator."
 		}
-		data := PageData{email, title, info}
+		data := PageData{title, info}
 		files := []string{
 			redirect,
 		}
