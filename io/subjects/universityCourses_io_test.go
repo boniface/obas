@@ -1,4 +1,4 @@
-package io
+package subjects
 
 import (
 	"fmt"

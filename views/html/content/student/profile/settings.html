@@ -62,17 +62,17 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="collapse" href="#profileMenu">
+                    <a class="nav-link" data-toggle="collapse" href="#profileMenu" aria-expanded="true">
                         <i class="nc-icon nc-single-02"></i>
                         <p>
                             Profile
                             <b class="caret"></b>
                         </p>
                     </a>
-                    <div class="collapse " id="profileMenu">
+                    <div class="collapse show" id="profileMenu">
                         <ul class="nav">
                             <li class="nav-item ">
-                                <a class="nav-link" href="/users/student/profile/pearsanta">
+                                <a class="nav-link" href="/users/student/profile/personal">
                                     <span class="sidebar-mini">P</span>
                                     <span class="sidebar-normal">Personal</span>
                                 </a>
@@ -90,15 +90,34 @@
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="/users/student/profile/subjects">
-                                    <span class="sidebar-mini">S</span>
-                                    <span class="sidebar-normal">Subjects</span>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
                                 <a class="nav-link" href="/users/student/profile/districts">
                                     <span class="sidebar-mini">D&M</span>
                                     <span class="sidebar-normal">District/Municipality</span>
+                                </a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/users/student/profile/settings">
+                                    <span class="sidebar-mini">S</span>
+                                    <span class="sidebar-normal">Settings</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" data-toggle="collapse" href="#applicationMenu">
+                        <i class="nc-icon nc-attach-87"></i>
+                        <p>
+                            Application
+                            <b class="caret"></b>
+                        </p>
+                    </a>
+                    <div class="collapse " id="applicationMenu">
+                        <ul class="nav">
+                            <li class="nav-item ">
+                                <a class="nav-link" href="#">
+                                    <span class="sidebar-mini">S</span>
+                                    <span class="sidebar-normal">Subjects</span>
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -107,21 +126,8 @@
                                     <span class="sidebar-normal">Course</span>
                                 </a>
                             </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="/users/student/profile/registration">
-                                    <span class="sidebar-mini">R</span>
-                                    <span class="sidebar-normal">Registration</span>
-                                </a>
-                            </li>
                         </ul>
                     </div>
-                </li>
-
-                <li class="nav-item ">
-                    <a class="nav-link" href="/users/student/application">
-                        <i class="nc-icon nc-attach-87"></i>
-                        <p>Application</p>
-                    </a>
                 </li>
                 <li class="nav-item ">
                     <a class="nav-link" href="/users/student/documents">
@@ -131,7 +137,7 @@
                 </li>
                 <hr/>
                 <li class="nav-item ">
-                    <a class="nav-link" href="">
+                    <a class="nav-link" href="/logout">
                         <!-- <i class="nc-icon nc-single-copy-04"></i>-->
                         <p style="position: center">Log out </p>
                     </a>
@@ -151,7 +157,7 @@
                             <i class="fa fa-navicon visible-on-sidebar-mini"></i>
                         </button>
                     </div>
-                    <a class="navbar-brand" href="#pablo">My Profile - Courses </a>
+                    <a class="navbar-brand" href="#pablo">My Profile - Settings </a>
                 </div>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                         aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -215,7 +221,7 @@
                                 <a class="dropdown-item" href="#">
                                     <i class="nc-icon nc-lock-circle-open"></i> Lock Screen
                                 </a>
-                                <a href="#" class="dropdown-item text-danger">
+                                <a href="/logout" class="dropdown-item text-danger">
                                     <i class="nc-icon nc-button-power"></i> Log out
                                 </a>
                             </div>
@@ -234,134 +240,92 @@
                         <div class="nav-container">
                             <ul class="nav nav-icons justify-content-center" role="tablist">
 
-
                                 <li class="nav-item show active">
-                                    <a class="nav-link" id="help-tab" href="#courseDetails" role="tab"
+                                    <a class="nav-link" id="help-tab" href="#registrationDetails" role="tab"
                                        data-toggle="tab">
                                         <i class="nc-icon nc-support-17"></i>
-                                        <br> Course details
+                                        <br> Settings
                                     </a>
                                 </li>
-
                             </ul>
                         </div>
-                        <div class="tab-content">
 
-
-
-                            <div class="tab-pane fade show active" id="courseDetails" role="tabpanel">
+                       <div class="tab-content">
+                            <div class="tab-pane fade show active" id="registrationDetails"  aria-labelledby="info-tab">
                                 <div class="card green">
                                     <div class="card-body">
-                                        <form id="courseDetailsForm" method="post"
-                                              action="/users/student/profile/update">
+                                        <form id="registrationDetailsForm" method="post" action="users/student/profile/registration">
 
-
-
+                                            <h4 style="color: #ffffff" class="text-center">Password Update</h4>
                                             <div class="row justify-content-center">
-                                                <div class="col-md-6">
+                                                <div class="col-md-5">
                                                     <div class="form-group">
-                                                        <label class="control-label" style="color: #ffffff">Debt</label>
-                                                        <select name="cities" class="selectpicker"
-                                                                data-title="Do you have any outstanding Debt"
-                                                                data-style="btn-default btn-outline"
-                                                                data-menu-style="dropdown-blue"
-                                                                placeholder="Do you have any outstanding Debt">
-                                                            <option value="id">Yes</option>
-                                                            <option value="ms">No</option>
-
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label" style="color: #ffffff">Intent Study
-                                                            Field</label>
-                                                        <select name="cities" class="selectpicker"
-                                                                data-title="Intent study field"
-                                                                data-style="btn-default btn-outline"
-                                                                data-menu-style="dropdown-blue"
-                                                                placeholder="Architecture">
-                                                            <option value="id">Engineering and technology</option>
-                                                            <option value="ms">Agriculture</option>
-                                                            <option value="id">Business</option>
-                                                            <option value="ms">Education</option>
-                                                            <option value="id">Divinity</option>
-                                                            <option value="ms">Agriculture</option>
-                                                            <option value="id">History</option>
-                                                            <option value="ms">Economics</option>
-                                                            <option value="id">Geology</option>
-                                                            <option value="ms">Zoology</option>
-                                                            <option value="id">Psychology</option>
-                                                            <option value="ms">Chemistry</option>
-
-                                                        </select>
+                                                        <label class="control-label" style="color: #ffffff">Previous
+                                                            Password</label>
+                                                        <input class="form-control" type="text" name="name"
+                                                               placeholder="########"/>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="row justify-content-center">
-                                                <div class="col-md-6">
+                                                <div class="col-md-5">
                                                     <div class="form-group">
-                                                        <label class="control-label"
-                                                               style="color: #ffffff">Duration</label>
-                                                        <select name="cities" class="selectpicker"
-                                                                data-title="Example: 3"
-                                                                data-style="btn-default btn-outline" required="true"
-                                                                data-menu-style="dropdown-blue" placeholder="Duration">
-                                                            <option value="id">1 Year</option>
-                                                            <option value="ms">2 Years</option>
-                                                            <option value="id">3 Years</option>
-                                                            <option value="ms">4 Years</option>
-                                                            <option value="id">5 Years</option>
-                                                        </select>
+                                                        <label class="control-label" style="color: #ffffff">New
+                                                            Password</label>
+                                                        <input class="form-control" type="text" name="phone_number"
+                                                               placeholder="********"/>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="row justify-content-center">
+                                                <div class="col-md-5">
+                                                    <div class="form-group">
+                                                        <label class="control-label" style="color: #ffffff">Veryfy
+                                                            Password</label>
+                                                        <input class="form-control" type="text" name="phone_number"
+                                                               placeholder="********"/>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                                    <button type="button" id="editButton"
-                                                            class="btn btn-wd btn-warning btn-outline">
-                                                    <span class="btn-label">
-                                                        <i class="fa fa-warning"></i>
+                                            <div class="row justify-content-center">
+                                                <button type="button" id="editButton"
+                                                        class="btn btn-wd btn-warning btn-outline">
+                                         <span class="btn-label">
+                                             <i class="fa fa-warning"></i>
                                                     </span>
-                                                        EditRV
-                                                    </button>
-                                                    <button type="submit" id="updateButton"
-                                                            class="btn btn-wd btn-info btn-outline">
+                                                    EditRV
+                                                </button>
+                                                <button type="submit" id="updateButton"
+                                                        class="btn btn-wd btn-info btn-outline">
                                                     <span class="btn-label">
                                                         <i class="fa fa-exclamation"></i>
                                                     </span>
-                                                        Update
-                                                    </button>
-                                                    <button type="reset" id="clearButton"
-                                                            class="btn btn-wd btn-danger btn-outline">
+                                                    Update
+                                                </button>
+                                                <button type="reset" id="clearButton"
+                                                        class="btn btn-wd btn-danger btn-outline">
                                                     <span class="btn-label">
                                                         <i class="fa fa-times"></i>
                                                     </span>
-                                                        Clear
-                                                    </button>
-
-                                                    <button type="button" id="cancelButton"
-                                                            class="btn btn-wd btn-outline">
+                                                    ClearC
+                                                </button>
+                                                <button type="button" id="cancelButton" class="btn btn-wd btn-outline">
                                                     <span class="btn-label">
                                                         <i class="fa fa-arrow-left"></i>
                                                     </span>
-                                                        Cancel
-                                                    </button>
+                                                    Cancel
+                                                </button>
 
-                                                    <div class="clearfix"></div>
-                                                </div>
+                                                <div class="clearfix"></div>
                                             </div>
+
                                         </form>
                                     </div>
                                 </div>
                             </div>
-
-
-
 
                         </div>
                     </div>

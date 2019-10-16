@@ -5,16 +5,14 @@ import (
 	"fmt"
 	"github.com/go-chi/chi"
 	"html/template"
-	"obas/config"
-	"obas/middleware"
-
 	"net/http"
+	"obas/config"
 )
 
 //noinspection ALL
 func Addresses(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Use(middleware.LoginSession{SessionManager: app.Session}.RequireAuthenticatedUser)
+	//r.Use(middleware.LoginSession{SessionManager: app.Session}.RequireAuthenticatedUser)
 	r.Get("/all", AddressTypeHandler(app))
 	r.Get("/contact/all", ContactTypeTypeHandler(app))
 	return r

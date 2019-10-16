@@ -35,10 +35,10 @@ func Users(app *config.Env) http.Handler {
 	r.Get("/student/documents", StudentDocumentsHandler(app))
 	r.Get("/studentResults", StudentResultsHandler(app))
 
-	r.Get("/student/profile/pearsanta", StudentProfilePersonalHandler(app))
+	r.Get("/student/profile/personal", StudentProfilePersonalHandler(app))
 	r.Get("/student/profile/address", StudentProfileAddressHandler(app))
 	r.Get("/student/profile/guardian", StudentProfileGuardianHandler(app))
-	r.Get("/student/profile/registration", StudentProfileRegistrationHandler(app))
+	r.Get("/student/profile/settings", StudentProfileRegistrationHandler(app))
 	r.Get("/student/profile/courses", StudentProfileCourseHandler(app))
 	r.Get("/student/profile/subjects", StudentProfileSubjectHandler(app))
 	r.Get("/student/profile/districts", StudentProfileDistrictHandler(app))
@@ -48,6 +48,40 @@ func Users(app *config.Env) http.Handler {
 	r.Post("/student/profile/address/update", StudentProfileAddressUpdateHandler(app))
 
 	return r
+}
+
+func StudentProfileSubjectHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		if email == "" || len(email) <= 0 {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+
+		type PageData struct {
+			Student usersIO.User
+		}
+
+		data := PageData{user}
+		files := []string{
+			app.Path + "content/student/profile/subjects.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+	}
 }
 
 func StudentProfileRegistrationHandler(app *config.Env) http.HandlerFunc {
@@ -70,7 +104,7 @@ func StudentProfileRegistrationHandler(app *config.Env) http.HandlerFunc {
 
 		data := PageData{user}
 		files := []string{
-			app.Path + "content/student/profile/registration.html",
+			app.Path + "content/student/profile/settings.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -141,40 +175,6 @@ func StudentProfileDistrictHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{user}
 		files := []string{
 			app.Path + "content/student/profile/district_and_municipality.html",
-		}
-		ts, err := template.ParseFiles(files...)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			return
-		}
-		err = ts.Execute(w, data)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-		}
-	}
-}
-
-func StudentProfileSubjectHandler(app *config.Env) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		email := app.Session.GetString(r.Context(), "userId")
-		if email == "" || len(email) <= 0 {
-			http.Redirect(w, r, "/login", 301)
-			return
-		}
-		user, err := usersIO.GetUser(email)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			http.Redirect(w, r, "/login", 301)
-			return
-		}
-
-		type PageData struct {
-			Student usersIO.User
-		}
-
-		data := PageData{user}
-		files := []string{
-			app.Path + "content/student/profile/subject.html ",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -403,8 +403,7 @@ func StudentHandler(app *config.Env) http.HandlerFunc {
 func StudentProfilePersonalHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		email := app.Session.GetString(r.Context(), "userId")
-		fmt.Println("Here is the email: ", email)
-		if email == "" || len(email) <= 0 {
+		if email == "" {
 			http.Redirect(w, r, "/login", 301)
 			return
 		}

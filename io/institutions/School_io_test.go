@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-var sch = domain.School{"98", "CAPETOWN HIGH", "CBD", "WC"}
+var sch = domain.School{"98", "CAPETOWN HIGH", "CBD", "WC", ""}
 
 func TestGetSchools(t *testing.T) {
 	value, err := GetSchools()
