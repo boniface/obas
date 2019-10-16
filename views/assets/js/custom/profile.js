@@ -22,12 +22,12 @@ $(document).ready(function(){
 
     /** Address starts here**/
     $("#addressForm input").prop("disabled", true);
-    $("#addressUpdateBtn, #addressClearBtn").attr("disabled", true);
+    $("#addressUpdateBtn, #addressClearBtn").hide();
 
     $("#addressEditBtn").click(function () {
         $("#addressForm input").prop("disabled", false);
-        $("#addressUpdateBtn, #addressClearBtn").attr("disabled", false);
-        $(this).attr("disabled", true);
+        $("#addressUpdateBtn, #addressClearBtn").show(1000);
+        $(this).hide(500);
     });
 
     $("#addressCancelBtn").click(function () {

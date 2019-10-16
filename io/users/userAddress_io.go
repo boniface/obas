@@ -2,7 +2,6 @@ package users
 
 import (
 	"errors"
-	"fmt"
 	"obas/api"
 	domain "obas/domain/users"
 )
@@ -56,11 +55,11 @@ func CreateUserAddress(entity interface{}) (bool, error) {
 }
 
 func UpdateUserAddress(entity UserAddress, token string) (bool, error) {
-	resp, serverEr := api.Rest().
+	resp, _ := api.Rest().
+		SetAuthToken(token).
 		SetBody(entity).
 		Post(userAddressUrl + "/address/update")
 	if resp.IsError() {
-		fmt.Println(" Is request from Server Okay", serverEr)
 		return false, errors.New(resp.Status())
 	}
 

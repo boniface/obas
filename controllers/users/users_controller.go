@@ -320,7 +320,6 @@ func StudentProfileAddressTypeHandler(app *config.Env) http.HandlerFunc {
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		}
-		fmt.Println(userAddress)
 
 		addressTypes, err := addressIO.GetAddressTypes()
 		if err != nil {
@@ -460,7 +459,7 @@ func UpdateStudentProfilePersonalHandler(app *config.Env) http.HandlerFunc {
 			return
 		}
 		app.InfoLog.Println("Update response is ", updated)
-		http.Redirect(w, r, "/users/student/profile", 301)
+		http.Redirect(w, r, "/users/student/profile/personal", 301)
 	}
 }
 
