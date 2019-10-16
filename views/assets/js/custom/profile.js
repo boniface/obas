@@ -4,19 +4,24 @@ $(document).ready(function(){
 
     /** Personal starts here**/
     $("#profileForm input").prop("disabled", true);
-    $("#updateButton, #clearButton, #cancelButton").attr("disabled", true);
+    // $("#updateButton, #clearButton, #cancelButton").attr("disabled", true);
+    $("#updateButton, #clearButton, #cancelButton").hide();
 
     $("#editButton").click(function () {
         $("#profileForm input").prop("disabled", false);
-        $("#updateButton, #clearButton, #cancelButton").attr("disabled", false);
-        $(this).attr("disabled", true);
+        // $("#updateButton, #clearButton, #cancelButton").attr("disabled", false);
+        $("#updateButton, #clearButton, #cancelButton").show(500);
+        // $(this).attr("disabled", true);
+        $(this).hide(500);
     });
 
     $("#cancelButton").click(function () {
         $("#profileForm").trigger("reset");
         $("#profileForm input").prop("disabled", true);
-        $("#updateButton, #clearButton, #cancelButton").attr("disabled", true);
-        $("#editButton").attr("disabled", false);
+        // $("#updateButton, #clearButton, #cancelButton").attr("disabled", true);
+        $("#updateButton, #clearButton, #cancelButton").hide();
+        // $("#editButton").attr("disabled", false);
+        $("#editButton").show(500);
     });
     /** Personal ends here**/
 
