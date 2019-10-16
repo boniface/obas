@@ -13,11 +13,10 @@ import (
 	controllers8 "obas/controllers/institutions"
 	controllers9 "obas/controllers/location"
 	controllers10 "obas/controllers/log"
+	loginController "obas/controllers/login"
 	controllers3 "obas/controllers/register"
 	controllers2 "obas/controllers/subjects"
-	controllers11 "obas/controllers/users"
-
-	"obas/controllers/login"
+	usersController "obas/controllers/users"
 )
 
 func Controllers(env *config.Env) http.Handler {
@@ -28,10 +27,10 @@ func Controllers(env *config.Env) http.Handler {
 	mux.Use(env.Session.LoadAndSave)
 
 	mux.Handle("/", controllers.Home(env))
-	mux.Mount("/login", login.Login(env))
-	mux.Mount("/logout", login.LogOut(env))
+	mux.Mount("/login", loginController.Login(env))
+	mux.Mount("/logout", loginController.Logout(env))
 	mux.Mount("/register", controllers3.Register(env))
-	mux.Mount("/users", controllers11.Users(env))
+	mux.Mount("/users", usersController.Users(env))
 	mux.Mount("/subjects", controllers2.Subjects(env))
 	mux.Mount("/address", controllers4.Addresses(env))
 	mux.Mount("/demographics", controllers5.Demographics(env))
