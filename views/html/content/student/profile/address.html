@@ -248,45 +248,49 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <form id="addressTypeForm" method="post"
-                                                      action="/users/student/profile/address/addresstype">
-                                                    <div class="row justify-content-center">
-                                                        <div class="col-md-10">
-                                                            <label class="control-label label-font-color">Address
-                                                                Type</label>
-                                                            <div class="row">
-                                                                <div class="col-md-10">
-                                                                    <select name="addresstypes" class="selectpicker"
-                                                                            data-title="address type"
-                                                                            data-style="btn-default btn-outline"
-                                                                            data-menu-style="dropdown-blue">
-                                                                        <option value="" disabled selected>Select
-                                                                            Address Type
-                                                                        </option>
-                                                                        {{with .AddressTypes}}
-                                                                            {{range .}}
-                                                                                <option value={{ .AddressTypeID }}>{{ .AddressName }}</option>
+                                                {{ if not .AddressTypeID }}
+                                                    <form id="addressTypeForm" method="post"
+                                                          action="/users/student/profile/address/addresstype">
+                                                        <div class="row justify-content-center">
+                                                            <div class="col-md-10">
+                                                                <label class="control-label label-font-color">Address
+                                                                    Type</label>
+                                                                <div class="row">
+                                                                    <div class="col-md-10">
+                                                                        <select name="addresstypes" class="selectpicker"
+                                                                                data-title="address type"
+                                                                                data-style="btn-default btn-outline"
+                                                                                data-menu-style="dropdown-blue">
+                                                                            <option value="" disabled selected>Select
+                                                                                Address Type
+                                                                            </option>
+                                                                            {{with .AddressTypes}}
+                                                                                {{range .}}
+                                                                                    <option value={{ .AddressTypeID }}>{{ .AddressName }}</option>
+                                                                                {{end}}
                                                                             {{end}}
-                                                                        {{end}}
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-md-2">
-                                                                    <button class="btn btn-dark bootstrap-select"
-                                                                            type="submit">Get
-                                                                    </button>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <button class="btn btn-dark bootstrap-select"
+                                                                                type="submit">Get
+                                                                        </button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </form>
+                                                    </form>
+                                                {{ end }}
                                                 {{ if .AddressTypeID }}
-                                                    <form id="residentialForm" method="post"
+                                                    <form id="addressForm" method="post"
                                                           action="/users/student/profile/address/update">
-                                                        <input type="hidden" name="addressTypeId" value="{{ .AddressTypeID }}" />
+                                                        <input type="hidden" name="addressTypeId"
+                                                               value="{{ .AddressTypeID }}"/>
                                                         <div class="row justify-content-center">
                                                             <div class="col-md-10">
                                                                 <label class="control-label label-font-color">{{ .AddressName }}</label>
-                                                                <input class="form-control" type="text" name="address" value="{{ .Address.Address}}"
+                                                                <input class="form-control" type="text" name="address"
+                                                                       value="{{ .Address.Address}}"
                                                                        placeholder="P.O. Box 10, Bellville 8002"/>
                                                             </div>
                                                         </div>
@@ -296,29 +300,30 @@
                                                                     <label class="control-label label-font-color">Postal
                                                                         Code</label>
                                                                     <input class="form-control" type="text"
-                                                                           name="postalCode" value="{{ .Address.PostalCode}}"
+                                                                           name="postalCode"
+                                                                           value="{{ .Address.PostalCode}}"
                                                                            placeholder="Cape Town"/>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="row justify-content-center">
                                                             <div class="row justify-content-center">
-                                                                <button type="button" id="editButton"
+                                                                <button type="button" id="addressEditBtn"
                                                                         class="btn btn-wd btn-warning btn-outline">
                                                                 <span class="btn-label"><i
                                                                             class="fa fa-warning"></i></span> Edit
                                                                 </button>
-                                                                <button type="submit" id="updateButton"
+                                                                <button type="submit" id="addressUpdateBtn"
                                                                         class="btn btn-wd btn-info btn-outline">
                                                                 <span class="btn-label"><i
                                                                             class="fa fa-exclamation"></i></span>Update
                                                                 </button>
-                                                                <button type="reset" id="clearButton"
+                                                                <button type="reset" id="addressClearBtn"
                                                                         class="btn btn-wd btn-danger btn-outline">
                                                                 <span class="btn-label"><i
                                                                             class="fa fa-times"></i></span> Clear
                                                                 </button>
-                                                                <button type="button" id="cancelButton"
+                                                                <button type="button" id="addressCancelBtn"
                                                                         class="btn btn-wd btn-outline">
                                                                     <span class="btn-label"><i
                                                                                 class="fa fa-arrow-left"></i></span>

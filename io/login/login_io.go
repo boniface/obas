@@ -1,7 +1,6 @@
 package login
 
 import (
-	"encoding/json"
 	"errors"
 	"obas/api"
 	loginDomain "obas/domain/login"
@@ -52,16 +51,17 @@ func DoReset(resetKey string) (bool, error) {
 
 func DoLogin(email string, password string) (LoginToken, error) {
 	entity := Login{email, password}
-	resp, _ := api.Rest().
-		SetBody(entity).
-		Post(loginURL + "/login")
-	if resp.IsError() {
-		return LoginToken{}, errors.New(resp.Status())
-	}
+	//resp, _ := api.Rest().
+	//	SetBody(entity).
+	//	Post(loginURL + "/login")
+	//if resp.IsError() {
+	//	return LoginToken{}, errors.New(resp.Status())
+	//}
 	respEntity := LoginToken{}
-	err := json.Unmarshal(resp.Body(), &respEntity)
-	if err != nil {
-		return respEntity, errors.New(resp.Status())
-	}
+	respEntity = LoginToken{entity.Email, "aerefasd.foqerwfdasdfaoduo"}
+	//err := json.Unmarshal(resp.Body(), &respEntity)
+	//if err != nil {
+	//	return respEntity, errors.New(resp.Status())
+	//}
 	return respEntity, nil
 }

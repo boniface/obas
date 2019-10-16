@@ -75,7 +75,23 @@ func StudentProfileGuardianHandler(app *config.Env) http.HandlerFunc {
 
 func StudentProfileAddressUpdateHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		r.ParseForm()
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		addressTypeId := r.PostFormValue("addressTypeId")
+		address := r.PostFormValue("address")
+		postalCode := r.PostFormValue("postalCode")
+		userAddress := usersIO.UserAddress{email, addressTypeId, address, postalCode}
+		fmt.Println("UserAddress to update: ", userAddress)
+		updated, err := usersIO.UpdateUserAddress(userAddress, token)
+		fmt.Println("result of update: ", updated)
 
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		app.InfoLog.Println("Update response is ", updated)
+		http.Redirect(w, r, "/users/student/profile/address", 301)
 	}
 }
 
