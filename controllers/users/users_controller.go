@@ -42,6 +42,7 @@ func Users(app *config.Env) http.Handler {
 	r.Get("/studentResults", StudentResultsHandler(app))
 
 	r.Get("/student/profile/personal", StudentProfilePersonalHandler(app))
+	r.Get("/student/profile/demography", StudentProfileDemographyHandler(app))
 	r.Get("/student/profile/address", StudentProfileAddressHandler(app))
 	r.Get("/student/profile/relative", StudentProfileRelativeHandler(app))
 	r.Get("/student/profile/settings", StudentProfileRegistrationHandler(app))
@@ -55,6 +56,40 @@ func Users(app *config.Env) http.Handler {
 	r.Post("/student-profile-relative-upate", StudentProfileRelativeUpdateHandler(app))
 
 	return r
+}
+
+func StudentProfileDemographyHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		if email == "" || len(email) <= 0 {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+
+		type PageData struct {
+			Student usersIO.User
+		}
+
+		data := PageData{user}
+		files := []string{
+			app.Path + "content/student/profile/demography.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+	}
 }
 
 func StudentProfileRelativeUpdateHandler(app *config.Env) http.HandlerFunc {
