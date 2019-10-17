@@ -58,11 +58,11 @@ type UserPassword struct {
 }
 
 type UserRelative struct {
-	UserRelativeId string `json:"userRelativeId"`
-	Name           string `json:"name"`
-	Cellphone      string `json:"cellphone"`
-	Relationship   string `json:"relationship"`
-	Email          string `json:"email"`
+	UserId       string `json:"userId"`
+	Name         string `json:"name"`
+	Cellphone    string `json:"cellphone"`
+	Email        string `json:"email"`
+	Relationship string `json:"relationship"`
 }
 
 type UserResults struct {

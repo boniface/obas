@@ -8,7 +8,7 @@ $(document).ready(function(){
 
     $("#editButton").click(function () {
         $("#profileForm input").prop("disabled", false);
-        $("#updateButton, #clearButton, #cancelButton").show(500);
+        $("#updateButton, #clearButton, #cancelButton").show(1000);
         $(this).hide(500);
     });
 
