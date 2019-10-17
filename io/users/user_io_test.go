@@ -25,7 +25,7 @@ func TestGetUser(t *testing.T) {
 }
 
 func TestCreateUser(t *testing.T) {
-	userC := domain.User{"m@gt.com", "","JEAN", "PAUL", "MATUTO", time.Time{}}
+	userC := domain.User{"m@gt.com", "", "JEAN", "PAUL", "MATUTO", time.Time{}}
 	result, err := CreateUser(userC)
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)

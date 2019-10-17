@@ -12,8 +12,8 @@ import (
 )
 
 const (
-	layoutOBAS = "2006-01-02"
-	dangerAlertStyle = "alert-danger"
+	layoutOBAS        = "2006-01-02"
+	dangerAlertStyle  = "alert-danger"
 	successAlertStyle = "alert-success"
 )
 
@@ -267,9 +267,9 @@ func StudentProfileRelativeHandler(app *config.Env) http.HandlerFunc {
 		}
 
 		type PageData struct {
-			Student usersIO.User
+			Student         usersIO.User
 			StudentRelative usersIO.UserRelative
-			Alert PageToast
+			Alert           PageToast
 		}
 
 		data := PageData{user, userRelative, alert}

@@ -23,7 +23,7 @@ func TestGetUserAddress(t *testing.T) {
 }
 
 func TestCreateUserAddress(t *testing.T) {
-	uAddr := domain.UserAddress{"15", "","136 BREE ST", "7894"}
+	uAddr := domain.UserAddress{"15", "", "136 BREE ST", "7894"}
 	value, err := CreateUserAddress(uAddr)
 	assert.Nil(t, err)
 	assert.True(t, value)

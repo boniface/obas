@@ -24,7 +24,7 @@ func TestGetUserContact(t *testing.T) {
 }
 
 func TestCreateUserContact(t *testing.T) {
-	usrContact := domain.UserContacts{ "895675624", "78965412", "m@m.com"}
+	usrContact := domain.UserContacts{"895675624", "78965412", "m@m.com"}
 	result, err := CreateUserContact(usrContact)
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)

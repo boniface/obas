@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-var univ = domain.University{ "", "14", "DUT", "TECHNO", "EC"}
+var univ = domain.University{"", "14", "DUT", "TECHNO", "EC"}
 
 func TestGetUniversitys(t *testing.T) {
 	value, err := GetUniversitys()
