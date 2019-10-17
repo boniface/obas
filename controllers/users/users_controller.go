@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"github.com/go-chi/chi"
 	"html/template"
 	"net/http"
@@ -13,13 +12,20 @@ import (
 )
 
 const (
-	layoutOBAS = "2006-01-02"
+	layoutOBAS        = "2006-01-02"
+	dangerAlertStyle  = "alert-danger"
+	successAlertStyle = "alert-success"
 )
 
 type AddressPlaceHolder struct {
 	AddressName string
 	Address     string
 	PostalCode  string
+}
+
+type PageToast struct {
+	AlertType string
+	AlertInfo string
 }
 
 func Users(app *config.Env) http.Handler {
@@ -35,10 +41,10 @@ func Users(app *config.Env) http.Handler {
 	r.Get("/student/documents", StudentDocumentsHandler(app))
 	r.Get("/studentResults", StudentResultsHandler(app))
 
-	r.Get("/student/profile/pearsanta", StudentProfilePersonalHandler(app))
+	r.Get("/student/profile/personal", StudentProfilePersonalHandler(app))
 	r.Get("/student/profile/address", StudentProfileAddressHandler(app))
-	r.Get("/student/profile/guardian", StudentProfileGuardianHandler(app))
-	r.Get("/student/profile/registration", StudentProfileRegistrationHandler(app))
+	r.Get("/student/profile/relative", StudentProfileRelativeHandler(app))
+	r.Get("/student/profile/settings", StudentProfileRegistrationHandler(app))
 	r.Get("/student/profile/courses", StudentProfileCourseHandler(app))
 	r.Get("/student/profile/subjects", StudentProfileSubjectHandler(app))
 	r.Get("/student/profile/districts", StudentProfileDistrictHandler(app))
@@ -46,8 +52,84 @@ func Users(app *config.Env) http.Handler {
 	r.Post("/student/profile/personal/update", UpdateStudentProfilePersonalHandler(app))
 	r.Post("/student/profile/address/addresstype", StudentProfileAddressTypeHandler(app))
 	r.Post("/student/profile/address/update", StudentProfileAddressUpdateHandler(app))
+	r.Post("/student-profile-relative-upate", StudentProfileRelativeUpdateHandler(app))
 
 	return r
+}
+
+func StudentProfileRelativeUpdateHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		r.ParseForm()
+		relativeName := r.PostFormValue("relative_name")
+		relationship := r.PostFormValue("relationship")
+		cellphone := r.PostFormValue("relative_cellphone")
+		relativeEmail := r.PostFormValue("relative_email")
+		userRelative := usersIO.UserRelative{email, relativeName, cellphone, relativeEmail, relationship}
+		app.InfoLog.Println("UserRelative to update: ", userRelative)
+		updated, err := usersIO.UpdateUserRelative(userRelative, token)
+
+		successMessage := "User relative updated!"
+		failureMessage := "User relative NOT Updated!"
+
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+		} else {
+			if updated {
+				setSessionMessage(app, r, successAlertStyle, successMessage)
+			} else {
+				setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+			}
+		}
+		app.InfoLog.Println("UserRelative update response is ", updated)
+		http.Redirect(w, r, "/users/student/profile/relative", 301)
+
+	}
+}
+
+func setSessionMessage(app *config.Env, r *http.Request, messageType string, message string) {
+	app.Session.Put(r.Context(), "message-type", messageType)
+	app.Session.Put(r.Context(), "message", message)
+}
+
+func StudentProfileSubjectHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		if email == "" || len(email) <= 0 {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+
+		type PageData struct {
+			Student usersIO.User
+		}
+
+		data := PageData{user}
+		files := []string{
+			app.Path + "content/student/profile/subjects.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+	}
 }
 
 func StudentProfileRegistrationHandler(app *config.Env) http.HandlerFunc {
@@ -70,7 +152,7 @@ func StudentProfileRegistrationHandler(app *config.Env) http.HandlerFunc {
 
 		data := PageData{user}
 		files := []string{
-			app.Path + "content/student/profile/registration.html",
+			app.Path + "content/student/profile/settings.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -154,7 +236,7 @@ func StudentProfileDistrictHandler(app *config.Env) http.HandlerFunc {
 	}
 }
 
-func StudentProfileSubjectHandler(app *config.Env) http.HandlerFunc {
+func StudentProfileRelativeHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		email := app.Session.GetString(r.Context(), "userId")
 		if email == "" || len(email) <= 0 {
@@ -168,46 +250,31 @@ func StudentProfileSubjectHandler(app *config.Env) http.HandlerFunc {
 			return
 		}
 
-		type PageData struct {
-			Student usersIO.User
-		}
+		var alert PageToast
 
-		data := PageData{user}
-		files := []string{
-			app.Path + "content/student/profile/subject.html ",
-		}
-		ts, err := template.ParseFiles(files...)
+		userRelative, err := usersIO.GetUserRelative(user.Email)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
-			return
-		}
-		err = ts.Execute(w, data)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-		}
-	}
-}
-
-func StudentProfileGuardianHandler(app *config.Env) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		email := app.Session.GetString(r.Context(), "userId")
-		if email == "" || len(email) <= 0 {
-			http.Redirect(w, r, "/login", 301)
-			return
-		}
-		user, err := usersIO.GetUser(email)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			http.Redirect(w, r, "/login", 301)
+			alert = PageToast{dangerAlertStyle, "Could not retrieve student relative!"}
+		} else {
+			message := app.Session.GetString(r.Context(), "message")
+			messageType := app.Session.GetString(r.Context(), "message-type")
+			if message != "" && messageType != "" {
+				alert = PageToast{messageType, message}
+				app.Session.Remove(r.Context(), "message")
+				app.Session.Remove(r.Context(), "message-type")
+			}
 		}
 
 		type PageData struct {
-			Student usersIO.User
+			Student         usersIO.User
+			StudentRelative usersIO.UserRelative
+			Alert           PageToast
 		}
 
-		data := PageData{user}
+		data := PageData{user, userRelative, alert}
 		files := []string{
-			app.Path + "content/student/profile/guardian.html",
+			app.Path + "content/student/profile/relative.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -223,20 +290,19 @@ func StudentProfileGuardianHandler(app *config.Env) http.HandlerFunc {
 
 func StudentProfileAddressUpdateHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		r.ParseForm()
 		email := app.Session.GetString(r.Context(), "userId")
 		token := app.Session.GetString(r.Context(), "token")
 		if email == "" || token == "" {
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
+		r.ParseForm()
 		addressTypeId := r.PostFormValue("addressTypeId")
 		address := r.PostFormValue("address")
 		postalCode := r.PostFormValue("postalCode")
 		userAddress := usersIO.UserAddress{email, addressTypeId, address, postalCode}
-		fmt.Println("UserAddress to update: ", userAddress)
+		app.InfoLog.Println("UserAddress to update: ", userAddress)
 		updated, err := usersIO.UpdateUserAddress(userAddress, token)
-		fmt.Println("result of update: ", updated)
 
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
@@ -320,7 +386,6 @@ func StudentProfileAddressTypeHandler(app *config.Env) http.HandlerFunc {
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		}
-		fmt.Println(userAddress)
 
 		addressTypes, err := addressIO.GetAddressTypes()
 		if err != nil {
@@ -403,8 +468,7 @@ func StudentHandler(app *config.Env) http.HandlerFunc {
 func StudentProfilePersonalHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		email := app.Session.GetString(r.Context(), "userId")
-		fmt.Println("Here is the email: ", email)
-		if email == "" || len(email) <= 0 {
+		if email == "" {
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
@@ -452,16 +516,15 @@ func UpdateStudentProfilePersonalHandler(app *config.Env) http.HandlerFunc {
 		dateOfBirthStr := r.PostFormValue("dateOfBirth")
 		dateOfBirth, _ := time.Parse(layoutOBAS, dateOfBirthStr)
 		user := usersIO.User{email, idNumber, firstName, "", lastName, dateOfBirth}
-		fmt.Println("User to update: ", user)
+		app.InfoLog.Println("User to update: ", user)
 		updated, err := usersIO.UpdateUser(user, token)
-		fmt.Println("result of update: ", updated)
 
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return
 		}
 		app.InfoLog.Println("Update response is ", updated)
-		http.Redirect(w, r, "/users/student/profile", 301)
+		http.Redirect(w, r, "/users/student/profile/personal", 301)
 	}
 }
 

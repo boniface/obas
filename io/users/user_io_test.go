@@ -25,7 +25,7 @@ func TestGetUser(t *testing.T) {
 }
 
 func TestCreateUser(t *testing.T) {
-	userC := domain.User{"m@gt.com", "JEAN", "PAUL", "MATUTO", time.Time{}}
+	userC := domain.User{"m@gt.com", "", "JEAN", "PAUL", "MATUTO", time.Time{}}
 	result, err := CreateUser(userC)
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)
@@ -34,15 +34,15 @@ func TestCreateUser(t *testing.T) {
 }
 
 func TestUpdateUser(t *testing.T) {
-	userC := domain.User{"m@gt.com", "JEAN", "PAUL", "MATUTO", time.Time{}}
-	result, err := UpdateUser(userC)
+	userC := User{"m@gt.com", "", "JEAN", "PAUL", "MATUTO", time.Time{}}
+	result, err := UpdateUser(userC, "")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)
 	assert.True(t, result)
 }
 
 func TestDeleteUser(t *testing.T) {
-	userC := domain.User{"m@gt.com", "JEAN", "PAUL", "MATUTO", time.Time{}}
+	userC := domain.User{"m@gt.com", "", "JEAN", "PAUL", "MATUTO", time.Time{}}
 	result, err := DeleteUser(userC)
 	assert.Nil(t, err)
 	assert.True(t, result)

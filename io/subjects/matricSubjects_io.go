@@ -1,9 +1,9 @@
-package io
+package subjects
 
 import (
 	"errors"
-	"obas/src/api"
-	domain "obas/src/domain/subjects"
+	"obas/api"
+	domain "obas/domain/subjects"
 )
 
 const matricSubjectUrl = api.BASE_URL + "/subjects"

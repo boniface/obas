@@ -1,4 +1,4 @@
-package io
+package documents
 
 import (
 	"fmt"

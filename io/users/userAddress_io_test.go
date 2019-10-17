@@ -16,29 +16,29 @@ func TestGetUserAddresses(t *testing.T) {
 
 func TestGetUserAddress(t *testing.T) {
 	expected := "136 BREE ST"
-	value, err := GetUserAddress("15")
+	value, err := GetUserAddress("15", "")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
-	assert.Equal(t, value.PhysicalAddress, expected)
+	assert.Equal(t, value.Address, expected)
 }
 
 func TestCreateUserAddress(t *testing.T) {
-	uAddr := domain.UserAddress{"15", "136 BREE ST", "7894"}
+	uAddr := domain.UserAddress{"15", "", "136 BREE ST", "7894"}
 	value, err := CreateUserAddress(uAddr)
 	assert.Nil(t, err)
 	assert.True(t, value)
 }
 
 func TestUpdateUserAddress(t *testing.T) {
-	uAddr := domain.UserAddress{"16", "136 BREE ST", "7894"}
-	value, err := UpdateUserAddress(uAddr)
+	uAddr := UserAddress{"16", "", "136 BREE ST", "7894"}
+	value, err := UpdateUserAddress(uAddr, "")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
 	assert.True(t, value)
 }
 
 func TestDeleteUserAddress(t *testing.T) {
-	uAddr := domain.UserAddress{"15", "136 BREE ST", "7894"}
+	uAddr := domain.UserAddress{"15", "", "136 BREE ST", "7894"}
 	value, err := DeleteUserAddress(uAddr)
 	assert.Nil(t, err)
 	assert.True(t, value)

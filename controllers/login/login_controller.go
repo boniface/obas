@@ -26,30 +26,6 @@ func Login(app *config.Env) http.Handler {
 	return r
 }
 
-func Logout(app *config.Env) http.Handler {
-	r := chi.NewRouter()
-	r.Get("/", logoutHandler(app))
-	return r
-}
-
-func logoutHandler(app *config.Env) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		_ = app.Session.Destroy(r.Context())
-		files := []string{
-			app.Path + "base/login/login.page.html",
-		}
-		ts, err := template.ParseFiles(files...)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			return
-		}
-		err = ts.Execute(w, nil)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-		}
-	}
-}
-
 func loginHome(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		message := app.Session.GetString(r.Context(), "message")
