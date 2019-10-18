@@ -3,15 +3,15 @@ package demographics
 import (
 	"errors"
 	"obas/api"
-	domain "obas/domain/demographics"
+	demographyDomain "obas/domain/demographics"
 )
 
 const raceUrl = api.BASE_URL + "/demographics"
 
-type Races domain.Race
+type Races demographyDomain.Race
 
-func GetRaces() ([]domain.Race, error) {
-	entites := []domain.Race{}
+func GetRaces() ([]Races, error) {
+	entites := []Races{}
 	resp, _ := api.Rest().Get(raceUrl + "/race/all")
 
 	if resp.IsError() {
@@ -24,8 +24,8 @@ func GetRaces() ([]domain.Race, error) {
 	return entites, nil
 }
 
-func GetRace(id string) (domain.Race, error) {
-	entity := domain.Race{}
+func GetRace(id string) (demographyDomain.Race, error) {
+	entity := demographyDomain.Race{}
 	resp, _ := api.Rest().Get(raceUrl + "/race/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
