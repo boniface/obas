@@ -3,15 +3,15 @@ package demographics
 import (
 	"errors"
 	"obas/api"
-	domain "obas/domain/demographics"
+	demographyDomain "obas/domain/demographics"
 )
 
 const titleUrl = api.BASE_URL + "/demographics"
 
-type Titles domain.Title
+type Titles demographyDomain.Title
 
-func GetTitles() ([]domain.Title, error) {
-	entites := []domain.Title{}
+func GetTitles() ([]Titles, error) {
+	entites := []Titles{}
 	resp, _ := api.Rest().Get(titleUrl + "/title/all")
 
 	if resp.IsError() {
@@ -24,8 +24,8 @@ func GetTitles() ([]domain.Title, error) {
 	return entites, nil
 }
 
-func GetTitle(id string) (domain.Title, error) {
-	entity := domain.Title{}
+func GetTitle(id string) (demographyDomain.Title, error) {
+	entity := demographyDomain.Title{}
 	resp, _ := api.Rest().Get(titleUrl + "/title/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

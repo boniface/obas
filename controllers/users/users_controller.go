@@ -5,7 +5,9 @@ import (
 	"html/template"
 	"net/http"
 	"obas/config"
+	userdemogrsphics "obas/domain/users"
 	addressIO "obas/io/address"
+	demograhpyIO "obas/io/demographics"
 	usersIO "obas/io/users"
 	"strings"
 	"time"
@@ -37,7 +39,6 @@ func Users(app *config.Env) http.Handler {
 	r.Get("/processingStatus", ProcessingStatusTypeHandler(app))
 	r.Get("/student/application", StudentApplicationStatusHandler(app))
 	r.Get("/studentContact", StudentContactsHandler(app))
-	r.Get("/studentDemographics", StudentDemographicsHandler(app))
 	r.Get("/student/documents", StudentDocumentsHandler(app))
 	r.Get("/studentResults", StudentResultsHandler(app))
 
@@ -55,7 +56,34 @@ func Users(app *config.Env) http.Handler {
 	r.Post("/student/profile/address/update", StudentProfileAddressUpdateHandler(app))
 	r.Post("/student-profile-relative-upate", StudentProfileRelativeUpdateHandler(app))
 
+	r.Post("/student/profile/demography/update", StudentProfileDemographyUpdateHandler(app))
+
 	return r
+}
+
+func StudentProfileDemographyUpdateHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		r.ParseForm()
+		title := r.PostFormValue("title")
+		gender := r.PostFormValue("gender")
+		race := r.PostFormValue("race")
+		userDemograpgy := userdemogrsphics.UserDemographics{email, title, gender, race}
+		app.InfoLog.Println("userDemography to update: ", userDemograpgy)
+
+		updated, err := usersIO.UpdateUserDemographics(userDemograpgy)
+
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+
+		}
+		app.InfoLog.Println("UserDemography Update response is: ", updated)
+	}
 }
 
 func StudentProfileDemographyHandler(app *config.Env) http.HandlerFunc {
@@ -71,12 +99,19 @@ func StudentProfileDemographyHandler(app *config.Env) http.HandlerFunc {
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
+		titles, err := demograhpyIO.GetTitles()
+
+		genders, err := demograhpyIO.GetGenders()
+		races, err := demograhpyIO.GetRaces()
 
 		type PageData struct {
 			Student usersIO.User
+			Titles  []demograhpyIO.Titles
+			Genders []demograhpyIO.Genders
+			Races   []demograhpyIO.Races
 		}
 
-		data := PageData{user}
+		data := PageData{user, titles, genders, races}
 		files := []string{
 			app.Path + "content/student/profile/demography.html",
 		}
@@ -713,39 +748,7 @@ func StudentContactsHandler(app *config.Env) http.HandlerFunc {
 
 	}
 }
-func StudentDemographicsHandler(app *config.Env) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		//allStudentDemographics, err := io.GetStudentDemographics()
-		//
-		//if err != nil {
-		//	app.ServerError(w, err)
-		//}
 
-		type PageData struct {
-			//subjects []io.StudentDemographics
-			name string
-		}
-		data := PageData{""}
-
-		files := []string{
-			app.Path + "/users/users.page.html",
-			app.Path + "/base/base.page.html",
-			app.Path + "/base/navbar.page.html",
-			app.Path + "/base/sidebarOld.page.html",
-			app.Path + "/base/footer.page.html",
-		}
-		ts, err := template.ParseFiles(files...)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			return
-		}
-		err = ts.ExecuteTemplate(w, "base", data)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-		}
-
-	}
-}
 func StudentDocumentsHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		files := []string{
