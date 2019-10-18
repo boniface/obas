@@ -8,10 +8,13 @@ import (
 
 const raceUrl = api.BASE_URL + "/demographics"
 
-type Races demographyDomain.Race
+type Race demographyDomain.Race
 
-func GetRaces() ([]Races, error) {
-	entites := []Races{}
+func GetRaces() ([]Race, error) {
+	entites := []Race{}
+	//entites = append(entites, Race{"1", "Black"})
+	//entites = append(entites, Race{"2", "White"})
+	//entites = append(entites, Race{"3", "Colored"})
 	resp, _ := api.Rest().Get(raceUrl + "/race/all")
 
 	if resp.IsError() {

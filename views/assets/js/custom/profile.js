@@ -4,10 +4,12 @@ $(document).ready(function(){
 
     /** For all student profile pages starts here**/
     $("#profileForm input").prop("disabled", true);
+    $("#profileForm select").prop("disabled", true);
     $("#updateButton, #clearButton, #cancelButton").hide();
 
     $("#editButton").click(function () {
         $("#profileForm input").prop("disabled", false);
+        $("#profileForm select").prop("disabled", false);
         $("#updateButton, #clearButton, #cancelButton").show(1000);
         $(this).hide(500);
     });
@@ -15,6 +17,7 @@ $(document).ready(function(){
     $("#cancelButton").click(function () {
         $("#profileForm").trigger("reset");
         $("#profileForm input").prop("disabled", true);
+        $("#profileForm select").prop("disabled", true);
         $("#updateButton, #clearButton, #cancelButton").hide();
         $("#editButton").show(500);
     });

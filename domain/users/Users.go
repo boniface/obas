@@ -38,7 +38,7 @@ type UserContacts struct {
 
 type UserDemographics struct {
 	UserDemographicsId string `json:"userDemographicsId"`
-	Title              string `json:"title"`
+	TitleId            string `json:"titleId"`
 	GenderId           string `json:"genderId"`
 	RaceId             string `json:"raceId"`
 }

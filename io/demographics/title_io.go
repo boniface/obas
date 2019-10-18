@@ -8,10 +8,14 @@ import (
 
 const titleUrl = api.BASE_URL + "/demographics"
 
-type Titles demographyDomain.Title
+type Title demographyDomain.Title
 
-func GetTitles() ([]Titles, error) {
-	entites := []Titles{}
+func GetTitles() ([]Title, error) {
+	entites := []Title{}
+	//entites = append(entites, Title{"1", "Mr"})
+	//entites = append(entites, Title{"2", "Miss"})
+	//entites = append(entites, Title{"3", "Mrs"})
+	//entites = append(entites, Title{"4", "Dr"})
 	resp, _ := api.Rest().Get(titleUrl + "/title/all")
 
 	if resp.IsError() {

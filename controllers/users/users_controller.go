@@ -5,7 +5,6 @@ import (
 	"html/template"
 	"net/http"
 	"obas/config"
-	userdemogrsphics "obas/domain/users"
 	addressIO "obas/io/address"
 	demograhpyIO "obas/io/demographics"
 	usersIO "obas/io/users"
@@ -55,8 +54,7 @@ func Users(app *config.Env) http.Handler {
 	r.Post("/student/profile/address/addresstype", StudentProfileAddressTypeHandler(app))
 	r.Post("/student/profile/address/update", StudentProfileAddressUpdateHandler(app))
 	r.Post("/student-profile-relative-upate", StudentProfileRelativeUpdateHandler(app))
-
-	r.Post("/student/profile/demography/update", StudentProfileDemographyUpdateHandler(app))
+	r.Post("/student-profile-demography-update", StudentProfileDemographyUpdateHandler(app))
 
 	return r
 }
@@ -73,16 +71,25 @@ func StudentProfileDemographyUpdateHandler(app *config.Env) http.HandlerFunc {
 		title := r.PostFormValue("title")
 		gender := r.PostFormValue("gender")
 		race := r.PostFormValue("race")
-		userDemograpgy := userdemogrsphics.UserDemographics{email, title, gender, race}
+		userDemograpgy := usersIO.UserDemography{email, title, gender, race}
 		app.InfoLog.Println("userDemography to update: ", userDemograpgy)
 
 		updated, err := usersIO.UpdateUserDemographics(userDemograpgy)
+		successMessage := "User demography updated!"
+		failureMessage := "User demography NOT Updated!"
 
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
-
+			setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+		} else {
+			if updated {
+				setSessionMessage(app, r, successAlertStyle, successMessage)
+			} else {
+				setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+			}
 		}
-		app.InfoLog.Println("UserDemography Update response is: ", updated)
+		app.InfoLog.Println("UserDemography update response is ", updated)
+		http.Redirect(w, r, "/users/student/profile/demography", 301)
 	}
 }
 func StudentProfileDemographyHandler(app *config.Env) http.HandlerFunc {
@@ -98,19 +105,59 @@ func StudentProfileDemographyHandler(app *config.Env) http.HandlerFunc {
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
+		var alert PageToast
+		var genders []demograhpyIO.Gender
+		var races []demograhpyIO.Race
+		var gender demograhpyIO.Gender
+		var race demograhpyIO.Race
+		var title demograhpyIO.Title
 		titles, err := demograhpyIO.GetTitles()
-
-		genders, err := demograhpyIO.GetGenders()
-		races, err := demograhpyIO.GetRaces()
-
-		type PageData struct {
-			Student usersIO.User
-			Titles  []demograhpyIO.Titles
-			Genders []demograhpyIO.Genders
-			Races   []demograhpyIO.Races
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			alert = PageToast{dangerAlertStyle, "Could not retrieve titles!"}
+		} else {
+			genders, err = demograhpyIO.GetGenders()
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+				alert = PageToast{dangerAlertStyle, "Could not retrieve genders!"}
+			} else {
+				races, err = demograhpyIO.GetRaces()
+				if err != nil {
+					app.ErrorLog.Println(err.Error())
+					alert = PageToast{dangerAlertStyle, "Could not retrieve races!"}
+				} else {
+					userDemography, err := usersIO.GetUserDemographic(email)
+					if err != nil {
+						app.ErrorLog.Println(err.Error())
+						alert = PageToast{dangerAlertStyle, "Could not retrieve student demography!"}
+					} else {
+						message := app.Session.GetString(r.Context(), "message")
+						messageType := app.Session.GetString(r.Context(), "message-type")
+						if message != "" && messageType != "" {
+							alert = PageToast{messageType, message}
+							app.Session.Remove(r.Context(), "message")
+							app.Session.Remove(r.Context(), "message-type")
+						}
+						title = getUserTitle(userDemography, titles)
+						gender = getUserGender(userDemography, genders)
+						race = getUserRace(userDemography, races)
+					}
+				}
+			}
 		}
 
-		data := PageData{user, titles, genders, races}
+		type PageData struct {
+			Student       usersIO.User
+			Titles        []demograhpyIO.Title
+			Genders       []demograhpyIO.Gender
+			Races         []demograhpyIO.Race
+			Alert         PageToast
+			StudentTitle  demograhpyIO.Title
+			StudentGender demograhpyIO.Gender
+			StudentRace   demograhpyIO.Race
+		}
+
+		data := PageData{user, titles, genders, races, alert, title, gender, race}
 		files := []string{
 			app.Path + "content/student/profile/demography.html",
 		}
@@ -124,6 +171,33 @@ func StudentProfileDemographyHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 		}
 	}
+}
+
+func getUserRace(demography usersIO.UserDemography, races []demograhpyIO.Race) demograhpyIO.Race {
+	for _, race := range races {
+		if demography.RaceId == race.RaceId {
+			return race
+		}
+	}
+	return demograhpyIO.Race{}
+}
+
+func getUserTitle(demography usersIO.UserDemography, titles []demograhpyIO.Title) demograhpyIO.Title {
+	for _, title := range titles {
+		if demography.TitleId == title.TitleId {
+			return title
+		}
+	}
+	return demograhpyIO.Title{}
+}
+
+func getUserGender(demography usersIO.UserDemography, genders []demograhpyIO.Gender) demograhpyIO.Gender {
+	for _, gender := range genders {
+		if demography.GenderId == gender.GenderId {
+			return gender
+		}
+	}
+	return demograhpyIO.Gender{}
 }
 
 func StudentProfileRelativeUpdateHandler(app *config.Env) http.HandlerFunc {

@@ -243,6 +243,14 @@
                 <div class="section-image" data-image="../../assets/img/bg5.jpg" ;>
                     <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
                     <div class="container">
+                        {{ if .Alert }}
+                            <div class="alert {{ .Alert.AlertType }}">
+                                <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
+                                    <i class="nc-icon nc-simple-remove"></i>
+                                </button>
+                                <span>{{ .Alert.AlertInfo }}</span>
+                            </div>
+                        {{ end }}
                         <div class="nav-container">
                             <ul class="nav nav-icons justify-content-center" role="tablist">
                                 <li class="nav-item show active">
@@ -260,79 +268,74 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <form id="courseDetailsForm" method="post"action="/users/student/profile/demography/update">
+                                                <form id="profileForm" method="post"
+                                                      action="/users/student-profile-demography-update">
                                                     <div class="row justify-content-center">
-                                                        <div class="col-md-10">
+                                                        <div class="col-md-5">
                                                             <label class="control-label"
                                                                    style="color: #ffffff">Title</label>
-                                                            <select name="cities" class="selectpicker"
+                                                            <select class="selectpicker"
                                                                     data-title=""
                                                                     name="title"
                                                                     data-style="btn-default btn-outline"
                                                                     data-menu-style="dropdown-blue"
                                                                     placeholder="example: Mr.">
-                                                                <option value="" disabled selected>Select Title</option>
-                                                                {{with .Titles}}
+                                                                <option value="" disabled>Select Title</option>
+                                                                {{with .Titles }}
                                                                     {{range .}}
-                                                                        <option value={{ .TitleId }}>{{ .TitleName }}</option>
+                                                                        <option value="{{ .TitleId }}" {{if eq $.StudentTitle.TitleId  .TitleId }} selected {{ end }} >{{ .TitleName }}</option>
                                                                     {{end}}
                                                                 {{end}}
                                                             </select>
                                                         </div>
-                                                    </div>
-                                                    <div class="row justify-content-center">
-                                                        <div class="col-md-10">
+                                                        <div class="col-md-5">
                                                             <label class="control-label"
                                                                    style="color: #ffffff">Gender</label>
-                                                            <select name="cities" class="selectpicker"
+                                                            <select class="selectpicker"
                                                                     data-title=""
                                                                     data-style="btn-default btn-outline"
                                                                     data-menu-style="dropdown-blue"
                                                                     name="gender"
                                                                     placeholder="Example:Male">
-                                                                <option value="" disabled selected>Select Gender
-                                                                </option>
+                                                                <option value="" disabled>Select Gender</option>
                                                                 {{with .Genders}}
                                                                     {{range .}}
-                                                                        <option value={{ .GenderId }}>{{ .GenderName }}</option>
+                                                                        <option value="{{ .GenderId }}" {{ if eq .GenderId $.StudentGender.GenderId }} selected {{ end }} >{{ .GenderName }}</option>
                                                                     {{end}}
                                                                 {{end}}
                                                             </select>
                                                         </div>
                                                     </div>
-
                                                     <div class="row justify-content-center">
                                                         <div class="col-md-10">
                                                             <div class="form-group">
                                                                 <label class="control-label"
                                                                        style="color: #ffffff">Race</label>
-                                                                <select name="cities" class="selectpicker"
+                                                                <select class="selectpicker"
                                                                         data-title="Example: Black"
                                                                         data-style="btn-default btn-outline"
                                                                         required="true"
                                                                         name="race"
                                                                         data-menu-style="dropdown-blue"
                                                                         placeholder="Duration">
-                                                                    <option value="" disabled selected>Select Race
+                                                                    <option value="" disabled>Select Race
                                                                     </option>
                                                                     {{with .Races}}
                                                                         {{range .}}
-                                                                            <option value={{ .RaceId }}>{{ .RaceName }}</option>
+                                                                            <option value="{{ .RaceId }}" {{ if eq .RaceId $.StudentRace.RaceId }} selected {{ end }} >{{ .RaceName }}</option>
                                                                         {{end}}
                                                                     {{end}}
                                                                 </select>
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                     <div class="row justify-content-center">
-
                                                         <button type="button" id="editButton"
                                                                 class="btn btn-wd btn-warning btn-outline">
                                                     <span class="btn-label">
                                                         <i class="fa fa-warning"></i>
                                                     </span>
-                                                            EditRV
+                                                            Edit
                                                         </button>
                                                         <button type="submit" id="updateButton"
                                                                 class="btn btn-wd btn-info btn-outline">

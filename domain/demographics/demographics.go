@@ -1,6 +1,6 @@
 package domain
 
-type Roles struct {
+type Role struct {
 	Id       string `json:"id"`
 	RoleName string `json:"roleName"`
 }
