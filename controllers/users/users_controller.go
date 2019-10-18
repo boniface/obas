@@ -85,7 +85,6 @@ func StudentProfileDemographyUpdateHandler(app *config.Env) http.HandlerFunc {
 		app.InfoLog.Println("UserDemography Update response is: ", updated)
 	}
 }
-
 func StudentProfileDemographyHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		email := app.Session.GetString(r.Context(), "userId")
