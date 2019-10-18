@@ -158,6 +158,7 @@ func StudentProfileDemographyHandler(app *config.Env) http.HandlerFunc {
 		}
 
 		data := PageData{user, titles, genders, races, alert, title, gender, race}
+		app.InfoLog.Println("PageData: ", data)
 		files := []string{
 			app.Path + "content/student/profile/demography.html",
 		}

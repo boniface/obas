@@ -37,10 +37,10 @@ type UserContacts struct {
 }
 
 type UserDemographics struct {
-	UserDemographicsId string `json:"userDemographicsId"`
-	TitleId            string `json:"titleId"`
-	GenderId           string `json:"genderId"`
-	RaceId             string `json:"raceId"`
+	UserId   string `json:"userId"`
+	TitleId  string `json:"titleId"`
+	GenderId string `json:"genderId"`
+	RaceId   string `json:"raceId"`
 }
 
 type UserDocuments struct {
