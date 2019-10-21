@@ -143,7 +143,7 @@
                 </li>
                 <hr/>
                 <li class="nav-item ">
-                    <a class="nav-link" href="">
+                    <a class="nav-link" href="/logout">
                         <!-- <i class="nc-icon nc-single-copy-04"></i>-->
                         <p style="position: center">Log out </p>
                     </a>
@@ -227,7 +227,7 @@
                                 <a class="dropdown-item" href="#">
                                     <i class="nc-icon nc-lock-circle-open"></i> Lock Screen
                                 </a>
-                                <a href="#" class="dropdown-item text-danger">
+                                <a href="/logout" class="dropdown-item text-danger">
                                     <i class="nc-icon nc-button-power"></i> Log out
                                 </a>
                             </div>
@@ -243,12 +243,20 @@
                 <div class="section-image" data-image="../../assets/img/bg5.jpg" ;>
                     <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
                     <div class="container">
-                        {{ if .Alert }}
+                        {{ if .Alert.AlertType }}
                             <div class="alert {{ .Alert.AlertType }}">
                                 <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
                                     <i class="nc-icon nc-simple-remove"></i>
                                 </button>
                                 <span>{{ .Alert.AlertInfo }}</span>
+                            </div>
+                        {{ end }}
+                        {{ if not $.StudentGender.GenderId }}
+                            <div class="alert alert-danger">
+                                <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
+                                    <i class="nc-icon nc-simple-remove"></i>
+                                </button>
+                                <span>NOTE: You cannot change your race and gender once set!</span>
                             </div>
                         {{ end }}
                         <div class="nav-container">
@@ -266,8 +274,8 @@
                             <div class="tab-pane fade show active" id="demography-logo" aria-labelledby="info-tab">
                                 <div class="card green">
                                     <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-6">
+                                        <div-- class="row">
+                                            <div class="col-md-12">
                                                 <form id="profileForm" method="post"
                                                       action="/users/student-profile-demography-update">
                                                     <div class="row justify-content-center">
@@ -275,12 +283,11 @@
                                                             <label class="control-label"
                                                                    style="color: #ffffff">Title</label>
                                                             <select class="selectpicker"
-                                                                    data-title="Example: Miss"
                                                                     name="title"
                                                                     data-style="btn-default btn-outline"
                                                                     data-menu-style="dropdown-blue"
                                                                     placeholder="example: Mr.">
-                                                                <option value="" disabled>Select Title</option>
+                                                                <option value="" {{ if not $.StudentTitle.TitleId }} selected {{ end }} disabled>Select Title</option>
                                                                 {{with .Titles }}
                                                                     {{range .}}
                                                                         <option value="{{ .TitleId }}" {{if eq $.StudentTitle.TitleId  .TitleId }} selected {{ end }} >{{ .TitleName }}</option>
@@ -292,12 +299,11 @@
                                                             <label class="control-label"
                                                                    style="color: #ffffff">Gender</label>
                                                             <select class="selectpicker"
-                                                                    data-title="Example: Female"
                                                                     data-style="btn-default btn-outline"
                                                                     data-menu-style="dropdown-blue"
-                                                                    name="gender"
+                                                                    name="gender" {{ if $.StudentGender.GenderId }} disabled {{ end }}
                                                                     placeholder="Example:Male">
-                                                                <option value="" disabled>Select Gender</option>
+                                                                <option value="" {{ if not $.StudentGender.GenderId }} selected {{ end }} disabled>Select Gender</option>
                                                                 {{with .Genders}}
                                                                     {{range .}}
                                                                         <option value="{{ .GenderId }}" {{ if eq .GenderId $.StudentGender.GenderId }} selected {{ end }} >{{ .GenderName }}</option>
@@ -312,13 +318,12 @@
                                                                 <label class="control-label"
                                                                        style="color: #ffffff">Race</label>
                                                                 <select class="selectpicker"
-                                                                        data-title="Example: Black"
                                                                         data-style="btn-default btn-outline"
                                                                         required="true"
-                                                                        name="race"
+                                                                        name="race" {{ if $.StudentRace.RaceId }} disabled {{ end }}
                                                                         data-menu-style="dropdown-blue"
                                                                         placeholder="Duration">
-                                                                    <option value="" disabled>Select Race
+                                                                    <option value="" {{ if not $.StudentRace.RaceId }} selected {{ end }} disabled>Select Race
                                                                     </option>
                                                                     {{with .Races}}
                                                                         {{range .}}
@@ -366,14 +371,14 @@
 
                                                 </form>
                                             </div>
-                                            <div class="col-md-6">
+                                            <!--div class="col-md-6">
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="card ">
                                                             <div class="card-body ">
-                                                                Title: <br/>
-                                                                Gender: <br/>
-                                                                Race: <br/>
+                                                                Title: {{ $.StudentTitle.TitleName }} <br/>
+                                                                Gender: {{ $.StudentGender.GenderName }} <br/>
+                                                                Race: {{ $.StudentRace.RaceName }} <br/>
                                                             </div>
                                                             <div class="card-footer ">
                                                                 <hr>
@@ -384,7 +389,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div-->
                                         </div>
                                     </div>
                                 </div>

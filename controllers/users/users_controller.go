@@ -74,7 +74,7 @@ func StudentProfileDemographyUpdateHandler(app *config.Env) http.HandlerFunc {
 		userDemograpgy := usersIO.UserDemography{email, title, gender, race}
 		app.InfoLog.Println("userDemography to update: ", userDemograpgy)
 
-		updated, err := usersIO.UpdateUserDemographics(userDemograpgy)
+		updated, err := usersIO.UpdateUserDemographics(userDemograpgy, token)
 		successMessage := "User demography updated!"
 		failureMessage := "User demography NOT Updated!"
 
@@ -158,7 +158,7 @@ func StudentProfileDemographyHandler(app *config.Env) http.HandlerFunc {
 		}
 
 		data := PageData{user, titles, genders, races, alert, title, gender, race}
-		app.InfoLog.Println("PageData: ", data)
+		app.InfoLog.Println("PageData: ", data.Alert)
 		files := []string{
 			app.Path + "content/student/profile/demography.html",
 		}
