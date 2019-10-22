@@ -1,5 +1,7 @@
 package domain
 
+import "time"
+
 type Login struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
@@ -23,7 +25,8 @@ type LoginToken struct {
 }
 
 type ChangePassword struct {
-	Email string `json:"email"`
-	OldPassword string `json:"oldPassword"`
-	NewPassword string `json:"newPassword"`
+	Email           string    `json:"email"`
+	OldPassword     string    `json:"oldPassword"`
+	NewPassword     string    `json:"newPassword"`
+	DatetimeChanged time.Time `json:"datetimeChanged"`
 }

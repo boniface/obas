@@ -82,7 +82,7 @@ func StudentProfilePasswordUpdate(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(errMsg)
 			setSessionMessage(app, r, dangerAlertStyle, failureMessage + " - " + errMsg)
 		} else {
-			userChangePassword := loginIO.ChangePassword{email, currentPassword, newPasswordOne}
+			userChangePassword := loginIO.ChangePassword{email, currentPassword, newPasswordOne, time.Now()}
 			app.InfoLog.Println("User password to update: ", userChangePassword)
 			loginToken, err := loginIO.DoChangePassword(userChangePassword, token)
 
