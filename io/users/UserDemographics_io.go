@@ -49,8 +49,9 @@ func CreateUserDemographics(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateUserDemographics(entity UserDemography) (bool, error) {
+func UpdateUserDemographics(entity UserDemography, token string) (bool, error) {
 	resp, _ := api.Rest().
+		SetAuthToken(token).
 		SetBody(entity).
 		Post(uDemographicsUrl + "/demographics/update")
 	if resp.IsError() {

@@ -2,7 +2,6 @@ package address
 
 import (
 	"errors"
-	"fmt"
 	"obas/api"
 	domain "obas/domain/address"
 )
@@ -13,34 +12,32 @@ type AddressType domain.AddressType
 
 func GetAddressTypes() ([]AddressType, error) {
 	entities := []AddressType{}
-	addT1 := AddressType{"123", "Physical Address"}
-	addT2 := AddressType{"246", "Postal Address"}
-
-	allAdd := []AddressType{addT1, addT2}
-
-	entities = allAdd
-	//resp, _ := api.Rest().Get(addressTypeUrl + "/all")
+	//addT1 := AddressType{"123", "Physical Address"}
+	//addT2 := AddressType{"246", "Postal Address"}
 	//
-	//if resp.IsError() {
-	//	return entities, errors.New(resp.Status())
-	//}
-	//err := api.JSON.Unmarshal(resp.Body(), &entities)
-	//if err != nil {
-	//	return entities, errors.New(resp.Status())
-	//}
+	//allAdd := []AddressType{addT1, addT2}
+	//
+	//entities = allAdd
+	resp, _ := api.Rest().Get(addressTypeUrl + "/all")
+
+	if resp.IsError() {
+		return entities, errors.New(resp.Status())
+	}
+	err := api.JSON.Unmarshal(resp.Body(), &entities)
+	if err != nil {
+		return entities, errors.New(resp.Status())
+	}
 	return entities, nil
 }
 
 func GetAddressType(id string) (domain.AddressType, error) {
 	entity := domain.AddressType{}
-	resp, serverEr := api.Rest().Get(addressTypeUrl + "/get/" + id)
+	resp, _ := api.Rest().Get(addressTypeUrl + "/get/" + id)
 	if resp.IsError() {
-		fmt.Println(" Is request from Server Okay", serverEr)
 		return entity, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entity)
 	if err != nil {
-		fmt.Println("Did Jason Coversion Take Place Okay", err)
 		return entity, errors.New(resp.Status())
 	}
 	return entity, nil
