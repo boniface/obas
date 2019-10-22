@@ -7,6 +7,7 @@ import (
 	"obas/config"
 	addressIO "obas/io/address"
 	demograhpyIO "obas/io/demographics"
+	loginIO "obas/io/login"
 	usersIO "obas/io/users"
 	"strings"
 	"time"
@@ -45,7 +46,7 @@ func Users(app *config.Env) http.Handler {
 	r.Get("/student/profile/demography", StudentProfileDemographyHandler(app))
 	r.Get("/student/profile/address", StudentProfileAddressHandler(app))
 	r.Get("/student/profile/relative", StudentProfileRelativeHandler(app))
-	r.Get("/student/profile/settings", StudentProfileRegistrationHandler(app))
+	r.Get("/student/profile/settings", StudentProfileSettingsHandler(app))
 	r.Get("/student/profile/courses", StudentProfileCourseHandler(app))
 	r.Get("/student/profile/subjects", StudentProfileSubjectHandler(app))
 	r.Get("/student/profile/districts", StudentProfileDistrictHandler(app))
@@ -55,8 +56,89 @@ func Users(app *config.Env) http.Handler {
 	r.Post("/student/profile/address/update", StudentProfileAddressUpdateHandler(app))
 	r.Post("/student-profile-relative-upate", StudentProfileRelativeUpdateHandler(app))
 	r.Post("/student-profile-demography-update", StudentProfileDemographyUpdateHandler(app))
+	r.Post("/student-profile-password-update", StudentProfilePasswordUpdate(app))
 
 	return r
+}
+
+func StudentProfilePasswordUpdate(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		r.ParseForm()
+		currentPassword := r.PostFormValue("current_password")
+		newPasswordOne := r.PostFormValue("new_password_one")
+		newPasswordTwo := r.PostFormValue("new_password_two")
+
+		successMessage := "User password updated!"
+		failureMessage := "User password NOT Updated!"
+
+		if newPasswordOne != newPasswordTwo {
+			errMsg := "New password mismatch."
+			app.ErrorLog.Println(errMsg)
+			setSessionMessage(app, r, dangerAlertStyle, failureMessage + " - " + errMsg)
+		} else {
+			userChangePassword := loginIO.ChangePassword{email, currentPassword, newPasswordOne}
+			app.InfoLog.Println("User password to update: ", userChangePassword)
+			loginToken, err := loginIO.DoChangePassword(userChangePassword, token)
+
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+				setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+			}
+			app.Session.Put(r.Context(), "userId", loginToken.Email)
+			app.Session.Put(r.Context(), "token", loginToken.Token)
+			setSessionMessage(app, r, successAlertStyle, successMessage)
+		}
+		http.Redirect(w, r, "/users/student/profile/settings", 301)
+	}
+}
+
+func StudentProfileSettingsHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		if email == "" || len(email) <= 0 {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		var alert PageToast
+		message := app.Session.GetString(r.Context(), "message")
+		messageType := app.Session.GetString(r.Context(), "message-type")
+		if message != "" && messageType != "" {
+			alert = PageToast{messageType, message}
+			app.Session.Remove(r.Context(), "message")
+			app.Session.Remove(r.Context(), "message-type")
+		}
+
+		type PageData struct {
+			Student usersIO.User
+			Alert   PageToast
+		}
+
+		data := PageData{user, alert}
+		files := []string{
+			app.Path + "content/student/profile/settings.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+	}
 }
 
 func StudentProfileDemographyUpdateHandler(app *config.Env) http.HandlerFunc {
@@ -274,41 +356,6 @@ func StudentProfileSubjectHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 		}
 	}
-}
-
-func StudentProfileRegistrationHandler(app *config.Env) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		email := app.Session.GetString(r.Context(), "userId")
-		if email == "" || len(email) <= 0 {
-			http.Redirect(w, r, "/login", 301)
-			return
-		}
-		user, err := usersIO.GetUser(email)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			http.Redirect(w, r, "/login", 301)
-			return
-		}
-
-		type PageData struct {
-			Student usersIO.User
-		}
-
-		data := PageData{user}
-		files := []string{
-			app.Path + "content/student/profile/settings.html",
-		}
-		ts, err := template.ParseFiles(files...)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			return
-		}
-		err = ts.Execute(w, data)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-		}
-	}
-
 }
 
 func StudentProfileCourseHandler(app *config.Env) http.HandlerFunc {

@@ -243,6 +243,14 @@
                 <div class="section-image" data-image="../../assets/img/bg5.jpg" ;>
                     <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
                     <div class="container">
+                        {{ if .Alert.AlertType }}
+                            <div class="alert {{ .Alert.AlertType }}">
+                                <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
+                                    <i class="nc-icon nc-simple-remove"></i>
+                                </button>
+                                <span>{{ .Alert.AlertInfo }}</span>
+                            </div>
+                        {{ end }}
                         <div class="nav-container">
                             <ul class="nav nav-icons justify-content-center" role="tablist">
 
@@ -256,41 +264,32 @@
                             </ul>
                         </div>
 
-                       <div class="tab-content">
-                            <div class="tab-pane fade show active" id="registrationDetails"  aria-labelledby="info-tab">
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="registrationDetails" aria-labelledby="info-tab">
                                 <div class="card green">
                                     <div class="card-body">
-                                        <form id="registrationDetailsForm" method="post" action="users/student/profile/registration">
+                                        <form id="profileForm" method="post"
+                                              action="/users/student-profile-password-update">
                                             <div class="row justify-content-center">
-                                                <div class="col-md-5">
-                                                    <div class="form-group">
-                                                        <label class="control-label" style="color: #ffffff">Previous
-                                                            Password</label>
-                                                        <input class="form-control" type="text" name="name"
-                                                               placeholder="########"/>
-                                                    </div>
+                                                <div class="col-md-10">
+                                                    <label class="control-label" style="color: #ffffff">Current
+                                                        Password</label>
+                                                    <input class="form-control" type="password" name="current_password"
+                                                           placeholder="(unchanged)"/>
                                                 </div>
                                             </div>
-
                                             <div class="row justify-content-center">
                                                 <div class="col-md-5">
-                                                    <div class="form-group">
-                                                        <label class="control-label" style="color: #ffffff">New
-                                                            Password</label>
-                                                        <input class="form-control" type="text" name="phone_number"
-                                                               placeholder="********"/>
-                                                    </div>
+                                                    <label class="control-label" style="color: #ffffff">New
+                                                        Password</label>
+                                                    <input class="form-control" type="password" name="new_password_one"
+                                                           placeholder="Enter new password"/>
                                                 </div>
-                                            </div>
-
-                                            <div class="row justify-content-center">
                                                 <div class="col-md-5">
-                                                    <div class="form-group">
-                                                        <label class="control-label" style="color: #ffffff">Veryfy
-                                                            Password</label>
-                                                        <input class="form-control" type="text" name="phone_number"
-                                                               placeholder="********"/>
-                                                    </div>
+                                                    <label class="control-label" style="color: #ffffff">Verify New
+                                                        Password</label>
+                                                    <input class="form-control" type="password" name="new_password_two"
+                                                           placeholder="Re-enter new password"/>
                                                 </div>
                                             </div>
 
@@ -300,7 +299,7 @@
                                          <span class="btn-label">
                                              <i class="fa fa-warning"></i>
                                                     </span>
-                                                    EditRV
+                                                    Edit
                                                 </button>
                                                 <button type="submit" id="updateButton"
                                                         class="btn btn-wd btn-info btn-outline">
@@ -314,7 +313,7 @@
                                                     <span class="btn-label">
                                                         <i class="fa fa-times"></i>
                                                     </span>
-                                                    ClearC
+                                                    Clear
                                                 </button>
                                                 <button type="button" id="cancelButton" class="btn btn-wd btn-outline">
                                                     <span class="btn-label">
@@ -325,7 +324,6 @@
 
                                                 <div class="clearfix"></div>
                                             </div>
-
                                         </form>
                                     </div>
                                 </div>
