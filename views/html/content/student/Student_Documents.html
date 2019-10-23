@@ -198,6 +198,125 @@
 
         <!-- End Navbar -->
 
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="address-logo" aria-labelledby="info-tab">
+                <div class="card green">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                    <form id="addressTypeForm" method="post"
+                                          action="/users/student/profile/address/addresstype">
+                                        <div class="row justify-content-center">
+                                            <div class="col-md-10">
+                                                <label class="control-label label-font-color">Address
+                                                    Type</label>
+                                                <div class="row">
+                                                    <div class="col-md-10">
+                                                        <select name="addresstypes" class="selectpicker"
+                                                                data-title="address type"
+                                                                data-style="btn-default btn-outline"
+                                                                data-menu-style="dropdown-blue">
+                                                            <option value="" disabled selected>Select
+                                                                Address Type
+                                                            </option>
+                                                            <option value="1">Color</option>
+                                                            <option value="1">Rouge</option>
+                                                            <option value="1">Blue</option>                                                                {{end}}
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button class="btn btn-dark bootstrap-select"
+                                                                type="submit">Get
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <form id="addressForm" method="post"
+                                          action="/users/student/profile/address/update">
+                                        <input type="hidden" name="addressTypeId"
+                                               value="{{ .AddressTypeID }}"/>
+                                        <div class="row justify-content-center">
+                                            <div class="col-md-10">
+                                                <label class="control-label label-font-color">{{ .AddressName }}</label>
+                                                <input class="form-control" type="text" name="address"
+                                                       value="{{ .Address.Address}}"
+                                                       placeholder="P.O. Box 10, Bellville 8002"/>
+                                            </div>
+                                        </div>
+                                        <div class="row justify-content-center">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label class="control-label label-font-color">Postal
+                                                        Code</label>
+                                                    <input class="form-control" type="text"
+                                                           name="postalCode"
+                                                           value="{{ .Address.PostalCode}}"
+                                                           placeholder="Cape Town"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row justify-content-center">
+                                            <div class="row justify-content-center">
+                                                <button type="button" id="addressEditBtn"
+                                                        class="btn btn-wd btn-warning btn-outline">
+                                                                <span class="btn-label"><i
+                                                                            class="fa fa-warning"></i></span> Edit
+                                                </button>
+                                                <button type="submit" id="addressUpdateBtn"
+                                                        class="btn btn-wd btn-info btn-outline">
+                                                                <span class="btn-label"><i
+                                                                            class="fa fa-exclamation"></i></span>Update
+                                                </button>
+                                                <button type="reset" id="addressClearBtn"
+                                                        class="btn btn-wd btn-danger btn-outline">
+                                                                <span class="btn-label"><i
+                                                                            class="fa fa-times"></i></span> Clear
+                                                </button>
+                                                <button type="button" id="addressCancelBtn"
+                                                        class="btn btn-wd btn-outline">
+                                                                    <span class="btn-label"><i
+                                                                                class="fa fa-arrow-left"></i></span>
+                                                    Cancel
+                                                </button>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                {{ end }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ with .Addresses }}
+                                    {{ range .}}
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="card ">
+                                                    <!--div class="card-header ">
+                                                                        <h4 class="card-title">{{ .AddressName }}</h4>
+                                                                        <p class="card-category"></p>
+                                                                    </div-->
+                                                    <div class="card-body ">{{ .Address }}
+                                                        <br/> {{ .PostalCode }}</div>
+                                                    <div class="card-footer ">
+                                                        <hr>
+                                                        <div class="stats">
+                                                            <i class="fa fa-cog"></i>{{ .AddressName }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {{end}}
+                                {{end}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
