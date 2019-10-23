@@ -30,6 +30,11 @@ type PageToast struct {
 	AlertInfo string
 }
 
+type ContactPlaceHolder struct {
+	ContactName   string
+	ContactDetail string
+}
+
 func Users(app *config.Env) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", UsersHandler(app))
@@ -50,6 +55,7 @@ func Users(app *config.Env) http.Handler {
 	r.Get("/student/profile/courses", StudentProfileCourseHandler(app))
 	r.Get("/student/profile/subjects", StudentProfileSubjectHandler(app))
 	r.Get("/student/profile/districts", StudentProfileDistrictHandler(app))
+	r.Get("/student/profile/contacts", StudentProfileContactsHandler(app))
 
 	r.Post("/student/profile/personal/update", UpdateStudentProfilePersonalHandler(app))
 	r.Post("/student/profile/address/addresstype", StudentProfileAddressTypeHandler(app))
@@ -57,8 +63,178 @@ func Users(app *config.Env) http.Handler {
 	r.Post("/student-profile-relative-upate", StudentProfileRelativeUpdateHandler(app))
 	r.Post("/student-profile-demography-update", StudentProfileDemographyUpdateHandler(app))
 	r.Post("/student-profile-password-update", StudentProfilePasswordUpdate(app))
+	r.Post("/student/profile/contact/contacttype", StudentProfileContactTypeHandler(app))
+	r.Post("/student-profile-contact-update", StudentProfileContactUpdate(app))
 
 	return r
+}
+
+func StudentProfileContactUpdate(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		r.ParseForm()
+		contactTypeId := r.PostFormValue("contactTypeId")
+		contact := r.PostFormValue("contact")
+		userContact := usersIO.UserContact{email, contactTypeId, contact}
+		app.InfoLog.Println("UserContact to update: ", userContact)
+		updated, err := usersIO.UpdateUserContact(userContact, token)
+		successMessage := "User contact updated!"
+		failureMessage := "User contact NOT updated!"
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+		} else {
+			setSessionMessage(app, r, successAlertStyle, successMessage)
+		}
+		app.InfoLog.Println("Update response is ", updated)
+		http.Redirect(w, r, "/users/student/profile/contacts", 301)
+	}
+}
+
+func StudentProfileContactTypeHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		if email == "" || len(email) <= 0 {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		var alert PageToast
+		var userContact usersIO.UserContact
+		var contactName string
+		var contactTypes []addressIO.ContactType
+		var contacts []ContactPlaceHolder
+		r.ParseForm()
+		contactTypeId := r.PostFormValue("contacttypes")
+		if contactTypeId == "" {
+			errMsg := "No contact type selected!"
+			app.ErrorLog.Println(errMsg)
+			alert = PageToast{dangerAlertStyle, errMsg}
+		} else {
+			contactTypes, err := addressIO.GetContactTypes()
+			if err != nil {
+				errMsg := "Could not retrieve contact types!"
+				app.ErrorLog.Println(err.Error() + " - " + errMsg)
+				alert = PageToast{dangerAlertStyle, errMsg}
+			} else {
+				for _, contactType := range contactTypes {
+					if contactTypeId == contactType.ContactTypeId {
+						contactName = contactType.Name
+					}
+					userContact, err := usersIO.GetUserContact(email, contactType.ContactTypeId)
+					if err != nil {
+						errMsg := "Could not retrieve user contact for " + contactType.Name
+						app.ErrorLog.Println(err.Error() + " - " + errMsg)
+					} else {
+						contacts = append(contacts, ContactPlaceHolder{contactType.Name, userContact.Contact})
+					}
+				}
+				userContact, err = usersIO.GetUserContact(email, contactTypeId)
+				if err != nil {
+					errMsg := "Could not retrieve user contact for " + contactName
+					app.ErrorLog.Println(err.Error() + " - " + errMsg)
+					alert = PageToast{dangerAlertStyle, errMsg}
+				}
+			}
+		}
+
+		type PageData struct {
+			Student       usersIO.User
+			ContactTypes  []addressIO.ContactType
+			Contacts      []ContactPlaceHolder
+			Contact       usersIO.UserContact
+			ContactTypeId string
+			ContactName   string
+			Alert         PageToast
+		}
+		data := PageData{user, contactTypes, contacts, userContact, contactTypeId, contactName, alert}
+		files := []string{
+			app.Path + "content/student/profile/contacts.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+	}
+}
+
+func StudentProfileContactsHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		if email == "" || len(email) <= 0 {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		var alert PageToast
+		var contacts []ContactPlaceHolder
+		contactTypes, err := addressIO.GetContactTypes()
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			alert = PageToast{dangerAlertStyle, "Could not retrieve contact types!"}
+		} else {
+			for _, contactType := range contactTypes {
+				userContact, err := usersIO.GetUserContact(email, contactType.ContactTypeId)
+				if err != nil {
+					errMsg := "Could not retrieve user contact for " + contactType.Name
+					app.ErrorLog.Println(err.Error() + " - " + errMsg)
+				} else {
+					contacts = append(contacts, ContactPlaceHolder{contactType.Name, userContact.Contact})
+				}
+			}
+			message := app.Session.GetString(r.Context(), "message")
+			messageType := app.Session.GetString(r.Context(), "message-type")
+			if message != "" && messageType != "" {
+				alert = PageToast{messageType, message}
+				app.Session.Remove(r.Context(), "message")
+				app.Session.Remove(r.Context(), "message-type")
+			}
+		}
+
+		type PageData struct {
+			Student       usersIO.User
+			ContactTypes  []addressIO.ContactType
+			Contacts      []ContactPlaceHolder
+			Contact       usersIO.UserContact
+			ContactTypeId string
+			ContactName   string
+			Alert PageToast
+		}
+
+		data := PageData{user, contactTypes, contacts, usersIO.UserContact{}, "", "", alert}
+		files := []string{
+			app.Path + "content/student/profile/contacts.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+	}
 }
 
 func StudentProfilePasswordUpdate(app *config.Env) http.HandlerFunc {
@@ -80,7 +256,7 @@ func StudentProfilePasswordUpdate(app *config.Env) http.HandlerFunc {
 		if newPasswordOne != newPasswordTwo {
 			errMsg := "New password mismatch."
 			app.ErrorLog.Println(errMsg)
-			setSessionMessage(app, r, dangerAlertStyle, failureMessage + " - " + errMsg)
+			setSessionMessage(app, r, dangerAlertStyle, failureMessage+" - "+errMsg)
 		} else {
 			userChangePassword := loginIO.ChangePassword{email, currentPassword, newPasswordOne, time.Now()}
 			app.InfoLog.Println("User password to update: ", userChangePassword)

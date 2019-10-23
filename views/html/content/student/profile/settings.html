@@ -18,7 +18,7 @@
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <!--link href="../../../assets/css/demo.css" rel="stylesheet"/-->
     <link rel="stylesheet" href="../../../../assets/css/style.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="../../../../assets/css/profile.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../../../../assets/css/custom/profile.css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -87,6 +87,12 @@
                                 <a class="nav-link" href="/users/student/profile/address">
                                     <span class="sidebar-mini">A</span>
                                     <span class="sidebar-normal">Address</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/users/student/profile/contacts">
+                                    <span class="sidebar-mini">C</span>
+                                    <span class="sidebar-normal">Contacts</span>
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -257,7 +263,7 @@
                                 <li class="nav-item show active">
                                     <a class="nav-link" id="help-tab" href="#registrationDetails" role="tab"
                                        data-toggle="tab">
-                                        <i class="nc-icon nc-support-17"></i>
+                                        <i class="nc-icon nc-settings-90"></i>
                                         <br> Settings
                                     </a>
                                 </li>
@@ -286,10 +292,13 @@
                                                            placeholder="Enter new password"/>
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <label class="control-label" style="color: #ffffff">Verify New
-                                                        Password</label>
-                                                    <input class="form-control" type="password" name="new_password_two"
-                                                           placeholder="Re-enter new password"/>
+                                                    <div class="form-group">
+                                                        <label class="control-label" style="color: #ffffff">Verify New
+                                                            Password</label>
+                                                        <input class="form-control" type="password"
+                                                               name="new_password_two"
+                                                               placeholder="Re-enter new password"/>
+                                                    </div>
                                                 </div>
                                             </div>
 

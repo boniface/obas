@@ -8,10 +8,10 @@ import (
 
 const userContUrl = api.BASE_URL + "/users"
 
-type UserContacts domain.UserContacts
+type UserContact domain.UserContacts
 
-func GetUserContacts() ([]UserContacts, error) {
-	entites := []UserContacts{}
+func GetUserContacts() ([]UserContact, error) {
+	entites := []UserContact{}
 	resp, _ := api.Rest().Get(userContUrl + "/contacts/all")
 
 	if resp.IsError() {
@@ -24,9 +24,14 @@ func GetUserContacts() ([]UserContacts, error) {
 	return entites, nil
 }
 
-func GetUserContact(id string) (UserContacts, error) {
-	entity := UserContacts{}
-	resp, _ := api.Rest().Get(userContUrl + "/contacts/get/" + id)
+func GetUserContact(userId string, contactTypeId string) (UserContact, error) {
+	entity := UserContact{}
+	//if contactTypeId == "1" {
+	//	entity = UserContact{userId, contactTypeId, "0145235521"}
+	//} else if contactTypeId == "2" {
+	//	entity = UserContact{userId, contactTypeId, "alternative@gmail.com"}
+	//}
+	resp, _ := api.Rest().Get(userContUrl + "/contacts/get/" + userId + "/" + contactTypeId)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -48,8 +53,9 @@ func CreateUserContact(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateUserContact(entity interface{}) (bool, error) {
+func UpdateUserContact(entity UserContact, token string) (bool, error) {
 	resp, _ := api.Rest().
+		SetAuthToken(token).
 		SetBody(entity).
 		Post(userContUrl + "/contacts/update")
 	if resp.IsError() {

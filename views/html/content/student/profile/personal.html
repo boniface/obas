@@ -18,7 +18,7 @@
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <!--link href="../../../assets/css/demo.css" rel="stylesheet"/-->
     <link rel="stylesheet" href="../../../../assets/css/style.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="../../../../assets/css/profile.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../../../../assets/css/custom/profile.css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -87,6 +87,12 @@
                                 <a class="nav-link" href="/users/student/profile/address">
                                     <span class="sidebar-mini">A</span>
                                     <span class="sidebar-normal">Address</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/users/student/profile/contacts">
+                                    <span class="sidebar-mini">C</span>
+                                    <span class="sidebar-normal">Contacts</span>
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -248,7 +254,7 @@
                                 <li class="nav-item show active">
                                     <a class="nav-link" id="personal-tab" href="#personal-logo" role="tab"
                                        data-toggle="tab">
-                                        <i class="nc-icon nc-notes"></i>
+                                        <i class="nc-icon nc-circle-09"></i>
                                         <br> Personal Details
                                     </a>
                                 </li>
@@ -266,7 +272,7 @@
                                             <div class="row justify-content-center">
                                                 <div class="col-md-10">
                                                     <div class="form-group">
-                                                        <label class="control-label" style="color: #ffffff">Registered
+                                                        <label class="control-label registered_email">Registered
                                                             Email: {{ .Student.Email }}</label>
                                                     </div>
                                                 </div>

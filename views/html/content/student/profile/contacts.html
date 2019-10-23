@@ -84,21 +84,27 @@
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="/users/student/profile/guardian">
-                                    <span class="sidebar-mini">G</span>
-                                    <span class="sidebar-normal">Guardian</span>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
                                 <a class="nav-link" href="/users/student/profile/address">
                                     <span class="sidebar-mini">A</span>
                                     <span class="sidebar-normal">Address</span>
+                                </a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/users/student/profile/contacts">
+                                    <span class="sidebar-mini">C</span>
+                                    <span class="sidebar-normal">Contacts</span>
                                 </a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="/users/student/profile/districts">
                                     <span class="sidebar-mini">D&M</span>
                                     <span class="sidebar-normal">District/Municipality</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/users/student/profile/relative">
+                                    <span class="sidebar-mini">R</span>
+                                    <span class="sidebar-normal">Relative</span>
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -163,7 +169,7 @@
                             <i class="fa fa-navicon visible-on-sidebar-mini"></i>
                         </button>
                     </div>
-                    <a class="navbar-brand" href="#pablo">My Profile - Course Details </a>
+                    <a class="navbar-brand" href="#pablo">My Profile - Contacts </a>
                 </div>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                         aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -246,114 +252,125 @@
                         <div class="nav-container">
                             <ul class="nav nav-icons justify-content-center" role="tablist">
                                 <li class="nav-item show active">
-                                    <a class="nav-link" id="help-tab" href="#courseDetails" role="tab"
+                                    <a class="nav-link" id="contact-tab" href="#contact-logo" role="tab"
                                        data-toggle="tab">
-                                        <i class="nc-icon nc-support-17"></i>
-                                        <br> Course details
+                                        <i class="nc-icon nc-send"></i>
+                                        <br> Contact Details
                                     </a>
                                 </li>
                             </ul>
                         </div>
                         <div class="tab-content">
-                            <div class="tab-pane fade show active" id="courseDetails" role="tabpanel">
+                            <div class="tab-pane fade show active" id="contact-logo" aria-labelledby="info-tab">
                                 <div class="card green">
                                     <div class="card-body">
-                                        <form id="courseDetailsForm" method="post"
-                                              action="#">
-                                            <h4 style="color: #ffffff" class="text-center">Course Details</h4>
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-5">
-                                                    <div class="form-group">
-                                                        <label class="control-label" style="color: #ffffff">Debt</label>
-                                                        <select name="cities" class="selectpicker"
-                                                                data-title="Do you have any outstanding Debt"
-                                                                data-style="btn-default btn-outline"
-                                                                data-menu-style="dropdown-blue"
-                                                                placeholder="Do you have any outstanding Debt">
-                                                            <option value="id">Yes</option>
-                                                            <option value="ms">No</option>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                {{ if not .ContactTypeId }}
+                                                    <form id="contactTypeForm" method="post"
+                                                          action="/users/student/profile/contact/contacttype">
+                                                        <div class="row justify-content-center">
+                                                            <div class="col-md-10">
+                                                                <label class="control-label label-font-color">Contact
+                                                                    Type</label>
+                                                                <div class="row">
+                                                                    <div class="col-md-10">
+                                                                        <select name="contacttypes" class="selectpicker"
+                                                                                data-title="Select contact type"
+                                                                                data-style="btn-default btn-outline"
+                                                                                data-menu-style="dropdown-blue">
+                                                                            <option value="" disabled selected>Select
+                                                                                Contact Type
+                                                                            </option>
+                                                                            {{with .ContactTypes}}
+                                                                                {{range .}}
+                                                                                    <option value={{ .ContactTypeId }}>{{ .Name }}</option>
+                                                                                {{end}}
+                                                                            {{end}}
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <button class="btn btn-dark bootstrap-select"
+                                                                                type="submit">Get
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                {{ end }}
+                                                {{ if .ContactTypeId }}
+                                                    <form id="contactForm" method="post"
+                                                          action="/users/student-profile-contact-update">
+                                                        <input type="hidden" name="contactTypeId"
+                                                               value="{{ .ContactTypeId }}"/>
+                                                        <div class="row justify-content-center">
+                                                            <div class="col-md-10">
+                                                                <div class="form-group">
+                                                                <label class="control-label label-font-color">{{ .ContactName }}</label>
+                                                                <input class="form-control" type="text" name="contact" value="{{ .Contact.Contact }}"
+                                                                       placeholder="Enter contact detail"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row justify-content-center">
+                                                            <div class="row justify-content-center">
+                                                                <button type="button" id="contactEditBtn"
+                                                                        class="btn btn-wd btn-warning btn-outline">
+                                                                <span class="btn-label"><i
+                                                                            class="fa fa-warning"></i></span> Edit
+                                                                </button>
+                                                                <button type="submit" id="contactUpdateBtn"
+                                                                        class="btn btn-wd btn-info btn-outline">
+                                                                <span class="btn-label"><i
+                                                                            class="fa fa-exclamation"></i></span>Update
+                                                                </button>
+                                                                <button type="reset" id="contactClearBtn"
+                                                                        class="btn btn-wd btn-danger btn-outline">
+                                                                <span class="btn-label"><i
+                                                                            class="fa fa-times"></i></span> Clear
+                                                                </button>
+                                                                <button type="button" id="contactCancelBtn"
+                                                                        class="btn btn-wd btn-outline">
+                                                                    <span class="btn-label"><i
+                                                                                class="fa fa-arrow-left"></i></span>
+                                                                    Cancel
+                                                                </button>
+                                                                <div class="clearfix"></div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                {{ end }}
+                                            </div>
+                                            <div class="col-md-6">
+                                                {{ with .Contacts }}
+                                                    {{ range .}}
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="card ">
+                                                                    <div class="card-body ">{{ .ContactDetail }}</div>
+                                                                    <div class="card-footer ">
+                                                                        <hr>
+                                                                        <div class="stats">
+                                                                            <i class="fa fa-cog"></i>{{ .ContactName }}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {{end}}
+                                                {{end}}
+                                            </div>
+                                            <!--div class="col-8">
 
-                                                        </select>
-                                                    </div>
+                                            </div>
+
+                                            <div class="col-4">
+                                                <div class="card-body">
+                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                                                 </div>
-                                            </div>
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-5">
-                                                    <div class="form-group">
-                                                        <label class="control-label" style="color: #ffffff">Intent Study
-                                                            Field</label>
-                                                        <select name="cities" class="selectpicker"
-                                                                data-title="Intent study field"
-                                                                data-style="btn-default btn-outline"
-                                                                data-menu-style="dropdown-blue"
-                                                                placeholder="Architecture">
-                                                            <option value="id">Engineering and technology</option>
-                                                            <option value="ms">Agriculture</option>
-                                                            <option value="id">Business</option>
-                                                            <option value="ms">Education</option>
-                                                            <option value="id">Divinity</option>
-                                                            <option value="ms">Agriculture</option>
-                                                            <option value="id">History</option>
-                                                            <option value="ms">Economics</option>
-                                                            <option value="id">Geology</option>
-                                                            <option value="ms">Zoology</option>
-                                                            <option value="id">Psychology</option>
-                                                            <option value="ms">Chemistry</option>
-
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-5">
-                                                    <div class="form-group">
-                                                        <label class="control-label"
-                                                               style="color: #ffffff">Duration</label>
-                                                        <select name="cities" class="selectpicker"
-                                                                data-title="Example: 3"
-                                                                data-style="btn-default btn-outline" required="true"
-                                                                data-menu-style="dropdown-blue" placeholder="Duration">
-                                                            <option value="id">1 Year</option>
-                                                            <option value="ms">2 Years</option>
-                                                            <option value="id">3 Years</option>
-                                                            <option value="ms">4 Years</option>
-                                                            <option value="id">5 Years</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-5">
-                                                    <button type="button" id="editButton"
-                                                            class="btn btn-wd btn-warning btn-outline">
-                                                    <span class="btn-label">
-                                                        <i class="fa fa-warning"></i>
-                                                    </span>
-                                                        EditRV
-                                                    </button>
-                                                    <button type="submit" id="updateButton"
-                                                            class="btn btn-wd btn-info btn-outline">
-                                                    <span class="btn-label">
-                                                        <i class="fa fa-exclamation"></i>
-                                                    </span>
-                                                        Update
-                                                    </button>
-
-                                                    <button type="button" id="cancelButton"
-                                                            class="btn btn-wd btn-outline">
-                                                    <span class="btn-label">
-                                                        <i class="fa fa-arrow-left"></i>
-                                                    </span>
-                                                        Cancel
-                                                    </button>
-
-                                                    <div class="clearfix"></div>
-
-                                            </div>
-
-                                        </form>
+                                            </div-->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
