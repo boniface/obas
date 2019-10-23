@@ -16,4 +16,9 @@ button {
     color: #006837;
 }
 
+.registered_email {
+    color: #ffea00 !important;
+    font-weight: bold !important;
+}
+
 /** custom style ends here */

@@ -12,6 +12,9 @@ type ContactType domain.ContactType
 
 func GetContactTypes() ([]ContactType, error) {
 	entites := []ContactType{}
+	//c1 := ContactType{"1", "CellPhone"}
+	//c2 := ContactType{"2", "Alternative Email"}
+	//entites = []ContactType{c1, c2}
 	resp, _ := api.Rest().Get(contactTypeUrl + "/contact/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())

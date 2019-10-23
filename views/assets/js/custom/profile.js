@@ -38,6 +38,21 @@ $(document).ready(function(){
     });
     /** Address ends here**/
 
+    /** Contact starts here**/
+    $("#contactForm input").prop("disabled", true);
+    $("#contactUpdateBtn, #contactClearBtn").hide();
+
+    $("#contactEditBtn").click(function () {
+        $("#contactForm input").prop("disabled", false);
+        $("#contactUpdateBtn, #contactClearBtn").show(1000);
+        $(this).hide(500);
+    });
+
+    $("#contactCancelBtn").click(function () {
+        location.href = BASE_URL + "users/student/profile/contacts";
+    });
+    /** Contact ends here**/
+
 
    // <!-- guardianForm-->
     $("#guardianForm input").prop("disabled",true);
