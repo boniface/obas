@@ -17,6 +17,8 @@
     <link href="../../../assets/css/light-bootstrap-dashboard.css?v=2.0.1" rel="stylesheet"/>
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="../../../assets/css/demo.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../../../assets/css/custom/profile.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../../../assets/css/style.css" rel="stylesheet"/>
 
 </head>
 
@@ -99,7 +101,7 @@
                         <p> Documents</p>
                     </a>
                 </li>
-                <hr />
+                <hr/>
                 <li class="nav-item ">     <!-- to fix below href-->
                     <a class="nav-link" href="login/">
                         <!-- <i class="nc-icon nc-single-copy-04"></i>-->
@@ -197,128 +199,47 @@
         </nav>
 
         <!-- End Navbar -->
-
-        <div class="tab-content">
-            <div class="tab-pane fade show active" id="address-logo" aria-labelledby="info-tab">
+        <div class="content">
+            <div class="container-fluid">
                 <div class="card green">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                    <form id="addressTypeForm" method="post"
-                                          action="/users/student/profile/address/addresstype">
-                                        <div class="row justify-content-center">
-                                            <div class="col-md-10">
-                                                <label class="control-label label-font-color">Address
-                                                    Type</label>
-                                                <div class="row">
-                                                    <div class="col-md-10">
-                                                        <select name="addresstypes" class="selectpicker"
-                                                                data-title="address type"
-                                                                data-style="btn-default btn-outline"
-                                                                data-menu-style="dropdown-blue">
-                                                            <option value="" disabled selected>Select
-                                                                Address Type
-                                                            </option>
-                                                            <option value="1">Color</option>
-                                                            <option value="1">Rouge</option>
-                                                            <option value="1">Blue</option>                                                                {{end}}
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <button class="btn btn-dark bootstrap-select"
-                                                                type="submit">Get
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                    <div class="row ">
+                        <div class="col-md-8">
+                            <form id="addressTypeForm" method="post"
+                                  action="">
+                                <div class="form-group ">
+                                    <div class="col-md-8">
+                                        <label class="control-label label-font-color">Document Type</label>
+                                        <select name="addresstypes" class="selectpicker"
+                                                data-title="address type"
+                                                data-style="btn-default btn-outline"
+                                                data-menu-style="dropdown-blue">
+                                            <option value="" disabled selected>Select Document Type</option>
+                                            <option value="1">Color</option>
+                                            <option value="1">Rouge</option>
+                                            <option value="1">Blue</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-8">
+                                            <input type="file" name="file" class="form-control-file" placeholder="Choose Document"
+                                                   id="exampleFormControlFile1"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-8">
+                                            <button type="submit" id="documentUpdateBtn"
+                                                    class="btn btn-wd btn-info btn-outline">
+                                             <span class="btn-label"><i class="fa "></i>
+                                             </span>Upload document
+                                            </button>
                                         </div>
-                                    </form>
-                                    <form id="addressForm" method="post"
-                                          action="/users/student/profile/address/update">
-                                        <input type="hidden" name="addressTypeId"
-                                               value="{{ .AddressTypeID }}"/>
-                                        <div class="row justify-content-center">
-                                            <div class="col-md-10">
-                                                <label class="control-label label-font-color">{{ .AddressName }}</label>
-                                                <input class="form-control" type="text" name="address"
-                                                       value="{{ .Address.Address}}"
-                                                       placeholder="P.O. Box 10, Bellville 8002"/>
-                                            </div>
-                                        </div>
-                                        <div class="row justify-content-center">
-                                            <div class="col-md-10">
-                                                <div class="form-group">
-                                                    <label class="control-label label-font-color">Postal
-                                                        Code</label>
-                                                    <input class="form-control" type="text"
-                                                           name="postalCode"
-                                                           value="{{ .Address.PostalCode}}"
-                                                           placeholder="Cape Town"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row justify-content-center">
-                                            <div class="row justify-content-center">
-                                                <button type="button" id="addressEditBtn"
-                                                        class="btn btn-wd btn-warning btn-outline">
-                                                                <span class="btn-label"><i
-                                                                            class="fa fa-warning"></i></span> Edit
-                                                </button>
-                                                <button type="submit" id="addressUpdateBtn"
-                                                        class="btn btn-wd btn-info btn-outline">
-                                                                <span class="btn-label"><i
-                                                                            class="fa fa-exclamation"></i></span>Update
-                                                </button>
-                                                <button type="reset" id="addressClearBtn"
-                                                        class="btn btn-wd btn-danger btn-outline">
-                                                                <span class="btn-label"><i
-                                                                            class="fa fa-times"></i></span> Clear
-                                                </button>
-                                                <button type="button" id="addressCancelBtn"
-                                                        class="btn btn-wd btn-outline">
-                                                                    <span class="btn-label"><i
-                                                                                class="fa fa-arrow-left"></i></span>
-                                                    Cancel
-                                                </button>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                {{ end }}
-                            </div>
-                            <div class="col-md-6">
-                                {{ with .Addresses }}
-                                    {{ range .}}
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="card ">
-                                                    <!--div class="card-header ">
-                                                                        <h4 class="card-title">{{ .AddressName }}</h4>
-                                                                        <p class="card-category"></p>
-                                                                    </div-->
-                                                    <div class="card-body ">{{ .Address }}
-                                                        <br/> {{ .PostalCode }}</div>
-                                                    <div class="card-footer ">
-                                                        <hr>
-                                                        <div class="stats">
-                                                            <i class="fa fa-cog"></i>{{ .AddressName }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {{end}}
-                                {{end}}
-                            </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
 
-        <div class="content">
-            <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card bootstrap-table">
@@ -334,10 +255,9 @@
                                     <thead>
                                     <th data-field="state" data-checkbox="true"></th>
                                     <th data-field="id" class="text-center">ID</th>
-                                    <th data-field="name" data-sortable="true">Name</th>
+                                    <th data-field="name" data-sortable="true">Document Type</th>
                                     <th data-field="salary" data-sortable="true">Document description</th>
                                     <th data-field="country" data-sortable="true">Date</th>
-                                    <th data-field="city">Type</th>
                                     <th data-field="actions" class="td-actions text-right" data-events="operateEvents"
                                         data-formatter="operateFormatter">Actions
                                     </th>
@@ -348,73 +268,10 @@
                                         <td>1</td>
                                         <td>Dakota Rice</td>
                                         <td>$36,738</td>
-                                        <td>Niger</td>
                                         <td>Oud-Turnhout</td>
                                         <td></td>
                                     </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>2</td>
-                                        <td>Minerva Hooper</td>
-                                        <td>$23,789</td>
-                                        <td>Curaçao</td>
-                                        <td>Sinaai-Waas</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>3</td>
-                                        <td>Sage Rodriguez</td>
-                                        <td>$56,142</td>
-                                        <td>Netherlands</td>
-                                        <td>Baileux</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>4</td>
-                                        <td>Philip Chaney</td>
-                                        <td>$38,735</td>
-                                        <td>Korea, South</td>
-                                        <td>Overland Park</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>5</td>
-                                        <td>Doris Greene</td>
-                                        <td>$63,542</td>
-                                        <td>Malawi</td>
-                                        <td>Feldkirchen in Kärnten</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>6</td>
-                                        <td>Mason Porter</td>
-                                        <td>$78,615</td>
-                                        <td>Chile</td>
-                                        <td>Gloucester</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>7</td>
-                                        <td>Alden Chen</td>
-                                        <td>$63,929</td>
-                                        <td>Finland</td>
-                                        <td>Gary</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>8</td>
-                                        <td>Colton Hodges</td>
-                                        <td>$93,961</td>
-                                        <td>Nicaragua</td>
-                                        <td>Delft</td>
-                                        <td></td>
-                                    </tr>
+
 
 
                                     </tbody>

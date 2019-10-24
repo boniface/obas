@@ -218,7 +218,7 @@ func StudentProfileContactsHandler(app *config.Env) http.HandlerFunc {
 			Contact       usersIO.UserContact
 			ContactTypeId string
 			ContactName   string
-			Alert PageToast
+			Alert         PageToast
 		}
 
 		data := PageData{user, contactTypes, contacts, usersIO.UserContact{}, "", "", alert}
