@@ -33,49 +33,28 @@
         <div class="sidebar-wrapper">
             <div class="logo"
                  style="padding-left: 40px;padding-top: 0px;padding-bottom: 0px;background: #ffea00;height: 60px">
-                <a href="../Student_dashboard.html" class="simple-text logo-normal">
-
+                <a href="/users/student" class="simple-text logo-normal">
                     <img src="../../../assets/img/Logo-04.png" alt="Logo"
                          style="width: 176px; height: 55px;alignment: center">
                 </a>
-
             </div>
             <div class="user">
                 <div class="photo">
-                    <img src="../../../assets/img/default-avatar.png"/>
+                    <!--img src="../../../assets/img/default-avatar.png"/-->
+                    <img src="../../../assets/img/faces/face-1.jpg"/>
                 </div>
-                <div class="info ">
-                    <a class="nav-item ">
-                            <span>Tania Andrew
-                                <!-- <b class="caret"></b>-->
-                            </span>
+                <div class="info">
+                    <a class="nav-item">
+                        <span>
+                            {{ if .Student.FirstName }}
+                                {{ .Student.FirstName }}
+                            {{ else }} first-name
+                            {{ end }}
+                            <!-- <b class="caret"></b>-->
+                        </span>
                     </a>
-                    <div class="collapse" id="collapseExample">
-                        <ul class="nav">
-                            <li>
-                                <a class="profile-dropdown" href="#pablo">
-                                    <span class="sidebar-mini">MP</span>
-                                    <span class="sidebar-normal">My Profile</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="profile-dropdown" href="#pablo">
-                                    <span class="sidebar-mini">EP</span>
-                                    <span class="sidebar-normal">Edit Profile</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="profile-dropdown" href="#pablo">
-                                    <span class="sidebar-mini">S</span>
-                                    <span class="sidebar-normal">Settings</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
             </div>
-
-
             <ul class="nav" style="position: center">
                 <li class="nav-item ">
                     <a class="nav-link" href="/users/student">
@@ -84,32 +63,99 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/users/student/profile">
+                    <a class="nav-link" data-toggle="collapse" href="#profileMenu" >
                         <i class="nc-icon nc-single-02"></i>
-                        <p>Profile</p>
+                        <p>
+                            Profile
+                            <b class="caret"></b>
+                        </p>
                     </a>
+                    <div class="collapse " id="profileMenu">
+                        <ul class="nav">
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/users/student/profile/personal">
+                                    <span class="sidebar-mini">P</span>
+                                    <span class="sidebar-normal">Personal</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/users/student/profile/demography">
+                                    <span class="sidebar-mini">D</span>
+                                    <span class="sidebar-normal">Demography</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/users/student/profile/address">
+                                    <span class="sidebar-mini">A</span>
+                                    <span class="sidebar-normal">Address</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/users/student/profile/contacts">
+                                    <span class="sidebar-mini">C</span>
+                                    <span class="sidebar-normal">Contacts</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/users/student/profile/districts">
+                                    <span class="sidebar-mini">D&M</span>
+                                    <span class="sidebar-normal">District/Municipality</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/users/student/profile/relative">
+                                    <span class="sidebar-mini">R</span>
+                                    <span class="sidebar-normal">Relative</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/users/student/profile/settings">
+                                    <span class="sidebar-mini">S</span>
+                                    <span class="sidebar-normal">Settings</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="/users/student/application">
+                    <a class="nav-link" data-toggle="collapse" href="#applicationMenu">
                         <i class="nc-icon nc-attach-87"></i>
-                        <p>Application</p>
+                        <p>
+                            Application
+                            <b class="caret"></b>
+                        </p>
                     </a>
+                    <div class="collapse " id="applicationMenu">
+                        <ul class="nav">
+                            <li class="nav-item ">
+                                <a class="nav-link" href="#">
+                                    <span class="sidebar-mini">S</span>
+                                    <span class="sidebar-normal">Subjects</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/users/student/profile/courses">
+                                    <span class="sidebar-mini">C</span>
+                                    <span class="sidebar-normal">Course</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
-                <li class="nav-item ">
+                <li class="nav-item  active">
                     <a class="nav-link" href="/users/student/documents">
                         <i class="nc-icon nc-single-copy-04"></i>
                         <p> Documents</p>
                     </a>
                 </li>
                 <hr/>
-                <li class="nav-item ">     <!-- to fix below href-->
-                    <a class="nav-link" href="login/">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/logout">
                         <!-- <i class="nc-icon nc-single-copy-04"></i>-->
                         <p style="position: center">Log out </p>
                     </a>
                 </li>
             </ul>
-
         </div>
     </div>
     <div class="main-panel">
