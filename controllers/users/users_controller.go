@@ -89,7 +89,11 @@ func StudentProfileContactUpdate(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 			setSessionMessage(app, r, dangerAlertStyle, failureMessage)
 		} else {
-			setSessionMessage(app, r, successAlertStyle, successMessage)
+			if updated {
+				setSessionMessage(app, r, successAlertStyle, successMessage)
+			} else {
+				setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+			}
 		}
 		app.InfoLog.Println("Update response is ", updated)
 		http.Redirect(w, r, "/users/student/profile/contacts", 301)
