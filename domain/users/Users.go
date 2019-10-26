@@ -37,9 +37,10 @@ type UserContacts struct {
 }
 
 type UserDemographics struct {
-	UserDemographicsId string `json:"userDemographicsId"`
-	GenderId           string `json:"genderId"`
-	RaceId             string `json:"raceId"`
+	UserId   string `json:"userId"`
+	TitleId  string `json:"titleId"`
+	GenderId string `json:"genderId"`
+	RaceId   string `json:"raceId"`
 }
 
 type UserDocuments struct {
@@ -58,11 +59,11 @@ type UserPassword struct {
 }
 
 type UserRelative struct {
-	UserRelativeId string `json:"userRelativeId"`
-	Name           string `json:"name"`
-	Cellphone      string `json:"cellphone"`
-	Relationship   string `json:"relationship"`
-	Email          string `json:"email"`
+	UserId       string `json:"userId"`
+	Name         string `json:"name"`
+	Cellphone    string `json:"cellphone"`
+	Email        string `json:"email"`
+	Relationship string `json:"relationship"`
 }
 
 type UserResults struct {

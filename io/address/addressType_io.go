@@ -2,7 +2,6 @@ package address
 
 import (
 	"errors"
-	"fmt"
 	"obas/api"
 	domain "obas/domain/address"
 )
@@ -33,14 +32,12 @@ func GetAddressTypes() ([]AddressType, error) {
 
 func GetAddressType(id string) (domain.AddressType, error) {
 	entity := domain.AddressType{}
-	resp, serverEr := api.Rest().Get(addressTypeUrl + "/get/" + id)
+	resp, _ := api.Rest().Get(addressTypeUrl + "/get/" + id)
 	if resp.IsError() {
-		fmt.Println(" Is request from Server Okay", serverEr)
 		return entity, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entity)
 	if err != nil {
-		fmt.Println("Did Jason Coversion Take Place Okay", err)
 		return entity, errors.New(resp.Status())
 	}
 	return entity, nil

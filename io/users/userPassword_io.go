@@ -9,10 +9,10 @@ import (
 
 const usersPwdUrl = api.BASE_URL + "/users"
 
-type UsersPwd domain.UserPassword
+type UserPassword domain.UserPassword
 
-func GetUserPasswords() ([]UsersPwd, error) {
-	entites := []UsersPwd{}
+func GetUserPasswords() ([]UserPassword, error) {
+	entites := []UserPassword{}
 	resp, serverEr := api.Rest().Get(usersPwdUrl + "/password/all")
 
 	if resp.IsError() {
@@ -26,8 +26,8 @@ func GetUserPasswords() ([]UsersPwd, error) {
 	return entites, nil
 }
 
-func GetUserPassword(id string) (UsersPwd, error) {
-	entity := UsersPwd{}
+func GetUserPassword(id string) (UserPassword, error) {
+	entity := UserPassword{}
 	resp, _ := api.Rest().Get(usersPwdUrl + "/password/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
@@ -46,7 +46,6 @@ func CreateUserPassword(entity interface{}) (bool, error) {
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
-
 	return true, nil
 }
 
@@ -57,7 +56,6 @@ func UpdateUserPassword(entity interface{}) (bool, error) {
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
-
 	return true, nil
 }
 
@@ -68,6 +66,5 @@ func DeleteUserPassword(entity interface{}) (bool, error) {
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
-
 	return true, nil
 }

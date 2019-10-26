@@ -8,10 +8,10 @@ import (
 
 const uDemographicsUrl = api.BASE_URL + "/users"
 
-type uDemographics domain.UserDemographics
+type UserDemography domain.UserDemographics
 
-func GetUserDemographics() ([]uDemographics, error) {
-	entites := []uDemographics{}
+func GetUserDemographics() ([]UserDemography, error) {
+	entites := []UserDemography{}
 	resp, _ := api.Rest().Get(uDemographicsUrl + "/demographics/all")
 
 	if resp.IsError() {
@@ -24,8 +24,9 @@ func GetUserDemographics() ([]uDemographics, error) {
 	return entites, nil
 }
 
-func GetUserDemographic(id string) (uDemographics, error) {
-	entity := uDemographics{}
+func GetUserDemographic(id string) (UserDemography, error) {
+	entity := UserDemography{}
+	//entity = UserDemography{id, "1", "2", "3"}
 	resp, _ := api.Rest().Get(uDemographicsUrl + "/demographics/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
@@ -48,8 +49,9 @@ func CreateUserDemographics(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateUserDemographics(entity interface{}) (bool, error) {
+func UpdateUserDemographics(entity UserDemography, token string) (bool, error) {
 	resp, _ := api.Rest().
+		SetAuthToken(token).
 		SetBody(entity).
 		Post(uDemographicsUrl + "/demographics/update")
 	if resp.IsError() {

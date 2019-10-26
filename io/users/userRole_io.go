@@ -2,7 +2,6 @@ package users
 
 import (
 	"errors"
-	"fmt"
 	"obas/api"
 	domain "obas/domain/users"
 )
@@ -13,10 +12,9 @@ type uRole domain.UserRole
 
 func GetUserRoles() ([]uRole, error) {
 	entites := []uRole{}
-	resp, serverEr := api.Rest().Get(userRoleUrl + "/role/all")
+	resp, _ := api.Rest().Get(userRoleUrl + "/role/all")
 
 	if resp.IsError() {
-		fmt.Println(" Is request from Server Okay", serverEr, resp)
 		return entites, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entites)

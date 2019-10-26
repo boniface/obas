@@ -155,7 +155,6 @@ func loginHandler(app *config.Env) http.HandlerFunc {
 		http.Redirect(w, r, "/users/student", 301)
 	}
 }
-
 func forgotPassword(app *config.Env) http.HandlerFunc {
 
 	return func(w http.ResponseWriter, r *http.Request) {

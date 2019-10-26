@@ -23,14 +23,14 @@ func TestGetRole(t *testing.T) {
 }
 
 func TestCreateRole(t *testing.T) {
-	role := domain.Roles{"21", "GUEST"}
+	role := domain.Role{"21", "GUEST"}
 	value, err := CreateRole(role)
 	assert.Nil(t, err)
 	assert.True(t, value)
 }
 
 func TestUpdateRole(t *testing.T) {
-	role := domain.Roles{"22", "GUEST"}
+	role := domain.Role{"22", "GUEST"}
 	value, err := UpdateRole(role)
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
@@ -38,7 +38,7 @@ func TestUpdateRole(t *testing.T) {
 }
 
 func TestDeleteRole(t *testing.T) {
-	role := domain.Roles{"21", "GUEST"}
+	role := domain.Role{"21", "GUEST"}
 	value, err := DeleteRole(role)
 	assert.Nil(t, err)
 	assert.True(t, value)

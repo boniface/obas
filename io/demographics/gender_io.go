@@ -8,10 +8,12 @@ import (
 
 const genderUrl = api.BASE_URL + "/demographics"
 
-type Genders domain.Gender
+type Gender domain.Gender
 
-func GetGenders() ([]Genders, error) {
-	entites := []Genders{}
+func GetGenders() ([]Gender, error) {
+	entites := []Gender{}
+	//entites = append(entites, Gender{"1", "Male"})
+	//entites = append(entites, Gender{"2", "Female"})
 	resp, _ := api.Rest().Get(genderUrl + "/gender/all")
 
 	if resp.IsError() {
@@ -24,8 +26,8 @@ func GetGenders() ([]Genders, error) {
 	return entites, nil
 }
 
-func GetGender(id string) (Genders, error) {
-	entity := Genders{}
+func GetGender(id string) (Gender, error) {
+	entity := Gender{}
 	resp, _ := api.Rest().Get(genderUrl + "/gender/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

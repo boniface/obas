@@ -17,6 +17,8 @@
     <link href="../../../assets/css/light-bootstrap-dashboard.css?v=2.0.1" rel="stylesheet"/>
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="../../../assets/css/demo.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../../../assets/css/custom/profile.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../../../assets/css/style.css" rel="stylesheet"/>
 
 </head>
 
@@ -31,49 +33,28 @@
         <div class="sidebar-wrapper">
             <div class="logo"
                  style="padding-left: 40px;padding-top: 0px;padding-bottom: 0px;background: #ffea00;height: 60px">
-                <a href="../Student_dashboard.html" class="simple-text logo-normal">
-
+                <a href="/users/student" class="simple-text logo-normal">
                     <img src="../../../assets/img/Logo-04.png" alt="Logo"
                          style="width: 176px; height: 55px;alignment: center">
                 </a>
-
             </div>
             <div class="user">
                 <div class="photo">
-                    <img src="../../../assets/img/default-avatar.png"/>
+                    <!--img src="../../../assets/img/default-avatar.png"/-->
+                    <img src="../../../assets/img/faces/face-1.jpg"/>
                 </div>
-                <div class="info ">
-                    <a class="nav-item ">
-                            <span>Tania Andrew
-                                <!-- <b class="caret"></b>-->
-                            </span>
+                <div class="info">
+                    <a class="nav-item">
+                        <span>
+                            {{ if .Student.FirstName }}
+                                {{ .Student.FirstName }}
+                            {{ else }} first-name
+                            {{ end }}
+                            <!-- <b class="caret"></b>-->
+                        </span>
                     </a>
-                    <div class="collapse" id="collapseExample">
-                        <ul class="nav">
-                            <li>
-                                <a class="profile-dropdown" href="#pablo">
-                                    <span class="sidebar-mini">MP</span>
-                                    <span class="sidebar-normal">My Profile</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="profile-dropdown" href="#pablo">
-                                    <span class="sidebar-mini">EP</span>
-                                    <span class="sidebar-normal">Edit Profile</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="profile-dropdown" href="#pablo">
-                                    <span class="sidebar-mini">S</span>
-                                    <span class="sidebar-normal">Settings</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
             </div>
-
-
             <ul class="nav" style="position: center">
                 <li class="nav-item ">
                     <a class="nav-link" href="/users/student">
@@ -82,32 +63,99 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/users/student/profile">
+                    <a class="nav-link" data-toggle="collapse" href="#profileMenu" >
                         <i class="nc-icon nc-single-02"></i>
-                        <p>Profile</p>
+                        <p>
+                            Profile
+                            <b class="caret"></b>
+                        </p>
                     </a>
+                    <div class="collapse " id="profileMenu">
+                        <ul class="nav">
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/users/student/profile/personal">
+                                    <span class="sidebar-mini">P</span>
+                                    <span class="sidebar-normal">Personal</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/users/student/profile/demography">
+                                    <span class="sidebar-mini">D</span>
+                                    <span class="sidebar-normal">Demography</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/users/student/profile/address">
+                                    <span class="sidebar-mini">A</span>
+                                    <span class="sidebar-normal">Address</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/users/student/profile/contacts">
+                                    <span class="sidebar-mini">C</span>
+                                    <span class="sidebar-normal">Contacts</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/users/student/profile/districts">
+                                    <span class="sidebar-mini">D&M</span>
+                                    <span class="sidebar-normal">District/Municipality</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/users/student/profile/relative">
+                                    <span class="sidebar-mini">R</span>
+                                    <span class="sidebar-normal">Relative</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/users/student/profile/settings">
+                                    <span class="sidebar-mini">S</span>
+                                    <span class="sidebar-normal">Settings</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="/users/student/application">
+                    <a class="nav-link" data-toggle="collapse" href="#applicationMenu">
                         <i class="nc-icon nc-attach-87"></i>
-                        <p>Application</p>
+                        <p>
+                            Application
+                            <b class="caret"></b>
+                        </p>
                     </a>
+                    <div class="collapse " id="applicationMenu">
+                        <ul class="nav">
+                            <li class="nav-item ">
+                                <a class="nav-link" href="#">
+                                    <span class="sidebar-mini">S</span>
+                                    <span class="sidebar-normal">Subjects</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/users/student/profile/courses">
+                                    <span class="sidebar-mini">C</span>
+                                    <span class="sidebar-normal">Course</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
-                <li class="nav-item ">
+                <li class="nav-item  active">
                     <a class="nav-link" href="/users/student/documents">
                         <i class="nc-icon nc-single-copy-04"></i>
                         <p> Documents</p>
                     </a>
                 </li>
-                <hr />
-                <li class="nav-item ">     <!-- to fix below href-->
-                    <a class="nav-link" href="login/">
+                <hr/>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/logout">
                         <!-- <i class="nc-icon nc-single-copy-04"></i>-->
                         <p style="position: center">Log out </p>
                     </a>
                 </li>
             </ul>
-
         </div>
     </div>
     <div class="main-panel">
@@ -197,9 +245,47 @@
         </nav>
 
         <!-- End Navbar -->
-
         <div class="content">
             <div class="container-fluid">
+                <div class="card green">
+                    <div class="row ">
+                        <div class="col-md-8">
+                            <form id="addressTypeForm" method="post"
+                                  action="">
+                                <div class="form-group ">
+                                    <div class="col-md-8">
+                                        <label class="control-label label-font-color">Document Type</label>
+                                        <select name="addresstypes" class="selectpicker"
+                                                data-title="address type"
+                                                data-style="btn-default btn-outline"
+                                                data-menu-style="dropdown-blue">
+                                            <option value="" disabled selected>Select Document Type</option>
+                                            <option value="1">Color</option>
+                                            <option value="1">Rouge</option>
+                                            <option value="1">Blue</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-8">
+                                            <input type="file" name="file" class="form-control-file" placeholder="Choose Document"
+                                                   id="exampleFormControlFile1"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-8">
+                                            <button type="submit" id="documentUpdateBtn"
+                                                    class="btn btn-wd btn-info btn-outline">
+                                             <span class="btn-label"><i class="fa "></i>
+                                             </span>Upload document
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card bootstrap-table">
@@ -215,10 +301,9 @@
                                     <thead>
                                     <th data-field="state" data-checkbox="true"></th>
                                     <th data-field="id" class="text-center">ID</th>
-                                    <th data-field="name" data-sortable="true">Name</th>
+                                    <th data-field="name" data-sortable="true">Document Type</th>
                                     <th data-field="salary" data-sortable="true">Document description</th>
                                     <th data-field="country" data-sortable="true">Date</th>
-                                    <th data-field="city">Type</th>
                                     <th data-field="actions" class="td-actions text-right" data-events="operateEvents"
                                         data-formatter="operateFormatter">Actions
                                     </th>
@@ -229,73 +314,10 @@
                                         <td>1</td>
                                         <td>Dakota Rice</td>
                                         <td>$36,738</td>
-                                        <td>Niger</td>
                                         <td>Oud-Turnhout</td>
                                         <td></td>
                                     </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>2</td>
-                                        <td>Minerva Hooper</td>
-                                        <td>$23,789</td>
-                                        <td>Curaçao</td>
-                                        <td>Sinaai-Waas</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>3</td>
-                                        <td>Sage Rodriguez</td>
-                                        <td>$56,142</td>
-                                        <td>Netherlands</td>
-                                        <td>Baileux</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>4</td>
-                                        <td>Philip Chaney</td>
-                                        <td>$38,735</td>
-                                        <td>Korea, South</td>
-                                        <td>Overland Park</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>5</td>
-                                        <td>Doris Greene</td>
-                                        <td>$63,542</td>
-                                        <td>Malawi</td>
-                                        <td>Feldkirchen in Kärnten</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>6</td>
-                                        <td>Mason Porter</td>
-                                        <td>$78,615</td>
-                                        <td>Chile</td>
-                                        <td>Gloucester</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>7</td>
-                                        <td>Alden Chen</td>
-                                        <td>$63,929</td>
-                                        <td>Finland</td>
-                                        <td>Gary</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>8</td>
-                                        <td>Colton Hodges</td>
-                                        <td>$93,961</td>
-                                        <td>Nicaragua</td>
-                                        <td>Delft</td>
-                                        <td></td>
-                                    </tr>
+
 
 
                                     </tbody>

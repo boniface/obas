@@ -18,7 +18,7 @@
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <!--link href="../../../assets/css/demo.css" rel="stylesheet"/-->
     <link rel="stylesheet" href="../../../../assets/css/style.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="../../../../assets/css/profile.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../../../../assets/css/custom/profile.css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -77,10 +77,10 @@
                                     <span class="sidebar-normal">Personal</span>
                                 </a>
                             </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="/users/student/profile/guardian">
-                                    <span class="sidebar-mini">G</span>
-                                    <span class="sidebar-normal">Guardian</span>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/users/student/profile/demography">
+                                    <span class="sidebar-mini">D</span>
+                                    <span class="sidebar-normal">Demography</span>
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -89,10 +89,22 @@
                                     <span class="sidebar-normal">Address</span>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/users/student/profile/contacts">
+                                    <span class="sidebar-mini">C</span>
+                                    <span class="sidebar-normal">Contacts</span>
+                                </a>
+                            </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="/users/student/profile/districts">
                                     <span class="sidebar-mini">D&M</span>
                                     <span class="sidebar-normal">District/Municipality</span>
+                                </a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/users/student/profile/relative">
+                                    <span class="sidebar-mini">R</span>
+                                    <span class="sidebar-normal">Relative</span>
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -157,7 +169,7 @@
                             <i class="fa fa-navicon visible-on-sidebar-mini"></i>
                         </button>
                     </div>
-                    <a class="navbar-brand" href="#pablo">My Profile - Relative </a>
+                    <a class="navbar-brand" href="#pablo">My Profile - Relative Details </a>
                 </div>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                         aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -237,13 +249,21 @@
                 <div class="section-image" data-image="../../assets/img/bg5.jpg" ;>
                     <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
                     <div class="container">
+                        {{ if .Alert }}
+                            <div class="alert {{ .Alert.AlertType }}">
+                                <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
+                                    <i class="nc-icon nc-simple-remove"></i>
+                                </button>
+                                <span>{{ .Alert.AlertInfo }}</span>
+                            </div>
+                        {{ end }}
                         <div class="nav-container">
                             <ul class="nav nav-icons justify-content-center" role="tablist">
                                 <li class="nav-item show active">
                                     <a class="nav-link" id="location-tab" href="#guardian-logo" role="tab"
                                        data-toggle="tab">
-                                        <i class="nc-icon nc-pin-3"></i>
-                                        <br> Relative
+                                        <i class="nc-icon nc-favourite-28"></i>
+                                        <br> Relative Details
                                     </a>
                                 </li>
                             </ul>
@@ -252,58 +272,64 @@
                             <div class="tab-pane fade show active" id="guardian-logo" aria-labelledby="info-tab">
                                 <div class="card green">
                                     <div class="card-body">
-                                        <form id="guardianForm" method="post" action="/users/student/profile/update">
+                                        <form id="profileForm" method="post" action="/users/student-profile-relative-upate">
                                             <div class="row justify-content-center">
                                                 <div class="col-md-5">
                                                     <label class="control-label label-font-color">Relative Name</label>
-                                                    <input class="form-control" type="text" id="first" name="first_name"
-                                                           value="" placeholder="ex: Themba"/>
+                                                    <input class="form-control" type="text" id="relative_name"
+                                                           name="relative_name"
+                                                           value="{{ .StudentRelative.Name }}"
+                                                           placeholder="eg: Thembakazi Mbali"/>
                                                 </div>
                                                 <div class="col-md-5">
                                                     <label class="control-label label-font-color">Relationship</label>
-                                                    <input class="form-control" type="text" name="last_name"
-                                                           value="" required="true"
+                                                    <input class="form-control" type="text" name="relationship"
+                                                           value="{{ .StudentRelative.Relationship }}" required="true"
                                                            placeholder="ex: Aunt"/>
                                                 </div>
                                             </div>
                                             <div class="row justify-content-center">
                                                 <div class="col-md-5">
-                                                    <label class="control-label label-font-color">Cellphone</label>
-                                                    <input class="form-control" type="text" name="number"
-                                                           value="" placeholder="0845621198"/>
+                                                    <label class="control-label label-font-color">Relative
+                                                        Cellphone</label>
+                                                    <input class="form-control" type="text" name="relative_cellphone"
+                                                           value="{{ .StudentRelative.Cellphone }}"
+                                                           placeholder="0845621198"/>
                                                 </div>
                                                 <div class="col-md-5">
                                                     <div class="form-group">
-                                                        <label class="control-label" style="color: #ffffff">Email
+                                                        <label class="control-label" style="color: #ffffff">Relative
+                                                            Email
                                                             Address</label>
-                                                        <input class="form-control" type="text" name="number"
-                                                               value="" placeholder="guardian@gmail.com"/>
+                                                        <input class="form-control" type="text" name="relative_email"
+                                                               value="{{ .StudentRelative.Email }}"
+                                                               placeholder="themba@gmail.com"/>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row justify-content-center">
-                                                <button type="button" id="guardianEditButton"
+                                                <button type="button" id="editButton"
                                                         class="btn btn-wd btn-warning btn-outline">
                                                     <span class="btn-label">
                                                         <i class="fa fa-warning"></i>
                                                     </span>
                                                     Edit
                                                 </button>
-                                                <button type="submit" id="guardianupdateButton"
+                                                <button type="submit" id="updateButton"
                                                         class="btn btn-wd btn-info btn-outline">
                                                     <span class="btn-label">
                                                         <i class="fa fa-exclamation"></i>
                                                     </span>
                                                     Update
                                                 </button>
-                                                <button type="reset" id="guardianclearButton"
+                                                <button type="reset" id="clearButton"
                                                         class="btn btn-wd btn-danger btn-outline">
                                                     <span class="btn-label">
                                                         <i class="fa fa-times"></i>
                                                     </span>
                                                     Clear
                                                 </button>
-                                                <button type="button" id="guardiancancelButton"
+                                                <button type="button" id="cancelButton"
                                                         class="btn btn-wd btn-outline">
                                                     <span class="btn-label">
                                                         <i class="fa fa-arrow-left"></i>

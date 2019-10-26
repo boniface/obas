@@ -18,7 +18,7 @@
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <!--link href="../../../assets/css/demo.css" rel="stylesheet"/-->
     <link rel="stylesheet" href="../../../../assets/css/style.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="../../../../assets/css/profile.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../../../../assets/css/custom/profile.css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -78,9 +78,9 @@
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="/users/student/profile/guardian">
-                                    <span class="sidebar-mini">G</span>
-                                    <span class="sidebar-normal">Guardian</span>
+                                <a class="nav-link" href="/users/student/profile/demography">
+                                    <span class="sidebar-mini">D</span>
+                                    <span class="sidebar-normal">Demography</span>
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -89,10 +89,22 @@
                                     <span class="sidebar-normal">Address</span>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/users/student/profile/contacts">
+                                    <span class="sidebar-mini">C</span>
+                                    <span class="sidebar-normal">Contacts</span>
+                                </a>
+                            </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="/users/student/profile/districts">
                                     <span class="sidebar-mini">D&M</span>
                                     <span class="sidebar-normal">District/Municipality</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/users/student/profile/relative">
+                                    <span class="sidebar-mini">R</span>
+                                    <span class="sidebar-normal">Relative</span>
                                 </a>
                             </li>
                             <li class="nav-item active">
@@ -237,55 +249,55 @@
                 <div class="section-image" data-image="../../assets/img/bg5.jpg" ;>
                     <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
                     <div class="container">
+                        {{ if .Alert.AlertType }}
+                            <div class="alert {{ .Alert.AlertType }}">
+                                <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
+                                    <i class="nc-icon nc-simple-remove"></i>
+                                </button>
+                                <span>{{ .Alert.AlertInfo }}</span>
+                            </div>
+                        {{ end }}
                         <div class="nav-container">
                             <ul class="nav nav-icons justify-content-center" role="tablist">
 
                                 <li class="nav-item show active">
                                     <a class="nav-link" id="help-tab" href="#registrationDetails" role="tab"
                                        data-toggle="tab">
-                                        <i class="nc-icon nc-support-17"></i>
+                                        <i class="nc-icon nc-settings-90"></i>
                                         <br> Settings
                                     </a>
                                 </li>
                             </ul>
                         </div>
 
-                       <div class="tab-content">
-                            <div class="tab-pane fade show active" id="registrationDetails"  aria-labelledby="info-tab">
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="registrationDetails" aria-labelledby="info-tab">
                                 <div class="card green">
                                     <div class="card-body">
-                                        <form id="registrationDetailsForm" method="post" action="users/student/profile/registration">
-
-                                            <h4 style="color: #ffffff" class="text-center">Password Update</h4>
+                                        <form id="profileForm" method="post"
+                                              action="/users/student-profile-password-update">
                                             <div class="row justify-content-center">
-                                                <div class="col-md-5">
-                                                    <div class="form-group">
-                                                        <label class="control-label" style="color: #ffffff">Previous
-                                                            Password</label>
-                                                        <input class="form-control" type="text" name="name"
-                                                               placeholder="########"/>
-                                                    </div>
+                                                <div class="col-md-10">
+                                                    <label class="control-label" style="color: #ffffff">Current
+                                                        Password</label>
+                                                    <input class="form-control" type="password" name="current_password"
+                                                           placeholder="(unchanged)"/>
                                                 </div>
                                             </div>
-
                                             <div class="row justify-content-center">
                                                 <div class="col-md-5">
-                                                    <div class="form-group">
-                                                        <label class="control-label" style="color: #ffffff">New
-                                                            Password</label>
-                                                        <input class="form-control" type="text" name="phone_number"
-                                                               placeholder="********"/>
-                                                    </div>
+                                                    <label class="control-label" style="color: #ffffff">New
+                                                        Password</label>
+                                                    <input class="form-control" type="password" name="new_password_one"
+                                                           placeholder="Enter new password"/>
                                                 </div>
-                                            </div>
-
-                                            <div class="row justify-content-center">
                                                 <div class="col-md-5">
                                                     <div class="form-group">
-                                                        <label class="control-label" style="color: #ffffff">Veryfy
+                                                        <label class="control-label" style="color: #ffffff">Verify New
                                                             Password</label>
-                                                        <input class="form-control" type="text" name="phone_number"
-                                                               placeholder="********"/>
+                                                        <input class="form-control" type="password"
+                                                               name="new_password_two"
+                                                               placeholder="Re-enter new password"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -296,7 +308,7 @@
                                          <span class="btn-label">
                                              <i class="fa fa-warning"></i>
                                                     </span>
-                                                    EditRV
+                                                    Edit
                                                 </button>
                                                 <button type="submit" id="updateButton"
                                                         class="btn btn-wd btn-info btn-outline">
@@ -310,7 +322,7 @@
                                                     <span class="btn-label">
                                                         <i class="fa fa-times"></i>
                                                     </span>
-                                                    ClearC
+                                                    Clear
                                                 </button>
                                                 <button type="button" id="cancelButton" class="btn btn-wd btn-outline">
                                                     <span class="btn-label">
@@ -321,7 +333,6 @@
 
                                                 <div class="clearfix"></div>
                                             </div>
-
                                         </form>
                                     </div>
                                 </div>

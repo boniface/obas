@@ -2,21 +2,19 @@ package users
 
 import (
 	"errors"
-	"fmt"
 	"obas/api"
 	domain "obas/domain/users"
 )
 
 const userRelUrl = api.BASE_URL + "/users"
 
-type uRelative domain.UserRelative
+type UserRelative domain.UserRelative
 
-func GetUserRelatives() ([]uRelative, error) {
-	entites := []uRelative{}
-	resp, serverEr := api.Rest().Get(userRelUrl + "/relative/all")
+func GetUserRelatives() ([]UserRelative, error) {
+	entites := []UserRelative{}
+	resp, _ := api.Rest().Get(userRelUrl + "/relative/all")
 
 	if resp.IsError() {
-		fmt.Println(" Is request from Server Okay", serverEr)
 		return entites, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entites)
@@ -26,8 +24,9 @@ func GetUserRelatives() ([]uRelative, error) {
 	return entites, nil
 }
 
-func GetUserRelative(id string) (uRelative, error) {
-	entity := uRelative{}
+func GetUserRelative(id string) (UserRelative, error) {
+	entity := UserRelative{}
+	//entity = UserRelative{"caniksea@yahoo.co.nz", "Isaac Anikwue", "0983828432", "", "Father"}
 	resp, _ := api.Rest().Get(userRelUrl + "/relative/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
@@ -50,8 +49,9 @@ func CreateUserRelative(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateUserRelative(entity interface{}) (bool, error) {
+func UpdateUserRelative(entity UserRelative, token string) (bool, error) {
 	resp, _ := api.Rest().
+		SetAuthToken(token).
 		SetBody(entity).
 		Post(userRelUrl + "/relative/update")
 	if resp.IsError() {

@@ -8,10 +8,10 @@ import (
 
 const roleUrl = api.BASE_URL + "/demographics"
 
-type Roles domain.Roles
+type Role domain.Role
 
-func GetRoles() ([]domain.Roles, error) {
-	entites := []domain.Roles{}
+func GetRoles() ([]Role, error) {
+	entites := []Role{}
 	resp, _ := api.Rest().Get(roleUrl + "/roles/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -23,8 +23,8 @@ func GetRoles() ([]domain.Roles, error) {
 	return entites, nil
 }
 
-func GetRole(id string) (domain.Roles, error) {
-	entity := domain.Roles{}
+func GetRole(id string) (Role, error) {
+	entity := Role{}
 	resp, _ := api.Rest().Get(roleUrl + "/roles/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
@@ -59,7 +59,6 @@ func UpdateRole(entity interface{}) (bool, error) {
 }
 
 func DeleteRole(entity interface{}) (bool, error) {
-
 	resp, _ := api.Rest().
 		SetBody(entity).
 		Post(roleUrl + "/roles/delete")

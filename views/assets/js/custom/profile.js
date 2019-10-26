@@ -4,17 +4,20 @@ $(document).ready(function(){
 
     /** For all student profile pages starts here**/
     $("#profileForm input").prop("disabled", true);
+    $("#profileForm select").prop("disabled", true);
     $("#updateButton, #clearButton, #cancelButton").hide();
 
     $("#editButton").click(function () {
         $("#profileForm input").prop("disabled", false);
-        $("#updateButton, #clearButton, #cancelButton").show(500);
+        $("#profileForm select").prop("disabled", false);
+        $("#updateButton, #clearButton, #cancelButton").show(1000);
         $(this).hide(500);
     });
 
     $("#cancelButton").click(function () {
         $("#profileForm").trigger("reset");
         $("#profileForm input").prop("disabled", true);
+        $("#profileForm select").prop("disabled", true);
         $("#updateButton, #clearButton, #cancelButton").hide();
         $("#editButton").show(500);
     });
@@ -22,18 +25,33 @@ $(document).ready(function(){
 
     /** Address starts here**/
     $("#addressForm input").prop("disabled", true);
-    $("#addressUpdateBtn, #addressClearBtn").attr("disabled", true);
+    $("#addressUpdateBtn, #addressClearBtn").hide();
 
     $("#addressEditBtn").click(function () {
         $("#addressForm input").prop("disabled", false);
-        $("#addressUpdateBtn, #addressClearBtn").attr("disabled", false);
-        $(this).attr("disabled", true);
+        $("#addressUpdateBtn, #addressClearBtn").show(1000);
+        $(this).hide(500);
     });
 
     $("#addressCancelBtn").click(function () {
         location.href = BASE_URL + "users/student/profile/address";
     });
     /** Address ends here**/
+
+    /** Contact starts here**/
+    $("#contactForm input").prop("disabled", true);
+    $("#contactUpdateBtn, #contactClearBtn").hide();
+
+    $("#contactEditBtn").click(function () {
+        $("#contactForm input").prop("disabled", false);
+        $("#contactUpdateBtn, #contactClearBtn").show(1000);
+        $(this).hide(500);
+    });
+
+    $("#contactCancelBtn").click(function () {
+        location.href = BASE_URL + "users/student/profile/contacts";
+    });
+    /** Contact ends here**/
 
 
    // <!-- guardianForm-->
