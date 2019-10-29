@@ -293,7 +293,9 @@
                                                                     data-style="btn-default btn-outline"
                                                                     data-menu-style="dropdown-blue"
                                                                     placeholder="example: Mr.">
-                                                                <option value="" {{ if not $.StudentTitle.TitleId }} selected {{ end }} disabled>Select Title</option>
+                                                                <option value="" {{ if not $.StudentTitle.TitleId }} selected {{ end }}
+                                                                        disabled>Select Title
+                                                                </option>
                                                                 {{with .Titles }}
                                                                     {{range .}}
                                                                         <option value="{{ .TitleId }}" {{if eq $.StudentTitle.TitleId  .TitleId }} selected {{ end }} >{{ .TitleName }}</option>
@@ -309,7 +311,9 @@
                                                                     data-menu-style="dropdown-blue"
                                                                     name="gender" {{ if $.StudentGender.GenderId }} disabled {{ end }}
                                                                     placeholder="Example:Male">
-                                                                <option value="" {{ if not $.StudentGender.GenderId }} selected {{ end }} disabled>Select Gender</option>
+                                                                <option value="" {{ if not $.StudentGender.GenderId }} selected {{ end }}
+                                                                        disabled>Select Gender
+                                                                </option>
                                                                 {{with .Genders}}
                                                                     {{range .}}
                                                                         <option value="{{ .GenderId }}" {{ if eq .GenderId $.StudentGender.GenderId }} selected {{ end }} >{{ .GenderName }}</option>
@@ -329,7 +333,8 @@
                                                                         name="race" {{ if $.StudentRace.RaceId }} disabled {{ end }}
                                                                         data-menu-style="dropdown-blue"
                                                                         placeholder="Duration">
-                                                                    <option value="" {{ if not $.StudentRace.RaceId }} selected {{ end }} disabled>Select Race
+                                                                    <option value="" {{ if not $.StudentRace.RaceId }} selected {{ end }}
+                                                                            disabled>Select Race
                                                                     </option>
                                                                     {{with .Races}}
                                                                         {{range .}}
@@ -341,40 +346,34 @@
                                                         </div>
                                                     </div>
                                                     <div class="row justify-content-center">
-                                                        <button type="button" id="editButton"
-                                                                class="btn btn-wd btn-warning btn-outline">
-                                                    <span class="btn-label">
-                                                        <i class="fa fa-warning"></i>
-                                                    </span>
+                                                        <button type="button" id="editButton" class="btn btn-wd btn-warning btn-outline">
+                                                            <span class="btn-label">
+                                                                <i class="fa fa-warning"></i>
+                                                            </span>
                                                             Edit
                                                         </button>
-                                                        <button type="submit" id="updateButton"
-                                                                class="btn btn-wd btn-info btn-outline">
-                                                    <span class="btn-label">
-                                                        <i class="fa fa-exclamation"></i>
-                                                    </span>
+                                                        <button type="submit" id="updateButton" class="btn btn-wd btn-info btn-outline">
+                                                            <span class="btn-label">
+                                                                <i class="fa fa-exclamation"></i>
+                                                            </span>
                                                             Update
                                                         </button>
                                                         <button type="reset" id="clearButton"
                                                                 class="btn btn-wd btn-danger btn-outline">
-                                                    <span class="btn-label">
-                                                        <i class="fa fa-times"></i>
-                                                    </span>
+                                                            <span class="btn-label">
+                                                                <i class="fa fa-times"></i>
+                                                            </span>
                                                             Clear
                                                         </button>
-
                                                         <button type="button" id="cancelButton"
                                                                 class="btn btn-wd btn-outline">
-                                                    <span class="btn-label">
-                                                        <i class="fa fa-arrow-left"></i>
-                                                    </span>
+                                                            <span class="btn-label">
+                                                                <i class="fa fa-arrow-left"></i>
+                                                            </span>
                                                             Cancel
                                                         </button>
-
                                                         <div class="clearfix"></div>
-
                                                     </div>
-
                                                 </form>
                                             </div>
                                             <!--div class="col-md-6">

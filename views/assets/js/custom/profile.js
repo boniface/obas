@@ -2,7 +2,7 @@ $(document).ready(function(){
 
     const BASE_URL = "http://localhost:4000/";
 
-    /** For all student profile pages starts here**/
+    /** student profile pages starts here**/
     $("#profileForm input").prop("disabled", true);
     $("#profileForm select").prop("disabled", true);
     $("#updateButton, #clearButton, #cancelButton").hide();
@@ -18,10 +18,9 @@ $(document).ready(function(){
         $("#profileForm").trigger("reset");
         $("#profileForm input").prop("disabled", true);
         $("#profileForm select").prop("disabled", true);
-        $("#updateButton, #clearButton, #cancelButton").hide();
+        $("#updateButton, #clearButton, #cancelButton").hide(1000);
         $("#editButton").show(500);
     });
-    /** profile ends here**/
 
     /** Address starts here**/
     $("#addressForm input").prop("disabled", true);
@@ -53,16 +52,27 @@ $(document).ready(function(){
     });
     /** Contact ends here**/
 
+    /** District starts here **/
+    // $("#provinceForm select").prop("disabled", true);
+    // $("#districtForm select").prop("disabled", true);
+    // $("#townForm select").prop("disabled", true);
+    // $("#townUpdateBtn, #townClearBtn, #townCancelBtn, #districtBtn, #townBtn").hide();
+    // $("#townEditBtn").click(function() {
+    //     $("#provinceForm select").prop("disabled", false);
+    //     $("#districtForm select").prop("disabled", false);
+    //     $("#townForm select").prop("disabled", false);
+    //     $(this).hide();
+    //     $("#townUpdateBtn, #townClearBtn, #townCancelBtn, #districtBtn").show();
+    // });
+    // $("#townCancelBtn").click(function () {
+    //     $("#provinceForm, #districtForm, #townForm").trigger("reset");
+    //     $("#provinceForm select").prop("disabled", true);
+    //     $("#districtForm select").prop("disabled", true);
+    //     $("#townForm select").prop("disabled", true);
+    //     $("#townUpdateBtn, #townClearBtn, #townCancelBtn, #districtBtn, #townBtn").hide();
+    //     $("#townEditBtn").show();
+    // });
+    /** District ends here **/
 
-   // <!-- guardianForm-->
-    $("#guardianForm input").prop("disabled",true);
-    $("#guardianupdateButton, #guardianclearButton, #guardiancancelButton").attr("disabled",true);
-
-
-    $("#guardianEditButton").click(function () {
-        $("#guardianForm input").prop("disabled",false);
-        $("#guardianupdateButton,#guardianclearButton,#guardiancancelButton").attr("disabled",false);
-        $("#guardianEditButton").attr("disabled",false);
-    });
-    // <!-- guardianForm-->
+    /** student profile ends here**/
 });
