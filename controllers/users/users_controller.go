@@ -35,6 +35,17 @@ type ContactPlaceHolder struct {
 	ContactDetail string
 }
 
+type DistrictData struct {
+	Student          usersIO.User
+	Provinces        []demograhpyIO.Province
+	Districts        []demograhpyIO.District
+	Towns            []demograhpyIO.Town
+	SelectedProvince demograhpyIO.Province
+	SelectedDistrict demograhpyIO.District
+	SelectedTown     demograhpyIO.Town
+	Alert            PageToast
+}
+
 func Users(app *config.Env) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", UsersHandler(app))
@@ -64,12 +75,335 @@ func Users(app *config.Env) http.Handler {
 	r.Post("/student-profile-demography-update", StudentProfileDemographyUpdateHandler(app))
 	r.Post("/student-profile-password-update", StudentProfilePasswordUpdate(app))
 	r.Post("/student/profile/contact/contacttype", StudentProfileContactTypeHandler(app))
-	r.Post("/student-profile-contact-update", StudentProfileContactUpdate(app))
+	r.Post("/student-profile-contact-update", StudentProfileContactUpdateHandler(app))
+	r.Post("/student/profile/demographics/districts", StudentProfileDistrictsHandler(app))
+	r.Post("/student/profile/demographics/towns", StudentProfileTownsHandler(app))
+	r.Post("/student-profile-town-update", StudentProfileTownUpdateHandler(app))
 
 	return r
 }
 
-func StudentProfileContactUpdate(app *config.Env) http.HandlerFunc {
+func StudentProfileTownUpdateHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		r.ParseForm()
+		townCode := r.PostFormValue("town")
+		userTown := usersIO.UserTown{email, townCode}
+		app.InfoLog.Println("UserTown to update: ", userTown)
+		updated, err := usersIO.UpdateUserTown(userTown, token)
+		successMessage := "User town updated!"
+		failureMessage := "User town NOT updated!"
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+		} else {
+			if updated {
+				setSessionMessage(app, r, successAlertStyle, successMessage)
+			} else {
+				setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+			}
+		}
+		app.InfoLog.Println("Update response is ", updated)
+		http.Redirect(w, r, "/users/student/profile/districts", 301)
+	}
+}
+
+func StudentProfileTownsHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		if email == "" || len(email) <= 0 {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		var alert PageToast
+		var districts []demograhpyIO.District
+		var selectedProvince demograhpyIO.Province
+		var towns []demograhpyIO.Town
+		var selectedDistrict demograhpyIO.District
+		var selectedTown demograhpyIO.Town
+
+		provinces, err := demograhpyIO.GetProvinces()
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			alert = PageToast{dangerAlertStyle, "Could not retrieve provinces!"}
+		} else {
+			r.ParseForm()
+			provinceCode := r.PostFormValue("province")
+			districtCode := r.PostFormValue("district")
+			districtsInProvince, errorAlert := getDistrictsInProvince(app, provinceCode)
+			if errorAlert.AlertInfo != "" {
+				alert = errorAlert
+			} else {
+				districts = districtsInProvince
+				townsInDistrict, errorAlert := getTownsInDistrict(app, districtCode)
+				if errorAlert.AlertInfo != "" {
+					alert = errorAlert
+				} else {
+					towns = townsInDistrict
+				}
+			}
+			selectedProvince = filterProvince(provinces, provinceCode)
+			selectedDistrict = filterDistrict(districts, districtCode)
+		}
+
+		data := DistrictData{
+			user,
+			provinces,
+			districts,
+			towns,
+			selectedProvince,
+			selectedDistrict,
+			selectedTown,
+			alert}
+
+		files := []string{
+			app.Path + "content/student/profile/district_and_municipality.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+	}
+}
+
+func filterDistrict(districts []demograhpyIO.District, districtCode string) demograhpyIO.District {
+	var retdata demograhpyIO.District
+	for _, district := range districts {
+		if district.DistrictCode == districtCode {
+			retdata = district
+			break
+		}
+	}
+	return retdata
+}
+
+func getTownsInDistrict(app *config.Env, districtCode string) ([]demograhpyIO.Town, PageToast) {
+	var towns []demograhpyIO.Town
+	var alert PageToast
+	townsInDistrict, err := demograhpyIO.GetTownsInDistrict(districtCode)
+	if err != nil {
+		app.ErrorLog.Println(err.Error())
+		alert = PageToast{dangerAlertStyle, "Could not retrieve towns in district!"}
+		return towns, alert
+	}
+	for _, districtTown := range townsInDistrict {
+		town, err := demograhpyIO.GetTown(districtTown.TownCode)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		} else {
+			towns = append(towns, town)
+		}
+	}
+	return towns, alert
+}
+
+func StudentProfileDistrictsHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		if email == "" || len(email) <= 0 {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		var alert PageToast
+		var districts []demograhpyIO.District
+		var selectedProvince demograhpyIO.Province
+		var towns []demograhpyIO.Town
+		var selectedDistrict demograhpyIO.District
+		var selectedTown demograhpyIO.Town
+
+		provinces, err := demograhpyIO.GetProvinces()
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			alert = PageToast{dangerAlertStyle, "Could not retrieve provinces!"}
+		} else {
+			r.ParseForm()
+			provinceCode := r.PostFormValue("province")
+			districtsInProvince, errorAlert := getDistrictsInProvince(app, provinceCode)
+			if errorAlert.AlertInfo != "" {
+				alert = errorAlert
+			} else {
+				districts = districtsInProvince
+			}
+			selectedProvince = filterProvince(provinces, provinceCode)
+		}
+
+		data := DistrictData{
+			user,
+			provinces,
+			districts,
+			towns,
+			selectedProvince,
+			selectedDistrict,
+			selectedTown,
+			alert}
+		files := []string{
+			app.Path + "content/student/profile/district_and_municipality.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+	}
+}
+
+func filterProvince(provinces []demograhpyIO.Province, provinceCode string) demograhpyIO.Province {
+	var retdata demograhpyIO.Province
+	for _, province := range provinces {
+		if province.ProvinceCode == provinceCode {
+			retdata = province
+			break
+		}
+	}
+	return retdata
+}
+
+func getDistrictsInProvince(app *config.Env, provinceCode string) ([]demograhpyIO.District, PageToast) {
+	var districts []demograhpyIO.District
+	var alert PageToast
+	districtsInProvince, err := demograhpyIO.GetDistrictsInProvince(provinceCode)
+	if err != nil {
+		app.ErrorLog.Println(err.Error())
+		alert = PageToast{dangerAlertStyle, "Could not retrieve districts in province!"}
+		return districts, alert
+	}
+	for _, provinceDistrict := range districtsInProvince {
+		district, err := demograhpyIO.GetDistrict(provinceDistrict.DistrictCode)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		} else {
+			districts = append(districts, district)
+		}
+	}
+	return districts, alert
+
+}
+
+func StudentProfileDistrictHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		if email == "" || len(email) <= 0 {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+
+		var alert PageToast
+		var selectedProvince demograhpyIO.Province
+		var districts []demograhpyIO.District
+		var towns []demograhpyIO.Town
+		var selectedDistrict demograhpyIO.District
+		var selectedTown demograhpyIO.Town
+
+		provinces, err := demograhpyIO.GetProvinces()
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			alert = PageToast{dangerAlertStyle, "Could not retrieve provinces!"}
+		} else {
+			userTown, err := usersIO.ReadUserTown(email)
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+				alert = PageToast{dangerAlertStyle, "Could not retrieve user town!"}
+			} else {
+				districtTown, err := demograhpyIO.GetDistrictForTown(userTown.TownCode)
+				if err != nil {
+					app.ErrorLog.Println(err.Error())
+					alert = PageToast{dangerAlertStyle, "Could not retrieve district for town!"}
+				} else {
+					provinceDistrict, err := demograhpyIO.GetProvinceForDistrict(districtTown.DistrictCode)
+					if err != nil {
+						app.ErrorLog.Println(err.Error())
+						alert = PageToast{dangerAlertStyle, "Could not retrieve province for district!"}
+					} else {
+						selectedProvince = filterProvince(provinces, provinceDistrict.ProvinceCode)
+						districtsInProvince, errorAlert := getDistrictsInProvince(app, provinceDistrict.ProvinceCode)
+						if errorAlert.AlertInfo != "" {
+							alert = errorAlert
+						} else {
+							districts = districtsInProvince
+							selectedDistrict = filterDistrict(districts, districtTown.DistrictCode)
+							townsInDistrict, errorAlert := getTownsInDistrict(app, districtTown.DistrictCode)
+							if errorAlert.AlertInfo != "" {
+								alert = errorAlert
+							} else {
+								towns = townsInDistrict
+								for _, town := range towns {
+									if town.TownCode == districtTown.TownCode {
+										selectedTown = town
+										break
+									}
+								}
+								message := app.Session.GetString(r.Context(), "message")
+								messageType := app.Session.GetString(r.Context(), "message-type")
+								if message != "" && messageType != "" {
+									alert = PageToast{messageType, message}
+									app.Session.Remove(r.Context(), "message")
+									app.Session.Remove(r.Context(), "message-type")
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		data := DistrictData{
+			user,
+			provinces,
+			districts,
+			towns,
+			selectedProvince,
+			selectedDistrict,
+			selectedTown,
+			alert}
+
+		files := []string{
+			app.Path + "content/student/profile/district_and_municipality.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+	}
+}
+
+func StudentProfileContactUpdateHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		email := app.Session.GetString(r.Context(), "userId")
 		token := app.Session.GetString(r.Context(), "token")
@@ -420,7 +754,7 @@ func StudentProfileDemographyHandler(app *config.Env) http.HandlerFunc {
 		}
 
 		data := PageData{user, titles, genders, races, alert, title, gender, race}
-		app.InfoLog.Println("PageData: ", data.Alert)
+		app.InfoLog.Println("DistrictData: ", data.Alert)
 		files := []string{
 			app.Path + "content/student/profile/demography.html",
 		}
@@ -571,40 +905,6 @@ func StudentProfileCourseHandler(app *config.Env) http.HandlerFunc {
 		}
 	}
 
-}
-
-func StudentProfileDistrictHandler(app *config.Env) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		email := app.Session.GetString(r.Context(), "userId")
-		if email == "" || len(email) <= 0 {
-			http.Redirect(w, r, "/login", 301)
-			return
-		}
-		user, err := usersIO.GetUser(email)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			http.Redirect(w, r, "/login", 301)
-			return
-		}
-
-		type PageData struct {
-			Student usersIO.User
-		}
-
-		data := PageData{user}
-		files := []string{
-			app.Path + "content/student/profile/district_and_municipality.html",
-		}
-		ts, err := template.ParseFiles(files...)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			return
-		}
-		err = ts.Execute(w, data)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-		}
-	}
 }
 
 func StudentProfileRelativeHandler(app *config.Env) http.HandlerFunc {
