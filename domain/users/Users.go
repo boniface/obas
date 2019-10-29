@@ -82,3 +82,8 @@ type UserSubjects struct {
 	Description   string `json:"description"`
 	Term          string `json:"term"`
 }
+
+type UserTown struct {
+	UserId string `json:"userId"`
+	TownCode string `json:"townCode"`
+}
