@@ -12817,6 +12817,10 @@ ul, li {
     background-color: #006837;
 }
 
+.full-width {
+    width: 100%;
+}
+
 /** custom style ends here */
 
 

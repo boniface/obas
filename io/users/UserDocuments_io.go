@@ -8,24 +8,24 @@ import (
 
 const userDocUrl = api.BASE_URL + "/users"
 
-type UserDocuments domain.UserDocuments
+type UserDocument domain.UserDocument
 
-func GetUserDocuments() ([]UserDocuments, error) {
-	entites := []UserDocuments{}
-	resp, _ := api.Rest().Get(userDocUrl + "/documents/all")
+func GetUserDocuments(userId string) ([]UserDocument, error) {
+	entities := []UserDocument{}
+	resp, _ := api.Rest().Get(userDocUrl + "/documents/get/" + userId)
 
 	if resp.IsError() {
-		return entites, errors.New(resp.Status())
+		return entities, errors.New(resp.Status())
 	}
-	err := api.JSON.Unmarshal(resp.Body(), &entites)
+	err := api.JSON.Unmarshal(resp.Body(), &entities)
 	if err != nil {
-		return entites, errors.New(resp.Status())
+		return entities, errors.New(resp.Status())
 	}
-	return entites, nil
+	return entities, nil
 }
 
-func GetUserDocument(id string) (UserDocuments, error) {
-	entity := UserDocuments{}
+func GetUserDocument(id string) (UserDocument, error) {
+	entity := UserDocument{}
 	resp, _ := api.Rest().Get(userDocUrl + "/documents/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
@@ -37,8 +37,9 @@ func GetUserDocument(id string) (UserDocuments, error) {
 	return entity, nil
 }
 
-func CreateUserDocument(entity interface{}) (bool, error) {
+func CreateUserDocument(entity UserDocument, token string) (bool, error) {
 	resp, _ := api.Rest().
+		SetAuthToken(token).
 		SetBody(entity).
 		Post(userDocUrl + "/documents/create")
 	if resp.IsError() {
@@ -48,7 +49,7 @@ func CreateUserDocument(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateUserDocument(entity interface{}) (bool, error) {
+func UpdateUserDocument(entity UserDocument, token string) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
 		Post(userDocUrl + "/documents/update")
