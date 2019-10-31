@@ -12,6 +12,9 @@ type DocumentType domain.DocumentType
 
 func GetDocumentTypes() ([]DocumentType, error) {
 	entites := []DocumentType{}
+	//d1 := DocumentType{"1", "Matric"}
+	//d2 := DocumentType{"2", "Identification"}
+	//entites = []DocumentType{d1, d2}
 	resp, _ := api.Rest().Get(documentTypeUrl + "/type/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())

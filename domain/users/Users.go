@@ -43,8 +43,8 @@ type UserDemographics struct {
 	RaceId   string `json:"raceId"`
 }
 
-type UserDocuments struct {
-	UserDocumentsId string `json:"userDocumentsId"`
+type UserDocument struct {
+	UserId string `json:"userId"`
 	DocumentId      string `json:"documentId"`
 }
 

@@ -7,7 +7,9 @@ import (
 	"obas/config"
 	addressIO "obas/io/address"
 	demograhpyIO "obas/io/demographics"
+	documentIO "obas/io/documents"
 	loginIO "obas/io/login"
+	storageIO "obas/io/storage"
 	usersIO "obas/io/users"
 	"strings"
 	"time"
@@ -79,8 +81,163 @@ func Users(app *config.Env) http.Handler {
 	r.Post("/student/profile/demographics/districts", StudentProfileDistrictsHandler(app))
 	r.Post("/student/profile/demographics/towns", StudentProfileTownsHandler(app))
 	r.Post("/student-profile-town-update", StudentProfileTownUpdateHandler(app))
+	r.Post("/student-document-file-upload", StudentDocumentsUploadHandler(app))
 
 	return r
+}
+
+func StudentDocumentsUploadHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		r.ParseMultipartForm(10 << 20)
+		documentTypeId := r.PostFormValue("documenttype")
+		file, handler, err := r.FormFile("file")
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		} else {
+			fileName := handler.Filename
+			successMessage := "File: " + fileName + " updated!"
+			failureMessage := "File: " + fileName + " NOT updated!"
+			app.InfoLog.Println("File Name: ", fileName)
+			app.InfoLog.Println("File Size: ", handler.Size)
+			app.InfoLog.Println("File Header: ", handler.Header)
+
+			fileData, err := storageIO.UploadFile(file, token)
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+				setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+			} else {
+				document := documentIO.Document{
+					fileData.Id,
+					documentTypeId,
+					fileName,
+					fileData.Url,
+					handler.Header.Get("Content-Type"),
+					time.Now(),
+					"", ""}
+				app.InfoLog.Println("Document to create: ", document)
+				documentSaved, err := documentIO.CreateDocument(document, token)
+				if err != nil {
+					app.ErrorLog.Println(err.Error())
+					setSessionMessage(app, r, dangerAlertStyle, "Document NOT saved!")
+				} else {
+					if documentSaved {
+						userDocument := usersIO.UserDocument{email, fileData.Id}
+						app.InfoLog.Println("User document to save: ", userDocument)
+						userDocumentSaved, err := usersIO.UpdateUserDocument(userDocument, token)
+						if err != nil {
+							app.ErrorLog.Println(err.Error())
+							setSessionMessage(app, r, dangerAlertStyle, "User document saved!")
+						} else {
+							if userDocumentSaved {
+								setSessionMessage(app, r, successAlertStyle, successMessage)
+							} else {
+								setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+							}
+						}
+					} else {
+						setSessionMessage(app, r, dangerAlertStyle, "User document NOT saved!")
+					}
+				}
+			}
+		}
+		http.Redirect(w, r, "/users/student/documents", 301)
+	}
+}
+
+func StudentDocumentsHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		if email == "" || len(email) <= 0 {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		type DocumentData struct {
+			Document documentIO.Document
+			DocumentType string
+			DocumentDate string
+			DocumentStatusBadge string
+		}
+		var alert PageToast
+		var documentTypes []documentIO.DocumentType
+		var userDocuments []DocumentData
+		documentTypes, err = documentIO.GetDocumentTypes()
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			alert = PageToast{dangerAlertStyle, "Could not retrieve document types!"}
+		}
+
+		userDocumentsObj, err := usersIO.GetUserDocuments(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			alert = PageToast{dangerAlertStyle, "Could not retrieve user documents!"}
+		} else {
+			for _, userDocument := range userDocumentsObj {
+				documentId := userDocument.DocumentId
+				document, err := documentIO.GetDocument(documentId)
+				if err != nil {
+					app.ErrorLog.Println(err.Error())
+					alert = PageToast{dangerAlertStyle, "Could not retrieve document for id: " + documentId}
+				} else {
+					documentType, err := documentIO.GetDocumentType(document.DocumentTypeId)
+					if err != nil {
+						app.ErrorLog.Println(err.Error())
+						alert = PageToast{dangerAlertStyle, "Could not retrieve document type for document!"}
+					} else {
+						date := getDate_YYYYMMDD(document.Date.String())
+						var progressBadge string
+						documentStatus := document.DocumentStatus
+						if documentStatus == "Approved" {
+							progressBadge = "badge-success"
+						} else if documentStatus == "Not Approved" {
+							progressBadge = "badge-danger"
+						} else {
+							progressBadge = "badge-orange"
+						}
+						documentData := DocumentData{document, documentType.DocumentTypeName, date, progressBadge}
+						userDocuments = append(userDocuments, documentData)
+					}
+				}
+			}
+		}
+
+		type PageData struct {
+			Student       usersIO.User
+			DocumentTypes []documentIO.DocumentType
+			UserDocuments []DocumentData
+			Alert         PageToast
+		}
+		data := PageData{
+			user,
+			documentTypes,
+			userDocuments,
+			alert,
+		}
+		files := []string{
+			app.Path + "content/student/student_documents.html",
+		}
+
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+	}
 }
 
 func StudentProfileTownUpdateHandler(app *config.Env) http.HandlerFunc {
@@ -1151,7 +1308,7 @@ func StudentProfilePersonalHandler(app *config.Env) http.HandlerFunc {
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
-		dobString := strings.Split(user.DateOfBirth.String(), " ")[0] // split date and get in format: yyy-mm-dd
+		dobString := getDate_YYYYMMDD(user.DateOfBirth.String()) // split date and get in format: yyy-mm-dd
 
 		type PageData struct {
 			Student     usersIO.User
@@ -1172,6 +1329,10 @@ func StudentProfilePersonalHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 		}
 	}
+}
+
+func getDate_YYYYMMDD(dateString string) string {
+	return strings.Split(dateString, " ")[0]
 }
 
 func UpdateStudentProfilePersonalHandler(app *config.Env) http.HandlerFunc {
@@ -1347,27 +1508,6 @@ func StudentContactsHandler(app *config.Env) http.HandlerFunc {
 		err = ts.ExecuteTemplate(w, "base", data)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
-		}
-
-	}
-}
-
-func StudentDocumentsHandler(app *config.Env) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		files := []string{
-
-			app.Path + "content/student/Student_Documents.html",
-		}
-
-		ts, err := template.ParseFiles(files...)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			return
-		}
-		err = ts.Execute(w, nil)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-
 		}
 
 	}

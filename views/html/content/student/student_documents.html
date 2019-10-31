@@ -63,7 +63,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="collapse" href="#profileMenu" >
+                    <a class="nav-link" data-toggle="collapse" href="#profileMenu">
                         <i class="nc-icon nc-single-02"></i>
                         <p>
                             Profile
@@ -170,7 +170,7 @@
                             <i class="fa fa-navicon visible-on-sidebar-mini"></i>
                         </button>
                     </div>
-                    <a class="navbar-brand" href="#pablo"> User Page </a>
+                    <a class="navbar-brand" href="#pablo"> Student Documents </a>
                 </div>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                         aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -248,41 +248,38 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="card green">
-                    <div class="row ">
-                        <div class="col-md-8">
-                            <form id="addressTypeForm" method="post"
-                                  action="">
-                                <div class="form-group ">
-                                    <div class="col-md-8">
-                                        <label class="control-label label-font-color">Document Type</label>
-                                        <select name="addresstypes" class="selectpicker"
-                                                data-title="address type"
-                                                data-style="btn-default btn-outline"
-                                                data-menu-style="dropdown-blue">
-                                            <option value="" disabled selected>Select Document Type</option>
-                                            <option value="1">Color</option>
-                                            <option value="1">Rouge</option>
-                                            <option value="1">Blue</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-8">
-                                            <input type="file" name="file" class="form-control-file" placeholder="Choose Document"
-                                                   id="exampleFormControlFile1"></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-8">
-                                            <button type="submit" id="documentUpdateBtn"
-                                                    class="btn btn-wd btn-info btn-outline">
-                                             <span class="btn-label"><i class="fa "></i>
-                                             </span>Upload document
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+                    <form id="documentForm" enctype="multipart/form-data" method="post"
+                          action="/users/student-document-file-upload">
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+                                <label class="control-label label-font-color">Document Type</label>
+                                <select name="documenttype" class="selectpicker"
+                                        data-style="btn-default btn-outline"
+                                        data-menu-style="dropdown-blue">
+                                    <option value="" disabled selected>Select Document Type</option>
+                                    {{with .DocumentTypes}}
+                                        {{range .}}
+                                            <option value={{ .DocumentTypeId }}>{{ .DocumentTypeName }}</option>
+                                        {{end}}
+                                    {{end}}
+                                </select>
+                            </div>
                         </div>
-                    </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-4">
+                                <input type="file" name="file" class="form-control"
+                                       placeholder="Choose Document"
+                                       id="file">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" id="documentUpdateBtn"
+                                        class="btn btn-wd btn-info btn-outline full-width">
+                                             <span class="btn-label">
+                                             </span>Upload
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
 
@@ -304,22 +301,26 @@
                                     <th data-field="name" data-sortable="true">Document Type</th>
                                     <th data-field="salary" data-sortable="true">Document description</th>
                                     <th data-field="country" data-sortable="true">Date</th>
+                                    <th data-field="status" data-sortable="true">Status</th>
                                     <th data-field="actions" class="td-actions text-right" data-events="operateEvents"
                                         data-formatter="operateFormatter">Actions
                                     </th>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td>1</td>
-                                        <td>Dakota Rice</td>
-                                        <td>$36,738</td>
-                                        <td>Oud-Turnhout</td>
-                                        <td></td>
-                                    </tr>
 
-
-
+                                    {{ with .UserDocuments }}
+                                        {{ range .}}
+                                            <tr>
+                                                <td></td>
+                                                <td> {{ .Document.DocumentId }}</td>
+                                                <td>{{ .DocumentType }}</td>
+                                                <td>{{ .Document.Description }}/td>
+                                                <td>{{ .DocumentDate }}</td>
+                                                <td><span class="badge {{ .DocumentStatusBadge }}">{{ .Document.DocumentStatus }}</span></td>
+                                                <td></td>
+                                            </tr>
+                                        {{ end }}
+                                    {{ end }}
                                     </tbody>
                                 </table>
                             </div>
