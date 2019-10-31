@@ -336,11 +336,13 @@ func StudentProfileDistrictHandler(app *config.Env) http.HandlerFunc {
 				app.ErrorLog.Println(err.Error())
 				alert = PageToast{dangerAlertStyle, "Could not retrieve user town!"}
 			} else {
+				app.InfoLog.Println("Here is the user town: ", userTown)
 				districtTown, err := demograhpyIO.GetDistrictForTown(userTown.TownCode)
 				if err != nil {
 					app.ErrorLog.Println(err.Error())
 					alert = PageToast{dangerAlertStyle, "Could not retrieve district for town!"}
 				} else {
+					app.InfoLog.Println("Here is the districtTown: ", districtTown)
 					provinceDistrict, err := demograhpyIO.GetProvinceForDistrict(districtTown.DistrictCode)
 					if err != nil {
 						app.ErrorLog.Println(err.Error())
