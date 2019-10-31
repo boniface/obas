@@ -247,6 +247,14 @@
         <!-- End Navbar -->
         <div class="content">
             <div class="container-fluid">
+                {{ if .Alert.AlertType }}
+                    <div class="alert {{ .Alert.AlertType }}">
+                        <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
+                            <i class="nc-icon nc-simple-remove"></i>
+                        </button>
+                        <span>{{ .Alert.AlertInfo }}</span>
+                    </div>
+                {{ end }}
                 <div class="card green">
                     <form id="documentForm" enctype="multipart/form-data" method="post"
                           action="/users/student-document-file-upload">
@@ -259,7 +267,7 @@
                                     <option value="" disabled selected>Select Document Type</option>
                                     {{with .DocumentTypes}}
                                         {{range .}}
-                                            <option value={{ .DocumentTypeId }}>{{ .DocumentTypeName }}</option>
+                                            <option value={{ .DocumentTypeId }}>{{ .DocumentTypename }}</option>
                                         {{end}}
                                     {{end}}
                                 </select>

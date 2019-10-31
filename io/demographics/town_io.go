@@ -66,7 +66,7 @@ func GetTownsInDistrict(districtCode string) ([]DistictTown, error) {
 	//	entities = append(entities, DistictTown{districtCode, "4"})
 	//	entities = append(entities, DistictTown{districtCode, "5"})
 	//}
-	resp, _ := api.Rest().Get(districtTownURL + "/get/" + districtCode)
+	resp, _ := api.Rest().Get(districtTownURL + "/gettowns/" + districtCode)
 	if resp.IsError() {
 		return entities, errors.New(resp.Status())
 	}
@@ -80,7 +80,7 @@ func GetTownsInDistrict(districtCode string) ([]DistictTown, error) {
 func GetDistrictForTown(townCode string) (DistictTown, error) {
 	entity := DistictTown{}
 	//entity = DistictTown{"1", townCode}
-	resp, _ := api.Rest().Get(districtTownURL + "/get/district/" + townCode)
+	resp, _ := api.Rest().Get(districtTownURL + "/gettowndistrict/" + townCode)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}

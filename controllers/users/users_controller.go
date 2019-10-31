@@ -164,9 +164,9 @@ func StudentDocumentsHandler(app *config.Env) http.HandlerFunc {
 			return
 		}
 		type DocumentData struct {
-			Document documentIO.Document
-			DocumentType string
-			DocumentDate string
+			Document            documentIO.Document
+			DocumentType        string
+			DocumentDate        string
 			DocumentStatusBadge string
 		}
 		var alert PageToast
@@ -205,7 +205,7 @@ func StudentDocumentsHandler(app *config.Env) http.HandlerFunc {
 						} else {
 							progressBadge = "badge-orange"
 						}
-						documentData := DocumentData{document, documentType.DocumentTypeName, date, progressBadge}
+						documentData := DocumentData{document, documentType.DocumentTypename, date, progressBadge}
 						userDocuments = append(userDocuments, documentData)
 					}
 				}
@@ -493,13 +493,11 @@ func StudentProfileDistrictHandler(app *config.Env) http.HandlerFunc {
 				app.ErrorLog.Println(err.Error())
 				alert = PageToast{dangerAlertStyle, "Could not retrieve user town!"}
 			} else {
-				app.InfoLog.Println("Here is the user town: ", userTown)
 				districtTown, err := demograhpyIO.GetDistrictForTown(userTown.TownCode)
 				if err != nil {
 					app.ErrorLog.Println(err.Error())
 					alert = PageToast{dangerAlertStyle, "Could not retrieve district for town!"}
 				} else {
-					app.InfoLog.Println("Here is the districtTown: ", districtTown)
 					provinceDistrict, err := demograhpyIO.GetProvinceForDistrict(districtTown.DistrictCode)
 					if err != nil {
 						app.ErrorLog.Println(err.Error())

@@ -19,6 +19,7 @@ func GetDocumentTypes() ([]DocumentType, error) {
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
+	println(resp.Body())
 	err := api.JSON.Unmarshal(resp.Body(), &entites)
 	if err != nil {
 		return entites, errors.New(resp.Status())
