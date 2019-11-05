@@ -164,9 +164,9 @@ func StudentDocumentsHandler(app *config.Env) http.HandlerFunc {
 			return
 		}
 		type DocumentData struct {
-			Document documentIO.Document
-			DocumentType string
-			DocumentDate string
+			Document            documentIO.Document
+			DocumentType        string
+			DocumentDate        string
 			DocumentStatusBadge string
 		}
 		var alert PageToast
@@ -205,7 +205,7 @@ func StudentDocumentsHandler(app *config.Env) http.HandlerFunc {
 						} else {
 							progressBadge = "badge-orange"
 						}
-						documentData := DocumentData{document, documentType.DocumentTypeName, date, progressBadge}
+						documentData := DocumentData{document, documentType.DocumentTypename, date, progressBadge}
 						userDocuments = append(userDocuments, documentData)
 					}
 				}

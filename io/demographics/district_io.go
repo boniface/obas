@@ -56,7 +56,7 @@ func GetDistrictsInProvince(provinceCode string) ([]ProvinceDistrict, error) {
 	//	entities = append(entities, ProvinceDistrict{provinceCode, "2"})
 	//	entities = append(entities, ProvinceDistrict{provinceCode, "3"})
 	//}
-	resp, _ := api.Rest().Get(provinceDistrictURL + "/get/" + provinceCode)
+	resp, _ := api.Rest().Get(provinceDistrictURL + "/getdistricts/" + provinceCode)
 	if resp.IsError() {
 		return entities, errors.New(resp.Status())
 	}
@@ -70,7 +70,7 @@ func GetDistrictsInProvince(provinceCode string) ([]ProvinceDistrict, error) {
 func GetProvinceForDistrict(districtCode string) (ProvinceDistrict, error) {
 	entity := ProvinceDistrict{}
 	//entity = ProvinceDistrict{"2", districtCode}
-	resp, _ := api.Rest().Get(provinceDistrictURL + "/get/province/" + districtCode)
+	resp, _ := api.Rest().Get(provinceDistrictURL + "/getdistrictprovince/" + districtCode)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
