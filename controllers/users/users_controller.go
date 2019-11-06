@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/go-chi/chi"
 	"html/template"
+	"io"
 	"net/http"
 	"obas/config"
 	addressIO "obas/io/address"
@@ -11,6 +12,7 @@ import (
 	loginIO "obas/io/login"
 	storageIO "obas/io/storage"
 	usersIO "obas/io/users"
+	"os"
 	"strings"
 	"time"
 )
@@ -99,49 +101,66 @@ func StudentDocumentsUploadHandler(app *config.Env) http.HandlerFunc {
 		file, handler, err := r.FormFile("file")
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
+			setSessionMessage(app, r, dangerAlertStyle, "Internal Server Error!")
 		} else {
-			fileName := handler.Filename
-			successMessage := "File: " + fileName + " updated!"
-			failureMessage := "File: " + fileName + " NOT updated!"
-			app.InfoLog.Println("File Name: ", fileName)
-			app.InfoLog.Println("File Size: ", handler.Size)
-			app.InfoLog.Println("File Header: ", handler.Header)
-
-			fileData, err := storageIO.UploadFile(file, token)
+			defer file.Close()
+			tempFilePath := "temp_file/" + handler.Filename
+			tempFile, err := os.OpenFile(tempFilePath, os.O_WRONLY|os.O_CREATE, 0666)
 			if err != nil {
 				app.ErrorLog.Println(err.Error())
-				setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+				setSessionMessage(app, r, dangerAlertStyle, "Internal Server Error!")
 			} else {
-				document := documentIO.Document{
-					fileData.Id,
-					documentTypeId,
-					fileName,
-					fileData.Url,
-					handler.Header.Get("Content-Type"),
-					time.Now(),
-					"", ""}
-				app.InfoLog.Println("Document to create: ", document)
-				documentSaved, err := documentIO.CreateDocument(document, token)
+				defer tempFile.Close()
+				io.Copy(tempFile, file)
+				fileName := handler.Filename
+				successMessage := "File: " + fileName + " updated!"
+				failureMessage := "File: " + fileName + " NOT updated!"
+				app.InfoLog.Println("File Name: ", fileName)
+				app.InfoLog.Println("File Size: ", handler.Size)
+				app.InfoLog.Println("File Header: ", handler.Header)
+
+				fileData, err := storageIO.UploadFile(tempFilePath, token)
+				os.Remove(tempFilePath)
 				if err != nil {
 					app.ErrorLog.Println(err.Error())
-					setSessionMessage(app, r, dangerAlertStyle, "Document NOT saved!")
+					setSessionMessage(app, r, dangerAlertStyle, failureMessage)
 				} else {
-					if documentSaved {
-						userDocument := usersIO.UserDocument{email, fileData.Id}
-						app.InfoLog.Println("User document to save: ", userDocument)
-						userDocumentSaved, err := usersIO.UpdateUserDocument(userDocument, token)
+					if strings.Contains(fileData.Id, "error") {
+						app.ErrorLog.Println(fileData.Id)
+						setSessionMessage(app, r, dangerAlertStyle, "Internal Server Error!")
+					} else {
+						document := documentIO.Document{
+							fileData.Id,
+							documentTypeId,
+							fileName,
+							fileData.Url,
+							handler.Header.Get("Content-Type"),
+							time.Now(),
+							"", ""}
+						app.InfoLog.Println("Document to create: ", document)
+						documentSaved, err := documentIO.CreateDocument(document, token)
 						if err != nil {
 							app.ErrorLog.Println(err.Error())
-							setSessionMessage(app, r, dangerAlertStyle, "User document saved!")
+							setSessionMessage(app, r, dangerAlertStyle, "Document NOT saved!")
 						} else {
-							if userDocumentSaved {
-								setSessionMessage(app, r, successAlertStyle, successMessage)
+							if documentSaved {
+								userDocument := usersIO.UserDocument{email, fileData.Id}
+								app.InfoLog.Println("User document to save: ", userDocument)
+								userDocumentSaved, err := usersIO.UpdateUserDocument(userDocument, token)
+								if err != nil {
+									app.ErrorLog.Println(err.Error())
+									setSessionMessage(app, r, dangerAlertStyle, "User document saved!")
+								} else {
+									if userDocumentSaved {
+										setSessionMessage(app, r, successAlertStyle, successMessage)
+									} else {
+										setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+									}
+								}
 							} else {
-								setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+								setSessionMessage(app, r, dangerAlertStyle, "User document NOT saved!")
 							}
 						}
-					} else {
-						setSessionMessage(app, r, dangerAlertStyle, "User document NOT saved!")
 					}
 				}
 			}
@@ -187,13 +206,11 @@ func StudentDocumentsHandler(app *config.Env) http.HandlerFunc {
 				documentId := userDocument.DocumentId
 				document, err := documentIO.GetDocument(documentId)
 				if err != nil {
-					app.ErrorLog.Println(err.Error())
-					alert = PageToast{dangerAlertStyle, "Could not retrieve document for id: " + documentId}
+					app.ErrorLog.Println(err.Error() + " - Could not retrieve document for id: " + documentId)
 				} else {
 					documentType, err := documentIO.GetDocumentType(document.DocumentTypeId)
 					if err != nil {
-						app.ErrorLog.Println(err.Error())
-						alert = PageToast{dangerAlertStyle, "Could not retrieve document type for document!"}
+						app.ErrorLog.Println(err.Error() + " - Could not retrieve document type for document!")
 					} else {
 						date := getDate_YYYYMMDD(document.Date.String())
 						var progressBadge string
@@ -209,6 +226,13 @@ func StudentDocumentsHandler(app *config.Env) http.HandlerFunc {
 						userDocuments = append(userDocuments, documentData)
 					}
 				}
+			}
+			message := app.Session.GetString(r.Context(), "message")
+			messageType := app.Session.GetString(r.Context(), "message-type")
+			if message != "" && messageType != "" {
+				alert = PageToast{messageType, message}
+				app.Session.Remove(r.Context(), "message")
+				app.Session.Remove(r.Context(), "message-type")
 			}
 		}
 
