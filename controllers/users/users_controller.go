@@ -220,7 +220,7 @@ func StudentDocumentsHandler(app *config.Env) http.HandlerFunc {
 						} else if documentStatus == "Not Approved" {
 							progressBadge = "badge-danger"
 						} else {
-							progressBadge = "badge-orange"
+							progressBadge = "badge-warning"
 						}
 						documentData := DocumentData{document, documentType.DocumentTypename, date, progressBadge}
 						userDocuments = append(userDocuments, documentData)
