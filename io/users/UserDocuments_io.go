@@ -51,6 +51,7 @@ func CreateUserDocument(entity UserDocument, token string) (bool, error) {
 
 func UpdateUserDocument(entity UserDocument, token string) (bool, error) {
 	resp, _ := api.Rest().
+		SetAuthToken(token).
 		SetBody(entity).
 		Post(userDocUrl + "/documents/update")
 	if resp.IsError() {
