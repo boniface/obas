@@ -73,7 +73,7 @@ func Users(app *config.Env) http.Handler {
 	r.Get("/student/profile/contacts", StudentProfileContactsHandler(app))
 	r.Get("/student/profile/application", StudentProfileApplicationHandler(app))
 	r.Get("/student/profile/application_process", StudentProfileApplicationProcessHandler(app))
-	r.Get("/student/profile/documents", StudentProfileDocumentsHandler(app))
+	r.Get("/student/application/documents", StudentProfileDocumentsHandler(app))
 
 	r.Post("/student/profile/personal/update", UpdateStudentProfilePersonalHandler(app))
 	r.Post("/student/profile/address/addresstype", StudentProfileAddressTypeHandler(app))
@@ -355,7 +355,7 @@ func StudentDocumentsHandler(app *config.Env) http.HandlerFunc {
 			alert,
 		}
 		files := []string{
-			app.Path + "content/student/student_documents.html",
+			app.Path + "content/student/application/student_documents.html",
 		}
 
 		ts, err := template.ParseFiles(files...)
