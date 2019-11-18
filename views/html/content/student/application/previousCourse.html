@@ -62,14 +62,14 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="collapse" href="#profileMenu">
+                    <a class="nav-link" data-toggle="collapse" href="#profileMenu" aria-expanded="true">
                         <i class="nc-icon nc-single-02"></i>
                         <p>
                             Profile
                             <b class="caret"></b>
                         </p>
                     </a>
-                    <div class="collapse" id="profileMenu">
+                    <div class="collapse show" id="profileMenu">
                         <ul class="nav">
                             <li class="nav-item ">
                                 <a class="nav-link" href="/users/student/profile/personal">
@@ -84,27 +84,21 @@
                                 </a>
                             </li>
                             <li class="nav-item ">
+                                <a class="nav-link" href="/users/student/profile/guardian">
+                                    <span class="sidebar-mini">G</span>
+                                    <span class="sidebar-normal">Guardian</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
                                 <a class="nav-link" href="/users/student/profile/address">
                                     <span class="sidebar-mini">A</span>
                                     <span class="sidebar-normal">Address</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/users/student/profile/contacts">
-                                    <span class="sidebar-mini">C</span>
-                                    <span class="sidebar-normal">Contacts</span>
                                 </a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="/users/student/profile/districts">
                                     <span class="sidebar-mini">D&M</span>
                                     <span class="sidebar-normal">District/Municipality</span>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="/users/student/profile/relative">
-                                    <span class="sidebar-mini">R</span>
-                                    <span class="sidebar-normal">Relative</span>
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -127,28 +121,28 @@
                     <div class="collapse " id="applicationMenu">
                         <ul class="nav">
                             <li class="nav-item ">
-                                <a class="nav-link" href="/users/student/profile/application">
+                                <a class="nav-link" href="#">
                                     <span class="sidebar-mini">S</span>
-                                    <span class="sidebar-normal">Application</span>
+                                    <span class="sidebar-normal">Subjects</span>
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="/users/student/profile/application_process">
+                                <a class="nav-link" href="/users/student/profile/courses">
                                     <span class="sidebar-mini">C</span>
-                                    <span class="sidebar-normal">Application Process</span>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="/users/student/documents">
-                                    <span class="sidebar-mini">C</span>
-                                    <span class="sidebar-normal">Documents</span>
+                                    <span class="sidebar-normal">Course</span>
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </li>
-                <hr />
-                <li class="nav-item ">     <!-- to fix below href-->
+                <li class="nav-item ">
+                    <a class="nav-link" href="/users/student/documents">
+                        <i class="nc-icon nc-single-copy-04"></i>
+                        <p> Documents</p>
+                    </a>
+                </li>
+                <hr/>
+                <li class="nav-item ">
                     <a class="nav-link" href="/logout">
                         <!-- <i class="nc-icon nc-single-copy-04"></i>-->
                         <p style="position: center">Log out </p>
@@ -169,7 +163,7 @@
                             <i class="fa fa-navicon visible-on-sidebar-mini"></i>
                         </button>
                     </div>
-                    <a class="navbar-brand" href="#pablo">My Profile - Demography Details </a>
+                    <a class="navbar-brand" href="#pablo">My Profile - Course Details </a>
                 </div>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                         aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -249,158 +243,110 @@
                 <div class="section-image" data-image="../../assets/img/bg5.jpg" ;>
                     <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
                     <div class="container">
-                        {{ if .Alert.AlertType }}
-                            <div class="alert {{ .Alert.AlertType }}">
-                                <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
-                                    <i class="nc-icon nc-simple-remove"></i>
-                                </button>
-                                <span>{{ .Alert.AlertInfo }}</span>
-                            </div>
-                        {{ end }}
-                        {{ if not $.StudentGender.GenderId }}
-                            <div class="alert alert-danger">
-                                <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
-                                    <i class="nc-icon nc-simple-remove"></i>
-                                </button>
-                                <span>NOTE: You cannot change your race and gender once set!</span>
-                            </div>
-                        {{ end }}
                         <div class="nav-container">
                             <ul class="nav nav-icons justify-content-center" role="tablist">
                                 <li class="nav-item show active">
-                                    <a class="nav-link" id="personal-tab" href="#demography-logo" role="tab"
+                                    <a class="nav-link" id="help-tab" href="#courseDetails" role="tab"
                                        data-toggle="tab">
-                                        <i class="nc-icon nc-attach-87"></i>
-                                        <br> Demography Details
+                                        <i class="nc-icon nc-bank"></i>
+                                        <br> Previous Course
                                     </a>
                                 </li>
                             </ul>
                         </div>
                         <div class="tab-content">
-                            <div class="tab-pane fade show active" id="demography-logo" aria-labelledby="info-tab">
+                            <div class="tab-pane fade show active" id="courseDetails" role="tabpanel">
                                 <div class="card green">
                                     <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <form id="profileForm" method="post"
-                                                      action="/users/student-profile-demography-update">
-                                                    <div class="row justify-content-center">
-                                                        <div class="col-md-5">
-                                                            <label class="control-label"
-                                                                   style="color: #ffffff">Title</label>
-                                                            <select class="selectpicker"
-                                                                    name="title"
-                                                                    data-style="btn-default btn-outline"
-                                                                    data-menu-style="dropdown-blue"
-                                                                    placeholder="example: Mr.">
-                                                                <option value="" {{ if not $.StudentTitle.TitleId }} selected {{ end }}
-                                                                        disabled>Select Title
-                                                                </option>
-                                                                {{with .Titles }}
-                                                                    {{range .}}
-                                                                        <option value="{{ .TitleId }}" {{if eq $.StudentTitle.TitleId  .TitleId }} selected {{ end }} >{{ .TitleName }}</option>
-                                                                    {{end}}
-                                                                {{end}}
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-md-5">
-                                                            <label class="control-label"
-                                                                   style="color: #ffffff">Gender</label>
-                                                            <select class="selectpicker"
-                                                                    data-style="btn-default btn-outline"
-                                                                    data-menu-style="dropdown-blue"
-                                                                    name="gender" {{ if $.StudentGender.GenderId }} disabled {{ end }}
-                                                                    placeholder="Example:Male">
-                                                                <option value="" {{ if not $.StudentGender.GenderId }} selected {{ end }}
-                                                                        disabled>Select Gender
-                                                                </option>
-                                                                {{with .Genders}}
-                                                                    {{range .}}
-                                                                        <option value="{{ .GenderId }}" {{ if eq .GenderId $.StudentGender.GenderId }} selected {{ end }} >{{ .GenderName }}</option>
-                                                                    {{end}}
-                                                                {{end}}
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row justify-content-center">
-                                                        <div class="col-md-10">
-                                                            <div class="form-group">
-                                                                <label class="control-label"
-                                                                       style="color: #ffffff">Race</label>
-                                                                <select class="selectpicker"
-                                                                        data-style="btn-default btn-outline"
-                                                                        required="true"
-                                                                        name="race" {{ if $.StudentRace.RaceId }} disabled {{ end }}
-                                                                        data-menu-style="dropdown-blue"
-                                                                        placeholder="Duration">
-                                                                    <option value="" {{ if not $.StudentRace.RaceId }} selected {{ end }}
-                                                                            disabled>Select Race
-                                                                    </option>
-                                                                    {{with .Races}}
-                                                                        {{range .}}
-                                                                            <option value="{{ .RaceId }}" {{ if eq .RaceId $.StudentRace.RaceId }} selected {{ end }} >{{ .RaceName }}</option>
-                                                                        {{end}}
-                                                                    {{end}}
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row justify-content-center">
-                                                        <button type="button" id="editButton" class="btn btn-wd btn-warning btn-outline">
-                                                            <span class="btn-label">
-                                                                <i class="fa fa-warning"></i>
-                                                            </span>
-                                                            Edit
-                                                        </button>
-                                                        <button type="submit" id="updateButton" class="btn btn-wd btn-info btn-outline">
-                                                            <span class="btn-label">
-                                                                <i class="fa fa-exclamation"></i>
-                                                            </span>
-                                                            Update
-                                                        </button>
-                                                        <button type="reset" id="clearButton"
-                                                                class="btn btn-wd btn-danger btn-outline">
-                                                            <span class="btn-label">
-                                                                <i class="fa fa-times"></i>
-                                                            </span>
-                                                            Clear
-                                                        </button>
-                                                        <button type="button" id="cancelButton"
-                                                                class="btn btn-wd btn-outline">
-                                                            <span class="btn-label">
-                                                                <i class="fa fa-arrow-left"></i>
-                                                            </span>
-                                                            Cancel
-                                                        </button>
-                                                        <div class="clearfix"></div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <!--div class="col-md-6">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="card ">
-                                                            <div class="card-body ">
-                                                                Title: {{ $.StudentTitle.TitleName }} <br/>
-                                                                Gender: {{ $.StudentGender.GenderName }} <br/>
-                                                                Race: {{ $.StudentRace.RaceName }} <br/>
-                                                            </div>
-                                                            <div class="card-footer ">
-                                                                <hr>
-                                                                <div class="stats">
-                                                                    <i class="fa fa-cog"></i>Demography Details
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                        <form id="courseDetailsForm" method="post"
+                                              action="#">
+                                            <h4 style="color: #ffffff" class="text-center">Institution</h4>
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-5">
+                                                    <div class="form-group">
+                                                        <label class="control-label"
+                                                               style="color: #ffffff">choose your recent Institution</label>
+                                                        <select name="cities" class="selectpicker"
+                                                                data-title="Example: 3"
+                                                                data-style="btn-default btn-outline" required="true"
+                                                                data-menu-style="dropdown-blue" >
+                                                            <option value="id"disabled selected >Information technology</option>
+                                                            <option value="id">Engineering and technology</option>
+                                                            <option value="ms">Agriculture</option>
+                                                            <option value="id">Business</option>
+                                                            <option value="ms">Education</option>
+                                                            <option value="id">Divinity</option>
+                                                            <option value="ms">Agriculture</option>
+                                                            <option value="id">History</option>
+                                                            <option value="ms">Economics</option>
+                                                            <option value="id">Geology</option>
+                                                            <option value="ms">Zoology</option>
+                                                            <option value="id">Psychology</option>
+                                                            <option value="ms">Chemistry</option>
+                                                        </select>
                                                     </div>
                                                 </div>
-                                            </div-->
-                                        </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-5">
+                                                    <div class="form-group">
+                                                        <label class="control-label" style="color: #ffffff">Debt</label>
+                                                        <select name="cities" class="selectpicker"
+                                                                data-title="Do you have any outstanding Debt"
+                                                                data-style="btn-default btn-outline"
+                                                                data-menu-style="dropdown-blue"
+                                                                placeholder="Do you have any outstanding Debt">
+                                                            <option value="id">Yes</option>
+                                                            <option value="ms">No</option>
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-5">
+                                                    <div class="form-group">
+                                                        <label class="control-label" style="color: #ffffff">Amount owed to institution </label>
+                                                        <input class="form-control" type="number" id="" name=""
+                                                               value="" placeholder="ex: 1000"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-5">
+                                                    <button type="button" id="editButton"
+                                                            class="btn btn-wd btn-warning btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-warning"></i>
+                                                    </span>
+                                                        EditRV
+                                                    </button>
+                                                    <button type="submit" id="updateButton"
+                                                            class="btn btn-wd btn-info btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-exclamation"></i>
+                                                    </span>
+                                                        Update
+                                                    </button>
+
+                                                    <button type="button" id="cancelButton"
+                                                            class="btn btn-wd btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-arrow-left"></i>
+                                                    </span>
+                                                        Cancel
+                                                    </button>
+
+                                                    <div class="clearfix"></div>
+
+                                            </div>
+                                            </div>
+
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
