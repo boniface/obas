@@ -305,7 +305,6 @@
                                 <table id="bootstrap-table" class="table">
                                     <thead>
                                     <th data-field="state" data-checkbox="true"></th>
-                                    <th data-field="id" class="text-center">ID</th>
                                     <th data-field="doctype" data-sortable="true">Document Type</th>
                                     <th data-field="docdesc" data-sortable="true">Document description</th>
                                     <th data-field="date" data-sortable="true">Date</th>
@@ -320,7 +319,6 @@
                                         {{ range .}}
                                             <tr>
                                                 <td></td>
-                                                <td> {{ .Document.DocumentId }}</td>
                                                 <td>{{ .DocumentType }}</td>
                                                 <td>{{ .Document.Description }}</td>
                                                 <td>{{ .DocumentDate }}</td>
