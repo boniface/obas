@@ -145,7 +145,7 @@ func StudentProfileApplicationProcessHandler(app *config.Env) http.HandlerFunc {
 
 		data := PageData{user}
 		files := []string{
-			app.Path + "content/student/application/student_Application_process.html",
+			app.Path + "content/student/application/student_application_process.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -179,7 +179,7 @@ func StudentProfileApplicationHandler(app *config.Env) http.HandlerFunc {
 
 		data := PageData{user}
 		files := []string{
-			app.Path + "content/student/application/student_Application.html",
+			app.Path + "content/student/application/student_application.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -1591,7 +1591,7 @@ func ProcessingStatusTypeHandler(app *config.Env) http.HandlerFunc {
 func StudentApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		files := []string{
-			app.Path + "content/student/Student_Application.html",
+			app.Path + "content/student/application/student_application.html",
 		}
 
 		ts, err := template.ParseFiles(files...)
