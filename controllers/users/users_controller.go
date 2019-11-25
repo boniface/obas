@@ -68,7 +68,7 @@ func Users(app *config.Env) http.Handler {
 	r.Get("/student/profile/relative", StudentProfileRelativeHandler(app))
 	r.Get("/student/profile/settings", StudentProfileSettingsHandler(app))
 	r.Get("/student/profile/courses", StudentProfileCourseHandler(app))
-	r.Get("/student/profile/subjects", StudentProfileSubjectHandler(app))
+	r.Get("/student/profile/academics", StudentProfileSubjectHandler(app))
 	r.Get("/student/profile/districts", StudentProfileDistrictHandler(app))
 	r.Get("/student/profile/contacts", StudentProfileContactsHandler(app))
 	r.Get("/student/profile/application", StudentProfileApplicationHandler(app))
@@ -1145,7 +1145,7 @@ func StudentProfileSubjectHandler(app *config.Env) http.HandlerFunc {
 
 		data := PageData{user}
 		files := []string{
-			app.Path + "content/student/profile/subjects.html",
+			app.Path + "content/student/profile/academics.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -1563,7 +1563,7 @@ func ProcessingStatusTypeHandler(app *config.Env) http.HandlerFunc {
 		//}
 
 		type PageData struct {
-			//subjects []io.ProcessingStatusType
+			//academics []io.ProcessingStatusType
 			name string
 		}
 		data := PageData{""}
@@ -1616,7 +1616,7 @@ func StudentContactsHandler(app *config.Env) http.HandlerFunc {
 		//}
 
 		type PageData struct {
-			//subjects []io.StudentContacts
+			//academics []io.StudentContacts
 			name string
 		}
 		data := PageData{""}
@@ -1650,7 +1650,7 @@ func StudentResultsHandler(app *config.Env) http.HandlerFunc {
 		//}
 
 		type PageData struct {
-			//subjects []io.StudentResults
+			//academics []io.StudentResults
 			name string
 		}
 		data := PageData{""}

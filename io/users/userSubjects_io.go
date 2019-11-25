@@ -13,7 +13,7 @@ type uSubjects domain.UserSubjects
 
 func GetUserSubjects() ([]uSubjects, error) {
 	entites := []uSubjects{}
-	resp, _ := api.Rest().Get(userSubUrl + "/subjects/all")
+	resp, _ := api.Rest().Get(userSubUrl + "/academics/all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -27,7 +27,7 @@ func GetUserSubjects() ([]uSubjects, error) {
 
 func GetUserSubject(id string) (uSubjects, error) {
 	entity := uSubjects{}
-	resp, _ := api.Rest().Get(userSubUrl + "/subjects/get/" + id)
+	resp, _ := api.Rest().Get(userSubUrl + "/academics/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -41,7 +41,7 @@ func GetUserSubject(id string) (uSubjects, error) {
 func CreateUserSubject(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(userSubUrl + "/subjects/create")
+		Post(userSubUrl + "/academics/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -52,7 +52,7 @@ func CreateUserSubject(entity interface{}) (bool, error) {
 func UpdateUserSubject(entity interface{}) (bool, error) {
 	resp, serverEr := api.Rest().
 		SetBody(entity).
-		Post(userSubUrl + "/subjects/update")
+		Post(userSubUrl + "/academics/update")
 	if resp.IsError() {
 		fmt.Println(" Is request from Server Okay", serverEr)
 		return false, errors.New(resp.Status())
@@ -64,7 +64,7 @@ func UpdateUserSubject(entity interface{}) (bool, error) {
 func DeleteUserSubject(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(userSubUrl + "/subjects/delete")
+		Post(userSubUrl + "/academics/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

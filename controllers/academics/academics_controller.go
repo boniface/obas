@@ -7,14 +7,14 @@ import (
 	"obas/config"
 )
 
-func Subjects(app *config.Env) http.Handler {
+func Academics(app *config.Env) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/matric", matricSubjectsHandler(app))
-	r.Get("/university", universityCoursesHandler(app))
+	r.Get("/course", CourseHandler(app))
+	r.Get("/subject", SubjectHandler(app))
 	return r
 }
 
-func universityCoursesHandler(app *config.Env) http.HandlerFunc {
+func SubjectHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		//allcourses, err := io.GetUniversityCourses()
 		//
@@ -29,7 +29,7 @@ func universityCoursesHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{""}
 
 		files := []string{
-			app.Path + "/subjects/subjects.page.html",
+			app.Path + "/academics/academics.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/contents.page.html",
@@ -49,7 +49,7 @@ func universityCoursesHandler(app *config.Env) http.HandlerFunc {
 	}
 }
 
-func matricSubjectsHandler(app *config.Env) http.HandlerFunc {
+func CourseHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		//allmatrics, err := io.GetMatricSubjects()
 
@@ -65,7 +65,7 @@ func matricSubjectsHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{""}
 
 		files := []string{
-			app.Path + "/subjects/subjects.page.html",
+			app.Path + "/academics/academics.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebarOld.page.html",
