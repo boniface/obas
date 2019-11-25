@@ -125,7 +125,7 @@
                             <b class="caret"></b>
                         </p>
                     </a>
-                    <div class="collapse " id="applicationMenu">
+                    <div class="collapse show"  id="applicationMenu">
                         <ul class="nav">
                             <li class="nav-item ">
                                 <a class="nav-link" href="/users/student/profile/application">
@@ -139,7 +139,7 @@
                                     <span class="sidebar-normal">Application Process</span>
                                 </a>
                             </li>
-                            <li class="nav-item ">
+                            <li class="nav-item active ">
                                 <a class="nav-link" href="/users/student/documents">
                                     <span class="sidebar-mini">C</span>
                                     <span class="sidebar-normal">Documents</span>
@@ -305,7 +305,6 @@
                                 <table id="bootstrap-table" class="table">
                                     <thead>
                                     <th data-field="state" data-checkbox="true"></th>
-                                    <th data-field="id" class="text-center">ID</th>
                                     <th data-field="doctype" data-sortable="true">Document Type</th>
                                     <th data-field="docdesc" data-sortable="true">Document description</th>
                                     <th data-field="date" data-sortable="true">Date</th>
@@ -320,7 +319,6 @@
                                         {{ range .}}
                                             <tr>
                                                 <td></td>
-                                                <td> {{ .Document.DocumentId }}</td>
                                                 <td>{{ .DocumentType }}</td>
                                                 <td>{{ .Document.Description }}</td>
                                                 <td>{{ .DocumentDate }}</td>
