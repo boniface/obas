@@ -5257,7 +5257,7 @@ fieldset[disabled] .form-control {
 .card-wizard .nav-tabs .nav-item .nav-link {
     text-align: center;
     border: none;
-    background-color: #9A9A9A;
+   /** background-color: #9A9A9A;*/
     color: #FFFFFF;
     text-transform: uppercase;
     border-radius: unset;
