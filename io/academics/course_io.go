@@ -6,14 +6,14 @@ import (
 	domain "obas/domain/academics"
 )
 
-const academicsURL = api.BASE_URL + "/academics/course/"
+const academicsURL = api.BASE_URL + "/course/"
 
 type Course domain.Course
 
 func SaveCourse(entity Course) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(academicsURL + "create")
+		Post(academicsURL + "/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -22,7 +22,7 @@ func SaveCourse(entity Course) (bool, error) {
 
 func GetCourse(id string) (Course, error) {
 	entity := Course{}
-	resp, _ := api.Rest().Get(academicsURL + "get/" + id)
+	resp, _ := api.Rest().Get(academicsURL + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -37,7 +37,7 @@ func UpdateCourse(course Course, token string) (bool, error) {
 	resp, _ := api.Rest().
 		SetAuthToken(token).
 		SetBody(course).
-		Post(academicsURL + "update")
+		Post(academicsURL + "/update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -47,7 +47,7 @@ func UpdateCourse(course Course, token string) (bool, error) {
 func DeleteCourse(course Course) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(course).
-		Post(academicsURL + "delete")
+		Post(academicsURL + "/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -56,7 +56,7 @@ func DeleteCourse(course Course) (bool, error) {
 
 func GetAllCourses() ([]Course, error) {
 	entites := []Course{}
-	resp, _ := api.Rest().Get(academicsURL + "all")
+	resp, _ := api.Rest().Get(academicsURL + "/all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())

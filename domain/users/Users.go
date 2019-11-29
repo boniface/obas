@@ -97,3 +97,9 @@ type UserApplication struct {
 	UserId        string `json:"userId"`
 	ApplicationId string `json:"applicationId"`
 }
+type UserApplicationStatus struct {
+	ApplicationId string    `json:"applicationId"`
+	StatusId      string    `json:"statusId"`
+	DateTime      time.Time `json:"dateTime"`
+	Modifier      string    `json:"modifier"`
+}

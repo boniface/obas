@@ -6,8 +6,7 @@ import (
 	domain "obas/domain/academics"
 )
 
-//please add the URL part
-const courseSubjectURL = api.BASE_URL
+const courseSubjectURL = api.BASE_URL + "coursesubject"
 
 func CreateCourseSubject(obj domain.CourseSubject) (domain.CourseSubject, error) {
 	entity := domain.CourseSubject{}
@@ -23,9 +22,9 @@ func CreateCourseSubject(obj domain.CourseSubject) (domain.CourseSubject, error)
 	return entity, nil
 }
 
-func GetCourseSubject(id string) (domain.CourseSubject, error) {
+func GetCourseSubject(courseId, subjectIs string) (domain.CourseSubject, error) {
 	entity := domain.CourseSubject{}
-	resp, _ := api.Rest().Get(courseSubjectURL + "/get" + id)
+	resp, _ := api.Rest().Get(courseSubjectURL + "/get/" + courseId + "/" + subjectIs)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -50,6 +49,20 @@ func GetCourseSubjects() ([]domain.CourseSubject, error) {
 func DeleteCourseSubject(obj domain.CourseSubject) (domain.CourseSubject, error) {
 	entity := domain.CourseSubject{}
 	resp, _ := api.Rest().SetBody(obj).Post(courseSubjectURL + "/delete")
+	if resp.IsError() {
+		return entity, errors.New(resp.Status())
+	}
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(resp.Status())
+	}
+	return entity, nil
+}
+
+// equivalent to the following method in the backend >>>>courseSubjectController.getCourseSubjects(courseId)
+func UpdateCourseSubject(courseId string) (domain.CourseSubject, error) {
+	entity := domain.CourseSubject{}
+	resp, _ := api.Rest().Get(courseSubjectURL + "/getsubjects/" + courseId)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}

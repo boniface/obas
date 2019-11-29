@@ -1,16 +1,17 @@
-package academics
+package demographics
 
 import (
 	"errors"
 	"obas/api"
-	domain "obas/domain/academics"
+	domain "obas/domain/demographics"
 )
 
-const subjectURL = api.BASE_URL + "subject"
+//please complete the URL
+const districttownURL = api.BASE_URL
 
-func CreateSubject(obj domain.Subject) (domain.Subject, error) {
-	entity := domain.Subject{}
-	resp, _ := api.Rest().SetBody(obj).Post(subjectURL + "/create")
+func CreateDistrictTown(obj domain.DistrictTown) (domain.DistrictTown, error) {
+	entity := domain.DistrictTown{}
+	resp, _ := api.Rest().SetBody(obj).Post(districttownURL + "create")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -20,10 +21,9 @@ func CreateSubject(obj domain.Subject) (domain.Subject, error) {
 	}
 	return entity, nil
 }
-
-func GetSubject(id string) (domain.Subject, error) {
-	entity := domain.Subject{}
-	resp, _ := api.Rest().Get(subjectURL + "/get/" + id)
+func GetDistrictTown(id string) (domain.DistrictTown, error) {
+	entity := domain.DistrictTown{}
+	resp, _ := api.Rest().Get(districttownURL + "id" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -33,9 +33,9 @@ func GetSubject(id string) (domain.Subject, error) {
 	}
 	return entity, nil
 }
-func GetSubjects(id string) ([]domain.Subject, error) {
-	entity := []domain.Subject{}
-	resp, _ := api.Rest().Get(subjectURL + "/all")
+func GetDistrictTowns() (domain.DistrictTown, error) {
+	entity := domain.DistrictTown{}
+	resp, _ := api.Rest().Get(districttownURL + "all")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -45,9 +45,9 @@ func GetSubjects(id string) ([]domain.Subject, error) {
 	}
 	return entity, nil
 }
-func DeleteSubject(obj domain.Subject) (domain.Subject, error) {
-	entity := domain.Subject{}
-	resp, _ := api.Rest().SetBody(obj).Post(subjectURL + "/delete")
+func DeleteDistrictTown(obj domain.DistrictTown) (domain.DistrictTown, error) {
+	entity := domain.DistrictTown{}
+	resp, _ := api.Rest().SetBody(obj).Post(districttownURL + "delete")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -57,9 +57,9 @@ func DeleteSubject(obj domain.Subject) (domain.Subject, error) {
 	}
 	return entity, nil
 }
-func UpdateSubject(obj domain.Subject) (domain.Subject, error) {
-	entity := domain.Subject{}
-	resp, _ := api.Rest().SetBody(obj).Post(subjectURL + "/update")
+func UpdateDistrictTown(obj domain.DistrictTown) (domain.DistrictTown, error) {
+	entity := domain.DistrictTown{}
+	resp, _ := api.Rest().SetBody(obj).Post(districttownURL + "update")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}

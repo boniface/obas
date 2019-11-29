@@ -8,17 +8,13 @@ import (
 
 const institutionURL = api.BASE_URL
 
-func CreateInstitution(obj domain.Institution) (domain.Institution, error) {
-	entity := domain.Institution{}
+func CreateInstitution(obj domain.Institution) (bool, error) {
+
 	resp, _ := api.Rest().SetBody(obj).Post(institutionURL + "/create")
 	if resp.IsError() {
-		return entity, errors.New(resp.Status())
+		return false, errors.New(resp.Status())
 	}
-	err := api.JSON.Unmarshal(resp.Body(), &entity)
-	if err != nil {
-		return entity, errors.New(resp.Status())
-	}
-	return entity, nil
+	return true, nil
 }
 func DeleteInstitution(obj domain.Institution) (domain.Institution, error) {
 	entity := domain.Institution{}
