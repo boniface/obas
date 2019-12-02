@@ -6,11 +6,11 @@ import (
 	domain "obas/domain/institutions"
 )
 
-const institutionLocationURL = api.BASE_URL
+const institutionLocationURL = api.BASE_URL + "institution_location"
 
 func CreateInstitutionLocation(obj domain.InstitutionLocation) (domain.InstitutionLocation, error) {
 	entity := domain.InstitutionLocation{}
-	resp, _ := api.Rest().SetBody(obj).Post(institutionLocationURL + "/create")
+	resp, _ := api.Rest().SetBody(obj).Post(institutionLocationURL + "/location/create")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -22,7 +22,7 @@ func CreateInstitutionLocation(obj domain.InstitutionLocation) (domain.Instituti
 }
 func DeleteInstitutionLocation(obj domain.InstitutionLocation) (domain.InstitutionLocation, error) {
 	entity := domain.InstitutionLocation{}
-	resp, _ := api.Rest().SetBody(obj).Post(institutionLocationURL + "/delete")
+	resp, _ := api.Rest().SetBody(obj).Post(institutionLocationURL + "/location/delete")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -34,7 +34,7 @@ func DeleteInstitutionLocation(obj domain.InstitutionLocation) (domain.Instituti
 }
 func ReadInstitutionLocation(id string) (domain.InstitutionLocation, error) {
 	entity := domain.InstitutionLocation{}
-	resp, _ := api.Rest().Get(institutionLocationURL + "/get")
+	resp, _ := api.Rest().Get(institutionLocationURL + "/location/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -46,7 +46,7 @@ func ReadInstitutionLocation(id string) (domain.InstitutionLocation, error) {
 }
 func ReadInstitutionLocations() ([]domain.InstitutionLocation, error) {
 	entity := []domain.InstitutionLocation{}
-	resp, _ := api.Rest().Get(institutionLocationURL + "/all")
+	resp, _ := api.Rest().Get(institutionLocationURL + "/location/all")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -58,7 +58,7 @@ func ReadInstitutionLocations() ([]domain.InstitutionLocation, error) {
 }
 func UpdateInstitutionLocation(obj domain.InstitutionLocation) (domain.InstitutionLocation, error) {
 	entity := domain.InstitutionLocation{}
-	resp, _ := api.Rest().SetBody(obj).Post(institutionLocationURL + "/update")
+	resp, _ := api.Rest().SetBody(obj).Post(institutionLocationURL + "/location/update")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}

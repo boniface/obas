@@ -10,7 +10,7 @@ const institutionType = api.BASE_URL + "/institution/institution"
 
 func CreateInstitutionType(obj domain.InstitutionTypes) (domain.InstitutionTypes, error) {
 	entity := domain.InstitutionTypes{}
-	resp, _ := api.Rest().SetBody(obj).Post(institutionAddressURl + "/create")
+	resp, _ := api.Rest().SetBody(obj).Post(institutionAddressURl + "/type/create")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -22,7 +22,7 @@ func CreateInstitutionType(obj domain.InstitutionTypes) (domain.InstitutionTypes
 }
 func GetInstitutionType(id string) (domain.InstitutionTypes, error) {
 	entity := domain.InstitutionTypes{}
-	resp, _ := api.Rest().Get(institutionAddressURl + "/get")
+	resp, _ := api.Rest().Get(institutionAddressURl + "/type/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -34,7 +34,7 @@ func GetInstitutionType(id string) (domain.InstitutionTypes, error) {
 }
 func GetInstitutionTypes() ([]domain.InstitutionTypes, error) {
 	entity := []domain.InstitutionTypes{}
-	resp, _ := api.Rest().Get(institutionAddressURl + "/all")
+	resp, _ := api.Rest().Get(institutionAddressURl + "/type/all")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -46,7 +46,7 @@ func GetInstitutionTypes() ([]domain.InstitutionTypes, error) {
 }
 func DeleteInstitutionType(obj domain.InstitutionTypes) (domain.InstitutionTypes, error) {
 	entity := domain.InstitutionTypes{}
-	resp, _ := api.Rest().SetBody(obj).Post(institutionAddressURl + "/delete")
+	resp, _ := api.Rest().SetBody(obj).Post(institutionAddressURl + "/type/delete")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -58,7 +58,7 @@ func DeleteInstitutionType(obj domain.InstitutionTypes) (domain.InstitutionTypes
 }
 func UpdateInstitutionType(obj domain.InstitutionTypes) (domain.InstitutionTypes, error) {
 	entity := domain.InstitutionTypes{}
-	resp, _ := api.Rest().SetBody(obj).Post(institutionAddressURl + "/update")
+	resp, _ := api.Rest().SetBody(obj).Post(institutionAddressURl + "/type/update")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}

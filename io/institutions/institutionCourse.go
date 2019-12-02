@@ -6,11 +6,11 @@ import (
 	domain "obas/domain/institutions"
 )
 
-const institutioncourseURL = api.BASE_URL
+const institutioncourseURL = api.BASE_URL + "/institution_course"
 
-func GetInstitutionCourse(id string) (domain.InstitutionCourse, error) {
+func ReadInstitutionCourse(institutionId, courseId string) (domain.InstitutionCourse, error) {
 	entity := domain.InstitutionCourse{}
-	resp, _ := api.Rest().Get(institutionAddressURl + "/get" + id)
+	resp, _ := api.Rest().Get(institutioncourseURL + "/course/get/" + institutionId + "/" + courseId)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -22,7 +22,7 @@ func GetInstitutionCourse(id string) (domain.InstitutionCourse, error) {
 }
 func GetInstitutionCourses() ([]domain.InstitutionCourse, error) {
 	entity := []domain.InstitutionCourse{}
-	resp, _ := api.Rest().Get(institutionAddressURl + "/all")
+	resp, _ := api.Rest().Get(institutioncourseURL + "/course/all")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -34,7 +34,7 @@ func GetInstitutionCourses() ([]domain.InstitutionCourse, error) {
 }
 func DeleteInstitutionCourse(obj domain.InstitutionCourse) (domain.InstitutionCourse, error) {
 	entity := domain.InstitutionCourse{}
-	resp, _ := api.Rest().SetBody(obj).Post(institutionAddressURl + "/delete")
+	resp, _ := api.Rest().SetBody(obj).Post(institutioncourseURL + "/course/delete")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -46,7 +46,7 @@ func DeleteInstitutionCourse(obj domain.InstitutionCourse) (domain.InstitutionCo
 }
 func CreateInstitutionCourse(obj domain.InstitutionCourse) (domain.InstitutionCourse, error) {
 	entity := domain.InstitutionCourse{}
-	resp, _ := api.Rest().SetBody(obj).Post(institutionAddressURl + "/create")
+	resp, _ := api.Rest().SetBody(obj).Post(institutioncourseURL + "/course/create")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -56,9 +56,9 @@ func CreateInstitutionCourse(obj domain.InstitutionCourse) (domain.InstitutionCo
 	}
 	return entity, nil
 }
-func UpadteInstitutionCourse(obj domain.InstitutionCourse) (domain.InstitutionCourse, error) {
+func GetInstitutionCourse(institutionId string) (domain.InstitutionCourse, error) {
 	entity := domain.InstitutionCourse{}
-	resp, _ := api.Rest().SetBody(obj).Post(institutionAddressURl + "/update")
+	resp, _ := api.Rest().Get(institutioncourseURL + "/course/getcourses/" + institutionId)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
