@@ -6,7 +6,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="../../../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../../../assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>Light Bootstrap Dashboard</title>
+    <title>OBAS</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
           name='viewport'/>
     <!--     Fonts and icons     -->
@@ -230,7 +230,7 @@
                                 <table class="table table-hover table-striped">
                                     <p>
                                     <h4 style="color: #000000">
-                                        <center>Applicants</center>
+                                        <center>Student Applicants</center>
                                     </h4>
                                     </p>
                                     <thead>
@@ -239,6 +239,7 @@
                                     <th>Email</th>
                                     <th>Status</th>
                                     <th>Phone</th>
+                                    <th>Action</th>
                                     </thead>
                                     <tbody>
                                     <tr>
@@ -247,6 +248,8 @@
                                         <td>joseph@gmail.com</td>
                                         <td>In process</td>
                                         <td>0625401763</td>
+                                        <td><a href="/">verify documents</a></td>
+
                                     </tr>
                                     <tr>
                                         <td>2</td>
@@ -254,6 +257,7 @@
                                         <td>emile@gmail.com</td>
                                         <td>In process</td>
                                         <td>0816400725</td>
+                                        <td><a href="/">verify documents</a></td>
                                     </tr>
                                     <tr>
                                         <td>3</td>
@@ -261,6 +265,7 @@
                                         <td>nombila@gmail.com</td>
                                         <td>In process</td>
                                         <td>07163453600</td>
+                                        <td><a href="/">verify documents</a></td>
                                     </tr>
                                     <tr>
                                         <td>4</td>
@@ -268,6 +273,7 @@
                                         <td>cyfo@gmail.com</td>
                                         <td>In process</td>
                                         <td>08554982</td>
+                                        <td><a href="/">verify documents</a></td>
                                     </tr>
                                     <tr>
                                         <td>5</td>
@@ -275,6 +281,7 @@
                                         <td>japhet@gmail.com</td>
                                         <td>In process</td>
                                         <td>Feldkirchen in Kärnten</td>
+                                        <td><a href="/">verify documents</a></td>
                                     </tr>
                                     <tr>
                                         <td>6</td>
@@ -282,6 +289,7 @@
                                         <td>espoir@gmail.com</td>
                                         <td>In process</td>
                                         <td>0657007265</td>
+                                        <td><a href="/">verify documents</a></td>
                                     </tr>
                                     <tr>
                                         <td>6</td>
@@ -289,6 +297,7 @@
                                         <td>aj@gmail.com</td>
                                         <td>In process</td>
                                         <td>0845201867</td>
+                                        <td><a href="/">verify documents</a></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -298,70 +307,126 @@
                 </div>
 
                 <div class="row">
+
                     <div class="col-md-12">
-                        <div class="card bootstrap-table">
 
 
+                        <div class="card table-with-links">
+
+                            <div class="card-header ">
+                                <h4 class="card-title">Documents Table</h4>
+                                <p class="card-category">Search with Student Id</p>
+                                <div class="search">
+                                    <input type="text" class="searchTerm" placeholder="Ex: 216093850">
+                                    <button type="submit" class="searchButton">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="wrap">
+
+                            </div>
                             <div class="card-body table-full-width">
+                                <table class="table">
+
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th>Document ID</th>
+                                        <th>Document Type</th>
+                                        <th class="text-center">Status</th>
+                                        <th class="text-center">View Documents</th>
+                                        <th class="text-center">file</th>
+                                        <th class="text-center">Change Document Stat</th>
+                                        <th class="text-center"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+
+                                        <td class="text-center">1</td>
+                                        <td>Andrew Mike</td>
+                                        <td>Develop</td>
+                                        <td class="text-right">&euro; 99,225</td>
+                                        <td class="text-right">&euro; 99,225</td>
+                                        <td class="td-actions text-center">
+                                            <a href="#" rel="tooltip" title="View Profile" class="fa fa-image"
+                                               onclick="demo.showSwal('basic')"></a>
+                                        </td>
+                                        <td class="text-center">
 
 
+                                                        <select name="currentQualification" class="selectpicker"
+                                                                data-title="Example: 3"
+                                                                data-style="btn-default btn-outline"
+                                                                data-menu-style="dropdown-blue">
+                                                            <option value="id" disabled selected>choose stat
+                                                            </option>
+                                                            <option value="id">Student</option>
+                                                            <option value="ms">Matric</option>
+                                                        </select>
+
+                                        </td>
+                                        <td> <button type="button" class="btn btn-info "
+                                                     style="border-color: #ffea00">submit
+                                            </button></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">1</td>
+                                        <td>Andrew Mike</td>
+                                        <td>Develop</td>
+                                        <td class="text-right">&euro; 99,225</td>
+                                        <td class="text-right">&euro; 99,225</td>
+                                        <td class="td-actions text-center">
+                                            <a href="#" rel="tooltip" title="View Profile" class="fa fa-image"
+                                               onclick="demo.showSwal('basic')"></a>
+                                        </td>
+                                        <td class="text-right"><select name="currentQualification" class="selectpicker"
+                                                                       data-title="Example: 3"
+                                                                       data-style="btn-default btn-outline"
+                                                                       data-menu-style="dropdown-blue">
+                                                <option value="id" disabled selected>choose the most
+                                                    recent qualification
+                                                </option>
+                                                <option value="id">Student</option>
+                                                <option value="ms">Matric</option>
+                                            </select></td>
+                                        <td> <button type="button" class="btn btn-info "
+                                                     style="border-color: #ffea00">submit
+                                            </button></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">1</td>
+                                        <td>Andrew Mike</td>
+                                        <td>Develop</td>
+                                        <td class="text-right">&euro; 99,225</td>
+                                        <td class="text-right">&euro; 99,225</td>
+                                        <td class="td-actions text-center">
+                                            <a href="#" rel="tooltip" title="View Profile" class="fa fa-image"
+                                               onclick="demo.showSwal('basic')"></a>
+                                        </td>
+                                        <td class="text-right"><select name="currentQualification" class="selectpicker"
+                                                                       data-title="Example: 3"
+                                                                       data-style="btn-default btn-outline"
+                                                                       data-menu-style="dropdown-blue">
+                                                <option value="id" disabled selected>choose the most
+                                                    recent qualification
+                                                </option>
+                                                <option value="id">Student</option>
+                                                <option value="ms">Matric</option>
+                                            </select></td>
+                                        <td> <button type="button" class="btn btn-info ">submit
+                                            </button></td>
+                                    </tr>
+
+
+                                    </tbody>
+                                </table>
                             </div>
-
-
-                            <div class="toolbar" style="color: #000000">
-                                <!--        Here you can write extra buttons/actions for the toolbar              -->
-                            </div>
-
-                            <table id="bootstrap-table" class="table">
-
-                                <thead>
-
-                                <th data-field="Select All" data-checkbox="true">Select All</th>
-                                <th data-field="id" class="text-center">ID</th>
-                                <th data-field="name" data-sortable="true"></th>
-                                <th data-field="Status" data-sortable="true">Status</th>
-
-                                <th data-field="actions" data-events="operateEvents"
-                                    data-formatter="operateFormatter"></th>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td>1</td>
-                                    <td>CTR050</td>
-                                    <td>In process</td>
-
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>2</td>
-                                    <td>CTR051</td>
-                                    <td>In process</td>
-
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>3</td>
-                                    <td>CTR052</td>
-                                    <td>In process</td>
-
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>4</td>
-                                    <td>CTR053</td>
-                                    <td>In process</td>
-
-                                    <td></td>
-                                </tr>
-                                </tbody>
-                            </table>
                         </div>
 
                     </div>
+
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -440,26 +505,46 @@
 <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="../../../assets/js/light-bootstrap-dashboard.js?v=2.0.1" type="text/javascript"></script>
 <!-- Light Dashboard DEMO methods, don't include it in your project! -->
-<script src="../assets/js/demo.js"></script>
+<script src="../../../assets/js/demo.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
-        // Javascript method's body can be found in assets/js/demos.js
-        demo.initDashboardPageCharts();
-
-        // demo.showNotification();
-
-        demo.initVectorMap();
-
-    });
-
     var $table = $('#bootstrap-table');
 
     function operateFormatter(value, row, index) {
-        return [].join('');
+        return [
+            '<a rel="tooltip" title="View" class="btn btn-link btn-info table-action view" href="javascript:void(0)">',
+            '<i class="fa fa-image"></i>',
+            '</a>',
+            '<a rel="tooltip" title="Edit" class="btn btn-link btn-warning table-action edit" href="javascript:void(0)">',
+            '<i class="fa fa-edit"></i>',
+            '</a>',
+            '<a rel="tooltip" title="Remove" class="btn btn-link btn-danger table-action remove" href="javascript:void(0)">',
+            '<i class="fa fa-remove"></i>',
+            '</a>'
+        ].join('');
     }
 
     $().ready(function () {
+        window.operateEvents = {
+            'click .view': function (e, value, row, index) {
+                info = JSON.stringify(row);
 
+                swal('You click view icon, row: ', info);
+                console.log(info);
+            },
+            'click .edit': function (e, value, row, index) {
+                info = JSON.stringify(row);
+
+                swal('You click edit icon, row: ', info);
+                console.log(info);
+            },
+            'click .remove': function (e, value, row, index) {
+                console.log(row);
+                $table.bootstrapTable('remove', {
+                    field: 'id',
+                    values: [row.id]
+                });
+            }
+        };
 
         $table.bootstrapTable({
             toolbar: ".toolbar",
@@ -498,7 +583,6 @@
 
 
     });
-
 </script>
 
 </html>

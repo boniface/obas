@@ -41,6 +41,6 @@ COPY --from=builder go/src/obas .
 
 CMD ["./obas"]
 
-# Expose the application on port 8080.
+# Expose the bursary on port 8080.
 # This should be the same as in the app.conf file
 EXPOSE 4000

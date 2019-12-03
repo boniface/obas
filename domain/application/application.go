@@ -16,3 +16,9 @@ type ApplicationStatus struct {
 	Description         string `json:"description"`
 	Date                string `json:"date"`
 }
+type Application struct {
+	Id                   string `json:"id"`
+	AppliationStatusId   string `json:"appliationStatusId"`
+	ApplicastionResultId string `json:"applicastionResultId"`
+	ApplicationTypeId    string `json:"applicationTypeId"`
+}

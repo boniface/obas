@@ -97,11 +97,11 @@ var defaultContentTypes = map[string]struct{}{
 	"text/css":                 {},
 	"text/plain":               {},
 	"text/javascript":          {},
-	"application/javascript":   {},
-	"application/x-javascript": {},
-	"application/json":         {},
-	"application/atom+xml":     {},
-	"application/rss+xml":      {},
+	"bursary/javascript":   {},
+	"bursary/x-javascript": {},
+	"bursary/json":         {},
+	"bursary/atom+xml":     {},
+	"bursary/rss+xml":      {},
 	"image/svg+xml":            {},
 }
 
