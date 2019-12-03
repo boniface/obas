@@ -35,7 +35,7 @@ func Controllers(env *config.Env) http.Handler {
 	mux.Mount("/academics", academicsController.Academics(env))
 	mux.Mount("/address", addressController.Addresses(env))
 	mux.Mount("/demographics", demographicsController.Demographics(env))
-	mux.Mount("/bursary", applicationController.Applications(env))
+	mux.Mount("/application", applicationController.Applications(env))
 	mux.Mount("/documents", documentsController.Documents(env))
 	mux.Mount("/institution", institutionsController.Institutions(env))
 	mux.Mount("/location", locationController.Locations(env))
