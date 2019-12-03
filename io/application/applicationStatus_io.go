@@ -6,7 +6,7 @@ import (
 	domain "obas/domain/application"
 )
 
-const applicationStatusUrl = api.BASE_URL + "/application"
+const applicationStatusUrl = api.BASE_URL + "/bursary"
 
 type ApplicationStatus domain.ApplicationStatus
 

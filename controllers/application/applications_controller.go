@@ -30,11 +30,11 @@ func ApplicationTypeHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{""}
 
 		files := []string{
-			app.Path + "/application/application.page.html",
+			app.Path + "/bursary/bursary.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebarOld.page.html",
-			app.Path + "/base/footer.page.html",
+			app.Path + "/base/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -64,11 +64,11 @@ func ApplicationResultHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{""}
 
 		files := []string{
-			app.Path + "/application/application.page.html",
+			app.Path + "/bursary/bursary.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebarOld.page.html",
-			app.Path + "/base/footer.page.html",
+			app.Path + "/base/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -98,11 +98,11 @@ func ApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{""}
 
 		files := []string{
-			app.Path + "/application/application.page.html",
+			app.Path + "/bursary/bursary.page.html",
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebarOld.page.html",
-			app.Path + "/base/footer.page.html",
+			app.Path + "/base/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {

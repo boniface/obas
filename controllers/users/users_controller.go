@@ -48,6 +48,8 @@ type DistrictData struct {
 	SelectedDistrict demograhpyIO.District
 	SelectedTown     demograhpyIO.Town
 	Alert            PageToast
+	Menu             string
+	SubMenu          string
 }
 
 func Users(app *config.Env) http.Handler {
@@ -57,7 +59,7 @@ func Users(app *config.Env) http.Handler {
 	r.Get("/student", StudentHandler(app))
 
 	r.Get("/processingStatus", ProcessingStatusTypeHandler(app))
-	r.Get("/student/application", StudentApplicationStatusHandler(app))
+	r.Get("/student/bursary", StudentApplicationStatusHandler(app))
 	r.Get("/studentContact", StudentContactsHandler(app))
 	r.Get("/student/documents", StudentDocumentsHandler(app))
 	r.Get("/studentResults", StudentResultsHandler(app))
@@ -71,9 +73,7 @@ func Users(app *config.Env) http.Handler {
 	r.Get("/student/profile/academics", StudentProfileSubjectHandler(app))
 	r.Get("/student/profile/districts", StudentProfileDistrictHandler(app))
 	r.Get("/student/profile/contacts", StudentProfileContactsHandler(app))
-	r.Get("/student/profile/application", StudentProfileApplicationHandler(app))
 	r.Get("/student/profile/application_process", StudentProfileApplicationProcessHandler(app))
-	r.Get("/student/application/documents", StudentProfileDocumentsHandler(app))
 
 	r.Post("/student/profile/personal/update", UpdateStudentProfilePersonalHandler(app))
 	r.Post("/student/profile/address/addresstype", StudentProfileAddressTypeHandler(app))
@@ -88,41 +88,9 @@ func Users(app *config.Env) http.Handler {
 	r.Post("/student-profile-town-update", StudentProfileTownUpdateHandler(app))
 	r.Post("/student-document-file-upload", StudentDocumentsUploadHandler(app))
 
+	r.Get("/student/bursary/application", StudentBursaryApplicationHandler(app))
+
 	return r
-}
-
-func StudentProfileDocumentsHandler(app *config.Env) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		email := app.Session.GetString(r.Context(), "userId")
-		if email == "" || len(email) <= 0 {
-			http.Redirect(w, r, "/login", 301)
-			return
-		}
-		user, err := usersIO.GetUser(email)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			http.Redirect(w, r, "/login", 301)
-			return
-		}
-
-		type PageData struct {
-			Student usersIO.User
-		}
-
-		data := PageData{user}
-		files := []string{
-			app.Path + "content/student/application/student_documents.html",
-		}
-		ts, err := template.ParseFiles(files...)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			return
-		}
-		err = ts.Execute(w, data)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-		}
-	}
 }
 
 func StudentProfileApplicationProcessHandler(app *config.Env) http.HandlerFunc {
@@ -145,7 +113,7 @@ func StudentProfileApplicationProcessHandler(app *config.Env) http.HandlerFunc {
 
 		data := PageData{user}
 		files := []string{
-			app.Path + "content/student/application/student_application_process.html",
+			app.Path + "content/student/bursary/student_application_process.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -159,7 +127,7 @@ func StudentProfileApplicationProcessHandler(app *config.Env) http.HandlerFunc {
 	}
 }
 
-func StudentProfileApplicationHandler(app *config.Env) http.HandlerFunc {
+func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		email := app.Session.GetString(r.Context(), "userId")
 		if email == "" || len(email) <= 0 {
@@ -175,11 +143,15 @@ func StudentProfileApplicationHandler(app *config.Env) http.HandlerFunc {
 
 		type PageData struct {
 			Student usersIO.User
+			Menu string
+			SubMenu string
 		}
 
-		data := PageData{user}
+		data := PageData{user, "bursary", "application"}
 		files := []string{
-			app.Path + "content/student/application/student_application.html",
+			app.Path + "content/student/bursary/application.html",
+			app.Path + "content/student/template/navbar.template.html",
+			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -355,7 +327,7 @@ func StudentDocumentsHandler(app *config.Env) http.HandlerFunc {
 			alert,
 		}
 		files := []string{
-			app.Path + "content/student/application/student_documents.html",
+			app.Path + "content/student/bursary/student_documents.html",
 		}
 
 		ts, err := template.ParseFiles(files...)
@@ -452,7 +424,7 @@ func StudentProfileTownsHandler(app *config.Env) http.HandlerFunc {
 			selectedProvince,
 			selectedDistrict,
 			selectedTown,
-			alert}
+			alert, "profile", "districts"}
 
 		files := []string{
 			app.Path + "content/student/profile/district_and_municipality.html",
@@ -544,7 +516,7 @@ func StudentProfileDistrictsHandler(app *config.Env) http.HandlerFunc {
 			selectedProvince,
 			selectedDistrict,
 			selectedTown,
-			alert}
+			alert, "profile", "districts"}
 		files := []string{
 			app.Path + "content/student/profile/district_and_municipality.html",
 		}
@@ -673,10 +645,12 @@ func StudentProfileDistrictHandler(app *config.Env) http.HandlerFunc {
 			selectedProvince,
 			selectedDistrict,
 			selectedTown,
-			alert}
+			alert, "profile", "districts"}
 
 		files := []string{
 			app.Path + "content/student/profile/district_and_municipality.html",
+			app.Path + "content/student/template/navbar.template.html",
+			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -844,11 +818,15 @@ func StudentProfileContactsHandler(app *config.Env) http.HandlerFunc {
 			ContactTypeId string
 			ContactName   string
 			Alert         PageToast
+			Menu          string
+			SubMenu       string
 		}
 
-		data := PageData{user, contactTypes, contacts, usersIO.UserContact{}, "", "", alert}
+		data := PageData{user, contactTypes, contacts, usersIO.UserContact{}, "", "", alert, "profile", "contacts"}
 		files := []string{
 			app.Path + "content/student/profile/contacts.html",
+			app.Path + "content/student/template/navbar.template.html",
+			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -924,11 +902,15 @@ func StudentProfileSettingsHandler(app *config.Env) http.HandlerFunc {
 		type PageData struct {
 			Student usersIO.User
 			Alert   PageToast
+			Menu    string
+			SubMenu string
 		}
 
-		data := PageData{user, alert}
+		data := PageData{user, alert, "profile", "settings"}
 		files := []string{
 			app.Path + "content/student/profile/settings.html",
+			app.Path + "content/student/template/navbar.template.html",
+			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -1038,12 +1020,26 @@ func StudentProfileDemographyHandler(app *config.Env) http.HandlerFunc {
 			StudentTitle  demograhpyIO.Title
 			StudentGender demograhpyIO.Gender
 			StudentRace   demograhpyIO.Race
+			Menu          string
+			SubMenu       string
 		}
 
-		data := PageData{user, titles, genders, races, alert, title, gender, race}
+		data := PageData{
+			user,
+			titles,
+			genders,
+			races,
+			alert,
+			title,
+			gender,
+			race,
+			"profile",
+			"demography"}
 		app.InfoLog.Println("DistrictData: ", data.Alert)
 		files := []string{
 			app.Path + "content/student/profile/demography.html",
+			app.Path + "content/student/template/navbar.template.html",
+			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -1228,11 +1224,15 @@ func StudentProfileRelativeHandler(app *config.Env) http.HandlerFunc {
 			Student         usersIO.User
 			StudentRelative usersIO.UserRelative
 			Alert           PageToast
+			Menu            string
+			SubMenu         string
 		}
 
-		data := PageData{user, userRelative, alert}
+		data := PageData{user, userRelative, alert, "profile", "relative"}
 		files := []string{
 			app.Path + "content/student/profile/relative.html",
+			app.Path + "content/student/template/navbar.template.html",
+			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -1307,11 +1307,15 @@ func StudentProfileAddressHandler(app *config.Env) http.HandlerFunc {
 			Address       usersIO.UserAddress
 			AddressTypeID string
 			AddressName   string
+			Menu          string
+			SubMenu       string
 		}
 
-		data := PageData{user, addressTypes, addresses, usersIO.UserAddress{}, "", ""}
+		data := PageData{user, addressTypes, addresses, usersIO.UserAddress{}, "", "", "profile", "address"}
 		files := []string{
 			app.Path + "content/student/profile/address.html",
+			app.Path + "content/student/template/navbar.template.html",
+			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -1405,10 +1409,14 @@ func StudentHandler(app *config.Env) http.HandlerFunc {
 		}
 		type PageData struct {
 			Student usersIO.User
+			Menu    string
+			SubMenu string
 		}
-		data := PageData{user}
+		data := PageData{user, "", ""}
 		files := []string{
 			app.Path + "content/student/student_dashboard.page.html",
+			app.Path + "content/student/template/navbar.template.html",
+			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -1441,11 +1449,15 @@ func StudentProfilePersonalHandler(app *config.Env) http.HandlerFunc {
 		type PageData struct {
 			Student     usersIO.User
 			DateOfBirth string
+			Menu        string
+			SubMenu     string
 		}
 
-		data := PageData{user, dobString}
+		data := PageData{user, dobString, "profile", "personal"}
 		files := []string{
 			app.Path + "content/student/profile/personal.html",
+			app.Path + "content/student/template/navbar.template.html",
+			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -1505,7 +1517,7 @@ func UsersHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebarOld.page.html",
-			app.Path + "/base/footer.page.html",*/
+			app.Path + "/base/footer.template.html",*/
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -1539,7 +1551,7 @@ func AdminHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebarOld.page.html",
-			app.Path + "/base/footer.page.html",
+			app.Path + "/base/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -1573,7 +1585,7 @@ func ProcessingStatusTypeHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebarOld.page.html",
-			app.Path + "/base/footer.page.html",
+			app.Path + "/base/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -1591,7 +1603,7 @@ func ProcessingStatusTypeHandler(app *config.Env) http.HandlerFunc {
 func StudentApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		files := []string{
-			app.Path + "content/student/application/student_application.html",
+			app.Path + "content/student/bursary/bursary.html",
 		}
 
 		ts, err := template.ParseFiles(files...)
@@ -1626,7 +1638,7 @@ func StudentContactsHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebarOld.page.html",
-			app.Path + "/base/footer.page.html",
+			app.Path + "/base/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -1660,7 +1672,7 @@ func StudentResultsHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebarOld.page.html",
-			app.Path + "/base/footer.page.html",
+			app.Path + "/base/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {

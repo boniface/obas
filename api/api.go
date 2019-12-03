@@ -10,10 +10,10 @@ const BASE_URL string = "http://155.238.32.101:9000"
 
 func Rest() *resty.Request {
 	return resty.R().SetAuthToken("").
-		SetHeader("Accept", "application/json").
+		SetHeader("Accept", "bursary/json").
 		SetHeader("email", "email").
 		SetHeader("site", "site").
-		SetHeader("Content-Type", "application/json")
+		SetHeader("Content-Type", "bursary/json")
 }
 
 var JSON = config.ConfigWithCustomTimeFormat

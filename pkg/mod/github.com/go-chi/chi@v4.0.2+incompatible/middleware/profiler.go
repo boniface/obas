@@ -42,7 +42,7 @@ func Profiler() http.Handler {
 // Replicated from expvar.go as not public.
 func expVars(w http.ResponseWriter, r *http.Request) {
 	first := true
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "bursary/json")
 	fmt.Fprintf(w, "{\n")
 	expvar.Do(func(kv expvar.KeyValue) {
 		if !first {
