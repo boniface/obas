@@ -53,9 +53,9 @@ func DoLogin(email string, password string) (LoginToken, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
 		Post(loginURL + "/login")
-	//if resp.IsError() {
-	//	return LoginToken{}, errors.New(resp.Status())
-	//}
+	if resp.IsError() {
+		return LoginToken{}, errors.New(resp.Status())
+	}
 	respEntity := LoginToken{}
 	//respEntity = LoginToken{entity.Email, "aerefasd.foqerwfdasdfaoduo"}
 	err := json.Unmarshal(resp.Body(), &respEntity)
