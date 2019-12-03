@@ -35,7 +35,7 @@ func GendersHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebarOld.page.html",
-			app.Path + "/base/footer.page.html",
+			app.Path + "/base/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -69,7 +69,7 @@ func RacesHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebarOld.page.html",
-			app.Path + "/base/footer.page.html",
+			app.Path + "/base/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -103,7 +103,7 @@ func RolesHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebarOld.page.html",
-			app.Path + "/base/footer.page.html",
+			app.Path + "/base/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -136,7 +136,7 @@ func TitlesHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "/base/base.page.html",
 			app.Path + "/base/navbar.page.html",
 			app.Path + "/base/sidebarOld.page.html",
-			app.Path + "/base/footer.page.html",
+			app.Path + "/base/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
