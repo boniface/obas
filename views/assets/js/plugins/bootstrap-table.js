@@ -240,7 +240,7 @@
         url: undefined,
         ajax: undefined,
         cache: true,
-        contentType: 'bursary/json',
+        contentType: 'application/json',
         dataType: 'json',
         ajaxOptions: {},
         queryParams: function (params) {
@@ -1688,7 +1688,7 @@
         request = $.extend({}, calculateObjectValue(null, this.options.ajaxOptions), {
             type: this.options.method,
             url: this.options.url,
-            data: this.options.contentType === 'bursary/json' && this.options.method === 'post' ?
+            data: this.options.contentType === 'application/json' && this.options.method === 'post' ?
                 JSON.stringify(data) : data,
             cache: this.options.cache,
             contentType: this.options.contentType,
