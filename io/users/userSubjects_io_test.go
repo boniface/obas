@@ -21,7 +21,7 @@ func TestGetUserSubject(t *testing.T) {
 	result, err := GetUserSubject("35")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)
-	assert.Equal(t, expected, result.Name)
+	assert.Equal(t, expected, result.UserId)
 
 }
 
@@ -39,8 +39,8 @@ func TestUpdateUserSubject(t *testing.T) {
 	result, err := UpdateUserSubject(updated)
 	assert.Nil(t, err)
 	assert.True(t, result)
-	value, err := GetUserSubject(Subject.UserSubjectId)
-	assert.Equal(t, expected, value.Name)
+	value, err := GetUserSubject(Subject.UserId)
+	assert.Equal(t, expected, value.UserId)
 }
 
 func TestDeleteUserSubject(t *testing.T) {

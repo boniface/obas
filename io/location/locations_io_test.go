@@ -11,7 +11,7 @@ func TestGetLocations(t *testing.T) {
 	value, err := GetLocations()
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
-	assert.True(t, len(value) > 0)
+	assert.NotNil(t, value)
 }
 
 func TestGetLocation(t *testing.T) {

@@ -6,7 +6,7 @@ import (
 	domain "obas/domain/institutions"
 )
 
-const institutionURL = api.BASE_URL + "institution"
+const institutionURL = api.BASE_URL + "/institutions"
 
 func CreateInstitution(obj domain.Institution) (bool, error) {
 
@@ -40,8 +40,8 @@ func GetInstitution(id string) (domain.Institution, error) {
 	}
 	return entity, nil
 }
-func GetInstitutions() (domain.Institution, error) {
-	entity := domain.Institution{}
+func GetInstitutions() ([]domain.Institution, error) {
+	entity := []domain.Institution{}
 	resp, _ := api.Rest().Get(institutionURL + "/all")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

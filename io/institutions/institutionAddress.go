@@ -6,7 +6,7 @@ import (
 	domain "obas/domain/institutions"
 )
 
-const institutionAddressURl = api.BASE_URL + "institution_address"
+const institutionAddressURl = api.BASE_URL + "/institutions"
 
 func CreateInstitutionAddress(obj domain.InstitutionAddress) (domain.InstitutionAddress, error) {
 	entity := domain.InstitutionAddress{}

@@ -248,7 +248,7 @@
                 <div class="container-fluid">
                     <div class="row ">
                         <div class="col-md-12 ml-auto mr-auto">
-                            <form id="wizardForm" method="" action="" >
+                            <form id="wizardForm" method="" action="">
                                 <div class="card green card-wizard">
 
                                     <h3 class="text-center" style="color: #FFFFFF; margin-top: 5%">Application
@@ -308,68 +308,39 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <!--
-
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-5">
-                                                    <div class="form-group">
-                                                        <label class="control-label" style="color: #ffffff">choose the Province of your recent institution</label>
-                                                        <select name="cities" class="selectpicker"
-                                                                data-title="ex: western cape"
-                                                                required="true"
-                                                                data-style="btn-default btn-outline"
-                                                                data-menu-style="dropdown-blue">
-                                                            <option value="id">Engineering and technology</option>
-                                                            <option value="ms">Agriculture</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-5">
+                                                <div class="row justify-content-center ">
+                                                <div class="col-md-7">
                                                     <div class="form-group">
                                                         <label class="control-label"
-                                                               style="color: #ffffff">choose your recent Institution</label>
-                                                        <select name="cities" class="selectpicker"
+                                                               style="color: #ffffff">Do you own the institution</label>
+                                                        <select name="currentQualification" class="selectpicker"
                                                                 data-title="Example: 3"
-                                                                data-style="btn-default btn-outline" required="true"
-                                                                data-menu-style="dropdown-blue" >
-                                                            <option value="id"disabled selected >Information technology</option>
-                                                            <option value="id">Engineering and technology</option>
-                                                            <option value="ms">Agriculture</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-5">
-                                                    <div class="form-group">
-                                                        <label class="control-label" style="color: #ffffff">Debt</label>
-                                                        <select name="cities" class="selectpicker"
-                                                                data-title="Do you have any outstanding Debt"
                                                                 data-style="btn-default btn-outline"
-                                                                data-menu-style="dropdown-blue"
-                                                                placeholder="Do you have any outstanding Debt">
+                                                                data-menu-style="dropdown-blue">
+                                                            <option value="id" disabled selected>choose the most
+                                                                recent qualification
+                                                            </option>
                                                             <option value="id">Yes</option>
                                                             <option value="ms">No</option>
-
                                                         </select>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-5">
-                                                    <div class="form-group">
-                                                        <label class="control-label" style="color: #ffffff">Amount owed to institution </label>
-                                                        <input class="form-control" type="number" id="" name=""
-                                                               value="" placeholder="ex: 1000"/>
+                                                </div>
+
+                                                <div class="row justify-content-center">
+                                                    <div class="col-md-7">
+                                                        <div class="form-group">
+                                                            <label class="control-label" style="color: #ffffff">Amount
+                                                                owed to institution in rand</label>
+                                                            <input class="form-control" type="number" id="" name=""
+                                                                   value="" placeholder="ex: 1000"/>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
 
-                                        -->
+                                            </div>
+
+
                                             <div class="tab-pane fade" id="tab2" role="tabpanel">
                                                 <p class="text-center small" style="color: #FFFFFF">Please give us more
                                                     details about your institution location where you got the
@@ -536,8 +507,10 @@
                                                                         <td></td>
                                                                         <td></td>
                                                                         <td></td>
-                                                                        <td><span class="badge "><button type="button"class="btn warning"
-                                                                         style="border-color: #ffea00">Back </button></span></td>
+                                                                        <td><span class="badge "><button type="button"
+                                                                                                         class="btn warning"
+                                                                                                         style="border-color: #ffea00">Back </button></span>
+                                                                        </td>
                                                                     </tr>
                                                                     </tbody>
                                                                 </table>
@@ -547,177 +520,179 @@
                                                 </div>
                                             </div>
                                             <div class="tab-pane fade" id="tab4" role="tabpanel">
-                                                    <p class="text-center small" style="color: #FFFFFF">Please give us more
-                                                        details about your institution location where you got the
-                                                        qualification you provided previously</p>
-                                                    <div class="row justify-content-center">
-                                                        <div class="col-md-5">
-                                                            <div class="form-group">
-                                                                <label class="control-label"
-                                                                       style="color: #ffffff">Choose Country</label>
-                                                                <select name="cities" class="selectpicker"
-                                                                        data-title="Example: 3"
-                                                                        data-style="btn-default btn-outline" required="true"
-                                                                        data-menu-style="dropdown-blue"
-                                                                        placeholder="Duration">
-                                                                    <option value="id">1 Year</option>
-                                                                    <option value="ms">2 Years</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row justify-content-center">
-                                                        <div class="col-md-5">
-                                                            <div class="form-group">
-                                                                <label class="control-label" style="color: #ffffff">Choose
-                                                                    Province</label>
-                                                                <select name="cities" class="selectpicker"
-                                                                        data-title="Intent study field"
-                                                                        data-style="btn-default btn-outline"
-                                                                        data-menu-style="dropdown-blue"
-                                                                        placeholder="Architecture">
-                                                                    <option value="id">Engineering and technology</option>
-                                                                    <option value="ms">Agriculture</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row justify-content-center">
-                                                        <div class="col-md-5">
-                                                            <div class="form-group">
-                                                                <label class="control-label" style="color: #ffffff">Choose
-                                                                    District</label>
-                                                                <select name="cities" class="selectpicker"
-                                                                        data-title="Example: 3"
-                                                                        data-style="btn-default btn-outline" required="true"
-                                                                        data-menu-style="dropdown-blue"
-                                                                        placeholder="Duration">
-                                                                    <option value="id">CPUT</option>
-                                                                    <option value="ms">UNISA</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row justify-content-center">
-                                                        <div class="col-md-5">
-                                                            <div class="form-group">
-                                                                <label class="control-label" style="color: #ffffff">Choose
-                                                                    Town</label>
-                                                                <select name="cities" class="selectpicker"
-                                                                        data-title="Example: 3"
-                                                                        data-style="btn-default btn-outline" required="true"
-                                                                        data-menu-style="dropdown-blue"
-                                                                        placeholder="Duration">
-                                                                    <option value="id">CPUT</option>
-                                                                    <option value="ms">UNISA</option>
-                                                                    <option value="id">UWC</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row justify-content-center">
-                                                        <div class="col-md-5">
-                                                            <div class="form-group">
-                                                                <label class="control-label" style="color: #ffffff">Choose
-                                                                    Institution</label>
-                                                                <select name="cities" class="selectpicker"
-                                                                        data-title="Example: 3"
-                                                                        data-style="btn-default btn-outline" required="true"
-                                                                        data-menu-style="dropdown-blue"
-                                                                        placeholder="Duration">
-                                                                    <option value="id">CPUT</option>
-                                                                    <option value="ms">UNISA</option>
-                                                                    <option value="id">UWC</option>
-                                                                </select>
-                                                            </div>
+                                                <p class="text-center small" style="color: #FFFFFF">Please give us more
+                                                    details about your institution location where you got the
+                                                    qualification you provided previously</p>
+                                                <div class="row justify-content-center">
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label"
+                                                                   style="color: #ffffff">Choose Country</label>
+                                                            <select name="cities" class="selectpicker"
+                                                                    data-title="Example: 3"
+                                                                    data-style="btn-default btn-outline" required="true"
+                                                                    data-menu-style="dropdown-blue"
+                                                                    placeholder="Duration">
+                                                                <option value="id">1 Year</option>
+                                                                <option value="ms">2 Years</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <div class="row justify-content-center">
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label" style="color: #ffffff">Choose
+                                                                Province</label>
+                                                            <select name="cities" class="selectpicker"
+                                                                    data-title="Intent study field"
+                                                                    data-style="btn-default btn-outline"
+                                                                    data-menu-style="dropdown-blue"
+                                                                    placeholder="Architecture">
+                                                                <option value="id">Engineering and technology</option>
+                                                                <option value="ms">Agriculture</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row justify-content-center">
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label" style="color: #ffffff">Choose
+                                                                District</label>
+                                                            <select name="cities" class="selectpicker"
+                                                                    data-title="Example: 3"
+                                                                    data-style="btn-default btn-outline" required="true"
+                                                                    data-menu-style="dropdown-blue"
+                                                                    placeholder="Duration">
+                                                                <option value="id">CPUT</option>
+                                                                <option value="ms">UNISA</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row justify-content-center">
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label" style="color: #ffffff">Choose
+                                                                Town</label>
+                                                            <select name="cities" class="selectpicker"
+                                                                    data-title="Example: 3"
+                                                                    data-style="btn-default btn-outline" required="true"
+                                                                    data-menu-style="dropdown-blue"
+                                                                    placeholder="Duration">
+                                                                <option value="id">CPUT</option>
+                                                                <option value="ms">UNISA</option>
+                                                                <option value="id">UWC</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row justify-content-center">
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label" style="color: #ffffff">Choose
+                                                                Institution</label>
+                                                            <select name="cities" class="selectpicker"
+                                                                    data-title="Example: 3"
+                                                                    data-style="btn-default btn-outline" required="true"
+                                                                    data-menu-style="dropdown-blue"
+                                                                    placeholder="Duration">
+                                                                <option value="id">CPUT</option>
+                                                                <option value="ms">UNISA</option>
+                                                                <option value="id">UWC</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="tab-pane fade" id="tab5" role="tabpanel">
-                                                    <h2 class="text-center text-space small" style="color: #ffffff">Please
-                                                        add not less than 6
-                                                        subjects
-                                                    </h2>
-                                                    <form method="" action="">
-                                                        <div class="row justify-content-center">
-                                                            <div class="col-md-6">
-                                                                <label class="control-label label-font-color">subject</label>
-                                                                <select name="documenttype" class="selectpicker"
-                                                                        data-style="btn-default btn-outline"
-                                                                        data-menu-style="dropdown-blue">
-                                                                    <option value="" disabled selected>select subject
-                                                                    </option>
-                                                                    <option value=></option>
-                                                                </select>
-                                                            </div>
+                                                <h2 class="text-center text-space small" style="color: #ffffff">Please
+                                                    add not less than 6
+                                                    subjects
+                                                </h2>
+                                                <form method="" action="">
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-md-6">
+                                                            <label class="control-label label-font-color">subject</label>
+                                                            <select name="documenttype" class="selectpicker"
+                                                                    data-style="btn-default btn-outline"
+                                                                    data-menu-style="dropdown-blue">
+                                                                <option value="" disabled selected>select subject
+                                                                </option>
+                                                                <option value=></option>
+                                                            </select>
                                                         </div>
-                                                        <div class="row justify-content-center">
-                                                            <div class="col-md-6">
-                                                                <label class="control-label label-font-color">Marks</label>
-                                                                <input type="number" name="marks" class="form-control"
-                                                                       placeholder="ex: 50 ">
-                                                            </div>
+                                                    </div>
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-md-6">
+                                                            <label class="control-label label-font-color">Marks</label>
+                                                            <input type="number" name="marks" class="form-control"
+                                                                   placeholder="ex: 50 ">
                                                         </div>
+                                                    </div>
 
-                                                        <br>
-                                                        <div class="row justify-content-center">
-                                                            <div class="col-md-6">
-                                                                <button type="submit" id="documentUpdateBtn"
-                                                                        class="btn btn-wd btn-info btn-outline full-width">
-                                                                    <span class="btn-label"></span>Add
-                                                                </button>
-                                                            </div>
+                                                    <br>
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-md-6">
+                                                            <button type="submit" id="documentUpdateBtn"
+                                                                    class="btn btn-wd btn-info btn-outline full-width">
+                                                                <span class="btn-label"></span>Add
+                                                            </button>
                                                         </div>
+                                                    </div>
 
-                                                    </form>
+                                                </form>
 
-                                                    <hr/>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="card bootstrap-table">
-                                                                <div class="card-body table-full-width">
-                                                                    <div class="toolbar">
-                                                                        <!--        Here you can write extra buttons/actions for the toolbar              -->
-                                                                    </div>
-
-                                                                    <div class="card-header">
-                                                                        <h4 style="color: #1a1a1a;" class="card-title">
-                                                                            Subject Result Table</h4>
-                                                                    </div>
-                                                                    <table id="bootstrap-table" class="table">
-                                                                        <thead>
-
-                                                                        <th data-field="doctype" data-sortable="true">
-                                                                            Subject
-                                                                        </th>
-                                                                        <th data-field="docdesc" data-sortable="true">
-                                                                            Results
-                                                                        </th>
-                                                                        <th data-field="actions"
-                                                                            class="td-actions text-right"
-                                                                            data-events="operateEvents"
-                                                                            data-formatter="operateFormatter">Actions
-                                                                        </th>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                        <tr>
-                                                                            <td></td>
-                                                                            <td></td>
-                                                                            <td></td>
-                                                                            <td><span class="badge "><button type="button"class="btn warning"
-                                                                                                             style="border-color: #ffea00">Back </button></span></td>
-                                                                        </tr>
-                                                                        </tbody>
-                                                                    </table>
+                                                <hr/>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="card bootstrap-table">
+                                                            <div class="card-body table-full-width">
+                                                                <div class="toolbar">
+                                                                    <!--        Here you can write extra buttons/actions for the toolbar              -->
                                                                 </div>
+
+                                                                <div class="card-header">
+                                                                    <h4 style="color: #1a1a1a;" class="card-title">
+                                                                        Subject Result Table</h4>
+                                                                </div>
+                                                                <table id="bootstrap-table" class="table">
+                                                                    <thead>
+
+                                                                    <th data-field="doctype" data-sortable="true">
+                                                                        Subject
+                                                                    </th>
+                                                                    <th data-field="docdesc" data-sortable="true">
+                                                                        Results
+                                                                    </th>
+                                                                    <th data-field="actions"
+                                                                        class="td-actions text-right"
+                                                                        data-events="operateEvents"
+                                                                        data-formatter="operateFormatter">Actions
+                                                                    </th>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td><span class="badge "><button type="button"
+                                                                                                         class="btn warning"
+                                                                                                         style="border-color: #ffea00">Back </button></span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
                                             <div class="tab-pane fade" id="tab6" role="tabpanel">
                                                 <p class="text-center small" style="color: #FFFFFF">Please give us more
                                                     details about your institution location where you got the

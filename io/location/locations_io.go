@@ -2,7 +2,6 @@ package location
 
 import (
 	"errors"
-	"fmt"
 	"obas/api"
 	domain "obas/domain/location"
 )
@@ -11,11 +10,10 @@ const locationUrl = api.BASE_URL + "/location"
 
 type Location domain.Location
 
-func GetLocations() ([]Location, error) {
-	entites := []Location{}
-	resp, serverEr := api.Rest().Get(locationUrl + "/all")
+func GetLocations() ([]domain.Location, error) {
+	entites := []domain.Location{}
+	resp, _ := api.Rest().Get(locationUrl + "/all")
 	if resp.IsError() {
-		fmt.Println(" Is request from Server Okay", serverEr)
 		return entites, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entites)
