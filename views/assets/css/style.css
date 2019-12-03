@@ -12816,11 +12816,22 @@ ul, li {
 .green {
     background-color: #006837;
 }
+.rectagler{
+ background-color:#FFFFFF;
+
+}
 
 .full-width {
     width: 100%;
 }
-
+.my-custom-scrollbar {
+    position: relative;
+    height: 200px;
+    overflow: auto;
+}
+.table-wrapper-scroll-y {
+    display: block;
+}
 /** custom style ends here */
 
 

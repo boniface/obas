@@ -499,7 +499,7 @@ demo = {
         });
     },
 
-    initCharts: function () {
+    initCharts: function ( Accounts, Registered  ,Applied) {
 
         /*  **************** 24 Hours Performance - single line ******************** */
 
@@ -532,7 +532,7 @@ demo = {
         /*  **************** NASDAQ: AAPL - single line with points ******************** */
 
         var dataStock = {
-            labels: ['\'07', '\'08', '\'09', '\'10', '\'11', '\'12', '\'13', '\'14', '\'15'],
+            labels: ['\'07', '\'08', '\'09', '\'10', '\'11', '\'12', '\'13', '\'14', '\'20'],
             series: [
                 [22.20, 34.90, 42.28, 51.93, 62.21, 80.23, 62.21, 82.12, 102.50, 107.23]
             ]
@@ -610,8 +610,10 @@ demo = {
         Chartist.Pie('#chartPreferences', dataPreferences, optionsPreferences);
 
         Chartist.Pie('#chartPreferences', {
-            labels: ['62%', '32%', '6%'],
-            series: [62, 32, 6]
+            labels: [Accounts+'%', Registered  +'%', Applied+'%'],
+            series: [Accounts, Registered  , Applied]
+
+
         });
 
 

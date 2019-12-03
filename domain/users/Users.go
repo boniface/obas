@@ -44,13 +44,14 @@ type UserDemographics struct {
 }
 
 type UserDocument struct {
-	UserId string `json:"userId"`
-	DocumentId      string `json:"documentId"`
+	UserId     string `json:"userId"`
+	DocumentId string `json:"documentId"`
 }
 
 type UserInstitution struct {
-	UserInstitutionId string `json:"userInstitutionId"`
-	Name              string `json:"name"`
+	InstitutionId string `json:"institutionId"`
+	UserId        string `json:"userId"`
+	Current       bool   `json:"current"`
 }
 
 type UserPassword struct {
@@ -77,13 +78,28 @@ type UserRole struct {
 }
 
 type UserSubjects struct {
-	UserSubjectId string `json:"userSubjectId"`
-	Name          string `json:"name"`
-	Description   string `json:"description"`
-	Term          string `json:"term"`
+	UserId        string `json:"userId"`
+	SubjectId     string `json:"subjectId"`
+	Marks         string `json:"marks"`
+	InstitutionId string `json:"institutionId"`
 }
 
 type UserTown struct {
-	UserId string `json:"userId"`
+	UserId   string `json:"userId"`
 	TownCode string `json:"townCode"`
+}
+type UserCourse struct {
+	UserId        string `json:"UserId"`
+	CourseId      string `json:"courseId"`
+	InstitutionId string `json:"institutionId"`
+}
+type UserApplication struct {
+	UserId        string `json:"userId"`
+	ApplicationId string `json:"applicationId"`
+}
+type UserApplicationStatus struct {
+	ApplicationId string    `json:"applicationId"`
+	StatusId      string    `json:"statusId"`
+	DateTime      time.Time `json:"dateTime"`
+	Modifier      string    `json:"modifier"`
 }

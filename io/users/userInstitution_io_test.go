@@ -19,11 +19,11 @@ func TestGetUserIntstitution(t *testing.T) {
 	value, err := GetUserIntstitution("87")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
-	assert.Equal(t, value.Name, expected)
+	assert.Equal(t, value.UserId, expected)
 }
 
 func TestCreateUserIntstitution(t *testing.T) {
-	uInt := domain.UserInstitution{"86", "UNISA"}
+	uInt := domain.UserInstitution{"86", "UNISA", true}
 	value, err := CreateUserIntstitution(uInt)
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
@@ -31,7 +31,7 @@ func TestCreateUserIntstitution(t *testing.T) {
 }
 
 func TestUpdateUserIntstitution(t *testing.T) {
-	uInt := domain.UserInstitution{"86", "UNISA"}
+	uInt := domain.UserInstitution{"86", "UNISA", false}
 	value, err := DeleteUserIntstitution(uInt)
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
@@ -39,7 +39,7 @@ func TestUpdateUserIntstitution(t *testing.T) {
 }
 
 func TestDeleteUserIntstitution(t *testing.T) {
-	uInt := domain.UserInstitution{"86", "UNISA"}
+	uInt := domain.UserInstitution{"86", "UNISA", false}
 	value, err := DeleteUserIntstitution(uInt)
 	assert.Nil(t, err)
 	assert.True(t, value)

@@ -6,7 +6,7 @@ import (
 	domain "obas/domain/location"
 )
 
-const locationTypeUrl = api.BASE_URL + "/location"
+const locationTypeUrl = api.BASE_URL + "/locationtype"
 
 type LocationType domain.LocationType
 

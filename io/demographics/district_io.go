@@ -80,3 +80,39 @@ func GetProvinceForDistrict(districtCode string) (ProvinceDistrict, error) {
 	}
 	return entity, nil
 }
+func CreateDistrict(obj domain.District) (domain.District, error) {
+	entity := domain.District{}
+	resp, _ := api.Rest().SetBody(obj).Post(districtURL + "/create/")
+	if resp.IsError() {
+		return entity, errors.New(resp.Status())
+	}
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(resp.Status())
+	}
+	return entity, nil
+}
+func DeleteDistrict(obj domain.District) (domain.District, error) {
+	entity := domain.District{}
+	resp, _ := api.Rest().SetBody(obj).Post(districtURL + "/delete/")
+	if resp.IsError() {
+		return entity, errors.New(resp.Status())
+	}
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(resp.Status())
+	}
+	return entity, nil
+}
+func UpdateDistrict(obj domain.District) (domain.District, error) {
+	entity := domain.District{}
+	resp, _ := api.Rest().SetBody(obj).Post(districtURL + "/update/")
+	if resp.IsError() {
+		return entity, errors.New(resp.Status())
+	}
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(resp.Status())
+	}
+	return entity, nil
+}
