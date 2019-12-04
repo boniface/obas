@@ -1,4 +1,4 @@
-package application
+package applications
 
 import (
 	"errors"
@@ -6,13 +6,13 @@ import (
 	domain "obas/domain/application"
 )
 
-const applicationResultUrl = api.BASE_URL + "/bursary"
+const applicationStatusUrl = api.BASE_URL + "/application"
 
-type ApplicationResult domain.ApplicationResult
+type ApplicationStatus domain.ApplicationStatus
 
-func GetApplicationResults() ([]ApplicationResult, error) {
-	entites := []ApplicationResult{}
-	resp, _ := api.Rest().Get(applicationResultUrl + "/result/all")
+func GetApplicationStatuses() ([]ApplicationStatus, error) {
+	entites := []ApplicationStatus{}
+	resp, _ := api.Rest().Get(applicationStatusUrl + "/status/all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
@@ -23,9 +23,9 @@ func GetApplicationResults() ([]ApplicationResult, error) {
 	return entites, nil
 }
 
-func GetApplicationResult(id string) (ApplicationResult, error) {
-	entity := ApplicationResult{}
-	resp, _ := api.Rest().Get(applicationResultUrl + "/result/get/" + id)
+func GetApplicationStatus(id string) (ApplicationStatus, error) {
+	entity := ApplicationStatus{}
+	resp, _ := api.Rest().Get(applicationStatusUrl + "/status/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -36,29 +36,29 @@ func GetApplicationResult(id string) (ApplicationResult, error) {
 	return entity, nil
 }
 
-func CreateApplicationResult(entity interface{}) (bool, error) {
+func CreateApplicationStatus(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(applicationResultUrl + "/result/create")
+		Post(applicationStatusUrl + "/status/create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
 	return true, nil
 }
 
-func UpdateApplicationResult(entity interface{}) (bool, error) {
+func UpdateApplicationStatus(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(applicationResultUrl + "/result/update")
+		Post(applicationStatusUrl + "/status/update")
 	if resp.IsError() {
 		return true, nil
 	}
 	return true, nil
 }
-func DeleteApplicationResult(entity interface{}) (bool, error) {
+func DeleteApplicationStatus(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(applicationResultUrl + "/result/delete")
+		Post(applicationStatusUrl + "/status/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

@@ -7,7 +7,7 @@ import (
 )
 
 //please add the url
-const userapplicationURL = api.BASE_URL
+const userapplicationURL = api.BASE_URL + "/users/application"
 
 func CreateUserApplication(obj domain.UserApplication) (domain.UserApplication, error) {
 	entity := domain.UserApplication{}
@@ -21,9 +21,9 @@ func CreateUserApplication(obj domain.UserApplication) (domain.UserApplication, 
 	}
 	return entity, nil
 }
-func GetUserApplication(id string) (domain.UserApplication, error) {
+func GetUserApplication(userId, applicationId string) (domain.UserApplication, error) {
 	entity := domain.UserApplication{}
-	resp, _ := api.Rest().Get(userapplicationURL + "/get")
+	resp, _ := api.Rest().Get(userapplicationURL + "/get/" + userId + "/" + applicationId)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -33,9 +33,10 @@ func GetUserApplication(id string) (domain.UserApplication, error) {
 	}
 	return entity, nil
 }
-func GetUserApplications(id string) ([]domain.UserApplication, error) {
+
+func GetUserApplications(userId string) ([]domain.UserApplication, error) {
 	entity := []domain.UserApplication{}
-	resp, _ := api.Rest().Get(userapplicationURL + "/all")
+	resp, _ := api.Rest().Get(userapplicationURL + "/all/" + userId)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}

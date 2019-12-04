@@ -118,11 +118,90 @@
 
         <div class="content">
             <div class="container-fluid">
+
+                {{if  .AppVerifier}}
                 <div class="row">
                     <div class="col-md-12">
+                        <div class="card green">
+                            <div class="card-body">
+                                <form id="courseDetailsForm" method="post"
+                                      action="/users/student/bursary/application/upload">
+                                    <h4 style="color: #ffffff" class="text-center">New Application</h4>
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label class="control-label"
+                                                       style="color: #ffffff">Appplication Type</label>
+                                                <select class="selectpicker"
+                                                        data-title="Example: 3" name="applicationType"
+                                                        data-style="btn-default btn-outline" required="true"
+                                                        data-menu-style="dropdown-blue" >
+                                                    <option value="id"disabled selected >choose the type of Applicat you are</option>
+                                                    {{with .ApplicationTypes}}
+                                                    {{range .}}
+                                                    <option value="{{.Id}}">{{.Name}}</option>
+                                                    {{end}}
+                                                    {{end}}
+                                                </select>
+                                            </div>
+                                        </div>
 
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label class="control-label" style="color: #ffffff">who are you as an applicant</label>
+                                                <select  class="selectpicker"
+                                                        data-title="ex: western cape"
+                                                        data-style="btn-default btn-outline"
+                                                        data-menu-style="dropdown-blue" name="applicantType">
+                                                    <option value="id" disabled selected>please select your one type below</option>
+                                                    {{with .Applicants}}
+                                                        {{range .}}
+                                                            <option value="{{.Id}}">{{.Name}}</option>
+                                                        {{end}}
+                                                    {{end}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-5">
+                                            <button type="button" id="editButton"
+                                                    class="btn btn-wd btn-warning btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-warning"></i>
+                                                    </span>
+                                                EditRV
+                                            </button>
+                                            <button type="submit" id="updateButton"
+                                                    class="btn btn-wd btn-info btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-exclamation"></i>
+                                                    </span>
+                                                Update
+                                            </button>
+
+                                            <button type="button" id="cancelButton"
+                                                    class="btn btn-wd btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-arrow-left"></i>
+                                                    </span>
+                                                Cancel
+                                            </button>
+
+                                            <div class="clearfix"></div>
+
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                {{end}}
+
+                {{if not .AppVerifier}}
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card green">
@@ -182,6 +261,7 @@
                         </div>
                     </div>
                 </div>
+            {{end}}
             </div>
         </div>
 

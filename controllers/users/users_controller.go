@@ -1,12 +1,16 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/go-chi/chi"
 	"html/template"
 	"io"
 	"net/http"
 	"obas/config"
+	domain2 "obas/domain/application"
+	domain3 "obas/domain/users"
 	addressIO "obas/io/address"
+	"obas/io/applications"
 	demograhpyIO "obas/io/demographics"
 	documentIO "obas/io/documents"
 	loginIO "obas/io/login"
@@ -89,8 +93,102 @@ func Users(app *config.Env) http.Handler {
 	r.Post("/student-document-file-upload", StudentDocumentsUploadHandler(app))
 
 	r.Get("/student/bursary/application", StudentBursaryApplicationHandler(app))
+	r.Post("/student/bursary/application/upload", StudentBursaryApplicationUploadHandler(app))
 
 	return r
+}
+
+func StudentBursaryApplicationUploadHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		fmt.Println("User ", user)
+
+		var applicationTest string
+		var newApplication = domain2.Application{}
+
+		r.ParseForm()
+		applicationTypeId := r.PostFormValue("applicationType")
+		applicantTypeId := r.PostFormValue("applicantType")
+
+		fmt.Println(applicationTypeId, "<<<<<< applicationTypeId and applicantTypeId>>>>>>>>", applicantTypeId)
+		if applicationTypeId != "" || applicantTypeId != "" {
+			fmt.Println("we are checking the applicationTypeId and applicantTypeId")
+			aplication := domain2.Application{"", applicationTypeId, applicantTypeId, "", ""}
+			newApplication, err = applications.CreateApplication(aplication)
+			if err != nil {
+				applicationTest = "An error has occurder! please try again later"
+				fmt.Println("an error occured in creating the application")
+			} else if newApplication.Id != "" {
+				userApplication := domain3.UserApplication{email, newApplication.Id}
+				_, err := usersIO.CreateUserApplication(userApplication)
+				if err != nil {
+					applicationTest = "An error has occurder! please try again later"
+					fmt.Println("an error occured in creating the application")
+				} else {
+					userApplicationStatus := domain3.UserApplicationStatus{newApplication.Id, "EOPT-6LRHZ", time.Now(), user.Email}
+					_, err := usersIO.CreateUserApplicationStatus(userApplicationStatus)
+					if err != nil {
+						applicationTest = "An error has occurder! please try again later"
+						fmt.Println("an error occured in creating the userApplicationStatus" + applicationTest)
+					}
+				}
+			}
+		}
+		userApplication, err := usersIO.GetUserApplications(email)
+		if len(userApplication) <= 0 {
+			applicationTest = "empty"
+		}
+		if err != nil {
+			applicationTest = "empty"
+		}
+		appTypes, err := applications.GetApplicationTypes()
+		if err != nil {
+			fmt.Println("error in readfing appTypes")
+		}
+		applicantsType, err := applications.GetApplicantTypes()
+		if err != nil {
+			fmt.Println("error in readfing applicantTypes")
+		}
+
+		type PageData struct {
+			Student          usersIO.User
+			Menu             string
+			SubMenu          string
+			UserApp          []domain3.UserApplication
+			ApplicationTypes []applications.ApplicationType
+			Applicants       []domain2.ApplicantType
+			AppVerifier      string
+		}
+
+		data := PageData{user, "bursary", "application", userApplication, appTypes, applicantsType, applicationTest}
+
+		files := []string{
+			app.Path + "content/student/bursary/application.html",
+			app.Path + "content/student/template/navbar.template.html",
+			app.Path + "base/template/footer.template.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+
+	}
 }
 
 func StudentProfileApplicationProcessHandler(app *config.Env) http.HandlerFunc {
@@ -127,27 +225,55 @@ func StudentProfileApplicationProcessHandler(app *config.Env) http.HandlerFunc {
 	}
 }
 
+type ApplicationVirifier struct {
+	AppTest string
+}
+
 func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		email := app.Session.GetString(r.Context(), "userId")
+		var applicationTest string
 		if email == "" || len(email) <= 0 {
+			fmt.Println("in if email == || len(email) <= 0 {")
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
 		user, err := usersIO.GetUser(email)
 		if err != nil {
+			fmt.Println("in err != nil {")
 			app.ErrorLog.Println(err.Error())
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
 
-		type PageData struct {
-			Student usersIO.User
-			Menu string
-			SubMenu string
+		userApplication, err := usersIO.GetUserApplications(email)
+		fmt.Println("user application>>>", userApplication)
+		if len(userApplication) <= 0 {
+			applicationTest = "empty"
+		}
+		if err != nil {
+			applicationTest = "empty"
+		}
+		appTypes, err := applications.GetApplicationTypes()
+		if err != nil {
+			fmt.Println("error in readfing appTypes")
+		}
+		applicantsType, err := applications.GetApplicantTypes()
+		if err != nil {
+			fmt.Println("error in readfing applicantTypes")
 		}
 
-		data := PageData{user, "bursary", "application"}
+		type PageData struct {
+			Student          usersIO.User
+			Menu             string
+			SubMenu          string
+			UserApp          []domain3.UserApplication
+			ApplicationTypes []applications.ApplicationType
+			Applicants       []domain2.ApplicantType
+			AppVerifier      string
+		}
+
+		data := PageData{user, "bursary", "application", userApplication, appTypes, applicantsType, applicationTest}
 		files := []string{
 			app.Path + "content/student/bursary/application.html",
 			app.Path + "content/student/template/navbar.template.html",

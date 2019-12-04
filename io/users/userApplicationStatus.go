@@ -6,7 +6,7 @@ import (
 	domain "obas/domain/users"
 )
 
-const userapplicationstatus = api.BASE_URL + ""
+const userapplicationstatus = api.BASE_URL + "/users/applicationstatus"
 
 func CreateUserApplicationStatus(obj domain.UserApplicationStatus) (domain.UserApplicationStatus, error) {
 	entity := domain.UserApplicationStatus{}

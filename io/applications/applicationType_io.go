@@ -1,4 +1,4 @@
-package application
+package applications
 
 import (
 	"errors"
@@ -7,15 +7,15 @@ import (
 	domain "obas/domain/application"
 )
 
-const applicationTypeUrl = api.BASE_URL + "/bursary"
+const applicationTypeUrl = api.BASE_URL + "/application"
 
 type ApplicationType domain.ApplicationType
 
 func GetApplicationTypes() ([]ApplicationType, error) {
 	entites := []ApplicationType{}
-	resp, serverEr := api.Rest().Get(applicationTypeUrl + "/type/all")
+	resp, _ := api.Rest().Get(applicationTypeUrl + "/type/all")
 	if resp.IsError() {
-		fmt.Println(" Is request from Server Okay", serverEr)
+		fmt.Println(" Is request from Server Okay")
 		return entites, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entites)
