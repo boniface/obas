@@ -23,197 +23,12 @@
 
 <body>
 <div class="wrapper">
-    <div class="sidebar" data-color="orange" data-image="../assets/img/sidebar-5.jpg">
 
-        <div class="sidebar-wrapper">
-            <div class="logo"
-                 style="padding-left: 40px;padding-top: 0px;padding-bottom: 0px;background: #ffea00;height: 60px">
+    {{ template "sidebar" .}}
 
-                <a href="admin_dashboard.page.html" class="simple-text logo-normal">
-
-                    <img src="../../../assets/img/Logo-04.png" alt="Logo"
-                         style="width: 176px; height: 55px;alignment: center">
-                </a>
-            </div>
-            <div class="user">
-                <div class="photo">
-                    <img src="../../../assets/img/default-avatar.png"/>
-                </div>
-                <div class="info ">
-                    <a data-toggle="collapse" href="#collapseExample" class="collapsed">
-                            <span>Tania Andrew
-                                <!-- <b class="caret"></b> -->
-                            </span>
-
-                    </a>
-                </div>
-            </div>
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="collapse" href="#componentsExamples">
-                        <i class="nc-icon nc-single-02"></i>
-                        <p>
-                            Profil Account
-                            <b class="caret"></b>
-                        </p>
-                    </a>
-                    <div class="collapse " id="componentsExamples">
-                        <ul class="nav">
-                            <li class="nav-item ">
-                                <a class="nav-link" href="Admin_user.html">
-                                    <span class="sidebar-mini">V</span>
-                                    <span class="sidebar-normal">View Profil</span>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="Admin_user.html">
-                                    <span class="sidebar-mini">E</span>
-                                    <span class="sidebar-normal">Edit Profil</span>
-                                </a>
-                            </li>
-
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="admin_dashboard.page.html">
-                        <i class="nc-icon nc-chart-pie-35"></i>
-                        <p>Dashboard</p>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="admin_application.html">
-                        <i class="nc-icon nc-attach-87"></i>
-                        <p>Application</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./admin_applicant.html">
-                        <i class="nc-icon nc-single-02"></i>
-                        <p>
-                            Applicant
-                            <!-- <b class="caret"></b> -->
-                        </p>
-                    </a>
-
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="admin_remove.html">
-                        <i class="nc-icon nc-simple-remove"></i>
-                        <p> Remove</p>
-                    </a>
-                </li>
-
-                <li class="nav-item ">
-                    <a class="nav-link" href="admin_documents.html">
-                        <i class="nc-icon nc-single-copy-04"></i>
-                        <p> Documents</p>
-                    </a>
-                </li>
-
-
-                <li class="nav-item ">
-                    <div class="logo">
-                        <a class="nav-link" href="./calendar.html">
-                            <!-- <i class="nc-icon nc-single-copy-04"></i>-->
-
-                        </a>
-                    </div>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="./calendar.html">
-                        <!-- <i class="nc-icon nc-single-copy-04"></i>-->
-                        <p style="position: center">Log out</p>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
     <div class="main-panel">
         <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg ">
-            <div class="container-fluid">
-                <div class="navbar-wrapper">
-                    <div class="navbar-minimize">
-                        <button id="minimizeSidebar"
-                                class="btn btn-warning btn-fill btn-round btn-icon d-none d-lg-block">
-                            <i class="fa fa-ellipsis-v visible-on-sidebar-regular"></i>
-                            <i class="fa fa-navicon visible-on-sidebar-mini"></i>
-                        </button>
-                    </div>
-                    <a class="navbar-brand" href="#pablo"> Admin Dashboard </a>
-                </div>
-                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                        aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-bar burger-lines"></span>
-                    <span class="navbar-toggler-bar burger-lines"></span>
-                    <span class="navbar-toggler-bar burger-lines"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-end">
-                    <ul class="nav navbar-nav mr-auto">
-                        <form class="navbar-form navbar-left navbar-search-form" role="search">
-                            <div class="input-group">
-                                <i class="nc-icon nc-zoom-split"></i>
-                                <input type="text" value="" class="form-control" placeholder="Search...">
-                            </div>
-                        </form>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li class="dropdown nav-item">
-                            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                                <i class="nc-icon nc-planet"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Create New Post</a>
-                                <a class="dropdown-item" href="#">Manage Something</a>
-                                <a class="dropdown-item" href="#">Do Nothing</a>
-                                <a class="dropdown-item" href="#">Submit to live</a>
-                                <li class="divider"></li>
-                                <a class="dropdown-item" href="#">Another action</a>
-                            </ul>
-                        </li>
-                        <li class="dropdown nav-item">
-                            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                                <i class="nc-icon nc-bell-55"></i>
-                                <span class="notification">5</span>
-                                <span class="d-lg-none">Notification</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Notification 1</a>
-                                <a class="dropdown-item" href="#">Notification 2</a>
-                                <a class="dropdown-item" href="#">Notification 3</a>
-                                <a class="dropdown-item" href="#">Notification 4</a>
-                                <a class="dropdown-item" href="#">Notification 5</a>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="nc-icon nc-bullet-list-67"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="#">
-                                    <i class="nc-icon nc-email-85"></i> Messages
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="nc-icon nc-umbrella-13"></i> Help Center
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="nc-icon nc-settings-90"></i> Settings
-                                </a>
-                                <div class="divider"></div>
-                                <a class="dropdown-item" href="#">
-                                    <i class="nc-icon nc-lock-circle-open"></i> Lock Screen
-                                </a>
-                                <a href="#" class="dropdown-item text-danger">
-                                    <i class="nc-icon nc-button-power"></i> Log out
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        {{ template "navbar" .}}
         <!-- End Navbar -->
 
 
@@ -230,14 +45,14 @@
                                 <table class="table table-hover table-striped">
                                     <p>
                                     <h4 style="color: #000000">
-                                        <center>Student Applicants</center>
+                                        <center> Applicants</center>
                                     </h4>
                                     </p>
                                     <thead>
                                     <th>Select</th>
                                     <th>Application Code</th>
                                     <th>Email</th>
-                                    <th>Status</th>
+                                    <th>Application Status</th>
                                     <th>Phone</th>
                                     <th>Action</th>
                                     </thead>
@@ -251,54 +66,7 @@
                                         <td><a href="/">verify documents</a></td>
 
                                     </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>CTR051</td>
-                                        <td>emile@gmail.com</td>
-                                        <td>In process</td>
-                                        <td>0816400725</td>
-                                        <td><a href="/">verify documents</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>CTR052</td>
-                                        <td>nombila@gmail.com</td>
-                                        <td>In process</td>
-                                        <td>07163453600</td>
-                                        <td><a href="/">verify documents</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>CTR053</td>
-                                        <td>cyfo@gmail.com</td>
-                                        <td>In process</td>
-                                        <td>08554982</td>
-                                        <td><a href="/">verify documents</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>CTR054</td>
-                                        <td>japhet@gmail.com</td>
-                                        <td>In process</td>
-                                        <td>Feldkirchen in Kärnten</td>
-                                        <td><a href="/">verify documents</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>CTR055</td>
-                                        <td>espoir@gmail.com</td>
-                                        <td>In process</td>
-                                        <td>0657007265</td>
-                                        <td><a href="/">verify documents</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>CTR055</td>
-                                        <td>aj@gmail.com</td>
-                                        <td>In process</td>
-                                        <td>0845201867</td>
-                                        <td><a href="/">verify documents</a></td>
-                                    </tr>
+
                                     </tbody>
                                 </table>
                             </div>
@@ -315,13 +83,7 @@
 
                             <div class="card-header ">
                                 <h4 class="card-title">Documents Table</h4>
-                                <p class="card-category">Search with Student Id</p>
-                                <div class="search">
-                                    <input type="text" class="searchTerm" placeholder="Ex: 216093850">
-                                    <button type="submit" class="searchButton">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </div>
+                                <p class="card-category">Document for Espoir Diteekemena</p>
                             </div>
                             <div class="wrap">
 
@@ -332,105 +94,139 @@
                                     <thead>
                                     <tr>
                                         <th class="text-center">#</th>
-                                        <th>Document ID</th>
                                         <th>Document Type</th>
                                         <th class="text-center">Status</th>
                                         <th class="text-center">View Documents</th>
                                         <th class="text-center">file</th>
+                                        <th class="text-center">file</th>
                                         <th class="text-center">Change Document Stat</th>
-                                        <th class="text-center"></th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr>
 
                                         <td class="text-center">1</td>
-                                        <td>Andrew Mike</td>
-                                        <td>Develop</td>
-                                        <td class="text-right">&euro; 99,225</td>
-                                        <td class="text-right">&euro; 99,225</td>
+                                        <td>ID</td>
+                                        <td class="text-center">&euro; 99,225</td>
+                                        <td class="text-center">&euro; 99,225</td>
                                         <td class="td-actions text-center">
                                             <a href="#" rel="tooltip" title="View Profile" class="fa fa-image"
                                                onclick="demo.showSwal('basic')"></a>
                                         </td>
-                                        <td class="text-center">
-
-
-                                                        <select name="currentQualification" class="selectpicker"
-                                                                data-title="Example: 3"
-                                                                data-style="btn-default btn-outline"
-                                                                data-menu-style="dropdown-blue">
-                                                            <option value="id" disabled selected>choose stat
-                                                            </option>
-                                                            <option value="id">Student</option>
-                                                            <option value="ms">Matric</option>
-                                                        </select>
-
+                                        <td>
+                                            <div class="font-icon-detail text-center">
+                                                <a download="logo" href="../../../assets/img/Logo-04.png"><i
+                                                            class="nc-icon nc-cloud-download-93">
+                                                    </i></a>
+                                            </div>
                                         </td>
-                                        <td> <button type="button" class="btn btn-info "
-                                                     style="border-color: #ffea00">submit
-                                            </button></td>
+                                        <td >
+                                            <div class="row justify-content-center">
+                                                <form>
+                                                    <div class="row justify-content-center">
+
+                                                        <div class="row">
+                                                            <div class="col-md-7">
+                                                                <select name="currentQualification" class="selectpicker"
+                                                                        data-title="Example: 3"
+                                                                        data-style="btn-default btn-outline"
+                                                                        data-menu-style="dropdown-blue">
+                                                                    <option value="id" disabled selected>Status
+                                                                    </option>
+                                                                    <option value="id">Student</option>
+                                                                    <option value="ms">Matric</option>
+                                                                </select>
+                                                            </div>
+                                                            <div style="margin-top: 3%" class="col-lg-5">
+                                                                <button type="button" class="btn btn-info ">submit
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </td>
                                     </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card strpied-tabled-with-hover">
+                            <div class="card-header ">
+                                <h4 class="card-title"></h4>
+                                <!-- <p class="card-category">Applicant</p> -->
+                            </div>
+                            <div class="card-body table-full-width table-responsive">
+                                <table class="table table-hover table-striped">
+                                    <div class="card-header ">
+                                        <h4 class="card-title">Student details Table</h4>
+                                        <p class="card-category">Details for Espoir Diteekemena</p>
+                                    </div>
+                                    <thead>
+                                    <th>Name</th>
+                                    <th>Surname</th>
+                                    <th>Address</th>
+                                    <th>Education Level</th>
+                                    <th>Application Institution</th>
+                                    <th>Application Course</th>
+                                    <th>Average Marks</th>
+                                    <th>Change Application status</th>
+                                    </thead>
+                                    <tbody>
                                     <tr>
-                                        <td class="text-center">1</td>
-                                        <td>Andrew Mike</td>
-                                        <td>Develop</td>
-                                        <td class="text-right">&euro; 99,225</td>
-                                        <td class="text-right">&euro; 99,225</td>
-                                        <td class="td-actions text-center">
-                                            <a href="#" rel="tooltip" title="View Profile" class="fa fa-image"
-                                               onclick="demo.showSwal('basic')"></a>
-                                        </td>
-                                        <td class="text-right"><select name="currentQualification" class="selectpicker"
-                                                                       data-title="Example: 3"
-                                                                       data-style="btn-default btn-outline"
-                                                                       data-menu-style="dropdown-blue">
-                                                <option value="id" disabled selected>choose the most
-                                                    recent qualification
-                                                </option>
-                                                <option value="id">Student</option>
-                                                <option value="ms">Matric</option>
-                                            </select></td>
-                                        <td> <button type="button" class="btn btn-info "
-                                                     style="border-color: #ffea00">submit
-                                            </button></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">1</td>
-                                        <td>Andrew Mike</td>
-                                        <td>Develop</td>
-                                        <td class="text-right">&euro; 99,225</td>
-                                        <td class="text-right">&euro; 99,225</td>
-                                        <td class="td-actions text-center">
-                                            <a href="#" rel="tooltip" title="View Profile" class="fa fa-image"
-                                               onclick="demo.showSwal('basic')"></a>
-                                        </td>
-                                        <td class="text-right"><select name="currentQualification" class="selectpicker"
-                                                                       data-title="Example: 3"
-                                                                       data-style="btn-default btn-outline"
-                                                                       data-menu-style="dropdown-blue">
-                                                <option value="id" disabled selected>choose the most
-                                                    recent qualification
-                                                </option>
-                                                <option value="id">Student</option>
-                                                <option value="ms">Matric</option>
-                                            </select></td>
-                                        <td> <button type="button" class="btn btn-info ">submit
-                                            </button></td>
-                                    </tr>
+                                        <td>1</td>
+                                        <td>CTR050</td>
+                                        <td>joseph@gmail.com</td>
+                                        <td>In process</td>
+                                        <td>0625401763</td>
+                                        <td>verify documents</td>
+                                        <td>verify documents</td>
+                                        <td >
 
+
+                                            <div class="row">
+                                            <form>
+                                                <div class="row justify-content-center">
+
+                                                        <div class="row">
+                                                        <div class="col-md-7">
+                                                            <select name="currentQualification" class="selectpicker"
+                                                                    data-style="btn-default btn-outline"
+                                                                    data-menu-style="dropdown-blue">
+                                                                <option value="id" disabled selected>Status
+                                                                </option>
+                                                                <option value="id">Student</option>
+                                                                <option value="ms">Matric</option>
+                                                            </select>
+                                                        </div>
+                                                        <div style="margin-top: 3%" class="col-lg-5">
+                                                                <button type="button" class="btn btn-info ">submit
+                                                                </button>
+                                                        </div>
+                                                        </div>
+
+                                                </div>
+                                            </form>
+                                            </div>
+                                        </td>
+
+                                    </tr>
 
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <form id="contact" action="" method="post">
+                            <p class="card-category">Send message to: Espoir Diteekemena</p>
                             <fieldset>
                                 <textarea placeholder="Type your message here...." tabindex="5" required></textarea>
                             </fieldset>
@@ -448,20 +244,7 @@
         </div>
 
 
-        <footer class="footer">
-            <div class="container">
-                <nav>
-
-                    <p class="copyright text-center">
-                        ©
-                        <script>
-                            document.write(new Date().getFullYear())
-                        </script>
-                        <a href="http://www.CPUT.AC.ZA">ICT</a>, made with love for a better web
-                    </p>
-                </nav>
-            </div>
-        </footer>
+        {{ template "footer" .}}
     </div>
 </div>
 

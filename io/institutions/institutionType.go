@@ -6,7 +6,7 @@ import (
 	domain "obas/domain/institutions"
 )
 
-const institutionType = api.BASE_URL + "/institution/institution"
+const institutionType = api.BASE_URL + "/institutions"
 
 func CreateInstitutionType(obj domain.InstitutionTypes) (domain.InstitutionTypes, error) {
 	entity := domain.InstitutionTypes{}
@@ -44,17 +44,17 @@ func GetInstitutionTypes() ([]domain.InstitutionTypes, error) {
 	}
 	return entity, nil
 }
-func DeleteInstitutionType(obj domain.InstitutionTypes) (domain.InstitutionTypes, error) {
-	entity := domain.InstitutionTypes{}
+func DeleteInstitutionType(obj domain.InstitutionTypes) (bool, error) {
+	//entity := domain.InstitutionTypes{}
 	resp, _ := api.Rest().SetBody(obj).Post(institutionAddressURl + "/type/delete")
 	if resp.IsError() {
-		return entity, errors.New(resp.Status())
+		return false, errors.New(resp.Status())
 	}
-	err := api.JSON.Unmarshal(resp.Body(), &entity)
-	if err != nil {
-		return entity, errors.New(resp.Status())
-	}
-	return entity, nil
+	//err := api.JSON.Unmarshal(resp.Body(), &entity)
+	//if err != nil {
+	//	return entity, errors.New(resp.Status())
+	//}
+	return true, nil
 }
 func UpdateInstitutionType(obj domain.InstitutionTypes) (domain.InstitutionTypes, error) {
 	entity := domain.InstitutionTypes{}

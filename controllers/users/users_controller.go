@@ -1,17 +1,23 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/go-chi/chi"
 	"html/template"
 	"io"
 	"net/http"
 	"obas/config"
+	applicationDomain "obas/domain/application"
+	userDomain "obas/domain/users"
 	addressIO "obas/io/address"
+	applicationIO "obas/io/applications"
 	demograhpyIO "obas/io/demographics"
 	documentIO "obas/io/documents"
 	loginIO "obas/io/login"
 	storageIO "obas/io/storage"
 	usersIO "obas/io/users"
+	utilIO "obas/io/util"
+	"obas/util"
 	"os"
 	"strings"
 	"time"
@@ -89,8 +95,181 @@ func Users(app *config.Env) http.Handler {
 	r.Post("/student-document-file-upload", StudentDocumentsUploadHandler(app))
 
 	r.Get("/student/bursary/application", StudentBursaryApplicationHandler(app))
+	r.Post("/student/bursary/application/start", StudentBursaryApplicationStartHandler(app))
 
 	return r
+}
+
+func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		if email == "" || len(email) <= 0 {
+			fmt.Println("in if email == || len(email) <= 0 {")
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			fmt.Println("in err != nil {")
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+
+		var alert PageToast
+		var applicationTypes []applicationDomain.ApplicationType
+		var applicantType []applicationDomain.ApplicantType
+		var latestUserApplication userDomain.UserApplication
+		isComplete := true
+		latestUserApplication, err = usersIO.GetLatestUserApplication(email)
+		fmt.Println("user application>>>", latestUserApplication)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			alert = PageToast{dangerAlertStyle, "Could not retrieve your latest application!"}
+		} else {
+			if latestUserApplication.ApplicationId != "" {
+				isComplete, err = applicationIO.IsApplicationCompleted(latestUserApplication.ApplicationId)
+				if err != nil {
+					app.ErrorLog.Println(err.Error())
+					alert = PageToast{dangerAlertStyle, "Could not retrieve status of latest application"}
+				}
+			}
+
+			if isComplete {
+				applicationTypes, err = applicationIO.GetApplicationTypes()
+				if err != nil {
+					app.ErrorLog.Println(err.Error())
+					alert = PageToast{dangerAlertStyle, "Could not retrieve application types!"}
+				} else {
+					applicantType, err = applicationIO.GetApplicantTypes()
+					if err != nil {
+						app.ErrorLog.Println(err.Error())
+						alert = PageToast{dangerAlertStyle, "Could not retrieve applicant types!"}
+					}
+				}
+			} else {
+				message := app.Session.GetString(r.Context(), "message")
+				messageType := app.Session.GetString(r.Context(), "message-type")
+				if message != "" && messageType != "" {
+					alert = PageToast{messageType, message}
+					app.Session.Remove(r.Context(), "message")
+					app.Session.Remove(r.Context(), "message-type")
+				}
+			}
+		}
+
+		type PageData struct {
+			Student           usersIO.User
+			Menu              string
+			SubMenu           string
+			LatestApplication userDomain.UserApplication
+			ApplicationTypes  []applicationDomain.ApplicationType
+			Applicants        []applicationDomain.ApplicantType
+			IsComplete        bool
+			Alert             PageToast
+		}
+
+		data := PageData{user, "bursary", "application", latestUserApplication, applicationTypes, applicantType, isComplete, alert}
+		files := []string{
+			app.Path + "content/student/bursary/application.html",
+			app.Path + "content/student/template/sidebar.template.html",
+			app.Path + "base/template/footer.template.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+	}
+
+}
+
+func StudentBursaryApplicationStartHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+
+		var newApplication = applicationDomain.Application{}
+		failureMessage := "Application NOT created!"
+		successMessage := "Application created!"
+		isSuccessful := false
+
+		r.ParseForm()
+		applicationTypeId := r.PostFormValue("applicationType")
+		applicantTypeId := r.PostFormValue("applicantType")
+
+		fmt.Println(applicationTypeId, "<<<<<< applicationTypeId and applicantTypeId>>>>>>>>", applicantTypeId)
+		if applicationTypeId != "" || applicantTypeId != "" {
+			fmt.Println("we are checking the applicationTypeId and applicantTypeId")
+			application := applicationDomain.Application{"", applicationTypeId, applicantTypeId, "", ""}
+			newApplication, err = applicationIO.CreateApplication(application)
+			if err != nil {
+				app.ErrorLog.Println(err.Error() + " " + failureMessage)
+				setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+			} else {
+				if newApplication.Id != "" {
+					userApplication := userDomain.UserApplication{email, newApplication.Id, time.Now()}
+					_, err := usersIO.CreateUserApplication(userApplication)
+					if err != nil {
+						fmt.Println("an error occurred in creating the application")
+						app.ErrorLog.Println(err.Error() + " ~ User Application NOT Created!")
+						setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+					} else {
+						var statusId string
+						statuses, err := utilIO.GetStatuses()
+						if err != nil {
+							app.ErrorLog.Println(err.Error() + " ~ User Application NOT Created!")
+							setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+						} else {
+							for _, status := range statuses {
+								if status.Name == util.INCOMPLETE {
+									statusId = status.Id
+									break
+								}
+							}
+							if statusId != "" {
+								userApplicationStatus := applicationIO.ApplicationStatus{newApplication.Id, statusId, user.Email, "Starting Application", time.Now(),}
+								_, err = applicationIO.CreateApplicationStatus(userApplicationStatus)
+								if err != nil {
+									app.ErrorLog.Println(err.Error() + " ~ User Application Status NOT created!")
+									setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+								} else {
+									isSuccessful = true
+									setSessionMessage(app, r, successAlertStyle, successMessage)
+								}
+							} else {
+								app.ErrorLog.Println("No status id found!")
+								setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+							}
+						}
+					}
+				} else {
+					app.ErrorLog.Println(err.Error() + " ~ No application id!")
+					setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+				}
+			}
+		} else {
+			app.ErrorLog.Println(err.Error() + " ~ application type and/or applicant type is null!")
+			setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+		}
+		app.InfoLog.Println("application response is ", isSuccessful)
+		http.Redirect(w, r, "/users/student/bursary/application", 301)
+
+	}
 }
 
 func StudentProfileApplicationProcessHandler(app *config.Env) http.HandlerFunc {
@@ -125,45 +304,6 @@ func StudentProfileApplicationProcessHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 		}
 	}
-}
-
-func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		email := app.Session.GetString(r.Context(), "userId")
-		if email == "" || len(email) <= 0 {
-			http.Redirect(w, r, "/login", 301)
-			return
-		}
-		user, err := usersIO.GetUser(email)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			http.Redirect(w, r, "/login", 301)
-			return
-		}
-
-		type PageData struct {
-			Student usersIO.User
-			Menu string
-			SubMenu string
-		}
-
-		data := PageData{user, "bursary", "application"}
-		files := []string{
-			app.Path + "content/student/bursary/application.html",
-			app.Path + "content/student/template/navbar.template.html",
-			app.Path + "base/template/footer.template.html",
-		}
-		ts, err := template.ParseFiles(files...)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			return
-		}
-		err = ts.Execute(w, data)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-		}
-	}
-
 }
 
 func StudentDocumentsUploadHandler(app *config.Env) http.HandlerFunc {
@@ -649,7 +789,7 @@ func StudentProfileDistrictHandler(app *config.Env) http.HandlerFunc {
 
 		files := []string{
 			app.Path + "content/student/profile/district_and_municipality.html",
-			app.Path + "content/student/template/navbar.template.html",
+			app.Path + "content/student/template/sidebar.template.html",
 			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
@@ -825,7 +965,7 @@ func StudentProfileContactsHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{user, contactTypes, contacts, usersIO.UserContact{}, "", "", alert, "profile", "contacts"}
 		files := []string{
 			app.Path + "content/student/profile/contacts.html",
-			app.Path + "content/student/template/navbar.template.html",
+			app.Path + "content/student/template/sidebar.template.html",
 			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
@@ -909,7 +1049,7 @@ func StudentProfileSettingsHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{user, alert, "profile", "settings"}
 		files := []string{
 			app.Path + "content/student/profile/settings.html",
-			app.Path + "content/student/template/navbar.template.html",
+			app.Path + "content/student/template/sidebar.template.html",
 			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
@@ -1038,7 +1178,7 @@ func StudentProfileDemographyHandler(app *config.Env) http.HandlerFunc {
 		app.InfoLog.Println("DistrictData: ", data.Alert)
 		files := []string{
 			app.Path + "content/student/profile/demography.html",
-			app.Path + "content/student/template/navbar.template.html",
+			app.Path + "content/student/template/sidebar.template.html",
 			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
@@ -1231,7 +1371,7 @@ func StudentProfileRelativeHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{user, userRelative, alert, "profile", "relative"}
 		files := []string{
 			app.Path + "content/student/profile/relative.html",
-			app.Path + "content/student/template/navbar.template.html",
+			app.Path + "content/student/template/sidebar.template.html",
 			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
@@ -1314,7 +1454,7 @@ func StudentProfileAddressHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{user, addressTypes, addresses, usersIO.UserAddress{}, "", "", "profile", "address"}
 		files := []string{
 			app.Path + "content/student/profile/address.html",
-			app.Path + "content/student/template/navbar.template.html",
+			app.Path + "content/student/template/sidebar.template.html",
 			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
@@ -1415,7 +1555,7 @@ func StudentHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{user, "", ""}
 		files := []string{
 			app.Path + "content/student/student_dashboard.page.html",
-			app.Path + "content/student/template/navbar.template.html",
+			app.Path + "content/student/template/sidebar.template.html",
 			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
@@ -1456,7 +1596,7 @@ func StudentProfilePersonalHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{user, dobString, "profile", "personal"}
 		files := []string{
 			app.Path + "content/student/profile/personal.html",
-			app.Path + "content/student/template/navbar.template.html",
+			app.Path + "content/student/template/sidebar.template.html",
 			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)

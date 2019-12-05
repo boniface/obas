@@ -6,11 +6,11 @@ import (
 	domain "obas/domain/users"
 )
 
-const usercourseURL = api.BASE_URL
+const usercourseURL = api.BASE_URL + "/users"
 
 func CreateUserCourse(obj domain.UserCourse) (domain.UserCourse, error) {
 	entity := domain.UserCourse{}
-	resp, _ := api.Rest().SetBody(obj).Post(usercourseURL + "/create")
+	resp, _ := api.Rest().SetBody(obj).Post(usercourseURL + "/course/create")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -23,7 +23,7 @@ func CreateUserCourse(obj domain.UserCourse) (domain.UserCourse, error) {
 
 func GetUserCourses() ([]domain.UserCourse, error) {
 	entity := []domain.UserCourse{}
-	resp, _ := api.Rest().Get(usercourseURL + "/all")
+	resp, _ := api.Rest().Get(usercourseURL + "/course/all")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -33,9 +33,9 @@ func GetUserCourses() ([]domain.UserCourse, error) {
 	}
 	return entity, nil
 }
-func GetUserCourse() (domain.UserCourse, error) {
+func GetUserCourse(userId, institutionId, courseId string) (domain.UserCourse, error) {
 	entity := domain.UserCourse{}
-	resp, _ := api.Rest().Get(usercourseURL + "/get")
+	resp, _ := api.Rest().Get(usercourseURL + "/course/get/" + userId + "/" + institutionId + "/" + courseId)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -48,7 +48,7 @@ func GetUserCourse() (domain.UserCourse, error) {
 
 func DeleteUserCourse(obj domain.UserCourse) (domain.UserCourse, error) {
 	entity := domain.UserCourse{}
-	resp, _ := api.Rest().SetBody(obj).Post(usercourseURL + "/delete")
+	resp, _ := api.Rest().SetBody(obj).Post(usercourseURL + "/course/delete")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -60,7 +60,7 @@ func DeleteUserCourse(obj domain.UserCourse) (domain.UserCourse, error) {
 }
 func UpdateUserCourse(obj domain.UserCourse) (domain.UserCourse, error) {
 	entity := domain.UserCourse{}
-	resp, _ := api.Rest().SetBody(obj).Post(usercourseURL + "/update")
+	resp, _ := api.Rest().SetBody(obj).Post(usercourseURL + "/course/update")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}

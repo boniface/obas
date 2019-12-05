@@ -8,16 +8,16 @@ import (
 )
 
 func TestCreateInstitutionType(t *testing.T) {
-	obj := domain.InstitutionTypes{"001", "UNIVERSITY", ""}
+	obj := domain.InstitutionTypes{"001", "College", "High certificate"}
 	resp, err := CreateInstitutionType(obj)
 	assert.NotNil(t, resp)
 	fmt.Println(" The Results", resp)
 	assert.Nil(t, err)
 }
 func TestDeleteInstitutionType(t *testing.T) {
-	obj := domain.InstitutionTypes{"001", "UNIVERSITY", ""}
+	obj := domain.InstitutionTypes{"EELO-LMEIR", "College", "High certificate"}
 	resp, err := DeleteInstitutionType(obj)
-	assert.NotNil(t, resp)
+	assert.True(t, resp)
 	fmt.Println(" The Results", resp)
 	assert.Nil(t, err)
 }

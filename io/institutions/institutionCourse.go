@@ -6,7 +6,7 @@ import (
 	domain "obas/domain/institutions"
 )
 
-const institutioncourseURL = api.BASE_URL + "/institution_course"
+const institutioncourseURL = api.BASE_URL + "/institutions"
 
 func ReadInstitutionCourse(institutionId, courseId string) (domain.InstitutionCourse, error) {
 	entity := domain.InstitutionCourse{}
@@ -32,17 +32,17 @@ func GetInstitutionCourses() ([]domain.InstitutionCourse, error) {
 	}
 	return entity, nil
 }
-func DeleteInstitutionCourse(obj domain.InstitutionCourse) (domain.InstitutionCourse, error) {
-	entity := domain.InstitutionCourse{}
+func DeleteInstitutionCourse(obj domain.InstitutionCourse) (bool, error) {
+	//entity := domain.InstitutionCourse{}
 	resp, _ := api.Rest().SetBody(obj).Post(institutioncourseURL + "/course/delete")
 	if resp.IsError() {
-		return entity, errors.New(resp.Status())
+		return false, errors.New(resp.Status())
 	}
-	err := api.JSON.Unmarshal(resp.Body(), &entity)
-	if err != nil {
-		return entity, errors.New(resp.Status())
-	}
-	return entity, nil
+	//err := api.JSON.Unmarshal(resp.Body(), &entity)
+	//if err != nil {
+	//	return entity, errors.New(resp.Status())
+	//}
+	return true, nil
 }
 func CreateInstitutionCourse(obj domain.InstitutionCourse) (domain.InstitutionCourse, error) {
 	entity := domain.InstitutionCourse{}

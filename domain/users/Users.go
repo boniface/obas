@@ -88,18 +88,15 @@ type UserTown struct {
 	UserId   string `json:"userId"`
 	TownCode string `json:"townCode"`
 }
+
 type UserCourse struct {
 	UserId        string `json:"UserId"`
 	CourseId      string `json:"courseId"`
 	InstitutionId string `json:"institutionId"`
 }
+
 type UserApplication struct {
-	UserId        string `json:"userId"`
-	ApplicationId string `json:"applicationId"`
-}
-type UserApplicationStatus struct {
+	UserId        string    `json:"userId"`
 	ApplicationId string    `json:"applicationId"`
-	StatusId      string    `json:"statusId"`
 	DateTime      time.Time `json:"dateTime"`
-	Modifier      string    `json:"modifier"`
 }
