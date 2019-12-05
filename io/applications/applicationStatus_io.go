@@ -6,13 +6,13 @@ import (
 	domain "obas/domain/application"
 )
 
-const applicationStatusUrl = api.BASE_URL + "/application"
+const applicationStatusUrl = api.BASE_URL + "/application/status/"
 
 type ApplicationStatus domain.ApplicationStatus
 
-func GetApplicationStatuses() ([]ApplicationStatus, error) {
+func GetAllStatusesForApplication(applicationId string) ([]ApplicationStatus, error) {
 	entites := []ApplicationStatus{}
-	resp, _ := api.Rest().Get(applicationStatusUrl + "/status/all")
+	resp, _ := api.Rest().Get(applicationStatusUrl + "all/" + applicationId)
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
@@ -23,9 +23,9 @@ func GetApplicationStatuses() ([]ApplicationStatus, error) {
 	return entites, nil
 }
 
-func GetApplicationStatus(id string) (ApplicationStatus, error) {
+func GetApplicationStatus(applicationId string) (ApplicationStatus, error) {
 	entity := ApplicationStatus{}
-	resp, _ := api.Rest().Get(applicationStatusUrl + "/status/get/" + id)
+	resp, _ := api.Rest().Get(applicationStatusUrl + "getforapplication/" + applicationId)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -36,31 +36,39 @@ func GetApplicationStatus(id string) (ApplicationStatus, error) {
 	return entity, nil
 }
 
-func CreateApplicationStatus(entity interface{}) (bool, error) {
+func CreateApplicationStatus(entity ApplicationStatus) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(applicationStatusUrl + "/status/create")
+		Post(applicationStatusUrl + "create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
 	return true, nil
 }
 
-func UpdateApplicationStatus(entity interface{}) (bool, error) {
-	resp, _ := api.Rest().
-		SetBody(entity).
-		Post(applicationStatusUrl + "/status/update")
+func GetLatestForStatus(applicationId, statusId string) (ApplicationStatus, error) {
+	entity := ApplicationStatus{}
+	resp, _ := api.Rest().Get(applicationStatusUrl + "getforstatus/" + applicationId + "/" + statusId)
 	if resp.IsError() {
-		return true, nil
+		return entity, errors.New(resp.Status())
 	}
-	return true, nil
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(resp.Status())
+	}
+	return entity, nil
 }
-func DeleteApplicationStatus(entity interface{}) (bool, error) {
+
+func IsApplicationCompleted(applicationId string) (bool, error) {
+	isComplete := false
 	resp, _ := api.Rest().
-		SetBody(entity).
-		Post(applicationStatusUrl + "/status/delete")
+		Get(applicationStatusUrl + "iscompleted/"+applicationId)
 	if resp.IsError() {
-		return false, errors.New(resp.Status())
+		return isComplete, errors.New(resp.Status())
 	}
-	return true, nil
+	err := api.JSON.Unmarshal(resp.Body(), &isComplete)
+	if err != nil {
+		return isComplete, errors.New(resp.Status())
+	}
+	return isComplete, nil
 }

@@ -9,10 +9,8 @@ import (
 
 const applicationTypeUrl = api.BASE_URL + "/application"
 
-type ApplicationType domain.ApplicationType
-
-func GetApplicationTypes() ([]ApplicationType, error) {
-	entites := []ApplicationType{}
+func GetApplicationTypes() ([]domain.ApplicationType, error) {
+	entites := []domain.ApplicationType{}
 	resp, _ := api.Rest().Get(applicationTypeUrl + "/type/all")
 	if resp.IsError() {
 		fmt.Println(" Is request from Server Okay")

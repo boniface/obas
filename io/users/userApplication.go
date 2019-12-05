@@ -46,6 +46,20 @@ func GetUserApplications(userId string) ([]domain.UserApplication, error) {
 	}
 	return entity, nil
 }
+
+func GetLatestUserApplication(userId string) (domain.UserApplication, error) {
+	entity := domain.UserApplication{}
+	resp, _ := api.Rest().Get(userapplicationURL + "/latest/" + userId)
+	if resp.IsError() {
+		return entity, errors.New(resp.Status())
+	}
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(resp.Status())
+	}
+	return entity, nil
+}
+
 func UpdateUserApplication(obj domain.UserApplication) (domain.UserApplication, error) {
 	entity := domain.UserApplication{}
 	resp, _ := api.Rest().SetBody(obj).Post(userapplicationURL + "/update")

@@ -1,5 +1,7 @@
 package domain
 
+import "time"
+
 type ApplicantType struct {
 	Id          string `json:"id"`
 	Name        string `json:"name"`
@@ -13,10 +15,13 @@ type ApplicationResult struct {
 }
 
 type ApplicationStatus struct {
-	Id          string `json:"id"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	ApplicationId string    `json:"applicationId"`
+	StatusId      string    `json:"statusId"`
+	ModifiedBy    string    `json:"modifiedBy"`
+	Comment       string    `json:"comment"`
+	DateTime      time.Time `json:"dateTime"`
 }
+
 type Application struct {
 	Id                string `json:"id"`
 	ApplicationTypeId string `json:"applicationTypeId"`
@@ -24,6 +29,7 @@ type Application struct {
 	InstitutionId     string `json:"institutionId"`
 	CourseId          string `json:"courseId"`
 }
+
 type ApplicationType struct {
 	Id          string `json:"id"`
 	Name        string `json:"name"`

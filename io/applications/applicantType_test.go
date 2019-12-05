@@ -14,6 +14,7 @@ func TestCreateApplicantType(t *testing.T) {
 	fmt.Println(" The Results", valeu)
 	assert.NotNil(t, valeu)
 }
+
 func TestDeleteApplicantType(t *testing.T) {
 	obj := domain.ApplicantType{"EILL-3OUVL", "COLLEGE", "with high certificate"}
 	valeu, err := DeleteApplicantType(obj)
@@ -21,12 +22,14 @@ func TestDeleteApplicantType(t *testing.T) {
 	fmt.Println(" The Results", valeu)
 	assert.NotNil(t, valeu)
 }
+
 func TestGetApplicantType(t *testing.T) {
 	valeu, err := GetApplicantType("")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", valeu)
 	assert.NotNil(t, valeu)
 }
+
 func TestGetApplicantTypes(t *testing.T) {
 	valeu, err := GetApplicantTypes()
 	assert.Nil(t, err)
