@@ -395,437 +395,269 @@
                     </div>
                 </div>
 
-                <!-- THE USERS TABLE -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class=" text-center font-weight-bold text-uppercase py-4 ">
-                            <h4 class="card-title ">Users Table </h4>
-                        </div>
-                        <div class="card strpied-tabled-with-hover">
-                            <div class="card-body table-full-width table-responsive">
-                                <div class="col-sm-12">
-                                    <button type="button" class="btn btn-info float-right add-new"><i
-                                                class="fa fa-plus"></i> Add New
-                                    </button>
+                <!----------->
+                <div class="classic-tabs mx-2">
+
+                    <ul class="nav nav-tabs md-tabs" id="poolsRolesTab" role="tablist">
+
+                        <li class="nav-item">
+                            <a class="nav-link  waves-light active show" id="users-table-tab" data-toggle="tab"
+                               href="#users-table"
+                               role="tab" aria-controls="users-table" aria-selected="true">
+                                <div style="text-align: center;"><i class="fas fa-user fa " aria-hidden="true"></i>
                                 </div>
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                    <th>#</th>
-                                    <th>Province</th>
-                                    <th>District</th>
-                                    <th>University</th>
-                                    <th>Student Supported</th>
-                                    <th>Actions</th>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Dakota Rice</td>
-                                        <td>$36,738</td>
-                                        <td>Niger</td>
-                                        <td>Oud-Turnhout</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Minerva Hooper</td>
-                                        <td>$23,789</td>
-                                        <td>Curaçao</td>
-                                        <td>Sinaai-Waas</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Sage Rodriguez</td>
-                                        <td>$56,142</td>
-                                        <td>Netherlands</td>
-                                        <td>Baileux</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Philip Chaney</td>
-                                        <td>$38,735</td>
-                                        <td>Korea, South</td>
-                                        <td>Overland Park</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Doris Greene</td>
-                                        <td>$63,542</td>
-                                        <td>Malawi</td>
-                                        <td>Feldkirchen in Kärnten</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>Mason Porter</td>
-                                        <td>$78,615</td>
-                                        <td>Chile</td>
-                                        <td>Gloucester</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- THE LOCATIONS TABLES -->
+                                <br>Users Table</a>
+                        </li>
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class=" text-center font-weight-bold text-uppercase py-4 ">
-                            <h4 class="card-title ">Locations Table </h4>
-                        </div>
-                        <div class="card strpied-tabled-with-hover">
-                            <div class="card-body table-full-width table-responsive">
-                                <div class="col-sm-12">
-                                    <button type="button" class="btn btn-info float-right add-new"><i
-                                                class="fa fa-plus"></i> Add New
-                                    </button>
+
+                        <li class="nav-item">
+                            <a class="nav-link waves-light" id="location-tab" data-toggle="tab"
+                               href="#roles"
+                               role="tab" aria-controls="roles" aria-selected="false">
+                                <div style="text-align: center;"><i class="fas fa-globe fa"
+                                                                    aria-hidden="true"></i></div>
+                                <br>Locations </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link waves-light" id="institution-tab" data-toggle="tab"
+                               href="#roles"
+                               role="tab" aria-controls="roles" aria-selected="false">
+                                <div
+                                        style="text-align: center;"><i
+                                            class="fas fa-university fa"
+                                            aria-hidden="true"></i></div>
+                                <br>Institutions </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link waves-light" id="subject-tab" data-toggle="tab"
+                               href="#roles"
+                               role="tab" aria-controls="roles" aria-selected="false">
+                                <div style="text-align: center;"><i class="fas fa-book fa"
+                                                                    aria-hidden="true"></i></div>
+                                <br>Subject </a>
+                        </li>
+
+                    </ul>
+
+                    <div class="tab-content card" id="rolesTabContent">
+
+                        <div class="tab-pane fade active show" id="pool-roles" role="tabpanel"
+                             aria-labelledby="pool-roles">
+                            <p></p>
+                            <!-- Table with panel -->
+                            <div class="col-md-12">
+                                <div class="card strpied-tabled-with-hover">
+                                    <div class="card-body table-full-width table-responsive">
+                                        <div class="col-sm-12">
+                                            <button type="button" class="btn btn-info float-right add-new"><i
+                                                        class="fa fa-plus" data-toggle="modal"
+                                                        data-target="#modalContactForm"></i> Add New
+                                            </button>
+                                        </div>
+                                        <table class="table table-hover table-striped">
+                                            <thead>
+                                            <th>#</th>
+                                            <th>Province</th>
+                                            <th>District</th>
+                                            <th>University</th>
+                                            <th>Student Supported</th>
+                                            <th>Actions</th>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Dakota Rice</td>
+                                                <td>$36,738</td>
+                                                <td>Niger</td>
+                                                <td>Oud-Turnhout</td>
+                                                <td>
+                                                    <a class="edit" title="Edit" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE254;</i></a>
+                                                    <a class="delete" title="Delete" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE872;</i></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>Minerva Hooper</td>
+                                                <td>$23,789</td>
+                                                <td>Curaçao</td>
+                                                <td>Sinaai-Waas</td>
+                                                <td>
+                                                    <a class="edit" title="Edit" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE254;</i></a>
+                                                    <a class="delete" title="Delete" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE872;</i></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>Sage Rodriguez</td>
+                                                <td>$56,142</td>
+                                                <td>Netherlands</td>
+                                                <td>Baileux</td>
+                                                <td>
+                                                    <a class="edit" title="Edit" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE254;</i></a>
+                                                    <a class="delete" title="Delete" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE872;</i></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4</td>
+                                                <td>Philip Chaney</td>
+                                                <td>$38,735</td>
+                                                <td>Korea, South</td>
+                                                <td>Overland Park</td>
+                                                <td>
+                                                    <a class="edit" title="Edit" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE254;</i></a>
+                                                    <a class="delete" title="Delete" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE872;</i></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>5</td>
+                                                <td>Doris Greene</td>
+                                                <td>$63,542</td>
+                                                <td>Malawi</td>
+                                                <td>Feldkirchen in Kärnten</td>
+                                                <td>
+                                                    <a class="edit" title="Edit" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE254;</i></a>
+                                                    <a class="delete" title="Delete" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE872;</i></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>6</td>
+                                                <td>Mason Porter</td>
+                                                <td>$78,615</td>
+                                                <td>Chile</td>
+                                                <td>Gloucester</td>
+                                                <td>
+                                                    <a class="edit" title="Edit" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE254;</i></a>
+                                                    <a class="delete" title="Delete" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE872;</i></a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                    <th>#</th>
-                                    <th>Province</th>
-                                    <th>District</th>
-                                    <th>University</th>
-                                    <th>Student Supported</th>
-                                    <th>Actions</th>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Dakota Rice</td>
-                                        <td>$36,738</td>
-                                        <td>Niger</td>
-                                        <td>Oud-Turnhout</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Minerva Hooper</td>
-                                        <td>$23,789</td>
-                                        <td>Curaçao</td>
-                                        <td>Sinaai-Waas</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Sage Rodriguez</td>
-                                        <td>$56,142</td>
-                                        <td>Netherlands</td>
-                                        <td>Baileux</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Philip Chaney</td>
-                                        <td>$38,735</td>
-                                        <td>Korea, South</td>
-                                        <td>Overland Park</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Doris Greene</td>
-                                        <td>$63,542</td>
-                                        <td>Malawi</td>
-                                        <td>Feldkirchen in Kärnten</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>Mason Porter</td>
-                                        <td>$78,615</td>
-                                        <td>Chile</td>
-                                        <td>Gloucester</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
                             </div>
+                            <!-- Table with panel -->
                         </div>
-                    </div>
-                </div>
 
 
-                <!--  THE INSTITUTIONS TABLE -->
+                        <div class="tab-pane fade" id="roles" role="tabpanel"
+                             aria-labelledby="roles">
+                            <p></p>
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class=" text-center font-weight-bold text-uppercase py-4 ">
-                            <h4 class="card-title ">Institutions Table </h4>
-                        </div>
-                        <div class="card strpied-tabled-with-hover">
-                            <div class="card-body table-full-width table-responsive">
-                                <div class="col-sm-12">
-                                    <button type="button" class="btn btn-info float-right add-new"><i
-                                                class="fa fa-plus"></i> Add New
-                                    </button>
+                            <!-- Table with panel -->
+                            <div class="col-md-12">
+                                <div class="card strpied-tabled-with-hover">
+                                    <div class="card-body table-full-width table-responsive">
+                                        <div class="col-sm-12">
+                                            <button type="button" class="btn btn-info float-right add-new"><i
+                                                        class="fa fa-plus" data-toggle="modal"
+                                                        data-target="#modalContactForm"></i> Add New
+                                            </button>
+                                        </div>
+                                        <table class="table table-hover table-striped">
+                                            <thead>
+                                            <th>#</th>
+                                            <th>Province</th>
+                                            <th>District</th>
+                                            <th>University</th>
+                                            <th>Student Supported</th>
+                                            <th>Actions</th>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Dakota Rice</td>
+                                                <td>$36,738</td>
+                                                <td>Niger</td>
+                                                <td>Oud-Turnhout</td>
+                                                <td>
+                                                    <a class="edit" title="Edit" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE254;</i></a>
+                                                    <a class="delete" title="Delete" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE872;</i></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>Minerva Hooper</td>
+                                                <td>$23,789</td>
+                                                <td>Curaçao</td>
+                                                <td>Sinaai-Waas</td>
+                                                <td>
+                                                    <a class="edit" title="Edit" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE254;</i></a>
+                                                    <a class="delete" title="Delete" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE872;</i></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>Sage Rodriguez</td>
+                                                <td>$56,142</td>
+                                                <td>Netherlands</td>
+                                                <td>Baileux</td>
+                                                <td>
+                                                    <a class="edit" title="Edit" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE254;</i></a>
+                                                    <a class="delete" title="Delete" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE872;</i></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4</td>
+                                                <td>Philip Chaney</td>
+                                                <td>$38,735</td>
+                                                <td>Korea, South</td>
+                                                <td>Overland Park</td>
+                                                <td>
+                                                    <a class="edit" title="Edit" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE254;</i></a>
+                                                    <a class="delete" title="Delete" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE872;</i></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>5</td>
+                                                <td>Doris Greene</td>
+                                                <td>$63,542</td>
+                                                <td>Malawi</td>
+                                                <td>Feldkirchen in Kärnten</td>
+                                                <td>
+                                                    <a class="edit" title="Edit" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE254;</i></a>
+                                                    <a class="delete" title="Delete" data-toggle="tooltip"><i
+                                                                class="material-icons">&#xE872;</i></a>
+                                                </td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                    <th>#</th>
-                                    <th>Province</th>
-                                    <th>District</th>
-                                    <th>University</th>
-                                    <th>Student Supported</th>
-                                    <th>Actions</th>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Dakota Rice</td>
-                                        <td>$36,738</td>
-                                        <td>Niger</td>
-                                        <td>Oud-Turnhout</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Minerva Hooper</td>
-                                        <td>$23,789</td>
-                                        <td>Curaçao</td>
-                                        <td>Sinaai-Waas</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Sage Rodriguez</td>
-                                        <td>$56,142</td>
-                                        <td>Netherlands</td>
-                                        <td>Baileux</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Philip Chaney</td>
-                                        <td>$38,735</td>
-                                        <td>Korea, South</td>
-                                        <td>Overland Park</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Doris Greene</td>
-                                        <td>$63,542</td>
-                                        <td>Malawi</td>
-                                        <td>Feldkirchen in Kärnten</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>Mason Porter</td>
-                                        <td>$78,615</td>
-                                        <td>Chile</td>
-                                        <td>Gloucester</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
                             </div>
+                            <!-- Table with panel -->
                         </div>
                     </div>
                 </div>
 
+                <!------------------------------------------------------------------>
 
-                <!--  THE SUBJECTS TABLE -->
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class=" text-center font-weight-bold text-uppercase py-4 ">
-                            <h4 class="card-title ">Subjects Table </h4>
-                        </div>
-                        <div class="card strpied-tabled-with-hover">
-                            <div class="card-body table-full-width table-responsive">
-                                <div class="col-sm-12">
-                                    <button type="button" class="btn btn-info float-right add-new"><i
-                                                class="fa fa-plus"></i> Add New
-                                    </button>
-                                </div>
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                    <th>#</th>
-                                    <th>Province</th>
-                                    <th>District</th>
-                                    <th>University</th>
-                                    <th>Student Supported</th>
-                                    <th>Actions</th>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Dakota Rice</td>
-                                        <td>$36,738</td>
-                                        <td>Niger</td>
-                                        <td>Oud-Turnhout</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Minerva Hooper</td>
-                                        <td>$23,789</td>
-                                        <td>Curaçao</td>
-                                        <td>Sinaai-Waas</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Sage Rodriguez</td>
-                                        <td>$56,142</td>
-                                        <td>Netherlands</td>
-                                        <td>Baileux</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Philip Chaney</td>
-                                        <td>$38,735</td>
-                                        <td>Korea, South</td>
-                                        <td>Overland Park</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Doris Greene</td>
-                                        <td>$63,542</td>
-                                        <td>Malawi</td>
-                                        <td>Feldkirchen in Kärnten</td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>Mason Porter</td>
-                                        <td>$78,615</td>
-                                        <td>Chile</td>
-                                        <td>Gloucester</td>
-                                        <td>
-                                            <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE254;</i></a>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i
-                                                        class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
             </div>
+
         </div>
         <footer class="footer">
             <div class="container">
