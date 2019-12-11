@@ -12,11 +12,11 @@ import (
 	documentsController "obas/controllers/documents"
 	homeController "obas/controllers/home"
 	institutionsController "obas/controllers/institutions"
-	locationController "obas/controllers/location"
 	logController "obas/controllers/log"
 	loginController "obas/controllers/login"
 	logoutController "obas/controllers/logout"
 	registerController "obas/controllers/register"
+	supportControllers "obas/controllers/support"
 	usersController "obas/controllers/users"
 )
 
@@ -38,8 +38,8 @@ func Controllers(env *config.Env) http.Handler {
 	mux.Mount("/bursary", applicationController.Applications(env))
 	mux.Mount("/documents", documentsController.Documents(env))
 	mux.Mount("/institution", institutionsController.Institutions(env))
-	mux.Mount("/location", locationController.Locations(env))
 	mux.Mount("/log", logController.Logs(env))
+	mux.Mount("/support", supportControllers.Support(env))
 
 	fileServer := http.FileServer(http.Dir("./views/assets/"))
 	// Use the mux.Handle() function to register the file server as the handler for
