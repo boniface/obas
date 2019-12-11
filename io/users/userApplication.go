@@ -49,6 +49,7 @@ func GetUserApplications(userId string) ([]domain.UserApplication, error) {
 
 func GetLatestUserApplication(userId string) (domain.UserApplication, error) {
 	entity := domain.UserApplication{}
+	//entity = domain.UserApplication{userId, "1", time.Now()}
 	resp, _ := api.Rest().Get(userapplicationURL + "/latest/" + userId)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

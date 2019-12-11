@@ -12832,6 +12832,10 @@ ul, li {
 .table-wrapper-scroll-y {
     display: block;
 }
+
+.margin-top-5 {
+    margin-top: 5px;
+}
 /** custom style ends here */
 
 

@@ -197,26 +197,14 @@
                     <div class="col-md-12">
                         <div class="card green">
                             <div class="card-header">
-                                <h4 class="card-title">Collapsible Accordion</h4>
-                                <p class="card-category">Bootstrap default style</p>
+                                <h4 class="card-title">Motsepe Bursary</h4>
+                                <!--p class="card-category">Bootstrap default style</p-->
                             </div>
                             <div class="card-body">
                                 <div class="accordions" id="accordion">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h4 class="card-title">
-                                                <a data-target="#collapseOne" href="#" data-toggle="collapse" class="collapsed" aria-expanded="false">
-                                                    Collapse item 1
-                                                    <b class="caret"></b>
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div id="collapseOne" class="card-collapse collapse" style="">
-                                            <div class="card-body">
-                                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {{ template "matric" .}}
+                                    {{ template "current-institution" .}}
+                                    {{ template "document" .}}
                                     <div class="card">
                                         <div class="card-header">
                                             <h4 class="card-title">
