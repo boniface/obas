@@ -1,7 +1,5 @@
 package documents
 
-import ()
-
 /**
 var doc = documents{"test@test.go", "25", "FR", "MATRIC", "DS", "QA", "", "NONE"}
 var token=""
