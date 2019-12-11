@@ -6,13 +6,11 @@ import (
 	domain "obas/domain/location"
 )
 
-const locationTypeUrl = api.BASE_URL + "/location"
-
-type LocationType domain.LocationType
+const locationTypeUrl = api.BASE_URL + "/location/type/"
 
 func GetLocationTypes() ([]domain.LocationType, error) {
 	entites := []domain.LocationType{}
-	resp, _ := api.Rest().Get(locationTypeUrl + "/type/all")
+	resp, _ := api.Rest().Get(locationTypeUrl + "all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
@@ -25,7 +23,7 @@ func GetLocationTypes() ([]domain.LocationType, error) {
 
 func GetLocationType(id string) (domain.LocationType, error) {
 	entity := domain.LocationType{}
-	resp, _ := api.Rest().Get(locationTypeUrl + "/type/get/" + id)
+	resp, _ := api.Rest().Get(locationTypeUrl + "get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -35,15 +33,20 @@ func GetLocationType(id string) (domain.LocationType, error) {
 	}
 	return entity, nil
 }
-func CreateLocationType(entity interface{}) (bool, error) {
+func CreateLocationType(entity domain.LocationType) (domain.LocationType, error) {
+	locationType := domain.LocationType{}
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(locationTypeUrl + "/type/create")
+		Post(locationTypeUrl + "create")
 	if resp.IsError() {
-		return false, errors.New(resp.Status())
+		return locationType, errors.New(resp.Status())
+	}
+	err := api.JSON.Unmarshal(resp.Body(), &locationType)
+	if err != nil {
+		return locationType, errors.New(resp.Status())
 	}
 
-	return true, nil
+	return locationType, nil
 }
 
 func UpdateLocationType(entity interface{}) (bool, error) {
