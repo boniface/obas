@@ -6,11 +6,11 @@ import (
 	domain "obas/domain/institutions"
 )
 
-const institutionType = api.BASE_URL + "/institutions"
+const institutionTypeURL = api.BASE_URL + "/institutions/type/"
 
 func CreateInstitutionType(obj domain.InstitutionTypes) (domain.InstitutionTypes, error) {
 	entity := domain.InstitutionTypes{}
-	resp, _ := api.Rest().SetBody(obj).Post(institutionAddressURl + "/type/create")
+	resp, _ := api.Rest().SetBody(obj).Post(institutionTypeURL + "create")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -22,7 +22,7 @@ func CreateInstitutionType(obj domain.InstitutionTypes) (domain.InstitutionTypes
 }
 func GetInstitutionType(id string) (domain.InstitutionTypes, error) {
 	entity := domain.InstitutionTypes{}
-	resp, _ := api.Rest().Get(institutionAddressURl + "/type/get/" + id)
+	resp, _ := api.Rest().Get(institutionTypeURL + "get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -34,7 +34,7 @@ func GetInstitutionType(id string) (domain.InstitutionTypes, error) {
 }
 func GetInstitutionTypes() ([]domain.InstitutionTypes, error) {
 	entity := []domain.InstitutionTypes{}
-	resp, _ := api.Rest().Get(institutionAddressURl + "/type/all")
+	resp, _ := api.Rest().Get(institutionTypeURL + "all")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -46,7 +46,7 @@ func GetInstitutionTypes() ([]domain.InstitutionTypes, error) {
 }
 func DeleteInstitutionType(obj domain.InstitutionTypes) (bool, error) {
 	//entity := domain.InstitutionTypes{}
-	resp, _ := api.Rest().SetBody(obj).Post(institutionAddressURl + "/type/delete")
+	resp, _ := api.Rest().SetBody(obj).Post(institutionTypeURL + "delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -58,7 +58,7 @@ func DeleteInstitutionType(obj domain.InstitutionTypes) (bool, error) {
 }
 func UpdateInstitutionType(obj domain.InstitutionTypes) (domain.InstitutionTypes, error) {
 	entity := domain.InstitutionTypes{}
-	resp, _ := api.Rest().SetBody(obj).Post(institutionAddressURl + "/type/update")
+	resp, _ := api.Rest().SetBody(obj).Post(institutionTypeURL + "update")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
