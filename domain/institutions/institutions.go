@@ -16,9 +16,9 @@ type University struct {
 	UniversityEmail       string `json:"universityEmail"`
 }
 type Institution struct {
-	Id              string `json:"id"`
-	Name            string `json:"name"`
-	InstitutionType string `json:"InstitutionType"`
+	Id                string `json:"id"`
+	InstitutionTypeId string `json:"institutionTypeId"`
+	Name              string `json:"name"`
 }
 type InstitutionTypes struct {
 	Id          string `json:"id"`
@@ -31,10 +31,10 @@ type InstitutionCourse struct {
 	CourseId      string `json:"courseId"`
 }
 type InstitutionLocation struct {
-	LocationId  string `json:"LocationId"`
-	Institution string `json:"institution"`
-	Longitude   string `json:"longitude"`
-	Latitude    string `json:"latitude"`
+	InstitutionId string `json:"institutionId"`
+	LocationId    string `json:"locationId"`
+	Longitude     string `json:"longitude"`
+	Latitude      string `json:"latitude"`
 }
 type InstitutionAddress struct {
 	InstitutionId string `json:"institutionId"`

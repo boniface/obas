@@ -2282,7 +2282,7 @@
             get: valueGet,
             set: valueSet,
             reset: valueReset,
-            // Exposed for unit testing, don't use this in your bursary.
+            // Exposed for unit testing, don't use this in your application.
             __moveHandles: function (a, b, c) {
                 moveHandles(a, b, scope_Locations, c);
             },

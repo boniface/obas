@@ -18,7 +18,7 @@ func TestGetInstitutions(t *testing.T) {
 	resp, err := GetInstitutions()
 	assert.Nil(t, err)
 	fmt.Println(" The Results", resp)
-	assert.True(t, len(resp.Name) > 0)
+	assert.NotNil(t, len(resp) > 0)
 }
 func TestDeleteInstitution(t *testing.T) {
 	obj := domain.Institution{"U111", "CPUT", "UNIVERSITY"}

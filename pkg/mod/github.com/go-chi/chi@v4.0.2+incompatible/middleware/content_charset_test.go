@@ -19,19 +19,19 @@ func TestContentCharset(t *testing.T) {
 	}{
 		{
 			"should accept requests with a matching charset",
-			"bursary/json; charset=UTF-8",
+			"application/json; charset=UTF-8",
 			[]string{"UTF-8"},
 			http.StatusOK,
 		},
 		{
 			"should be case-insensitive",
-			"bursary/json; charset=utf-8",
+			"application/json; charset=utf-8",
 			[]string{"UTF-8"},
 			http.StatusOK,
 		},
 		{
 			"should accept requests with a matching charset with extra values",
-			"bursary/json; foo=bar; charset=UTF-8; spam=eggs",
+			"application/json; foo=bar; charset=UTF-8; spam=eggs",
 			[]string{"UTF-8"},
 			http.StatusOK,
 		},
@@ -110,7 +110,7 @@ func TestSplit(t *testing.T) {
 func TestContentEncoding(t *testing.T) {
 	t.Parallel()
 
-	if !contentEncoding("bursary/json; foo=bar; charset=utf-8; spam=eggs", []string{"utf-8"}...) {
+	if !contentEncoding("application/json; foo=bar; charset=utf-8; spam=eggs", []string{"utf-8"}...) {
 		t.Error("Want true, got false")
 	}
 

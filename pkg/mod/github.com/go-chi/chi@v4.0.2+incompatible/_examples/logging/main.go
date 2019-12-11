@@ -116,7 +116,7 @@ func (l *StructuredLoggerEntry) Panic(v interface{}, stack []byte) {
 	})
 }
 
-// Helper methods used by the bursary to get the request-scoped
+// Helper methods used by the application to get the request-scoped
 // logger entry and set additional fields between handlers.
 //
 // This is a useful pattern to use to set state on the entry as it

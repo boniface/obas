@@ -31,7 +31,7 @@
     Tip 2: you can also add an image using data-image tag
 -->
         <div class="sidebar-wrapper">
-            {{ template "navbar" .}}
+            {{ template "sidebar" .}}
         </div>
     </div>
     <div class="main-panel">
@@ -118,11 +118,81 @@
 
         <div class="content">
             <div class="container-fluid">
+                {{ if .Alert.AlertType }}
+                    <div class="alert {{ .Alert.AlertType }}">
+                        <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
+                            <i class="nc-icon nc-simple-remove"></i>
+                        </button>
+                        <span>{{ .Alert.AlertInfo }}</span>
+                    </div>
+                {{ end }}
+
+                {{if .IsComplete}}
                 <div class="row">
                     <div class="col-md-12">
+                        <div class="card green">
+                            <div class="card-body">
+                                <form id="courseDetailsForm" method="post"
+                                      action="/users/student/bursary/application/start">
+                                    <h4 style="color: #ffffff" class="text-center">New Application</h4>
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label class="control-label"
+                                                       style="color: #ffffff">Appplication Type</label>
+                                                <select class="selectpicker" name="applicationType"
+                                                        data-style="btn-default btn-outline" required="true"
+                                                        data-menu-style="dropdown-blue" >
+                                                    <option value="id"disabled selected >Select Application Type</option>
+                                                    {{with .ApplicationTypes}}
+                                                    {{range .}}
+                                                    <option value="{{.Id}}">{{.Name}}</option>
+                                                    {{end}}
+                                                    {{end}}
+                                                </select>
+                                            </div>
+                                        </div>
 
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label class="control-label" style="color: #ffffff">Applicant Type</label>
+                                                <select  class="selectpicker"
+                                                        data-style="btn-default btn-outline"
+                                                        data-menu-style="dropdown-blue" name="applicantType">
+                                                    <option value="id" disabled selected>Select Applicant Type</option>
+                                                    {{with .Applicants}}
+                                                        {{range .}}
+                                                            <option value="{{.Id}}">{{.Name}}</option>
+                                                        {{end}}
+                                                    {{end}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-2">
+                                            <button type="submit" id="updateButton"
+                                                    class="btn btn-wd btn-info btn-outline">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-exclamation"></i>
+                                                    </span>
+                                                Submit
+                                            </button>
+
+                                            <div class="clearfix"></div>
+
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                {{end}}
+
+                {{if not .IsComplete}}
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card green">
@@ -182,6 +252,7 @@
                         </div>
                     </div>
                 </div>
+            {{end}}
             </div>
         </div>
 
@@ -339,7 +410,6 @@
 <script src="../../../../assets/js/light-bootstrap-dashboard.js?v=2.0.1" type="text/javascript"></script>
 <!-- Light Dashboard DEMO methods, don't include it in your project! -->
 <script src="../../../../assets/js/demo.js"></script>
-<script src="../../../../assets/js/custom/profile.js" type="text/javascript"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {

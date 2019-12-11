@@ -11,7 +11,7 @@ func TestGetLocationTypes(t *testing.T) {
 	value, err := GetLocationTypes()
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
-	assert.True(t, len(value) > 0)
+	assert.NotNil(t, value)
 }
 
 func TestGetLocationType(t *testing.T) {
