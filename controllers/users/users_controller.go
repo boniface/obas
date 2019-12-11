@@ -574,6 +574,8 @@ func StudentProfileTownsHandler(app *config.Env) http.HandlerFunc {
 
 		files := []string{
 			app.Path + "content/student/profile/district_and_municipality.html",
+			app.Path + "content/student/template/sidebar.template.html",
+			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -665,6 +667,8 @@ func StudentProfileDistrictsHandler(app *config.Env) http.HandlerFunc {
 			alert, "profile", "districts"}
 		files := []string{
 			app.Path + "content/student/profile/district_and_municipality.html",
+			app.Path + "content/student/template/sidebar.template.html",
+			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
