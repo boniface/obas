@@ -1,6 +1,16 @@
 
 .green {
-    background-color: #006837;
+    background-color: #006837;!important;
+}
+.greenText{
+   color: #006837;!important;!important;
+
+}
+
+.cardx{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color:#006837 ;!important;
 }
 .beautify{
     /**background-color: #935900;**/
@@ -43,4 +53,5 @@ a.hover {
 #prospective-course-tab.active{
     background-color: #FFFFFF;!important;
 }
+
 
