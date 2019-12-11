@@ -125,23 +125,21 @@
                 <div class="classic-tabs mx-2">
 
                     <ul class="nav nav-tabs md-tabs" id="poolsRolesTab" role="tablist">
-
                         <li class="nav-item">
                             <a class="nav-link  waves-light active show" id="users-table-tab" data-toggle="tab"
-                               href="#location-table"
-                               role="tab" aria-controls="users-table" aria-selected="true">
-                                <div style="text-align: center;"><i class="fas fa-globe fa " aria-hidden="true"></i>
-                                </div>
-                                <br>Locations</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link  waves-light " id="users-table-tab" data-toggle="tab"
                                href="#loctype-table"
                                role="tab" aria-controls="users-table" aria-selected="true">
                                 <div style="text-align: center;"><i class="fas fa-globe fa " aria-hidden="true"></i>
                                 </div>
                                 <br>Location Type</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link  waves-light" id="users-table-tab" data-toggle="tab"
+                               href="#location-table"
+                               role="tab" aria-controls="users-table" aria-selected="true">
+                                <div style="text-align: center;"><i class="fas fa-globe fa " aria-hidden="true"></i>
+                                </div>
+                                <br>Locations</a>
                         </li>
 
                         <li class="nav-item">
@@ -184,8 +182,75 @@
                     </ul>
 
                     <div class="tab-content card" id="rolesTabContent">
+                        <div class="tab-pane fade active show" id="loctype-table" role="tabpanel"
+                             aria-labelledby="pool-roles">
+                            <p></p>
+                            <!-- Table with panel -->
+                            <div class="content">
+                                <div class="container-fluid">
 
-                        <div class="tab-pane fade active show" id="location-table" role="tabpanel"
+                                    <div class="card green">
+                                        <form id="" method="post" action="/support/management/location/type/add">
+
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-8">
+                                                    <label class="control-label label-font-color">Location Type
+                                                        Name</label>
+                                                    <input type="text" name="locationTypeName" class="form-control"
+                                                           placeholder="Enter type ..." id="">
+                                                </div>
+
+
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-8">
+                                                    <button type="submit" id="documentUpdateBtn"
+                                                            class="btn btn-wd btn-info btn-outline full-width">
+                                             <span class="btn-label">
+                                             </span>Upload
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card strpied-tabled-with-hover">
+                                                <div class="card-body table-full-width table-responsive">
+
+                                                    <table class="table table-hover table-striped">
+                                                        <thead>
+                                                        <th>#</th>
+                                                        <th>Country</th>
+                                                        <th>Actions</th>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td>Dakota Rice</td>
+                                                            <td>
+                                                                <a class="edit" title="Edit" data-toggle="tooltip"><i
+                                                                            class="material-icons">&#xE254;</i></a>
+                                                                <a class="delete" title="Delete"
+                                                                   data-toggle="tooltip"><i
+                                                                            class="material-icons">&#xE872;</i></a>
+                                                            </td>
+                                                        </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Table with panel -->
+                        </div>
+
+                        <div class="tab-pane fade" id="location-table" role="tabpanel"
                              aria-labelledby="roles">
                             <p></p>
 
@@ -194,8 +259,8 @@
                                 <div class="container-fluid">
 
                                     <div class="card green">
-                                        <form id="" method="post"
-                                              action="#">
+                                        <form id="addLocationForm" method="post"
+                                              action="/support/management/location/add">
                                             <div class="row justify-content-center">
                                                 <div class="col-md-10">
                                                     <label class="control-label label-font-color">Location Name</label>
@@ -295,72 +360,6 @@
                             <!-- Table with panel -->
                         </div>
 
-                        <div class="tab-pane fade" id="loctype-table" role="tabpanel"
-                             aria-labelledby="pool-roles">
-                            <p></p>
-                            <!-- Table with panel -->
-                            <div class="content">
-                                <div class="container-fluid">
-
-                                    <div class="card green">
-                                        <form id="" method="post" action="#">
-
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-8">
-                                                    <label class="control-label label-font-color"> Name</label>
-                                                    <input type="text" name="locationtype" class="form-control"
-                                                           placeholder="Enter type ..." id="">
-                                                </div>
-
-
-                                            </div>
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-8">
-                                                    <button type="submit" id="documentUpdateBtn"
-                                                            class="btn btn-wd btn-info btn-outline full-width">
-                                             <span class="btn-label">
-                                             </span>Upload
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-
-
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="card strpied-tabled-with-hover">
-                                                <div class="card-body table-full-width table-responsive">
-
-                                                    <table class="table table-hover table-striped">
-                                                        <thead>
-                                                        <th>#</th>
-                                                        <th>Country</th>
-                                                        <th>Actions</th>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>Dakota Rice</td>
-                                                            <td>
-                                                                <a class="edit" title="Edit" data-toggle="tooltip"><i
-                                                                            class="material-icons">&#xE254;</i></a>
-                                                                <a class="delete" title="Delete"
-                                                                   data-toggle="tooltip"><i
-                                                                            class="material-icons">&#xE872;</i></a>
-                                                            </td>
-                                                        </tr>
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Table with panel -->
-                        </div>
 
                         <div class="tab-pane fade" id="country-table" role="tabpanel"
                              aria-labelledby="pool-roles">

@@ -1,0 +1,194 @@
+{{ define "sidebar" }}
+    <div class="sidebar" data-color="orange" data-image="../assets/img/sidebar-5.jpg">
+        <!--
+    Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
+
+    Tip 2: you can also add an image using data-image tag
+-->
+        <div class="sidebar-wrapper">
+            <div class="logo"
+                 style="padding-left: 40px;padding-top: 0px;padding-bottom: 0px;background: #ffea00;height: 60px">
+
+                <a href="tech_dashboard.page.html" class="simple-text logo-normal">
+
+                    <img src="../../../assets/img/Logo-04.png" alt="Logo"
+                         style="width: 176px; height: 55px;alignment: center">
+                </a>
+            </div>
+            <div class="user">
+                <div class="photo">
+                    <img src="../../../assets/img/default-avatar.png"/>
+                </div>
+                <div class="info ">
+                    <a class="nav-item ">
+                            <span>Tania Andrew
+                                <!-- <b class="caret"></b>-->
+                            </span>
+                    </a>
+                    <div class="collapse" id="collapseExample">
+                        <ul class="nav">
+                            <li>
+                                <a class="profile-dropdown" href="#pablo">
+                                    <span class="sidebar-mini">MP</span>
+                                    <span class="sidebar-normal">My Profile</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="profile-dropdown" href="#pablo">
+                                    <span class="sidebar-mini">EP</span>
+                                    <span class="sidebar-normal">Edit Profile</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="profile-dropdown" href="#pablo">
+                                    <span class="sidebar-mini">S</span>
+                                    <span class="sidebar-normal">Settings</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+            <ul class="nav" style="position: center">
+
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#componentsExamples">
+                        <i class="nc-icon nc-single-02"></i>
+                        <p>
+                            Profile Account
+                            <b class="caret"></b>
+                        </p>
+                    </a>
+                    <div class="collapse " id="componentsExamples">
+                        <ul class="nav">
+                            <li class="nav-item ">
+
+                                <a class="nav-link" href="Tech_user_View.html">
+
+                                    <span class="sidebar-mini">V</span>
+                                    <span class="sidebar-normal">View Profile</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+
+                                <a class="nav-link" href="Tech_user.html">
+
+                                    <span class="sidebar-mini">E</span>
+                                    <span class="sidebar-normal">Edit Profile</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item ">
+
+                    <a class="nav-link" href="/support">
+
+                        <i class="nc-icon nc-chart-pie-35"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+
+                <li class="nav-item ">
+                    <a class="nav-link" href="/support/management/user">
+                        <i class="nc-icon nc-single-02"></i>
+                        <p>Users</p>
+                    </a>
+                </li>
+
+                <li class="nav-item ">
+                    <a class="nav-link" href="/support/management/location">
+                        <i class="nc-icon nc-planet"></i>
+                        <p>Locations</p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/support/management/institution">
+                        <i class="nc-icon nc-backpack"></i>
+                        <p>Institutions</p>
+                    </a>
+                </li>
+
+                <li class="nav-item ">
+                    <a class="nav-link" href="LogEvents.html">
+                        <i class="nc-icon nc-cctv"></i>
+                        <p>Log Events</p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" data-toggle="collapse" href="#mapsExamples">
+                        <i class="nc-icon nc-settings-90"></i>
+                        <!--  <i class="nc-icon nc-single-copy-04"></i>-->
+                        <p>Admin
+                            <b class="caret"></b>
+                        </p>
+                    </a>
+                    <div class="collapse " id="mapsExamples">
+                        <ul class="nav">
+                            <li class="nav-item ">
+
+                                <a class="nav-link" href="TechAdminApplication.html">
+
+                                    <span class="sidebar-mini">A</span>
+                                    <span class="sidebar-normal">Application</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+
+                                <a class="nav-link" href="TechAdminApplicant.html">
+
+                                    <span class="sidebar-mini">A</span>
+                                    <span class="sidebar-normal">Applicant</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+
+                                <a class="nav-link" href="TechAdminRemove.html">
+
+                                    <span class="sidebar-mini">R</span>
+                                    <span class="sidebar-normal">Remove</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+
+                                <a class="nav-link" href="TechAdminDocuments.html">
+
+                                    <span class="sidebar-mini">D</span>
+                                    <span class="sidebar-normal">Documents</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="TechAdminSystem.html">
+                        <i class="nc-icon nc-single-copy-04"></i>
+                        <p>System</p>
+                    </a>
+                </li>
+
+                <li class="nav-item ">
+                    <div class="logo">
+
+
+                        <!-- <i class="nc-icon nc-single-copy-04"></i>-->
+
+                    </div>
+                </li>
+
+                <li class="nav-item ">
+
+                    <a class="nav-link" href="http://motsepefoundation.org/">
+
+                        <!-- <i class="nc-icon nc-single-copy-04"></i>-->
+                        <p style="position: center">Log out</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+{{ end }}
