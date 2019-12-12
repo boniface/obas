@@ -132,6 +132,15 @@
                                role="tab" aria-controls="users-table" aria-selected="true">
                                 <div style="text-align: center;"><i class="fas fa-user fa " aria-hidden="true"></i>
                                 </div>
+                                <br>Institution Type</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link  waves-light active show" id="users-table-tab" data-toggle="tab"
+                               href="#country-table"
+                               role="tab" aria-controls="users-table" aria-selected="true">
+                                <div style="text-align: center;"><i class="fas fa-user fa " aria-hidden="true"></i>
+                                </div>
                                 <br>Institution</a>
                         </li>
 
@@ -175,13 +184,14 @@
                                 <div class="container-fluid">
 
                                     <div class="card green">
-                                        <form id="" method="post" action="#">
+                                        <form id="addInstitutionForm" method="post"
+                                              action="/support/management/institution/add">
 
                                             <div class="row justify-content-center">
                                                 <div class="col-md-6">
                                                     <label class="control-label label-font-color"> Institution
                                                         Name</label>
-                                                    <input type="text" name="provinces" class="form-control"
+                                                    <input type="text" name="institutionName" class="form-control"
                                                            placeholder="" id="">
                                                 </div>
 
@@ -189,16 +199,17 @@
                                             </div>
                                             <div class="row justify-content-center">
                                                 <div class="col-md-6">
-                                                    <select name="contacttypes" class="selectpicker"
-                                                            data-title="Select contact type"
+                                                    <select name="institutionType" class="selectpicker"
                                                             data-style="btn-default btn-outline"
                                                             data-menu-style="dropdown-blue">
                                                         <option value="" disabled selected>Select
-                                                            institution type
+                                                            Institution Type
                                                         </option>
-                                                        <option value="">University</option>
-                                                        <option value="">School</option>
-                                                        <option value="">College</option>
+                                                        {{with .InstitutionTypes}}
+                                                            {{range .}}
+                                                                <option value={{ .Id }}>{{ .Name }}</option>
+                                                            {{end}}
+                                                        {{end}}
                                                     </select>
                                                 </div>
                                             </div>
@@ -222,57 +233,58 @@
 
                                                     <table class="table table-hover table-striped">
                                                         <thead>
-                                                        <th>#</th>
                                                         <th>Institution name</th>
-                                                        <th>Institution type</th>
+                                                        <th>Institution Type</th>
                                                         <th class="text-center">Actions</th>
                                                         </thead>
                                                         <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>Dakota Rice</td>
-                                                            <td>Dakota Rice</td>
-                                                            <td>
+                                                        {{ with .InstitutionsHolder }}
+                                                            {{ range .}}
+                                                                <tr>
+                                                                    <td>{{ .InstitutionName}}</td>
+                                                                    <td>{{ .InstitutionType }}</td>
+                                                                    <td>
 
-                                                                <div class="row">
-                                                                    <div class="row col-md-6">
-                                                                        <form>
-                                                                            <input type="hidden" value=""
-                                                                                   name="provinces"
-                                                                                   class="form-control"
-                                                                                   placeholder="" id="">
-                                                                            <div class="col-md-6  "
-                                                                                 style="margin-top: 1%">
-                                                                                <button type="submit"
-                                                                                        id="documentUpdateBtn"
-                                                                                        class="btn btn-wd btn-info btn-outline full-width">
-                                                                                    <span class="btn-label"></span>Delete
-                                                                                </button>
+                                                                        <div class="row">
+                                                                            <div class="row col-md-6">
+                                                                                <form>
+                                                                                    <input type="hidden" value=""
+                                                                                           name="provinces"
+                                                                                           class="form-control"
+                                                                                           placeholder="" id="">
+                                                                                    <div class="col-md-6  "
+                                                                                         style="margin-top: 1%">
+                                                                                        <button type="submit"
+                                                                                                id="documentUpdateBtn"
+                                                                                                class="btn btn-wd btn-info btn-outline full-width">
+                                                                                            <span class="btn-label"></span>Delete
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </form>
                                                                             </div>
-                                                                        </form>
-                                                                    </div>
 
-                                                                    <div class="row col-md-6">
-                                                                        <form>
-                                                                            <input type="hidden" value=""
-                                                                                   name="provinces"
-                                                                                   class="form-control"
-                                                                                   placeholder="" id="">
-                                                                            <div class="col-md-6  "
-                                                                                 style="margin-top: 1%">
-                                                                                <button type="submit"
-                                                                                        id="documentUpdateBtn"
-                                                                                        class="btn btn-wd btn-info btn-outline full-width">
-                                                                                    <span class="btn-label"></span>Modify
-                                                                                </button>
+                                                                            <div class="row col-md-6">
+                                                                                <form>
+                                                                                    <input type="hidden" value=""
+                                                                                           name="provinces"
+                                                                                           class="form-control"
+                                                                                           placeholder="" id="">
+                                                                                    <div class="col-md-6  "
+                                                                                         style="margin-top: 1%">
+                                                                                        <button type="submit"
+                                                                                                id="documentUpdateBtn"
+                                                                                                class="btn btn-wd btn-info btn-outline full-width">
+                                                                                            <span class="btn-label"></span>Modify
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </form>
                                                                             </div>
-                                                                        </form>
-                                                                    </div>
-                                                                </div>
+                                                                        </div>
 
-                                                            </td>
-                                                        </tr>
-
+                                                                    </td>
+                                                                </tr>
+                                                            {{ end }}
+                                                        {{ end }}
                                                         </tbody>
                                                     </table>
                                                 </div>

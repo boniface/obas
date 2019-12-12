@@ -45,12 +45,12 @@ func AddLocationTypeHandler(app *config.Env) http.HandlerFunc {
 
 func AddLocationHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		email := app.Session.GetString(r.Context(), "userId")
-		token := app.Session.GetString(r.Context(), "token")
-		if email == "" || token == "" {
-			http.Redirect(w, r, "/login", 301)
-			return
-		}
+		//email := app.Session.GetString(r.Context(), "userId")
+		//token := app.Session.GetString(r.Context(), "token")
+		//if email == "" || token == "" {
+		//	http.Redirect(w, r, "/login", 301)
+		//	return
+		//}
 		r.ParseForm()
 		locationName := r.PostFormValue("locationName")
 		latitude := r.PostFormValue("latitude")
@@ -73,6 +73,24 @@ func AddLocationHandler(app *config.Env) http.HandlerFunc {
 func LocationManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
+		var locations []domain.Location
+		locationTypes, err := locationIO.GetLocationTypes()
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		} else {
+			locations, err = locationIO.GetLocations()
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+			}
+		}
+
+		type PageData struct {
+			LocationTypes []domain.LocationType
+			Locations     []domain.Location
+		}
+
+		data := PageData{locationTypes, locations}
+
 		files := []string{
 			app.Path + "content/tech/tech_admin_loc.html",
 			app.Path + "content/tech/template/sidebar.template.html",
@@ -83,7 +101,7 @@ func LocationManagementHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 			return
 		}
-		err = ts.Execute(w, nil)
+		err = ts.Execute(w, data)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		}

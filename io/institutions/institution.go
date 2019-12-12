@@ -8,14 +8,19 @@ import (
 
 const institutionURL = api.BASE_URL + "/institutions"
 
-func CreateInstitution(obj domain.Institution) (bool, error) {
-
+func CreateInstitution(obj domain.Institution) (domain.Institution, error) {
+	entity := domain.Institution{}
 	resp, _ := api.Rest().SetBody(obj).Post(institutionURL + "/create")
 	if resp.IsError() {
-		return false, errors.New(resp.Status())
+		return entity, errors.New(resp.Status())
 	}
-	return true, nil
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(resp.Status())
+	}
+	return entity, nil
 }
+
 func DeleteInstitution(obj domain.Institution) (domain.Institution, error) {
 	entity := domain.Institution{}
 	resp, _ := api.Rest().SetBody(obj).Post(institutionURL + "/delete")
@@ -28,6 +33,7 @@ func DeleteInstitution(obj domain.Institution) (domain.Institution, error) {
 	}
 	return entity, nil
 }
+
 func GetInstitution(id string) (domain.Institution, error) {
 	entity := domain.Institution{}
 	resp, _ := api.Rest().Get(institutionURL + "/get/" + id)
@@ -40,6 +46,7 @@ func GetInstitution(id string) (domain.Institution, error) {
 	}
 	return entity, nil
 }
+
 func GetInstitutions() ([]domain.Institution, error) {
 	entity := []domain.Institution{}
 	resp, _ := api.Rest().Get(institutionURL + "/all")
@@ -52,6 +59,7 @@ func GetInstitutions() ([]domain.Institution, error) {
 	}
 	return entity, nil
 }
+
 func UpdateInstitution(obj domain.Institution) (domain.Institution, error) {
 	entity := domain.Institution{}
 	resp, _ := api.Rest().SetBody(obj).Post(institutionURL + "/update")
