@@ -8,7 +8,7 @@ import (
 	domain "obas/domain/application"
 	domain2 "obas/domain/users"
 	applicationIO "obas/io/applications"
-	usersIO "obas/io/users"
+	//usersIO "obas/io/users"
 )
 
 func Admin(app *config.Env) http.Handler {
@@ -19,27 +19,31 @@ func Admin(app *config.Env) http.Handler {
 }
 
 type MyUserApplication struct {
-	Application domain.Application
-	User domain2.User
+	Application     domain.Application
+	User            domain2.User
 	UserApplication domain2.UserApplication
 }
-func getUserAplication(applicationId string)domain2.UserApplication{
-	return usersIO.
-}
+
+//func getUserAplication(applicationId string)domain2.UserApplication{
+//	//return usersIO.
+//	return func(w http.ResponseWriter, r *http.Request) {
+//		return
+//	}
+//}
 
 func AdminApplicationHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		applications,err:=applicationIO.GetApplications()
+		applications, err := applicationIO.GetApplications()
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		}
 
 		if applications == nil {
-			for _,application:=range applications{
-				userApplication,err:=usersIO.GetUserApplications("")
-				myUser:=MyUserApplication{application,}
-			}
+			//for _,application:=range applications{
+			//	//userApplication,err:=usersIO.GetUserApplications("")
+			//	//myUser:=MyUserApplication{application,}
+			//}
 		}
 
 		files := []string{
