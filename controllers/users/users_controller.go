@@ -248,7 +248,7 @@ func StudentBursaryApplicationStartHandler(app *config.Env) http.HandlerFunc {
 								}
 							}
 							if statusId != "" {
-								userApplicationStatus := applicationIO.ApplicationStatus{newApplication.Id, statusId, user.Email, "Starting Application", time.Now(),}
+								userApplicationStatus := applicationIO.ApplicationStatus{newApplication.Id, statusId, user.Email, "Starting Application", time.Now()}
 								_, err = applicationIO.CreateApplicationStatus(userApplicationStatus)
 								if err != nil {
 									app.ErrorLog.Println(err.Error() + " ~ User Application Status NOT created!")
