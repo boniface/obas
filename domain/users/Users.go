@@ -84,11 +84,6 @@ type UserSubjects struct {
 	InstitutionId string `json:"institutionId"`
 }
 
-type UserTown struct {
-	UserId   string `json:"userId"`
-	TownCode string `json:"townCode"`
-}
-
 type UserCourse struct {
 	UserId        string `json:"UserId"`
 	CourseId      string `json:"courseId"`
@@ -99,4 +94,9 @@ type UserApplication struct {
 	UserId        string    `json:"userId"`
 	ApplicationId string    `json:"applicationId"`
 	DateTime      time.Time `json:"dateTime"`
+}
+
+type UserTown struct {
+	UserId     string `json:"userId"`
+	LocationId string `json:"locationId"`
 }
