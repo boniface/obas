@@ -32,7 +32,7 @@ func TestCreateContactType(t *testing.T) {
 
 func TestUpdateContactType(t *testing.T) {
 	var expected = "Christian Muamba"
-	var updated = domain.ContactType{ContactTypeId: "1991", Name: "Christian Muamba"}
+	var updated = domain.ContactType{ContactTypeId: "1991", Name: "Christian M"}
 	result, err := UpdateContactType(updated)
 	assert.Nil(t, err)
 	assert.True(t, result)
