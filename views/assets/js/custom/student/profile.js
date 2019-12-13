@@ -1,7 +1,6 @@
 $(document).ready(function(){
 
     const BASE_URL = "http://localhost:4000/users/student/profile/";
-    const LOCATION_RESTAPI = "http://localhost:4000/location/api/";
 
     /** student profile pages starts here**/
     $("#profileForm input").prop("disabled", true);

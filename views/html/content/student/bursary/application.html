@@ -202,10 +202,10 @@
                             </div>
                             <div class="card-body">
                                 <div class="accordions" id="accordion">
-                                    {{ template "matric" .}}
-                                    {{ template "current-institution" .}}
+                                    {{ template "matric-form" .}}
+                                    {{ template "current-institution-form" .}}
                                     {{ template "document" .}}
-                                    {{ template "prospective-institution" .}}
+                                    {{ template "prospective-institution-form" .}}
                                 </div>
                             </div>
                         </div>
@@ -368,18 +368,7 @@
 <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="../../../../assets/js/light-bootstrap-dashboard.js?v=2.0.1" type="text/javascript"></script>
 <!-- Light Dashboard DEMO methods, don't include it in your project! -->
-<script src="../../../../assets/js/demo.js"></script>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        // Javascript method's body can be found in assets/js/demos.js
-        demo.initDashboardPageCharts();
-
-        demo.initLBDWizard();
-
-        demo.initVectorMap();
-
-    });
-</script>
+<script src="../../../../assets/js/custom/generics.js"></script>
+<script src="../../../../assets/js/custom/student/application.js"></script>
 
 </html>
