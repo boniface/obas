@@ -238,19 +238,19 @@
                                             <div class="row justify-content-center">
                                                 <div class="col-md-5">
                                                     <label class="control-label label-font-color">Latitude</label>
-                                                    <input type="text" name="latitude" class="form-control"
+                                                    <input type="text" name="Latitude" class="form-control"
                                                            placeholder="" id="">
                                                 </div>
                                                 <div class="col-md-5">
                                                     <label class="control-label label-font-color">Longitude</label>
-                                                    <input type="text" name="longitude" class="form-control"
+                                                    <input type="text" name="Longitude" class="form-control"
                                                            placeholder="" id="">
                                                 </div>
                                             </div>
                                             <div class="row justify-content-center">
                                                 <div class="col-md-5">
                                                     <label class="control-label label-font-color">Location Type</label>
-                                                    <select name="locationType" class="selectpicker"
+                                                    <select name="LocationType" class="selectpicker"
                                                             data-style="btn-default btn-outline"
                                                             data-menu-style="dropdown-blue">
                                                         <option value="" disabled selected>Select Location Type
@@ -265,7 +265,7 @@
                                                 <div class="col-md-5">
                                                     <label class="control-label label-font-color">Location
                                                         Parent</label>
-                                                    <select name="locationParent" class="selectpicker"
+                                                    <select name="LocationParent" class="selectpicker"
                                                             data-style="btn-default btn-outline"
                                                             data-menu-style="dropdown-blue">
                                                         <option value="" disabled selected>Select Location
@@ -318,9 +318,10 @@
                                                                         <div class="row justify-content-center">
                                                                             <div class="col-md-6">
                                                                                 <a class="edit" title="Edit"
-                                                                                   data-toggle="tooltip">
-                                                                                    <i class="material-icons">&#xE254;</i>
-                                                                                </a></div>
+                                                                                   data-toggle="modal" data-target="#editModal" href=""
+                                                                                   onclick="editLocationForm({{.}})"><i
+                                                                                            class="material-icons">&#xE254;</i></a>
+                                                                            </div>
                                                                             <div class="col-md-6">
                                                                                 <a class="delete" href="/support/management/location/delete/location/{{.LocationId}}" title="Delete"
                                                                                    data-toggle="tooltip"><i
@@ -340,6 +341,96 @@
                                 </div>
                             </div>
                             <!-- Table with panel -->
+                        </div>
+
+                        <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel"> Edit Location</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Extended material form grid -->
+                                        <form name="locationEditForm" method="POST"
+                                              action="/support/management/location/type/edit" novalidate>
+
+                                            <input type="hidden" class="form-control" name="LocationId" id="locationId">
+
+
+                                            <div class="form-row">
+                                                <!-- Default input -->
+                                                <div class="form-group col-md-12">
+                                                    <label for="Name">Institution name</label>
+                                                    <input type="text" class="form-control" name="Name" id="Name">
+
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <!-- Default input -->
+                                                <div class="form-group col-md-6">
+                                                    <label for="Description">Institution description</label>
+                                                    <input type="text" class="form-control" name="Latitude"
+                                                           id="Latitude">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="Description">Institution description</label>
+                                                    <input type="text" class="form-control" name="Longitude"
+                                                           id="Longitude">
+
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <!-- Default input -->
+                                                <div class="form-group col-md-6">
+                                                    <label class="control-label label-font-color">Location Type</label>
+                                                    <select name="locationType" class="selectpicker"
+                                                            data-style="btn-default btn-outline"
+                                                            data-menu-style="dropdown-blue">
+                                                        <option value="" disabled selected>Select Location Type
+                                                        </option>
+                                                        {{with .LocationTypes}}
+                                                            {{range .}}
+                                                                <option value={{ .LocationTypeId }}>{{ .Name }}</option>
+                                                            {{end}}
+                                                        {{end}}
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="control-label label-font-color">Location
+                                                        Parent</label>
+                                                    <select name="locationParent" class="selectpicker"
+                                                            data-style="btn-default btn-outline"
+                                                            data-menu-style="dropdown-blue">
+                                                        <option value="" disabled selected>Select Location
+                                                        </option>
+                                                        {{with .Locations}}
+                                                            {{range .}}
+                                                                <option value={{ .LocationId }}>{{ .Name }}</option>
+                                                            {{end}}
+                                                        {{end}}
+
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <!-- Grid row -->
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                    Close
+                                                </button>
+                                                <button type="submit" class="btn btn-primary">Save</button>
+                                            </div>
+                                        </form>
+
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -397,6 +488,8 @@
 <script src="../../../assets/js/light-bootstrap-dashboard.js?v=2.0.1" type="text/javascript"></script>
 <!-- Light Dashboard DEMO methods, don't include it in your project! -->
 <script src="../../../assets/js/demo.js"></script>
+<script src="../../../assets/js/custom/techadmin/institution.js"></script>
+
 
 </html>
 <script type="text/javascript">

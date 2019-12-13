@@ -17,8 +17,32 @@ func LocationManagement(app *config.Env) http.Handler {
 
 	r.Post("/type/add", AddLocationTypeHandler(app))
 	r.Post("/add", AddLocationHandler(app))
+	r.Post("/type/edit", EditLocationTypeHandler(app))
 	r.Get("/delete/location/{resetkey}", DeleteLocationHandler(app))
 	return r
+}
+
+func EditLocationTypeHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		_ = app.Session.Destroy(r.Context())
+
+		r.ParseForm()
+		locationId := r.PostFormValue("LocationId")
+		locationName := r.PostFormValue("Name")
+		latitude := r.PostFormValue("Latitude")
+		longitude := r.PostFormValue("Longitude")
+		locationType := r.PostFormValue("locationType")
+		locationParent := r.PostFormValue("locationParent")
+		location := domain.Location{locationId, locationType, locationName, latitude, longitude, locationParent}
+
+		fmt.Println(location)
+		_, err := locationIO.UpdateLocation(location)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+		app.Session.Put(r.Context(), "tab", "tab2")
+		http.Redirect(w, r, "/support/management/location", 301)
+	}
 }
 
 func DeleteLocationHandler(app *config.Env) http.HandlerFunc {
@@ -83,10 +107,10 @@ func AddLocationHandler(app *config.Env) http.HandlerFunc {
 		//}
 		r.ParseForm()
 		locationName := r.PostFormValue("locationName")
-		latitude := r.PostFormValue("latitude")
-		longitude := r.PostFormValue("longitude")
-		locationType := r.PostFormValue("locationType")
-		locationParent := r.PostFormValue("locationParent")
+		latitude := r.PostFormValue("Latitude")
+		longitude := r.PostFormValue("Longitude")
+		locationType := r.PostFormValue("LocationType")
+		locationParent := r.PostFormValue("LocationParent")
 		location := domain.Location{"", locationType, locationName, latitude, longitude, locationParent}
 		app.InfoLog.Println("Location to save: ", location)
 		savedLocation, err := locationIO.CreateLocation(location)

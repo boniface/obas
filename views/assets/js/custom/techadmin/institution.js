@@ -18,6 +18,16 @@ $(document).ready(function () {
 
     /** District ends here **/
 
+    /**institution Location start here**/
+    $("#myInstitutionType").change(function() {
+        const myInstitutionTypeId = $(this).val();
+        let myInstitutionType = $('#myInstitutionType');
+        let myInstitutionElement = $('#myInstitution');
+        getDropDownElement(myInstitutionType, 'Institutions');
+        popullateInstitutionDrop(myInstitutionElement, myInstitutionTypeId);
+
+    });
+
 });
 
 function editForm(event) {
@@ -25,4 +35,12 @@ function editForm(event) {
     form.elements["Id"].value = event.id;
     form.elements["Name"].value = event.name;
     form.elements["Description"].value = event.description;
+}
+function editLocationForm(app) {
+
+    var form = document.forms['locationEditForm'];
+    form.elements["LocationId"].value = app.locationId;
+    form.elements["Name"].value = app.name;
+    form.elements["Longitude"].value = app.longitude;
+    form.elements["Latitude"].value = app.latitude;
 }

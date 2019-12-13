@@ -106,6 +106,7 @@ func InstitutionManagementHandler(app *config.Env) http.HandlerFunc {
 
 		var institutions []institutionDomain.Institution
 		var institutionsHolder []InstitutionHolder
+
 		institutionTypes, err := institutionIO.GetInstitutionTypes()
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
