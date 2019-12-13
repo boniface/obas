@@ -169,12 +169,14 @@ func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 		files := []string{
 			app.Path + "content/student/bursary/application.html",
 			app.Path + "content/student/template/sidebar.template.html",
-			app.Path + "content/student/template/application/matric.template.html",
-			app.Path + "content/student/template/application/current-institution.template.html",
-			app.Path + "content/student/template/application/location-institution.template.html",
-			app.Path + "content/student/template/application/prospective-institution.template.html",
+			app.Path + "content/student/template/application/matric-form.template.html",
+			app.Path + "content/student/template/application/current-institution-form.template.html",
+			app.Path + "content/student/template/application/institution-form.template.html",
+			app.Path + "content/student/template/application/location-form.template.html",
+			app.Path + "content/student/template/application/prospective-institution-form.template.html",
 			app.Path + "content/student/template/application/institution-course.template.html",
 			app.Path + "content/student/template/application/document.template.html",
+			app.Path + "content/student/template/application/subject-form.template.html",
 			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)

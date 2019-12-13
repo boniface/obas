@@ -1,0 +1,22 @@
+{{ define "institution-form" }}
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <label class="control-label label-font-color">Institution Type</label>
+            <select name="institutionType" class="selectpicker"
+                    data-style="btn-default btn-outline"
+                    data-menu-style="dropdown-blue">
+                <option value="" disabled selected>Select Institution Type</option>
+                <option value="">College</option>
+            </select>
+        </div>
+        <div class="col-md-5">
+            <label class="control-label label-font-color">Institution</label>
+            <select name="institution" class="selectpicker"
+                    data-style="btn-default btn-outline"
+                    data-menu-style="dropdown-blue">
+                <option value="" disabled selected>Select Institution</option>
+                <option value="">Damelin College</option>
+            </select>
+        </div>
+    </div>
+{{ end }}

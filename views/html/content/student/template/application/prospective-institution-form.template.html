@@ -1,4 +1,4 @@
-{{ define "prospective-institution" }}
+{{ define "prospective-institution-form" }}
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">
@@ -25,7 +25,7 @@
                          aria-labelledby="prospective-institution-tab" aria-expanded="false">
                         <form id="prospectiveInstitutionForm" method="post"
                               action="/users/student/bursary/prospective/institution/update">
-                            {{ template "location-institution-form" .}}
+                            {{ template "institution-form" .}}
                             <div class="row justify-content-center">
                                 <div class="col-md-10">
                                     <button type="reset" id="clearButton"
