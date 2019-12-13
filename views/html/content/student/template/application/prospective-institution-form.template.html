@@ -1,4 +1,4 @@
-{{ define "prospective-institution" }}
+{{ define "prospective-institution-form" }}
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">
@@ -9,14 +9,14 @@
             </h4>
         </div>
         <div id="prospectiveInstitutionInfo" class="card-collapse collapse" style="">
-            <div class="card-body">
+            <div class="card-body beautify">
                 <ul role="tablist" class="nav nav-tabs">
                     <li role="presentation" class="nav-item show active" aria-expanded="false">
-                        <a class="nav-link" id="prospective-institution-tab" href="#prospective-institution"
+                        <a class="nav-link yelowText" id="prospective-institution-tab" href="#prospective-institution"
                            data-toggle="tab">Prospective Institution</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="prospective-course-tab" href="#prospective-course" data-toggle="tab"
+                        <a class="nav-link yelowText" id="prospective-course-tab" href="#prospective-course" data-toggle="tab"
                            aria-expanded="false">Prospective Course</a>
                     </li>
                 </ul>
@@ -25,7 +25,8 @@
                          aria-labelledby="prospective-institution-tab" aria-expanded="false">
                         <form id="prospectiveInstitutionForm" method="post"
                               action="/users/student/bursary/prospective/institution/update">
-                            {{ template "location-institution-form" .}}
+                            {{ template "location-form" .}}
+                            {{ template "institution-form" .}}
                             <div class="row justify-content-center">
                                 <div class="col-md-10">
                                     <button type="reset" id="clearButton"

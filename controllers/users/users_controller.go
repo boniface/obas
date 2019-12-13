@@ -8,12 +8,14 @@ import (
 	"net/http"
 	"obas/config"
 	applicationDomain "obas/domain/application"
+	institutionDomain "obas/domain/institutions"
 	locationDomain "obas/domain/location"
 	userDomain "obas/domain/users"
 	addressIO "obas/io/address"
 	applicationIO "obas/io/applications"
 	demographyIO "obas/io/demographics"
 	documentIO "obas/io/documents"
+	institutionIO "obas/io/institutions"
 	locationIO "obas/io/location"
 	loginIO "obas/io/login"
 	storageIO "obas/io/storage"
@@ -116,6 +118,8 @@ func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 		var applicationTypes []applicationDomain.ApplicationType
 		var applicantType []applicationDomain.ApplicantType
 		var latestUserApplication userDomain.UserApplication
+		var provinces []locationDomain.Location
+		var institutionTypes []institutionDomain.InstitutionTypes
 		isComplete := true
 		latestUserApplication, err = usersIO.GetLatestUserApplication(email)
 		fmt.Println("user application>>>", latestUserApplication)
@@ -144,12 +148,24 @@ func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 					}
 				}
 			} else {
-				message := app.Session.GetString(r.Context(), "message")
-				messageType := app.Session.GetString(r.Context(), "message-type")
-				if message != "" && messageType != "" {
-					alert = PageToast{messageType, message}
-					app.Session.Remove(r.Context(), "message")
-					app.Session.Remove(r.Context(), "message-type")
+				provinces, err = util.GetProvinces()
+				if err != nil {
+					app.ErrorLog.Println(err.Error())
+					alert = PageToast{dangerAlertStyle, "Could not retrieve provinces!"}
+				} else {
+					institutionTypes, err = institutionIO.GetInstitutionTypes()
+					if err != nil {
+						app.ErrorLog.Println(err.Error())
+						alert = PageToast{dangerAlertStyle, "Could not retrieve institution types!"}
+					} else {
+						message := app.Session.GetString(r.Context(), "message")
+						messageType := app.Session.GetString(r.Context(), "message-type")
+						if message != "" && messageType != "" {
+							alert = PageToast{messageType, message}
+							app.Session.Remove(r.Context(), "message")
+							app.Session.Remove(r.Context(), "message-type")
+						}
+					}
 				}
 			}
 		}
@@ -162,19 +178,23 @@ func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 			ApplicationTypes  []applicationDomain.ApplicationType
 			Applicants        []applicationDomain.ApplicantType
 			IsComplete        bool
+			Provinces         []locationDomain.Location
+			InstitutionTypes  []institutionDomain.InstitutionTypes
 			Alert             PageToast
 		}
 
-		data := PageData{user, "bursary", "application", latestUserApplication, applicationTypes, applicantType, isComplete, alert}
+		data := PageData{user, "bursary", "application", latestUserApplication, applicationTypes, applicantType, isComplete, provinces, institutionTypes, alert}
 		files := []string{
 			app.Path + "content/student/bursary/application.html",
 			app.Path + "content/student/template/sidebar.template.html",
-			app.Path + "content/student/template/application/matric.template.html",
-			app.Path + "content/student/template/application/current-institution.template.html",
-			app.Path + "content/student/template/application/location-institution.template.html",
-			app.Path + "content/student/template/application/prospective-institution.template.html",
+			app.Path + "content/student/template/application/matric-form.template.html",
+			app.Path + "content/student/template/application/current-institution-form.template.html",
+			app.Path + "content/student/template/application/institution-form.template.html",
+			app.Path + "base/template/form/location-form.template.html",
+			app.Path + "content/student/template/application/prospective-institution-form.template.html",
 			app.Path + "content/student/template/application/institution-course.template.html",
 			app.Path + "content/student/template/application/document.template.html",
+			app.Path + "content/student/template/application/subject-form.template.html",
 			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
@@ -244,7 +264,7 @@ func StudentBursaryApplicationStartHandler(app *config.Env) http.HandlerFunc {
 								}
 							}
 							if statusId != "" {
-								userApplicationStatus := applicationIO.ApplicationStatus{newApplication.Id, statusId, user.Email, "Starting Application", time.Now(),}
+								userApplicationStatus := applicationIO.ApplicationStatus{newApplication.Id, statusId, user.Email, "Starting Application", time.Now()}
 								_, err = applicationIO.CreateApplicationStatus(userApplicationStatus)
 								if err != nil {
 									app.ErrorLog.Println(err.Error() + " ~ User Application Status NOT created!")
@@ -270,7 +290,6 @@ func StudentBursaryApplicationStartHandler(app *config.Env) http.HandlerFunc {
 		}
 		app.InfoLog.Println("application response is ", isSuccessful)
 		http.Redirect(w, r, "/users/student/bursary/application", 301)
-
 	}
 }
 
@@ -594,49 +613,40 @@ func StudentProfileDistrictHandler(app *config.Env) http.HandlerFunc {
 		var alert PageToast
 		var provinces []locationDomain.Location
 		var townName string
-		countries, err := locationIO.GetParentLocations()
 
+		provinces, err = util.GetProvinces()
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
-			alert = PageToast{dangerAlertStyle, "Could not retrieve countries!"}
+			alert = PageToast{dangerAlertStyle, "Could not retrieve provinces!"}
 		} else {
-			if len(countries) > 0 {
-				locationId := countries[0].LocationId
-				provinces, err = locationIO.GetLocationsForParent(locationId)
-				if err != nil {
-					app.ErrorLog.Println(err.Error())
-					alert = PageToast{dangerAlertStyle, "Could not retrieve provinces!"}
-				} else {
-					userTown, err := usersIO.GetUserTown(email)
+			userTown, err := usersIO.GetUserTown(email)
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+				alert = PageToast{dangerAlertStyle, "Could not retrieve user town!"}
+			} else {
+				if userTown.LocationId != "" {
+					location, err := locationIO.GetLocation(userTown.LocationId)
 					if err != nil {
 						app.ErrorLog.Println(err.Error())
-						alert = PageToast{dangerAlertStyle, "Could not retrieve user town!"}
+						alert = PageToast{dangerAlertStyle, "Could not retrieve location!"}
 					} else {
-						if userTown.LocationId != "" {
-							location, err := locationIO.GetLocation(userTown.LocationId)
-							if err != nil {
-								app.ErrorLog.Println(err.Error())
-								alert = PageToast{dangerAlertStyle, "Could not retrieve location!"}
-							} else {
-								townName = location.Name
-								message := app.Session.GetString(r.Context(), "message")
-								messageType := app.Session.GetString(r.Context(), "message-type")
-								if message != "" && messageType != "" {
-									alert = PageToast{messageType, message}
-									app.Session.Remove(r.Context(), "message")
-									app.Session.Remove(r.Context(), "message-type")
-								}
-							}
-						} else {
-							townName = "<<not set>>"
-							message := app.Session.GetString(r.Context(), "message")
-							messageType := app.Session.GetString(r.Context(), "message-type")
-							if message != "" && messageType != "" {
-								alert = PageToast{messageType, message}
-								app.Session.Remove(r.Context(), "message")
-								app.Session.Remove(r.Context(), "message-type")
-							}
+						townName = location.Name
+						message := app.Session.GetString(r.Context(), "message")
+						messageType := app.Session.GetString(r.Context(), "message-type")
+						if message != "" && messageType != "" {
+							alert = PageToast{messageType, message}
+							app.Session.Remove(r.Context(), "message")
+							app.Session.Remove(r.Context(), "message-type")
 						}
+					}
+				} else {
+					townName = "<<not set>>"
+					message := app.Session.GetString(r.Context(), "message")
+					messageType := app.Session.GetString(r.Context(), "message-type")
+					if message != "" && messageType != "" {
+						alert = PageToast{messageType, message}
+						app.Session.Remove(r.Context(), "message")
+						app.Session.Remove(r.Context(), "message-type")
 					}
 				}
 			}
