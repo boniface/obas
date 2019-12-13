@@ -372,20 +372,9 @@
 
                                     <div class="card green">
                                         <form id="" method="post" action="#">
+                                            {{ template "location-form" .}}
                                             <div class="row justify-content-center">
-
-                                                <div class="col-md-5">
-                                                    <label class="control-label label-font-color">Town</label>
-                                                    <select name="documenttype" class="selectpicker"
-                                                            data-style="btn-default btn-outline"
-                                                            data-menu-style="dropdown-blue">
-                                                        <option value="" disabled selected>Select Town
-                                                        </option>
-                                                        <option value=></option>
-
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-5">
+                                                <div class="col-md-10">
                                                     <label class="control-label label-font-color">Institution</label>
                                                     <select name="documenttype" class="selectpicker"
                                                             data-style="btn-default btn-outline"
@@ -807,30 +796,7 @@
 <script src="../../../assets/js/plugins/fullcalendar.min.js"></script>
 <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="../../../assets/js/light-bootstrap-dashboard.js?v=2.0.1" type="text/javascript"></script>
-<!-- Light Dashboard DEMO methods, don't include it in your project! -->
-<script src="../../../assets/js/demo.js"></script>
+<script src="../../../assets/js/custom/generics.js"></script>
+<script src="../../../assets/js/custom/techadmin/institution.js"></script>
 
 </html>
-<script type="text/javascript">
-
-    $(document).ready(function () {
-        // Javascript method's body can be found in assets/js/demos.js
-        demo.initDashboardPageCharts();
-
-
-
-        demo.initVectorMap();
-
-    });
-
-    function editForm(event) {
-        var form = document.forms['siteEditForm'];
-        form.elements["Id"].value = event.id;
-        form.elements["Name"].value = event.name;
-        form.elements["Description"].value = event.description;
-    }
-
-
-
-
-</script>

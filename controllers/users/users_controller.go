@@ -148,7 +148,7 @@ func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 					}
 				}
 			} else {
-				provinces, err = getProvinces()
+				provinces, err = util.GetProvinces()
 				if err != nil {
 					app.ErrorLog.Println(err.Error())
 					alert = PageToast{dangerAlertStyle, "Could not retrieve provinces!"}
@@ -190,7 +190,7 @@ func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "content/student/template/application/matric-form.template.html",
 			app.Path + "content/student/template/application/current-institution-form.template.html",
 			app.Path + "content/student/template/application/institution-form.template.html",
-			app.Path + "content/student/template/application/location-form.template.html",
+			app.Path + "base/template/form/location-form.template.html",
 			app.Path + "content/student/template/application/prospective-institution-form.template.html",
 			app.Path + "content/student/template/application/institution-course.template.html",
 			app.Path + "content/student/template/application/document.template.html",
@@ -208,33 +208,6 @@ func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 		}
 	}
 
-}
-
-func getProvinces() ([]locationDomain.Location, error) {
-	southAfricaId, err := getCountryId()
-	if err != nil {
-		return nil, err
-	} else {
-		provinces, err := locationIO.GetLocationsForParent(southAfricaId)
-		if err != nil {
-			return nil, err
-		} else {
-			return provinces, nil
-		}
-	}
-}
-
-func getCountryId() (string, error) {
-	var id string
-	countries, err := locationIO.GetParentLocations()
-	if err != nil {
-		return id, err
-	} else {
-		if len(countries) > 0 {
-			id = countries[0].LocationId
-		}
-		return id, nil
-	}
 }
 
 func StudentBursaryApplicationStartHandler(app *config.Env) http.HandlerFunc {
@@ -640,49 +613,40 @@ func StudentProfileDistrictHandler(app *config.Env) http.HandlerFunc {
 		var alert PageToast
 		var provinces []locationDomain.Location
 		var townName string
-		countries, err := locationIO.GetParentLocations()
 
+		provinces, err = util.GetProvinces()
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
-			alert = PageToast{dangerAlertStyle, "Could not retrieve countries!"}
+			alert = PageToast{dangerAlertStyle, "Could not retrieve provinces!"}
 		} else {
-			if len(countries) > 0 {
-				locationId := countries[0].LocationId
-				provinces, err = locationIO.GetLocationsForParent(locationId)
-				if err != nil {
-					app.ErrorLog.Println(err.Error())
-					alert = PageToast{dangerAlertStyle, "Could not retrieve provinces!"}
-				} else {
-					userTown, err := usersIO.GetUserTown(email)
+			userTown, err := usersIO.GetUserTown(email)
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+				alert = PageToast{dangerAlertStyle, "Could not retrieve user town!"}
+			} else {
+				if userTown.LocationId != "" {
+					location, err := locationIO.GetLocation(userTown.LocationId)
 					if err != nil {
 						app.ErrorLog.Println(err.Error())
-						alert = PageToast{dangerAlertStyle, "Could not retrieve user town!"}
+						alert = PageToast{dangerAlertStyle, "Could not retrieve location!"}
 					} else {
-						if userTown.LocationId != "" {
-							location, err := locationIO.GetLocation(userTown.LocationId)
-							if err != nil {
-								app.ErrorLog.Println(err.Error())
-								alert = PageToast{dangerAlertStyle, "Could not retrieve location!"}
-							} else {
-								townName = location.Name
-								message := app.Session.GetString(r.Context(), "message")
-								messageType := app.Session.GetString(r.Context(), "message-type")
-								if message != "" && messageType != "" {
-									alert = PageToast{messageType, message}
-									app.Session.Remove(r.Context(), "message")
-									app.Session.Remove(r.Context(), "message-type")
-								}
-							}
-						} else {
-							townName = "<<not set>>"
-							message := app.Session.GetString(r.Context(), "message")
-							messageType := app.Session.GetString(r.Context(), "message-type")
-							if message != "" && messageType != "" {
-								alert = PageToast{messageType, message}
-								app.Session.Remove(r.Context(), "message")
-								app.Session.Remove(r.Context(), "message-type")
-							}
+						townName = location.Name
+						message := app.Session.GetString(r.Context(), "message")
+						messageType := app.Session.GetString(r.Context(), "message-type")
+						if message != "" && messageType != "" {
+							alert = PageToast{messageType, message}
+							app.Session.Remove(r.Context(), "message")
+							app.Session.Remove(r.Context(), "message-type")
 						}
+					}
+				} else {
+					townName = "<<not set>>"
+					message := app.Session.GetString(r.Context(), "message")
+					messageType := app.Session.GetString(r.Context(), "message-type")
+					if message != "" && messageType != "" {
+						alert = PageToast{messageType, message}
+						app.Session.Remove(r.Context(), "message")
+						app.Session.Remove(r.Context(), "message-type")
 					}
 				}
 			}
