@@ -103,6 +103,7 @@ func InstitutionManagementHandler(app *config.Env) http.HandlerFunc {
 		}
 
 		var institutions []institutionDomain.Institution
+		//var institutions2 []InstitutionHolder
 		var institutionsHolder []InstitutionHolder
 		institutionTypes, err := institutionIO.GetInstitutionTypes()
 		if err != nil {
@@ -112,6 +113,11 @@ func InstitutionManagementHandler(app *config.Env) http.HandlerFunc {
 			if err != nil {
 				app.ErrorLog.Println(err.Error())
 			} else {
+				/**for _,myInstitution:=range institutions{
+					myInstitutionType,_:=institutionIO.GetInstitutionType(myInstitution.InstitutionTypeId)
+					institutions2=append(institutions2,InstitutionHolder{myInstitution.Name,myInstitutionType.Name})
+				}**/
+
 				for _, institution := range institutions {
 					institutionTypeName := getInstitutionTypeName(institution, institutionTypes)
 					institutionsHolder = append(institutionsHolder, InstitutionHolder{institution.Name, institutionTypeName})

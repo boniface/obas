@@ -227,7 +227,7 @@
                                                         <thead>
                                                         <th>Type</th>
                                                         <th>Description</th>
-                                                        <th>Actions</th>
+                                                        <th class="text-center">Actions</th>
                                                         </thead>
                                                         <tbody>
                                                         {{ with .InstitutionTypes }}
@@ -235,15 +235,20 @@
                                                                 <tr>
                                                                     <td>{{ .Name }}</td>
                                                                     <td>{{ .Description }}</td>
-                                                                    <td>
+                                                                    <td><div class="row justify-content-center">
+                                                                            <div class="col-md-6">
                                                                         <a class="edit" title="Edit"
-                                                                           data-toggle="modal" data-target="#editModal"
+                                                                           data-toggle="modal" data-target="#editModal" href=""
                                                                            onclick="editForm({{.}})"><i
                                                                                     class="material-icons">&#xE254;</i></a>
+                                                                            </div>
+                                                                            <div class="col-md-6">
                                                                         <a class="delete" title="Delete"
                                                                            href="/support/management/institution/type/delete/{{.Id}}"
                                                                            data-toggle="tooltip"><i
                                                                                     class="material-icons">&#xE872;</i></a>
+                                                                            </div>
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                             {{ end }}
@@ -261,7 +266,6 @@
                             <!-- Table with panel -->
                         </div>
 
-
                         <div class="tab-pane fade " id="institution" role="tabpanel"
                              aria-labelledby="pool-roles">
                             <p></p>
@@ -274,14 +278,16 @@
                                               action="/support/management/institution/add">
 
                                             <div class="row justify-content-center">
-                                                <div class="col-md-5">
+                                                <div class="col-md-6">
                                                     <label class="control-label label-font-color"> Institution
                                                         Name</label>
                                                     <input type="text" name="institutionName" class="form-control"
                                                            placeholder="" id="">
                                                 </div>
+                                            </div>
 
-                                                <div class="col-md-5">
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-6">
                                                     <select name="institutionType" class="selectpicker"
                                                             data-style="btn-default btn-outline"
                                                             data-menu-style="dropdown-blue">
@@ -327,44 +333,20 @@
                                                                 <tr>
                                                                     <td>{{ .InstitutionName}}</td>
                                                                     <td>{{ .InstitutionType }}</td>
-                                                                    <td>
-
-                                                                        <div class="row">
-                                                                            <div class="row col-md-6">
-                                                                                <form>
-                                                                                    <input type="hidden" value=""
-                                                                                           name="provinces"
-                                                                                           class="form-control"
-                                                                                           placeholder="" id="">
-                                                                                    <div class="col-md-6  "
-                                                                                         style="margin-top: 1%">
-                                                                                        <button type="submit"
-                                                                                                id="documentUpdateBtn"
-                                                                                                class="btn btn-wd btn-info btn-outline full-width">
-                                                                                            <span class="btn-label"></span>Delete
-                                                                                        </button>
-                                                                                    </div>
-                                                                                </form>
+                                                                    <td><div class="row justify-content-center">
+                                                                            <div class="col-md-6">
+                                                                                <a class="edit" title="Edit"
+                                                                                   data-toggle="modal" data-target="#editModal" href=""
+                                                                                   onclick=""><i
+                                                                                            class="material-icons">&#xE254;</i></a>
                                                                             </div>
-
-                                                                            <div class="row col-md-6">
-                                                                                <form>
-                                                                                    <input type="hidden" value=""
-                                                                                           name="provinces"
-                                                                                           class="form-control"
-                                                                                           placeholder="" id="">
-                                                                                    <div class="col-md-6"
-                                                                                         style="margin-top: 1%">
-                                                                                        <button type="submit"
-                                                                                                id="documentUpdateBtn"
-                                                                                                class="btn btn-wd btn-info btn-outline full-width">
-                                                                                            <span class="btn-label"></span>Modify
-                                                                                        </button>
-                                                                                    </div>
-                                                                                </form>
+                                                                            <div class="col-md-6">
+                                                                                <a class="delete" title="Delete"
+                                                                                   href=""
+                                                                                   data-toggle="tooltip"><i
+                                                                                            class="material-icons">&#xE872;</i></a>
                                                                             </div>
                                                                         </div>
-
                                                                     </td>
                                                                 </tr>
                                                             {{ end }}
@@ -379,7 +361,6 @@
                             </div>
                             <!-- Table with panel -->
                         </div>
-
 
                         <div class="tab-pane fade" id="institutionLocation" role="tabpanel"
                              aria-labelledby="roles">
@@ -719,7 +700,6 @@
                             <!-- Table with panel -->
                         </div>
 
-
                         <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
                              aria-labelledby="exampleModalLabel"
                              aria-hidden="true">
@@ -837,7 +817,7 @@
         // Javascript method's body can be found in assets/js/demos.js
         demo.initDashboardPageCharts();
 
-        demo.showNotification();
+
 
         demo.initVectorMap();
 
