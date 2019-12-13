@@ -10,7 +10,7 @@ import (
 func TestCreateInstitution(t *testing.T) {
 	obj := domain.Institution{"U111", "CPUT", "UNIVERSITY"}
 	resp, err := CreateInstitution(obj)
-	assert.True(t, resp)
+	assert.NotNil(t, resp)
 	fmt.Println(" The Results", resp)
 	assert.Nil(t, err)
 }
