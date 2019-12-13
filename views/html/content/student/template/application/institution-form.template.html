@@ -2,20 +2,23 @@
     <div class="row justify-content-center">
         <div class="col-md-5">
             <label class="control-label label-font-color">Institution Type</label>
-            <select name="institutionType" class="selectpicker"
+            <select name="institutionType" class="selectpicker" id="institutionType"
                     data-style="btn-default btn-outline"
                     data-menu-style="dropdown-blue">
                 <option value="" disabled selected>Select Institution Type</option>
-                <option value="">College</option>
+                {{ with .InstitutionTypes }}
+                    {{ range .}}
+                        <option value="{{ .Id }}" >{{ .Name }}</option>
+                    {{ end }}
+                {{ end }}
             </select>
         </div>
         <div class="col-md-5">
             <label class="control-label label-font-color">Institution</label>
-            <select name="institution" class="selectpicker"
+            <select name="institution" class="" id="institution"
                     data-style="btn-default btn-outline"
                     data-menu-style="dropdown-blue">
                 <option value="" disabled selected>Select Institution</option>
-                <option value="">Damelin College</option>
             </select>
         </div>
     </div>

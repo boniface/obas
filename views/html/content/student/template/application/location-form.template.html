@@ -1,6 +1,6 @@
 {{ define "location-form" }}
     <div class="row justify-content-center">
-        <div class="col-md-5">
+        <!--div class="col-md-5">
             <label class="control-label label-font-color">Country</label>
             <select name="country" class="selectpicker"
                     data-style="btn-default btn-outline"
@@ -8,34 +8,36 @@
                 <option value="" disabled selected>Select Country</option>
                 <option value="">South Africa</option>
             </select>
-        </div>
-        <div class="col-md-5">
+        </div-->
+        <div class="col-md-10">
             <label class="control-label label-font-color">Province</label>
-            <select name="province" class="selectpicker"
+            <select name="province" class="selectpicker" id="province"
                     data-style="btn-default btn-outline"
                     data-menu-style="dropdown-blue">
                 <option value="" disabled selected>Select Province</option>
-                <option value="">Western Cape</option>
+                {{with .Provinces}}
+                    {{range .}}
+                        <option value="{{ .LocationId }}">{{ .Name }}</option>
+                    {{end}}
+                {{end}}
             </select>
         </div>
     </div>
     <div class="row justify-content-center">
         <div class="col-md-5">
             <label class="control-label label-font-color">District</label>
-            <select name="district" class="selectpicker"
+            <select name="district" class="" id="district"
                     data-style="btn-default btn-outline"
                     data-menu-style="dropdown-blue">
                 <option value="" disabled selected>Select District</option>
-                <option value="">City of Cape Town</option>
             </select>
         </div>
         <div class="col-md-5">
             <label class="control-label label-font-color">Town</label>
-            <select name="town" class="selectpicker"
+            <select name="town" class="" id="town"
                     data-style="btn-default btn-outline"
                     data-menu-style="dropdown-blue">
                 <option value="" disabled selected>Select Town</option>
-                <option value="">Cape Town</option>
             </select>
         </div>
     </div>

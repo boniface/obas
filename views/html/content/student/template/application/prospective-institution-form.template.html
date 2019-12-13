@@ -25,6 +25,7 @@
                          aria-labelledby="prospective-institution-tab" aria-expanded="false">
                         <form id="prospectiveInstitutionForm" method="post"
                               action="/users/student/bursary/prospective/institution/update">
+                            {{ template "location-form" .}}
                             {{ template "institution-form" .}}
                             <div class="row justify-content-center">
                                 <div class="col-md-10">
