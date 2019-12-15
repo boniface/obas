@@ -30,7 +30,7 @@ let popullateInstitutionDrop=function (element,institutionId) {
             const url = INSTITUTION_RESTAPI+"getinstitutions/"+institutionId;
         $.get(url, function(data) {
             $.each(data, function (key, value) {
-                let option = new Option(value.name, value.locationId);
+                let option = new Option(value.id, value.name);
                 dropDownElement.append(option);
             });
         });
