@@ -62,6 +62,8 @@ func ReadInstitutionLocations() ([]domain.InstitutionLocation, error) {
 
 func GetInstitutionsInLocation(locationId string) ([]domain.InstitutionLocation, error) {
 	entity := []domain.InstitutionLocation{}
+	//entity = append(entity, domain.InstitutionLocation{"1", locationId, "", ""})
+	//entity = append(entity, domain.InstitutionLocation{"2", locationId, "", ""})
 	resp, _ := api.Rest().Get(institutionLocationURL + "getforlocation/" + locationId)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

@@ -94,8 +94,44 @@ func Users(app *config.Env) http.Handler {
 
 	r.Get("/student/bursary/application", StudentBursaryApplicationHandler(app))
 	r.Post("/student/bursary/application/start", StudentBursaryApplicationStartHandler(app))
+	r.Post("/student/bursary/application/institution/matric/update", StudentBursaryApplicationMatricHandler(app))
 
 	return r
+}
+
+func StudentBursaryApplicationMatricHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+
+		failureMessage := "Matric Instutition NOT saved!"
+		successMessage := "Matric Institution saved!"
+
+		r.ParseForm()
+		institution := r.PostFormValue("institution")
+		userInstitution := userDomain.UserInstitution{user.Email, institution, 0, false}
+		app.InfoLog.Println("User (matric) institution to save: ", userInstitution)
+
+		saved, err := usersIO.CreateUserInstitution(userInstitution)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+		} else {
+			setSessionMessage(app, r, successAlertStyle, successMessage)
+		}
+		app.InfoLog.Println("application response is ", saved)
+		http.Redirect(w, r, "/users/student/bursary/application", 301)
+	}
 }
 
 func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
@@ -235,7 +271,7 @@ func StudentBursaryApplicationStartHandler(app *config.Env) http.HandlerFunc {
 		applicantTypeId := r.PostFormValue("applicantType")
 
 		fmt.Println(applicationTypeId, "<<<<<< applicationTypeId and applicantTypeId>>>>>>>>", applicantTypeId)
-		if applicationTypeId != "" || applicantTypeId != "" {
+		if applicationTypeId != "" && applicantTypeId != "" {
 			fmt.Println("we are checking the applicationTypeId and applicantTypeId")
 			application := applicationDomain.Application{"", applicationTypeId, applicantTypeId, "", ""}
 			newApplication, err = applicationIO.CreateApplication(application)
