@@ -1,4 +1,4 @@
-.myInput{
+.obas-select {
     position: relative;
     width: 100%;
     height: 70%;
@@ -6,7 +6,7 @@
     padding-right: 15px;
     padding-left: 15px
 }
-.innerText{
+.obas-select-inner-text {
     color: #6c757d;
     font-family: "Roboto";
     font-size: 14px;

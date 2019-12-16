@@ -189,7 +189,7 @@ func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "content/student/template/sidebar.template.html",
 			app.Path + "content/student/template/application/matric-form.template.html",
 			app.Path + "content/student/template/application/current-institution-form.template.html",
-			app.Path + "content/student/template/application/institution-form.template.html",
+			app.Path + "base/template/form/institution-form.template.html",
 			app.Path + "base/template/form/location-form.template.html",
 			app.Path + "content/student/template/application/prospective-institution-form.template.html",
 			app.Path + "content/student/template/application/institution-course.template.html",
