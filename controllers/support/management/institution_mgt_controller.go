@@ -6,8 +6,11 @@ import (
 	"html/template"
 	"net/http"
 	"obas/config"
+	domain "obas/domain/academics"
 	institutionDomain "obas/domain/institutions"
 	locationDomain "obas/domain/location"
+	"obas/io/academics"
+	"obas/io/address"
 	institutionIO "obas/io/institutions"
 	"obas/util"
 )
@@ -96,6 +99,42 @@ func AddInstitutiontypeHandler(app *config.Env) http.HandlerFunc {
 	}
 }
 
+type InstitutionAndCourse struct {
+	InstitutName   string
+	InstitutCourse string
+}
+
+/**this method returns a list of each institutions with it course**/
+func institutionCourses() []InstitutionAndCourse {
+	entity := []InstitutionAndCourse{}
+	var entities = []InstitutionAndCourse{}
+	institutionCourse, err := institutionIO.GetInstitutionCourses()
+	if err != nil {
+		return entity
+	}
+	for _, institution := range institutionCourse {
+		institutCourse := InstitutionAndCourse{getInstitutName(institution.InstitutionId), getCourseName(institution.CourseId)}
+		entities = append(entities, institutCourse)
+	}
+	return entities
+}
+
+func getInstitutName(institutId string) string {
+	institution, err := institutionIO.GetInstitution(institutId)
+	if err != nil {
+		return ""
+	}
+	return institution.Name
+}
+
+func getCourseName(courseId string) string {
+	course, err := academics.GetCourse(courseId)
+	if err != nil {
+		return ""
+	}
+	return course.CourseName
+}
+
 func InstitutionManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
@@ -121,15 +160,33 @@ func InstitutionManagementHandler(app *config.Env) http.HandlerFunc {
 				}
 			}
 		}
+
+		subjects, err := academics.GetSubjects()
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+		courses, err := academics.GetAllCourses()
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+		addressType, err := address.GetAddressTypes()
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+
 		provinces, _ := util.GetProvinces()
 
 		type PageData struct {
 			InstitutionTypes   []institutionDomain.InstitutionTypes
 			InstitutionsHolder []InstitutionHolder
 			Provinces          []locationDomain.Location
+			InstitutionCourse  []InstitutionAndCourse
+			Subjects           []domain.Subject
+			Courses            []academics.Course
+			AddressTypes       []address.AddressType
 		}
 
-		data := PageData{institutionTypes, institutionsHolder, provinces}
+		data := PageData{institutionTypes, institutionsHolder, provinces, institutionCourses(), subjects, courses, addressType}
 
 		files := []string{
 			app.Path + "content/tech/tech_admin_institution.html",

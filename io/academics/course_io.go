@@ -55,15 +55,19 @@ func DeleteCourse(course Course) (bool, error) {
 }
 
 func GetAllCourses() ([]Course, error) {
-	entites := []Course{}
-	resp, _ := api.Rest().Get(academicsURL + "/all")
-
-	if resp.IsError() {
-		return entites, errors.New(resp.Status())
-	}
-	err := api.JSON.Unmarshal(resp.Body(), &entites)
-	if err != nil {
-		return entites, errors.New(resp.Status())
-	}
-	return entites, nil
+	//entites := []Course{}
+	//resp, _ := api.Rest().Get(academicsURL + "/all")
+	//
+	//if resp.IsError() {
+	//	return entites, errors.New(resp.Status())
+	//}
+	//err := api.JSON.Unmarshal(resp.Body(), &entites)
+	//if err != nil {
+	//	return entites, errors.New(resp.Status())
+	//}
+	entities := []Course{}
+	entities = append(entities, Course{"1", "IT", ""})
+	entities = append(entities, Course{"2", "Busines", ""})
+	entities = append(entities, Course{"3", "Education", ""})
+	return entities, nil
 }
