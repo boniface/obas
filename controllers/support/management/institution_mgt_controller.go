@@ -135,6 +135,7 @@ func InstitutionManagementHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "content/tech/tech_admin_institution.html",
 			app.Path + "content/tech/template/sidebar.template.html",
 			app.Path + "base/template/form/location-form.template.html",
+			app.Path + "base/template/form/institution-form.template.html",
 			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
