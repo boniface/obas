@@ -1,32 +1,31 @@
 $(document).ready(function () {
 
-    /** Distict starts here **/
+    /** Institution Location start here **/
 
     $("#province").change(function() {
         const provinceId = $(this).val();
         let districtElement = $('#district');
         let townElement = $('#town');
         getDropDownElement(townElement, 'Town');
-        populateDropDown(districtElement, provinceId);
+        let districtDropDown = getDropDownElement(districtElement, "District");
+        populateLocationDropDown(districtDropDown, provinceId);
     });
 
     $('#district').change(function() {
         const districtId = $(this).val();
         let townElement = $('#town');
-        populateDropDown(townElement, districtId);
+        let townDropDown = getDropDownElement(institutionElement, "Town");
+        populateLocationDropDown(townDropDown, districtId);
     });
 
-    /** District ends here **/
-
-    /**institution Location start here**/
-    $("#myInstitutionType").change(function() {
-        const myInstitutionTypeId = $(this).val();
-        let myInstitutionType = $('#myInstitutionType');
-        let myInstitutionElement = $('#myInstitution');
-        getDropDownElement(myInstitutionType, 'Institutions');
-        popullateInstitutionDrop(myInstitutionElement, myInstitutionTypeId);
-
+    $("#institutionType").change(function() {
+        const institutionTypeId = $(this).val();
+        let institutionElement = $('#institution');
+        let institutionDropDown = getDropDownElement(institutionElement, "Institution");
+        populateInstitutionDropDownByType(institutionDropDown, institutionTypeId);
     });
+
+    /** Institution Location ends here **/
 
 });
 

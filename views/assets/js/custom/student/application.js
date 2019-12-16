@@ -7,29 +7,30 @@ $(document).ready(function(){
         let districtElement = $("form#matricInstitutionForm select#district");
         let townElement = $("form#matricInstitutionForm select#town");
         getDropDownElement(townElement, 'Town');
+        let districtDropDown = getDropDownElement(districtElement, "District");
 
-        populateDropDown(districtElement, provinceId);
+        populateLocationDropDown(districtDropDown, provinceId);
     });
 
     $("form#matricInstitutionForm select#district").change(function() {
         const districtId = $(this).val();
         let townElement = $("form#matricInstitutionForm select#town");
-        populateDropDown(townElement, districtId);
+        let townDropDown = getDropDownElement(townElement, "Town");
+        populateLocationDropDown(townDropDown, districtId);
+    });
+
+    $("form#matricInstitutionForm select#town").change(function() {
+        $('form#matricInstitutionForm select#institutionType').prop('selectedIndex', 0);
+        let institutionElement = $('form#matricInstitutionForm select#institution');
+        getDropDownElement(institutionElement, "Institution");
     });
 
     $("form#matricInstitutionForm select#institutionType").change(function() {
         const institutionTypeId = $(this).val();
+        const locationId = $('form#matricInstitutionForm select#town').val();
         let institutionElement = $("form#matricInstitutionForm select#institution");
-        let institutionDropDown = getDropDownElement(institutionElement, 'Institution');
-        if (institutionTypeId) {
-            const url = INSTITUTION_RESTAPI + "getInstitutionsInLocation/" + institutionTypeId;
-            $.get(url, function(institutions) {
-                $.each(institutions, function (key, value) {
-                    let option = new Option(value.name, value.id);
-                    institutionDropDown.append(option);
-                });
-            });
-        }
+        let institutionDropDown = getDropDownElement(institutionElement, "Institution");
+        populateInstitutionDropDownByTypenLocation(institutionDropDown, institutionTypeId, locationId);
     });
 
     /** Matric form ends here **/

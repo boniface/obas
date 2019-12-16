@@ -4,7 +4,6 @@ import (
 	"errors"
 	"obas/api"
 	userDomain "obas/domain/users"
-	"time"
 )
 
 const usersUrl = api.BASE_URL + "/users"
@@ -27,15 +26,15 @@ func GetUsers() ([]User, error) {
 
 func GetUser(id string) (User, error) {
 	entity := User{}
-	entity = User{id, "4829830090930", "Arinze", "", "Anikwue", time.Now()}
-	//resp, _ := api.Rest().Get(usersUrl + "/get/" + id)
-	//if resp.IsError() {
-	//	return entity, errors.New(resp.Status())
-	//}
-	//err := api.JSON.Unmarshal(resp.Body(), &entity)
-	//if err != nil {
-	//	return entity, errors.New(resp.Status())
-	//}
+	//entity = User{id, "4829830090930", "Arinze", "", "Anikwue", time.Now()}
+	resp, _ := api.Rest().Get(usersUrl + "/get/" + id)
+	if resp.IsError() {
+		return entity, errors.New(resp.Status())
+	}
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(resp.Status())
+	}
 	return entity, nil
 }
 

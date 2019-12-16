@@ -59,13 +59,13 @@ $(document).ready(function(){
         let districtElement = $('#district');
         let townElement = $('#town');
         getDropDownElement(townElement, 'Town');
-        populateDropDown(districtElement, provinceId);
+        populateLocationDropDown(districtElement, provinceId);
     });
 
     $('#district').change(function() {
         const districtId = $(this).val();
         let townElement = $('#town');
-        populateDropDown(townElement, districtId);
+        populateLocationDropDown(townElement, districtId);
     });
 
     /** District ends here **/

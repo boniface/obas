@@ -49,9 +49,10 @@ type UserDocument struct {
 }
 
 type UserInstitution struct {
-	InstitutionId string `json:"institutionId"`
-	UserId        string `json:"userId"`
-	Current       bool   `json:"current"`
+	UserId        string  `json:"userId"`
+	InstitutionId string  `json:"institutionId"`
+	DebtAmount    float64 `json:"debtAmount"`
+	IsCurrent     bool    `json:"isCurrent"`
 }
 
 type UserPassword struct {
