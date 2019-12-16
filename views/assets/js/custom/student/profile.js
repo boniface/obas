@@ -54,48 +54,18 @@ $(document).ready(function(){
 
     /** Distict starts here **/
 
-    function getTownElement() {
-        let townDropDown = $("#town");
-        townDropDown.empty();
-        townDropDown.append('<option value="" disabled selected>Select Town</option>');
-        return townDropDown;
-    }
-
     $("#province").change(function() {
         const provinceId = $(this).val();
-
-        function getDistrictElement() {
-            let districtDropDown = $('#district');
-            districtDropDown.empty();
-            districtDropDown.append('<option value="" disabled selected>Select District</option>');
-            return districtDropDown;
-        }
-
-        let districtDropDown = getDistrictElement();
-        getTownElement();
-        if(provinceId != "") {
-            const url = LOCATION_RESTAPI + "getforparent/" + provinceId;
-            $.get(url, function(districts) {
-                $.each(districts, function (key, value) {
-                    let option = new Option(value.name, value.locationId);
-                    districtDropDown.append(option);
-                });
-            });
-        }
+        let districtElement = $('#district');
+        let townElement = $('#town');
+        getDropDownElement(townElement, 'Town');
+        populateDropDown(districtElement, provinceId);
     });
 
     $('#district').change(function() {
         const districtId = $(this).val();
-        let townDropDown = getTownElement();
-        if (districtId != "") {
-            const url = LOCATION_RESTAPI + "getforparent/" + districtId;
-            $.get(url, function(towns) {
-                $.each(towns, function (key, value) {
-                    let option = new Option(value.name, value.locationId);
-                    townDropDown.append(option);
-                });
-            });
-        }
+        let townElement = $('#town');
+        populateDropDown(townElement, districtId);
     });
 
     /** District ends here **/
