@@ -17,9 +17,7 @@
     <!-- CSS Files -->
     <link href="../../../assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="../../../assets/css/light-bootstrap-dashboard.css?v=2.0.1" rel="stylesheet"/>
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link href="../../../assets/css/demo.css" rel="stylesheet"/>
-    <link href="../../../assets/css/custom/location.css" rel="stylesheet"/>
+    <link href="../../../assets/css/custom/generic.css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -129,7 +127,7 @@
 
                         <li class="nav-item">
                             <a class="nav-link  waves-light" id="users-table-tab" data-toggle="tab"
-                               href="#institutionType"
+                               href="#institution-type-tab"
                                role="tab" aria-controls="users-table" aria-selected="true">
                                 <div style="text-align: center;"><i class="fas fa-user fa " aria-hidden="true"></i>
                                 </div>
@@ -138,7 +136,7 @@
 
                         <li class="nav-item">
                             <a class="nav-link  waves-light" id="users-table-tab" data-toggle="tab"
-                               href="#institution"
+                               href="#institution-tab"
                                role="tab" aria-controls="users-table" aria-selected="true">
                                 <div style="text-align: center;"><i class="fas fa-user fa " aria-hidden="true"></i>
                                 </div>
@@ -177,7 +175,7 @@
 
                     <div class="tab-content card" id="rolesTabContent">
 
-                        <div class="tab-pane fade active show" id="institutionType" role="tabpanel"
+                        <div class="tab-pane fade active show" id="institution-type-tab" role="tabpanel"
                              aria-labelledby="pool-roles">
                             <p></p>
                             <!-- Table with panel -->
@@ -267,7 +265,7 @@
                             <!-- Table with panel -->
                         </div>
 
-                        <div class="tab-pane fade " id="institution" role="tabpanel"
+                        <div class="tab-pane fade " id="institution-tab" role="tabpanel"
                              aria-labelledby="pool-roles">
                             <p></p>
                             <!-- Table with panel -->
@@ -374,35 +372,7 @@
                                     <div class="card green">
                                         <form id="" method="post" action="#">
                                             {{ template "location-form" .}}
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-10">
-                                                    <label class="control-label label-font-color">Institution type</label>
-                                                    <select name="documenttype" class="selectpicker" id="myInstitutionType"
-                                                            data-style="btn-default btn-outline"
-                                                            data-menu-style="dropdown-blue">
-                                                        <option value="" disabled selected>Select the institution type
-                                                            {{with .InstitutionTypes}}
-                                                            {{range .}}
-                                                        <option value={{ .Id }}>{{ .Name }}</option>
-                                                        {{end}}
-                                                        {{end}}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-10">
-                                                    <label class="control-label label-font-color">Institution</label>
-                                                    <select name="documenttype" class="selectpicker" id="myInstitution"
-                                                            data-style="btn-default btn-outline"
-                                                            data-menu-style="dropdown-blue">
-                                                        <option value="" disabled selected>Select the institution
-                                                        </option>
-                                                        <option value=></option>
-
-                                                    </select>
-                                                </div>
-
-                                            </div>
+                                            {{ template "institution-form" .}}
 
                                             <div class="row justify-content-center">
                                                 <div class="col-md-5">
