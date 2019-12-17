@@ -341,7 +341,7 @@
                                                                             </div>
                                                                             <div class="col-md-6">
                                                                                 <a class="delete" title="Delete"
-                                                                                   href=""
+                                                                                   href="/support/management/institution/delete/institution/{{.Id}}"
                                                                                    data-toggle="tooltip"><i
                                                                                             class="material-icons">&#xE872;</i></a>
                                                                             </div>
@@ -370,21 +370,21 @@
                                 <div class="container-fluid">
 
                                     <div class="card green">
-                                        <form id="" method="post" action="#">
+                                        <form id="" method="post" action="/support/management/institution/save/institution-location">
                                             {{ template "location-form" .}}
                                             {{ template "institution-form" .}}
 
                                             <div class="row justify-content-center">
                                                 <div class="col-md-5">
                                                     <label class="control-label label-font-color">Longitude</label>
-                                                    <input type="text" value="" name="provinces"
+                                                    <input type="text" value="" name="longitude"
                                                            class="form-control"
                                                            placeholder="Enter longitude" id="">
                                                 </div>
 
                                                 <div class="col-md-5">
                                                     <label class="control-label label-font-color">Latitude</label>
-                                                    <input type="text" value="" name="provinces"
+                                                    <input type="text" value="" name="latitude"
                                                            class="form-control"
                                                            placeholder="Enter latitude" id="">
                                                 </div>
@@ -412,30 +412,36 @@
                                                         <thead>
                                                         <th>#</th>
                                                         <th>Institution Name</th>
-                                                        <th>Province</th>
                                                         <th>Town</th>
+                                                        <th>Longitude</th>
+                                                        <th>Latitude</th>
                                                         <th class="text-center">Action</th>
                                                         </thead>
                                                         <tbody>
+                                                        {{ with .InstitutionLocation }}
+                                                        {{ range .}}
                                                         <tr>
                                                             <td>1</td>
-                                                            <td>Dakota Rice</td>
-                                                            <td>$36,738</td>
-                                                            <td>$36,738</td>
+                                                            <td>{{.Institution}}</td>
+                                                            <td>{{.Town}}</td>
+                                                            <td>{{.Longitude}}</td>
+                                                            <td>{{.Latitude}}</td>
                                                             <td><div class="row justify-content-center">
                                                                     <div class="col-md-6">
-                                                                <a class="edit" title="Edit" data-toggle="tooltip"
+                                                                <a class="edit" href="" title="Edit" data-toggle="tooltip"
                                                                    data-target="#" onclick="">
                                                                     <i class="material-icons">&#xE254;</i></a>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                <a class="delete" title="Delete"
-                                                                   data-toggle="tooltip"><i
+                                                                <a class="delete" href="/support/management/institution/delete-institutionLocation/{{.Id}} "title="Delete" data-toggle="tooltip"><i
                                                                             class="material-icons">&#xE872;</i></a>
                                                                     </div>
                                                                 </div>
                                                             </td>
+
                                                         </tr>
+                                                        {{end}}
+                                                        {{end}}
 
                                                         </tbody>
                                                     </table>

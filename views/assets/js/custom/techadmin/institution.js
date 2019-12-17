@@ -12,13 +12,16 @@ $(document).ready(function () {
     });
 
     $('#district').change(function() {
+       // alert("in institution Id")
         const districtId = $(this).val();
         let townElement = $('#town');
-        let townDropDown = getDropDownElement(institutionElement, "Town");
+        //let townDropDown = getDropDownElement(institutionElement, "Town");
+        let townDropDown = getDropDownElement(townElement, "Town");
         populateLocationDropDown(townDropDown, districtId);
     });
 
     $("#institutionType").change(function() {
+
         const institutionTypeId = $(this).val();
         let institutionElement = $('#institution');
         let institutionDropDown = getDropDownElement(institutionElement, "Institution");
