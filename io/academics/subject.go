@@ -6,7 +6,7 @@ import (
 	domain "obas/domain/academics"
 )
 
-const subjectURL = api.BASE_URL + "subject"
+const subjectURL = api.BASE_URL + "/academics/subject"
 
 func CreateSubject(obj domain.Subject) (domain.Subject, error) {
 	entity := domain.Subject{}
@@ -33,7 +33,7 @@ func GetSubject(id string) (domain.Subject, error) {
 	}
 	return entity, nil
 }
-func GetSubjects(id string) ([]domain.Subject, error) {
+func GetSubjects() ([]domain.Subject, error) {
 	entity := []domain.Subject{}
 	resp, _ := api.Rest().Get(subjectURL + "/all")
 	if resp.IsError() {

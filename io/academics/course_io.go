@@ -6,7 +6,7 @@ import (
 	domain "obas/domain/academics"
 )
 
-const academicsURL = api.BASE_URL + "/course/"
+const academicsURL = api.BASE_URL + "/academics/course"
 
 type Course domain.Course
 
@@ -57,7 +57,6 @@ func DeleteCourse(course Course) (bool, error) {
 func GetAllCourses() ([]Course, error) {
 	entites := []Course{}
 	resp, _ := api.Rest().Get(academicsURL + "/all")
-
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}

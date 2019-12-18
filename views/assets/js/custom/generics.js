@@ -33,6 +33,7 @@ let populateInstitutionDropDownByLocation = function (element, locationId) {
 };
 
 let populateInstitutionDropDownByType = function (element, institutionTypeId) {
+    console.log("populateInstitutionDropDownByType")
     if (institutionTypeId) {
         const url = INSTITUTION_RESTAPI + "getInstitutionsByType/" + institutionTypeId;
         $.get(url, function(institutions) {
