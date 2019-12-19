@@ -100,3 +100,17 @@ func UpdateInstitution(obj domain.Institution) (domain.Institution, error) {
 	}
 	return entity, nil
 }
+
+/***i create this method so that if the user enters an institution Type. this method should returns a list of all the institution of that type**/
+func GetInstitutionOfType(institutionType string) ([]domain.Institution, error) {
+	entity := []domain.Institution{}
+	resp, _ := api.Rest().Get(institutionURL + "/getinstitutionOfType/" + institutionType)
+	if resp.IsError() {
+		return entity, errors.New(resp.Status())
+	}
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(resp.Status())
+	}
+	return entity, nil
+}

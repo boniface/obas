@@ -33,6 +33,7 @@ $(document).ready(function(){
         populateInstitutionDropDownByTypenLocation(institutionDropDown, institutionTypeId, locationId);
     });
 
+
     /** Matric form ends here **/
 
 });

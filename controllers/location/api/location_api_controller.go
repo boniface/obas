@@ -5,7 +5,9 @@ import (
 	"github.com/go-chi/render"
 	"net/http"
 	"obas/config"
+	//institutionDomain "obas/domain/institutions"
 	locationDomain "obas/domain/location"
+	institutionIO "obas/io/institutions"
 	locationIO "obas/io/location"
 )
 
@@ -20,13 +22,15 @@ func LocationAPI(app *config.Env) http.Handler {
 
 func GetInstitutions(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		/**to do on monday if all goes well thanks lord for the week may god remain the whole mighty**/
-		//institutionType := chi.URLParam(r, "locationParentId")
+		/**to do on monday if all goes well thanks lord for the week may god remain the  almighty**/
+		institutionType := chi.URLParam(r, "locationParentId")
 		//var institutions []institutionDomain.Institution
-		//locations, err := locationIO.GetLocationsForParent(locationParentId)
-		//if err != nil {
-		//	app.ErrorLog.Println(err.Error())
-		//}
+		myInstitutions, err := institutionIO.GetInstitutionOfType(institutionType)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+		render.JSON(w, r, myInstitutions)
+
 	}
 }
 
