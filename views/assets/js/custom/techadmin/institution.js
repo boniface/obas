@@ -12,7 +12,6 @@ $(document).ready(function () {
     });
 
     $('#district').change(function() {
-
         const districtId = $(this).val();
         let townElement = $('#town');
         //let townDropDown = getDropDownElement(institutionElement, "Town");
@@ -21,7 +20,6 @@ $(document).ready(function () {
     });
 
     $("#institutionType").change(function() {
-
         const institutionTypeId = $(this).val();
         let institutionElement = $('#institution');
         let institutionDropDown = getDropDownElement(institutionElement, "Institution");
@@ -30,7 +28,6 @@ $(document).ready(function () {
     /** Institution Location ends here **/
 
     $("#institutionTypeAddressDrop").change(function() {
-
         const institutionTypeAddress = $(this).val();
         let institutionAddressElement = $('#institutionAddressDrop');
         let institutionAddressDropDown = getDropDownElement(institutionAddressElement, "Institution");
@@ -38,14 +35,11 @@ $(document).ready(function () {
     });
 
     $("#institutionTypeCourseDrop").change(function() {
-
         const institutionTypeAddress = $(this).val();
         let institutionAddressElement = $('#institutionCourseDrop');
         let institutionAddressDropDown = getDropDownElement(institutionAddressElement, "Institution");
         populateInstitutionDropDownByType(institutionAddressDropDown, institutionTypeAddress);
     });
-
-
 });
 
 function editForm(event) {
