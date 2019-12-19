@@ -400,7 +400,7 @@ func InstitutionManagementHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 		} else {
 			for _, institutionLoca := range institutsLocation {
-				fmt.Println("error in reading townNamw in InstitutionManagementHandler method", institutionLoca.LocationId)
+				//fmt.Println("error in reading townNamw in InstitutionManagementHandler method", institutionLoca.LocationId)
 
 				institutionName, errr := institutionIO.GetInstitution(institutionLoca.InstitutionId)
 				if errr != nil {
@@ -408,7 +408,7 @@ func InstitutionManagementHandler(app *config.Env) http.HandlerFunc {
 					app.ErrorLog.Println(errr.Error())
 				}
 				townNamw, err := location.GetLocation(institutionLoca.LocationId)
-				fmt.Println("error in reading townNamw in InstitutionManagementHandler method", townNamw)
+				//fmt.Println("error in reading townNamw in InstitutionManagementHandler method", townNamw)
 				if err != nil {
 					fmt.Println("error in reading townNamw in InstitutionManagementHandler method")
 					app.ErrorLog.Println(err.Error())

@@ -16,7 +16,6 @@ func LocationAPI(app *config.Env) http.Handler {
 
 	r.Get("/getforparent/{locationParentId}", GetLocationsForParent(app))
 	r.Get("/getinstitutions/{institutionTypeId}", GetInstitutions(app))
-
 	return r
 }
 
