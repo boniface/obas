@@ -20,6 +20,7 @@ func CreateInstitutionType(obj domain.InstitutionTypes) (domain.InstitutionTypes
 	}
 	return entity, nil
 }
+
 func GetInstitutionType(id string) (domain.InstitutionTypes, error) {
 	entity := domain.InstitutionTypes{}
 	resp, _ := api.Rest().Get(institutionTypeURL + "get/" + id)
@@ -32,6 +33,7 @@ func GetInstitutionType(id string) (domain.InstitutionTypes, error) {
 	}
 	return entity, nil
 }
+
 func GetInstitutionTypes() ([]domain.InstitutionTypes, error) {
 	entity := []domain.InstitutionTypes{}
 	//entity = append(entity, domain.InstitutionTypes{"1", "University", ""})
@@ -47,18 +49,15 @@ func GetInstitutionTypes() ([]domain.InstitutionTypes, error) {
 	}
 	return entity, nil
 }
+
 func DeleteInstitutionType(obj domain.InstitutionTypes) (bool, error) {
-	//entity := domain.InstitutionTypes{}
 	resp, _ := api.Rest().SetBody(obj).Post(institutionTypeURL + "delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
-	//err := api.JSON.Unmarshal(resp.Body(), &entity)
-	//if err != nil {
-	//	return entity, errors.New(resp.Status())
-	//}
 	return true, nil
 }
+
 func UpdateInstitutionType(obj domain.InstitutionTypes) (domain.InstitutionTypes, error) {
 	entity := domain.InstitutionTypes{}
 	resp, _ := api.Rest().SetBody(obj).Post(institutionTypeURL + "update")

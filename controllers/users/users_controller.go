@@ -114,7 +114,7 @@ func StudentBursaryApplicationMatricHandler(app *config.Env) http.HandlerFunc {
 			return
 		}
 
-		failureMessage := "Matric Instutition NOT saved!"
+		failureMessage := "Matric Institution NOT saved!"
 		successMessage := "Matric Institution saved!"
 
 		r.ParseForm()

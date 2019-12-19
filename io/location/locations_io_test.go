@@ -36,9 +36,6 @@ func TestUpdateDocument(t *testing.T) {
 	fmt.Println(" The Results", value)
 	assert.True(t, value)
 }
-func TestGetLocation2(t *testing.T) {
-
-}
 
 func TestDeleteDocument(t *testing.T) {
 	loc := domain.Location{}
@@ -46,12 +43,7 @@ func TestDeleteDocument(t *testing.T) {
 	assert.Nil(t, err)
 	assert.True(t, value)
 }
-func TestGetTowns(t *testing.T) {
-	value, err := GetTowns("loc")
-	assert.Nil(t, err)
-	fmt.Println(" The Results", value)
-	assert.NotNil(t, value)
-}
+
 func TestGetLocationsForParent(t *testing.T) {
 	value, err := GetLocationsForParent("AAIL-YLRUW")
 	assert.Nil(t, err)
