@@ -101,3 +101,8 @@ type UserTown struct {
 	UserId     string `json:"userId"`
 	LocationId string `json:"locationId"`
 }
+type Role struct {
+	Id          string `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+}

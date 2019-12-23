@@ -159,7 +159,7 @@ func SaveInstitutionLocationHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		r.ParseForm()
-		locationId := r.PostFormValue("townId")
+		locationId := r.PostFormValue("town")
 		institutionId := r.PostFormValue("institution")
 		longitude := r.PostFormValue("longitude")
 		latitude := r.PostFormValue("latitude")
@@ -168,6 +168,8 @@ func SaveInstitutionLocationHandler(app *config.Env) http.HandlerFunc {
 
 		if locationId != "" || institutionId != "" || longitude != "" || latitude != "" {
 			institutionLocation := institutionDomain.InstitutionLocation{institutionId, locationId, longitude, latitude}
+
+			fmt.Println(institutionLocation)
 			_, err := institutionIO.CreateInstitutionLocation(institutionLocation)
 			if err != nil {
 				app.ErrorLog.Println(err.Error())
