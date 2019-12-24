@@ -86,3 +86,17 @@ func DeleteUserApplication(obj domain.UserApplication) (domain.UserApplication, 
 	}
 	return entity, nil
 }
+
+//***we need to create this method in the backend**/
+func GetAllUserApplications() ([]domain.UserApplication, error) {
+	entity := []domain.UserApplication{}
+	resp, _ := api.Rest().Get(userapplicationURL + "/all")
+	if resp.IsError() {
+		return entity, errors.New(resp.Status())
+	}
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(resp.Status())
+	}
+	return entity, nil
+}

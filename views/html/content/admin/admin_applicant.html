@@ -52,6 +52,7 @@
                                     <th>Email</th>
                                     <th>Application Status</th>
                                     <th>Phone</th>
+                                    <th>Date</th>
                                     <th>Action</th>
                                     </thead>
                                     <tbody>
@@ -60,6 +61,7 @@
                                         <td>CTR050</td>
                                         <td>joseph@gmail.com</td>
                                         <td>In process</td>
+                                        <td>0625401763</td>
                                         <td>0625401763</td>
                                         <td><a href="/">verify documents</a></td>
 
@@ -120,12 +122,12 @@
                                         </td>
                                         <td >
                                             <div class="row justify-content-center">
-                                                <form>
+                                                <form method="post" action="/admin/change/document-status">
                                                     <div class="row justify-content-center">
 
                                                         <div class="row">
                                                             <div class="col-md-7">
-                                                                <select name="currentQualification" class="selectpicker"
+                                                                <select name="documentStatusId" class="selectpicker"
                                                                         data-title="Example: 3"
                                                                         data-style="btn-default btn-outline"
                                                                         data-menu-style="dropdown-blue">
@@ -135,8 +137,9 @@
                                                                     <option value="ms">Matric</option>
                                                                 </select>
                                                             </div>
+                                                            <input type="hidden" name="documentId" value="espoirditekemena@gmail.com" >
                                                             <div style="margin-top: 3%" class="col-lg-5">
-                                                                <button type="button" class="btn btn-info ">submit
+                                                                <button  type="submit" class="btn btn-info ">submit
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -188,12 +191,12 @@
 
 
                                             <div class="row">
-                                            <form>
+                                            <form method="post" action="/admin/change/application-status">
                                                 <div class="row justify-content-center">
 
                                                         <div class="row">
                                                         <div class="col-md-7">
-                                                            <select name="currentQualification" class="selectpicker"
+                                                            <select name="applicationStatus" class="selectpicker"
                                                                     data-style="btn-default btn-outline"
                                                                     data-menu-style="dropdown-blue">
                                                                 <option value="id" disabled selected>Status
@@ -202,6 +205,7 @@
                                                                 <option value="ms">Matric</option>
                                                             </select>
                                                         </div>
+                                                            <input type="hidden" name="applicationId" value="espoirditekemena@gmail.com" >
                                                         <div style="margin-top: 3%" class="col-lg-5">
                                                                 <button type="button" class="btn btn-info ">submit
                                                                 </button>
@@ -223,10 +227,11 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <form id="contact" action="" method="post">
+                        <form id="contact" action="/admin/email" method="post">
                             <p class="card-category">Send message to: Espoir Diteekemena</p>
+                            <input type="hidden" name="studentEmail" value="espoirditekemena@gmail.com" >
                             <fieldset>
-                                <textarea placeholder="Type your message here...." tabindex="5" required></textarea>
+                                <textarea name="message" placeholder="Type your message here...." tabindex="5" required></textarea>
                             </fieldset>
                             <fieldset>
                                 <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Send
