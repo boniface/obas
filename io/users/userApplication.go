@@ -4,10 +4,8 @@ import (
 	"errors"
 	"obas/api"
 	domain "obas/domain/users"
-	"time"
 )
 
-//please add the url
 const userapplicationURL = api.BASE_URL + "/users/application"
 
 func CreateUserApplication(obj domain.UserApplication) (domain.UserApplication, error) {
@@ -50,15 +48,15 @@ func GetUserApplications(userId string) ([]domain.UserApplication, error) {
 
 func GetLatestUserApplication(userId string) (domain.UserApplication, error) {
 	entity := domain.UserApplication{}
-	entity = domain.UserApplication{userId, "1", time.Now()}
-	//resp, _ := api.Rest().Get(userapplicationURL + "/latest/" + userId)
-	//if resp.IsError() {
-	//	return entity, errors.New(resp.Status())
-	//}
-	//err := api.JSON.Unmarshal(resp.Body(), &entity)
-	//if err != nil {
-	//	return entity, errors.New(resp.Status())
-	//}
+	//entity = domain.UserApplication{userId, "1", time.Now()}
+	resp, _ := api.Rest().Get(userapplicationURL + "/latest/" + userId)
+	if resp.IsError() {
+		return entity, errors.New(resp.Status())
+	}
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(resp.Status())
+	}
 	return entity, nil
 }
 

@@ -48,13 +48,6 @@ type UserDocument struct {
 	DocumentId string `json:"documentId"`
 }
 
-type UserInstitution struct {
-	UserId        string  `json:"userId"`
-	InstitutionId string  `json:"institutionId"`
-	DebtAmount    float64 `json:"debtAmount"`
-	IsCurrent     bool    `json:"isCurrent"`
-}
-
 type UserPassword struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
@@ -100,4 +93,9 @@ type UserApplication struct {
 type UserTown struct {
 	UserId     string `json:"userId"`
 	LocationId string `json:"locationId"`
+}
+
+type UserMatricInstitution struct {
+	UserId string `json:"userId"`
+	InstitutionId string `json:"institutionId"`
 }
