@@ -24,30 +24,45 @@
             <div class="tab-content">
                 <div id="matric-institution" class="tab-pane fade show active" role="tabpanel"
                      aria-labelledby="matric-institution-tab" aria-expanded="false">
-                    <form id="matricInstitutionForm" method="post"
-                          action="/users/student/bursary/application/institution/matric/update">
-                        {{ template "location-form" .}}
-                        {{ template "institution-form" .}}
-                        <div class="row justify-content-center">
-                            <div class="col-md-10">
-                                <button type="reset" id="clearButton"
-                                        class="btn btn-wd btn-danger btn-outline pull-left">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <form id="matricInstitutionForm" method="post"
+                                  action="/users/student/bursary/application/institution/matric/update">
+                                {{ template "location-form" .}}
+                                {{ template "institution-form" .}}
+                                <div class="row justify-content-center">
+                                    <div class="col-md-10">
+                                        <button type="reset" id="clearButton"
+                                                class="btn btn-wd btn-danger btn-outline pull-left">
                                                     <span class="btn-label">
                                                         <i class="fa fa-times"></i>
                                                     </span>
-                                    Clear
-                                </button>
-                                <button type="submit" id="updateButton"
-                                        class="btn btn-wd btn-info btn-outline pull-right">
+                                            Clear
+                                        </button>
+                                        <button type="submit" id="updateButton"
+                                                class="btn btn-wd btn-info btn-outline pull-right">
                                                     <span class="btn-label">
                                                         <i class="fa fa-exclamation"></i>
                                                     </span>
-                                    Update
-                                </button>
-                            </div>
-                            <div class="clearfix"></div>
+                                            Update
+                                        </button>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                        <div class="col-md-4">
+                            <div class="card ">
+                                <div class="card-footer ">
+                                    {{ .UserMatricInstitution }}
+                                    <hr>
+                                    <div class="stats">
+                                        <i class="fa fa-cog"></i>Your Matric Institution
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div id="matric-subject" class="tab-pane fade" role="tabpanel" aria-labelledby="matric-subject-tab"
                      aria-expanded="false">
@@ -76,17 +91,11 @@
                                                 <span
                                                         class="caret"></span></button>
                                             <ul class="dropdown-menu" role="menu">
-                                                <li><label><input type="checkbox" data-field="id" value="1"
-                                                                  checked="checked"> ID</label></li>
-                                                <li><label><input type="checkbox" data-field="name" value="2"
-                                                                  checked="checked"> Name</label></li>
-                                                <li><label><input type="checkbox" data-field="salary" value="3"
-                                                                  checked="checked"> Salary</label></li>
-                                                <li><label><input type="checkbox" data-field="country" value="4"
-                                                                  checked="checked"> Country</label></li>
-                                                <li><label><input type="checkbox" data-field="city" value="5"
-                                                                  checked="checked"> City</label></li>
-                                                <li><label><input type="checkbox" data-field="actions" value="6"
+                                                <li><label><input type="checkbox" data-field="subject" value="1"
+                                                                  checked="checked"> Subject</label></li>
+                                                <li><label><input type="checkbox" data-field="score" value="2"
+                                                                  checked="checked"> Score</label></li>
+                                                <li><label><input type="checkbox" data-field="actions" value="3"
                                                                   checked="checked"> Actions</label></li>
                                             </ul>
                                         </div>
@@ -108,24 +117,12 @@
                                                                                   type="checkbox"></div>
                                                     <div class="fht-cell"></div>
                                                 </th>
-                                                <th class="text-center" style="" data-field="id">
-                                                    <div class="th-inner ">ID</div>
+                                                <th class="text-center" style="" data-field="subject">
+                                                    <div class="th-inner sortable both">Subject</div>
                                                     <div class="fht-cell"></div>
                                                 </th>
-                                                <th style="" data-field="name">
-                                                    <div class="th-inner sortable both">Name</div>
-                                                    <div class="fht-cell"></div>
-                                                </th>
-                                                <th style="" data-field="salary">
-                                                    <div class="th-inner sortable both">Salary</div>
-                                                    <div class="fht-cell"></div>
-                                                </th>
-                                                <th style="" data-field="country">
-                                                    <div class="th-inner sortable both">Country</div>
-                                                    <div class="fht-cell"></div>
-                                                </th>
-                                                <th style="" data-field="city">
-                                                    <div class="th-inner ">City</div>
+                                                <th style="" data-field="score">
+                                                    <div class="th-inner sortable both">Score</div>
                                                     <div class="fht-cell"></div>
                                                 </th>
                                                 <th class="td-actions text-right" style="" data-field="actions">
@@ -135,14 +132,11 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr data-index="16">
-                                                <td class="bs-checkbox"><input data-index="16" name="btSelectItem"
-                                                                               type="checkbox"></td>
-                                                <td class="text-center" style="">17</td>
-                                                <td style="">Connor Wagner</td>
-                                                <td style="">$86,537</td>
-                                                <td style="">Germany</td>
-                                                <td style="">Solihull</td>
+                                            <tr data-index="0">
+                                                <td class="bs-checkbox">
+                                                    <input data-index="0" name="btSelectItem" type="checkbox"></td>
+                                                <td class="text-center" style="">English</td>
+                                                <td style="">42.25</td>
                                                 <td class="td-actions text-right" style=""><a rel="tooltip"
                                                                                               title="View"
                                                                                               class="btn btn-link btn-info table-action view"
