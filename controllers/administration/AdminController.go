@@ -45,7 +45,7 @@ func ChangeDocumentStatusHandler(app *config.Env) http.HandlerFunc {
 			if err != nil {
 				fmt.Println("error reading applicationStatues in getSearchResult")
 			} else {
-				_, err := documents.updateDocument
+				_, err := documents.CreateDocumentStatus()
 			}
 		}
 
