@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+    $("#updateApplicantTypeBtn").hide();
+
     /** Matric form starts here **/
 
     $("form#matricInstitutionForm select#province").change(function() {
@@ -33,6 +35,15 @@ $(document).ready(function(){
         populateInstitutionDropDownByTypenLocation(institutionDropDown, institutionTypeId, locationId);
     });
 
+
     /** Matric form ends here **/
 
 });
+
+let checkSelectedApplicantType = function(initialApplicantType) {
+    const selectedApplicantType = $("#applicantType").val();
+    $("#updateApplicantTypeBtn").hide();
+    if (initialApplicantType.localeCompare(selectedApplicantType)) {
+        $("#updateApplicantTypeBtn").show();
+    }
+};

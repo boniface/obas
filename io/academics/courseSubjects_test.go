@@ -21,7 +21,7 @@ func TestGetCourseSubject(t *testing.T) {
 	assert.NotNil(t, result)
 }
 func TestDeleteCourseSubject(t *testing.T) {
-	obj := domain.CourseSubject{"0001", "A0000"}
+	obj := domain.CourseSubject{"AAAD-OTKLY", "AMNN-00MWQ"}
 	result, err := DeleteCourseSubject(obj)
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)

@@ -6,7 +6,7 @@ import (
 	domain "obas/domain/academics"
 )
 
-const subjectURL = api.BASE_URL + "subject"
+const subjectURL = api.BASE_URL + "/academics/subject"
 
 func CreateSubject(obj domain.Subject) (domain.Subject, error) {
 	entity := domain.Subject{}
@@ -34,21 +34,16 @@ func GetSubject(id string) (domain.Subject, error) {
 	return entity, nil
 }
 func GetSubjects() ([]domain.Subject, error) {
-	//entity := []domain.Subject{}
-	//resp, _ := api.Rest().Get(subjectURL + "/all")
-	//if resp.IsError() {
-	//	return entity, errors.New(resp.Status())
-	//}
-	//err := api.JSON.Unmarshal(resp.Body(), &entity)
-	//if err != nil {
-	//	return entity, errors.New(resp.Status())
-	//}
-	entities := []domain.Subject{}
-	entities = append(entities, domain.Subject{"1", "adp"})
-	entities = append(entities, domain.Subject{"2", "adt"})
-	entities = append(entities, domain.Subject{"3", "pfp"})
-
-	return entities, nil
+	entity := []domain.Subject{}
+	resp, _ := api.Rest().Get(subjectURL + "/all")
+	if resp.IsError() {
+		return entity, errors.New(resp.Status())
+	}
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(resp.Status())
+	}
+	return entity, nil
 }
 func DeleteSubject(obj domain.Subject) (domain.Subject, error) {
 	entity := domain.Subject{}

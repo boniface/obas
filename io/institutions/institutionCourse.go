@@ -33,15 +33,10 @@ func GetInstitutionCourses() ([]domain.InstitutionCourse, error) {
 	return entity, nil
 }
 func DeleteInstitutionCourse(obj domain.InstitutionCourse) (bool, error) {
-	//entity := domain.InstitutionCourse{}
 	resp, _ := api.Rest().SetBody(obj).Post(institutioncourseURL + "/course/delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
-	//err := api.JSON.Unmarshal(resp.Body(), &entity)
-	//if err != nil {
-	//	return entity, errors.New(resp.Status())
-	//}
 	return true, nil
 }
 func CreateInstitutionCourse(obj domain.InstitutionCourse) (domain.InstitutionCourse, error) {
