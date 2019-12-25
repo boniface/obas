@@ -7,10 +7,12 @@ import (
 	"net/http"
 	"obas/config"
 	domain "obas/domain/application"
+	domain3 "obas/domain/documents"
 	domain2 "obas/domain/users"
 	domain4 "obas/domain/util"
 	"obas/io/academics"
 	applicationIO "obas/io/applications"
+	"obas/io/demographics"
 	"obas/io/documents"
 	"obas/io/institutions"
 	"obas/io/users"
@@ -35,18 +37,57 @@ func Admin(app *config.Env) http.Handler {
 
 func ChangeDocumentStatusHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		r.ParseForm()
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		app.Session.Put(r.Context(), "Admin_message", "Fail to Update")
 
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		_, err := users.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		/***This method still not existing in the backend**/
+		userRole, err := users.GetUserRoleWithUserId(email)
+		if err != nil {
+			fmt.Println("error reading userRole in ChangeDocumentStatusHandler")
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		role, err := demographics.GetRole(userRole.RoleId)
+		if err != nil {
+			fmt.Println("error reading role in ChangeDocumentStatusHandler")
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+
+		if role.RoleName != "admin" {
+			fmt.Println("error Not an Admin in ChangeDocumentStatusHandler")
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+
+		r.ParseForm()
 		documentStatusId := r.PostFormValue("documentStatusId")
 		documentId := r.PostFormValue("documentId")
+		comment := r.PostFormValue("comment")
 
 		if documentStatusId != "" || documentId != "" {
-			document, err := documents.GetDocumentStatus(documentId)
+			documentStatus := domain3.DocumentStatus{documentId, documentStatusId, email, comment, time.Now()}
+			_, err := documents.CreateDocumentStatus(documentStatus)
 			if err != nil {
-				fmt.Println("error reading applicationStatues in getSearchResult")
-			} else {
-				_, err := documents.CreateDocumentStatus()
+				fmt.Println("error reading document in ChangeDocumentStatusHandler")
 			}
+			app.Session.Destroy(r.Context())
+			app.Session.Put(r.Context(), "userId", email)
+			app.Session.Put(r.Context(), "token", token)
+			app.Session.Put(r.Context(), "Admin_message", "Successfully Updated")
 		}
 
 		http.Redirect(w, r, "/support/management/academics", 301)
@@ -55,20 +96,100 @@ func ChangeDocumentStatusHandler(app *config.Env) http.HandlerFunc {
 
 func ChangeApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		_, err := users.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		/***This method still not existing in the backend**/
+		userRole, err := users.GetUserRoleWithUserId(email)
+		if err != nil {
+			fmt.Println("error reading userRole in ChangeApplicationStatusHandler")
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		role, err := demographics.GetRole(userRole.RoleId)
+		if err != nil {
+			fmt.Println("error reading role in ChangeApplicationStatusHandler")
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+
+		if role.RoleName != "admin" {
+			fmt.Println("error Not an Admin in ChangeApplicationStatusHandler")
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+
 		r.ParseForm()
 
 		applicationStatus := r.PostFormValue("applicationStatus")
 		applicationId := r.PostFormValue("applicationId")
+		comment := r.PostFormValue("comment")
 		if applicationStatus != "" || applicationId != "" {
+			newApplicationStatus := applicationIO.ApplicationStatus{applicationId, applicationStatus, email, comment, time.Now()}
 
+			_, err := applicationIO.CreateApplicationStatus(newApplicationStatus)
+			if err != nil {
+				fmt.Println("error creating ApplicationStatus in ChangeApplicationStatusHandler")
+			}
+			app.Session.Destroy(r.Context())
+			app.Session.Put(r.Context(), "userId", email)
+			app.Session.Put(r.Context(), "token", token)
+			app.Session.Put(r.Context(), "Admin_message", "Successfully Updated")
 		}
-
 		http.Redirect(w, r, "/support/management/academics", 301)
 	}
 }
 
 func AdminEmailHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		_, err := users.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		/***This method still not existing in the backend**/
+		userRole, err := users.GetUserRoleWithUserId(email)
+		if err != nil {
+			fmt.Println("error reading userRole in ChangeApplicationStatusHandler")
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		role, err := demographics.GetRole(userRole.RoleId)
+		if err != nil {
+			fmt.Println("error reading role in ChangeApplicationStatusHandler")
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+
+		if role.RoleName != "admin" {
+			fmt.Println("error Not an Admin in ChangeApplicationStatusHandler")
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+
 		r.ParseForm()
 
 		studentEmail := r.PostFormValue("studentEmail")
@@ -157,29 +278,38 @@ func getApplicants() []applicantDetails {
 
 	applications, err := applicationIO.GetApplications()
 	if err != nil {
-		fmt.Println("error reading applications in AdminApplicantApplicationHandler")
+		fmt.Println("error reading applications in getApplicants")
 	}
 
 	for _, application := range applications {
+		/**Getting the userApplication so that we can know the user,and date of that application**/
 		userApplication, err := users.GetUserApplicationWithAppId(application.Id)
 		if err != nil {
-			fmt.Println("error reading userApplications in AdminApplicantApplicationHandler")
+			fmt.Println("error reading userApplications in getApplicants")
 		}
+		//***Getting the user here**/
 		user, err := users.GetUser(userApplication.UserId)
 		if err != nil {
-			fmt.Println("error reading user in AdminApplicantApplicationHandler")
+			fmt.Println("error reading user in getApplicants")
 		}
-		institution, err := institutions.GetInstitutionType(application.)
+		institution, err := institutions.GetInstitutionType(application.ApplicationTypeId)
 		if err != nil {
-			fmt.Println("error reading institution in AdminApplicantApplicationHandler")
+			fmt.Println("error reading institution in getApplicants")
 		}
-		course, err := academics.GetCourse(application.CourseId)
+
+		userApplicationCourse, err := users.GetUserApplicationCourseForAppl(user.Email, application.Id)
 		if err != nil {
-			fmt.Println("error reading course in AdminApplicantApplicationHandler")
+			fmt.Println("error reading userApplicationCourse in getApplicants")
 		}
+
+		course, err := academics.GetCourse(userApplicationCourse.UserId)
+		if err != nil {
+			fmt.Println("error reading course in getApplicants")
+		}
+
 		applicantType, err := applicationIO.GetApplicantType(application.ApplicantTypeId)
 		if err != nil {
-			fmt.Println("error reading applicantType in AdminApplicantApplicationHandler")
+			fmt.Println("error reading applicantType in getApplicants")
 		}
 
 		applicant = applicantDetails{userApplication.ApplicationId, user.Email, user.FirstName, user.LastName, applicantType.Name, institution.Name, course.CourseName, userApplication.DateTime}

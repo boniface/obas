@@ -69,3 +69,15 @@ func DeleteUserRole(entity interface{}) (bool, error) {
 
 	return true, nil
 }
+func GetUserRoleWithUserId(userId string) (domain.UserRole, error) {
+	entity := domain.UserRole{}
+	resp, _ := api.Rest().Get(userRoleUrl + "/role/getforuser/" + userId)
+	if resp.IsError() {
+		return entity, errors.New(resp.Status())
+	}
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(resp.Status())
+	}
+	return entity, nil
+}
