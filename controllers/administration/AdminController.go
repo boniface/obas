@@ -277,6 +277,7 @@ func getApplicants() []applicantDetails {
 	var applicant applicantDetails
 
 	applications, err := applicationIO.GetApplications()
+	fmt.Println(" applications>>>> ", applications)
 	if err != nil {
 		fmt.Println("error reading applications in getApplicants")
 	}

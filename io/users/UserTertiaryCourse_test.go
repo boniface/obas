@@ -20,12 +20,7 @@ func TestGetUserTertiaryCourse(t *testing.T) {
 	fmt.Println(" The Results", result)
 	assert.NotNil(t, result)
 }
-func TestGetUserApplicationWithAppId(t *testing.T) {
-	result, err := GetUserApplicationWithAppId("")
-	assert.Nil(t, err)
-	fmt.Println(" The Results", result)
-	assert.NotNil(t, result)
-}
+
 func TestGetUserTertiaryCourseForApp(t *testing.T) {
 	result, err := GetUserTertiaryCourseForApp("", "")
 	assert.Nil(t, err)
