@@ -39,7 +39,7 @@ func AcademiManagementHandler(app *config.Env) http.HandlerFunc {
 			fmt.Println("An error in AcademiManagementHandler reading subjects")
 			app.ErrorLog.Println(errr.Error())
 		}
-		courseSubjects, errrr := academics.GetCourseSubjects()
+		courseSubjects, errrr := academics.GetAllCourseSubject()
 		if errrr != nil {
 			fmt.Println("An error in AcademiManagementHandler reading courseSubjects")
 			app.ErrorLog.Println(errrr.Error())

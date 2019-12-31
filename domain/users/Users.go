@@ -71,13 +71,6 @@ type UserRole struct {
 	RoleId string `json:"roleId"`
 }
 
-type UserSubjects struct {
-	UserId        string `json:"userId"`
-	SubjectId     string `json:"subjectId"`
-	Marks         string `json:"marks"`
-	InstitutionId string `json:"institutionId"`
-}
-
 type UserCourse struct {
 	UserId        string `json:"UserId"`
 	CourseId      string `json:"courseId"`
@@ -96,6 +89,12 @@ type UserTown struct {
 }
 
 type UserMatricInstitution struct {
-	UserId string `json:"userId"`
+	UserId        string `json:"userId"`
 	InstitutionId string `json:"institutionId"`
+}
+
+type UserMatricSubject struct {
+	UserId      string  `json:"userId"`
+	SubjectId   string  `json:"subjectId"`
+	SubjectMark float64 `json:"subjectMark"`
 }

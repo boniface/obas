@@ -54,7 +54,7 @@
                         <div class="col-md-4">
                             <div class="card ">
                                 <div class="card-footer ">
-                                    {{ .UserMatricInstitution }}
+                                    {{ .UserMatricInstitutionName }}
                                     <hr>
                                     <div class="stats">
                                         <i class="fa fa-cog"></i>Your Matric Institution
@@ -67,8 +67,38 @@
                 <div id="matric-subject" class="tab-pane fade" role="tabpanel" aria-labelledby="matric-subject-tab"
                      aria-expanded="false">
                     <form id="matricSubjectForm" method="post"
-                          action="/users/student/bursary/matric/subject/update">
-                        {{ template "subject-form" .}}
+                          action="/users/student/bursary/application/matric/subject/update">
+                        <div class="row justify-content-center">
+                            <div class="col-md-5">
+                                <label class="control-label label-font-color">Subject</label>
+                                <select name="subject" class="selectpicker"
+                                        data-style="btn-default btn-outline"
+                                        data-menu-style="dropdown-blue">
+                                    <option value="" disabled selected>Select Matric Subject</option>
+                                    {{with .MatricSubjects}}
+                                        {{range .}}
+                                            <option value="{{.Id}}">{{.Name}}</option>
+                                        {{end}}
+                                    {{end}}
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="control-label label-font-color">Score</label>
+                                <input class="form-control margin-top-5" type="text" name="score"
+                                       value="" required="true"
+                                       placeholder="ex: 34.8"/>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="control-label label-font-color">&nbsp;</label>
+                                <button type="submit" id="updateButton"
+                                        class="btn btn-wd btn-info btn-outline bootstrap-select">
+                                                    <span class="btn-label">
+                                                        <i class="fa fa-exclamation"></i>
+                                                    </span>
+                                    Save
+                                </button>
+                            </div>
+                        </div>
                     </form>
                     <hr class="hrcolor">
 
@@ -112,12 +142,7 @@
                                         <table id="bootstrap-table" class="table table-hover rectagler">
                                             <thead>
                                             <tr>
-                                                <th class="bs-checkbox " style="width: 36px; " data-field="state">
-                                                    <div class="th-inner "><input name="btSelectAll"
-                                                                                  type="checkbox"></div>
-                                                    <div class="fht-cell"></div>
-                                                </th>
-                                                <th class="text-center" style="" data-field="subject">
+                                                <th style="" data-field="subject">
                                                     <div class="th-inner sortable both">Subject</div>
                                                     <div class="fht-cell"></div>
                                                 </th>
@@ -132,25 +157,25 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr data-index="0">
-                                                <td class="bs-checkbox">
-                                                    <input data-index="0" name="btSelectItem" type="checkbox"></td>
-                                                <td class="text-center" style="">English</td>
-                                                <td style="">42.25</td>
-                                                <td class="td-actions text-right" style=""><a rel="tooltip"
-                                                                                              title="View"
-                                                                                              class="btn btn-link btn-info table-action view"
-                                                                                              href="javascript:void(0)"><i
-                                                                class="fa fa-image"></i></a><a rel="tooltip"
-                                                                                               title="Edit"
-                                                                                               class="btn btn-link btn-warning table-action edit"
-                                                                                               href="javascript:void(0)"><i
-                                                                class="fa fa-edit"></i></a><a rel="tooltip"
-                                                                                              title="Remove"
-                                                                                              class="btn btn-link btn-danger table-action remove"
-                                                                                              href="javascript:void(0)"><i
-                                                                class="fa fa-remove"></i></a></td>
-                                            </tr>
+                                            {{ range $index, $userMatricSubject := .UserMatricSubjects }}
+                                                <tr data-index="{{ $index }}">
+                                                    <td style="">{{ $userMatricSubject.SubjectName }}</td>
+                                                    <td style="">{{ $userMatricSubject.SubjectMark }}</td>
+                                                    <td class="td-actions text-right" style=""><a rel="tooltip"
+                                                                                                  title="View"
+                                                                                                  class="btn btn-link btn-info table-action view"
+                                                                                                  href="javascript:void(0)"><i
+                                                                    class="fa fa-image"></i></a><a rel="tooltip"
+                                                                                                   title="Edit"
+                                                                                                   class="btn btn-link btn-warning table-action edit"
+                                                                                                   href="javascript:void(0)"><i
+                                                                    class="fa fa-edit"></i></a><a rel="tooltip"
+                                                                                                  title="Remove"
+                                                                                                  class="btn btn-link btn-danger table-action remove"
+                                                                                                  href="javascript:void(0)"><i
+                                                                    class="fa fa-remove"></i></a></td>
+                                                </tr>
+                                            {{ end}}
                                             </tbody>
                                         </table>
                                     </div>

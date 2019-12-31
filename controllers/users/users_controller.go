@@ -1,12 +1,12 @@
 package controllers
 
 import (
-	"fmt"
 	"github.com/go-chi/chi"
 	"html/template"
 	"io"
 	"net/http"
 	"obas/config"
+	academicsDomain "obas/domain/academics"
 	applicationDomain "obas/domain/application"
 	institutionDomain "obas/domain/institutions"
 	locationDomain "obas/domain/location"
@@ -15,7 +15,6 @@ import (
 	applicationIO "obas/io/applications"
 	demographyIO "obas/io/demographics"
 	documentIO "obas/io/documents"
-	institutionIO "obas/io/institutions"
 	locationIO "obas/io/location"
 	loginIO "obas/io/login"
 	storageIO "obas/io/storage"
@@ -23,6 +22,7 @@ import (
 	utilIO "obas/io/util"
 	"obas/util"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -96,8 +96,58 @@ func Users(app *config.Env) http.Handler {
 	r.Post("/student/bursary/application/start", StudentBursaryApplicationStartHandler(app))
 	r.Post("/student/bursary/application/institution/matric/update", StudentBursaryApplicationMatricHandler(app))
 	r.Post("/student/bursary/application/type/update", StudentBursaryApplicationTypeHandler(app))
+	r.Post("/student/bursary/application/matric/subject/update", StudentBursaryApplicationMatricSubjectHandler(app))
 
 	return r
+}
+
+func StudentBursaryApplicationMatricSubjectHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+
+		failureMessage := "Subject score NOT saved!"
+		successMessage := "Subject scored saved!"
+		var userMatricSubject userDomain.UserMatricSubject
+
+		r.ParseForm()
+		subjectId := r.PostFormValue("subject")
+		scoreStr := r.PostFormValue("score")
+		if subjectId == "" || scoreStr == "" {
+			errorMsg := " Subject and/or score can't be empty!"
+			app.ErrorLog.Println(errorMsg)
+			setSessionMessage(app, r, dangerAlertStyle, failureMessage+errorMsg)
+		} else {
+			score, err := strconv.ParseFloat(scoreStr, 64)
+			if err != nil {
+				errorMsg := " ~ Possible incorrect subject score value."
+				app.ErrorLog.Println(err.Error())
+				setSessionMessage(app, r, dangerAlertStyle, failureMessage+errorMsg)
+			} else {
+				userMatricSubject = userDomain.UserMatricSubject{user.Email, subjectId, score}
+				app.InfoLog.Println("UserMatricSubject to save: ", userMatricSubject)
+				userMatricSubject, err = usersIO.CreateUserMatricSubject(userMatricSubject)
+				if err != nil {
+					app.ErrorLog.Println(err.Error())
+					setSessionMessage(app, r, dangerAlertStyle, failureMessage)
+				} else {
+					setSessionMessage(app, r, successAlertStyle, successMessage)
+				}
+			}
+		}
+		app.InfoLog.Println("Matic Subject saved: ", userMatricSubject)
+		http.Redirect(w, r, "/users/student/bursary/application", 301)
+	}
 }
 
 func StudentBursaryApplicationTypeHandler(app *config.Env) http.HandlerFunc {
@@ -171,7 +221,7 @@ func StudentBursaryApplicationMatricHandler(app *config.Env) http.HandlerFunc {
 		} else {
 			setSessionMessage(app, r, successAlertStyle, successMessage)
 		}
-		app.InfoLog.Println("application response is ", saved)
+		app.InfoLog.Println("Matric Institution saved: ", saved)
 		http.Redirect(w, r, "/users/student/bursary/application", 301)
 	}
 }
@@ -180,13 +230,11 @@ func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		email := app.Session.GetString(r.Context(), "userId")
 		if email == "" || len(email) <= 0 {
-			fmt.Println("in if email == || len(email) <= 0 {")
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
 		user, err := usersIO.GetUser(email)
 		if err != nil {
-			fmt.Println("in err != nil {")
 			app.ErrorLog.Println(err.Error())
 			http.Redirect(w, r, "/login", 301)
 			return
@@ -198,7 +246,10 @@ func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 		var application applicationDomain.Application
 		var provinces []locationDomain.Location
 		var institutionTypes []institutionDomain.InstitutionTypes
-		var userMatricInstitution string
+		var userMatricInstitution userDomain.UserMatricInstitution
+		var userMatricInstitutionName string
+		var matricSubjects []academicsDomain.Subject
+		var eUserMatricSubjects []ExtendedUserMatricSubject
 		isComplete := true
 		latestUserApplication, err := usersIO.GetLatestUserApplication(email)
 		if err != nil {
@@ -232,44 +283,52 @@ func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 						alert = checkForSessionAlert(app, r)
 					}
 				} else {
-					provinces, err = util.GetProvinces()
-					if err != nil {
-						app.ErrorLog.Println(err.Error())
-						alert = PageToast{dangerAlertStyle, "Could not retrieve provinces!"}
-					} else {
-						institutionTypes, err = institutionIO.GetInstitutionTypes()
-						if err != nil {
-							app.ErrorLog.Println(err.Error())
-							alert = PageToast{dangerAlertStyle, "Could not retrieve institution types!"}
-						} else {
-							userMatricInstitution, err = getUserMatricInstitution(user.Email)
-							if err != nil {
-								app.ErrorLog.Println(err.Error())
-								alert = PageToast{dangerAlertStyle, "Could not retrieve user matric institution!"}
-							} else {
-								alert = checkForSessionAlert(app, r)
-							}
-						}
+					provinces, alert = getProvinces(app)
+					proceed := alert.AlertInfo == ""
+					if proceed {
+						institutionTypes, alert = getInstitutionTypes(app)
+						proceed = alert.AlertInfo == ""
+					}
+					if proceed {
+						userMatricInstitution, alert = getUserMatricInstitution(app, user.Email)
+						proceed = alert.AlertInfo == ""
+					}
+					if proceed {
+						userMatricInstitutionName, alert = getUserMatricInstitutionName(app, userMatricInstitution.InstitutionId)
+						proceed = alert.AlertInfo == ""
+					}
+					if proceed {
+						matricSubjects, alert = getMatricSubjects(app, userMatricInstitution.InstitutionId)
+						proceed = alert.AlertInfo == ""
+					}
+					if proceed {
+						eUserMatricSubjects, alert = getTransformedUserMatricSubjects(app, user.Email)
+						proceed = alert.AlertInfo == ""
+					}
+					if proceed {
+						alert = checkForSessionAlert(app, r)
 					}
 				}
 			}
 		}
 
 		type PageData struct {
-			Student               usersIO.User
-			Menu                  string
-			SubMenu               string
-			ApplicationTypes      []applicationDomain.ApplicationType
-			ApplicantTypes        []applicationDomain.ApplicantType
-			Application           applicationDomain.Application
-			IsComplete            bool
-			Provinces             []locationDomain.Location
-			InstitutionTypes      []institutionDomain.InstitutionTypes
-			UserMatricInstitution string
-			Alert                 PageToast
+			Student                   usersIO.User
+			Menu                      string
+			SubMenu                   string
+			ApplicationTypes          []applicationDomain.ApplicationType
+			ApplicantTypes            []applicationDomain.ApplicantType
+			Application               applicationDomain.Application
+			IsComplete                bool
+			Provinces                 []locationDomain.Location
+			InstitutionTypes          []institutionDomain.InstitutionTypes
+			UserMatricInstitutionName string
+			MatricSubjects            []academicsDomain.Subject
+			UserMatricSubjects        []ExtendedUserMatricSubject
+			Alert                     PageToast
 		}
 
-		data := PageData{user, "bursary", "application", applicationTypes, applicantTypes, application, isComplete, provinces, institutionTypes, userMatricInstitution, alert}
+		data := PageData{user, "bursary", "application", applicationTypes, applicantTypes, application, isComplete, provinces, institutionTypes, userMatricInstitutionName, matricSubjects, eUserMatricSubjects, alert}
 		files := []string{
 			app.Path + "content/student/bursary/application.html",
 			app.Path + "content/student/template/sidebar.template.html",
@@ -280,7 +339,6 @@ func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "content/student/template/application/prospective-institution-form.template.html",
 			app.Path + "content/student/template/application/institution-course.template.html",
 			app.Path + "content/student/template/application/document.template.html",
-			app.Path + "content/student/template/application/subject-form.template.html",
 			app.Path + "content/student/template/application/applicant-type-form.template.html",
 			app.Path + "base/template/footer.template.html",
 		}
@@ -295,36 +353,6 @@ func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 		}
 	}
 
-}
-
-func getUserMatricInstitution(userId string) (string, error) {
-	var institutionName string
-	userMatricInstitution, err := usersIO.GetUserMatricInstitution(userId)
-	if err != nil {
-		return institutionName, err
-	}
-	institution, err := institutionIO.GetInstitution(userMatricInstitution.InstitutionId)
-	if err != nil {
-		return institutionName, err
-	} else {
-		if institution.Id == "" {
-			return "<< NOT SET >>", nil
-		} else {
-			return institution.Name, nil
-		}
-	}
-}
-
-func checkForSessionAlert(app *config.Env, r *http.Request) PageToast {
-	message := app.Session.GetString(r.Context(), "message")
-	messageType := app.Session.GetString(r.Context(), "message-type")
-	var alert PageToast
-	if message != "" && messageType != "" {
-		alert = PageToast{messageType, message}
-		app.Session.Remove(r.Context(), "message")
-		app.Session.Remove(r.Context(), "message-type")
-	}
-	return alert
 }
 
 func StudentBursaryApplicationStartHandler(app *config.Env) http.HandlerFunc {
@@ -577,13 +605,7 @@ func StudentDocumentsHandler(app *config.Env) http.HandlerFunc {
 					}
 				}
 			}
-			message := app.Session.GetString(r.Context(), "message")
-			messageType := app.Session.GetString(r.Context(), "message-type")
-			if message != "" && messageType != "" {
-				alert = PageToast{messageType, message}
-				app.Session.Remove(r.Context(), "message")
-				app.Session.Remove(r.Context(), "message-type")
-			}
+			alert = checkForSessionAlert(app, r)
 		}
 
 		type PageData struct {
@@ -679,23 +701,11 @@ func StudentProfileDistrictHandler(app *config.Env) http.HandlerFunc {
 						alert = PageToast{dangerAlertStyle, "Could not retrieve location!"}
 					} else {
 						townName = location.Name
-						message := app.Session.GetString(r.Context(), "message")
-						messageType := app.Session.GetString(r.Context(), "message-type")
-						if message != "" && messageType != "" {
-							alert = PageToast{messageType, message}
-							app.Session.Remove(r.Context(), "message")
-							app.Session.Remove(r.Context(), "message-type")
-						}
+						alert = checkForSessionAlert(app, r)
 					}
 				} else {
 					townName = "<<not set>>"
-					message := app.Session.GetString(r.Context(), "message")
-					messageType := app.Session.GetString(r.Context(), "message-type")
-					if message != "" && messageType != "" {
-						alert = PageToast{messageType, message}
-						app.Session.Remove(r.Context(), "message")
-						app.Session.Remove(r.Context(), "message-type")
-					}
+					alert = checkForSessionAlert(app, r)
 				}
 			}
 		}
@@ -860,13 +870,7 @@ func StudentProfileContactsHandler(app *config.Env) http.HandlerFunc {
 					contacts = append(contacts, ContactPlaceHolder{contactType.Name, userContact.Contact})
 				}
 			}
-			message := app.Session.GetString(r.Context(), "message")
-			messageType := app.Session.GetString(r.Context(), "message-type")
-			if message != "" && messageType != "" {
-				alert = PageToast{messageType, message}
-				app.Session.Remove(r.Context(), "message")
-				app.Session.Remove(r.Context(), "message-type")
-			}
+			alert = checkForSessionAlert(app, r)
 		}
 
 		type PageData struct {
@@ -949,14 +953,8 @@ func StudentProfileSettingsHandler(app *config.Env) http.HandlerFunc {
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
-		var alert PageToast
-		message := app.Session.GetString(r.Context(), "message")
-		messageType := app.Session.GetString(r.Context(), "message-type")
-		if message != "" && messageType != "" {
-			alert = PageToast{messageType, message}
-			app.Session.Remove(r.Context(), "message")
-			app.Session.Remove(r.Context(), "message-type")
-		}
+
+		alert := checkForSessionAlert(app, r)
 
 		type PageData struct {
 			Student usersIO.User
@@ -1056,16 +1054,10 @@ func StudentProfileDemographyHandler(app *config.Env) http.HandlerFunc {
 						app.ErrorLog.Println(err.Error())
 						alert = PageToast{dangerAlertStyle, "Could not retrieve student demography!"}
 					} else {
-						message := app.Session.GetString(r.Context(), "message")
-						messageType := app.Session.GetString(r.Context(), "message-type")
-						if message != "" && messageType != "" {
-							alert = PageToast{messageType, message}
-							app.Session.Remove(r.Context(), "message")
-							app.Session.Remove(r.Context(), "message-type")
-						}
 						title = getUserTitle(userDemography, titles)
 						gender = getUserGender(userDemography, genders)
 						race = getUserRace(userDemography, races)
+						alert = checkForSessionAlert(app, r)
 					}
 				}
 			}
@@ -1111,33 +1103,6 @@ func StudentProfileDemographyHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 		}
 	}
-}
-
-func getUserRace(demography usersIO.UserDemography, races []demographyIO.Race) demographyIO.Race {
-	for _, race := range races {
-		if demography.RaceId == race.RaceId {
-			return race
-		}
-	}
-	return demographyIO.Race{}
-}
-
-func getUserTitle(demography usersIO.UserDemography, titles []demographyIO.Title) demographyIO.Title {
-	for _, title := range titles {
-		if demography.TitleId == title.TitleId {
-			return title
-		}
-	}
-	return demographyIO.Title{}
-}
-
-func getUserGender(demography usersIO.UserDemography, genders []demographyIO.Gender) demographyIO.Gender {
-	for _, gender := range genders {
-		if demography.GenderId == gender.GenderId {
-			return gender
-		}
-	}
-	return demographyIO.Gender{}
 }
 
 func StudentProfileRelativeUpdateHandler(app *config.Env) http.HandlerFunc {
@@ -1271,13 +1236,7 @@ func StudentProfileRelativeHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 			alert = PageToast{dangerAlertStyle, "Could not retrieve student relative!"}
 		} else {
-			message := app.Session.GetString(r.Context(), "message")
-			messageType := app.Session.GetString(r.Context(), "message-type")
-			if message != "" && messageType != "" {
-				alert = PageToast{messageType, message}
-				app.Session.Remove(r.Context(), "message")
-				app.Session.Remove(r.Context(), "message-type")
-			}
+			alert = checkForSessionAlert(app, r)
 		}
 
 		type PageData struct {
@@ -1529,10 +1488,6 @@ func StudentProfilePersonalHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 		}
 	}
-}
-
-func getDate_YYYYMMDD(dateString string) string {
-	return strings.Split(dateString, " ")[0]
 }
 
 func UpdateStudentProfilePersonalHandler(app *config.Env) http.HandlerFunc {

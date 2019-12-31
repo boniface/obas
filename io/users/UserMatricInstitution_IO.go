@@ -24,6 +24,7 @@ func CreateUserMatricInstitution(entity domain.UserMatricInstitution) (domain.Us
 
 func GetUserMatricInstitution(userId string) (domain.UserMatricInstitution, error) {
 	entity := domain.UserMatricInstitution{}
+	//entity = domain.UserMatricInstitution{userId, "1"}
 	resp, _ := api.Rest().Get(userMatricInstitutionURL + "get/" + userId)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
