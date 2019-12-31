@@ -154,7 +154,7 @@ sup {
 a {
     color: #007bff;
     text-decoration: none;
-    background-color: transparent;
+    background-color: transparent;!important;
     -webkit-text-decoration-skip: objects
 }
 
@@ -162,6 +162,7 @@ a:hover {
     color: #0056b3;
     text-decoration: underline
 }
+
 
 a:not([href]):not([tabindex]) {
     color: inherit;
@@ -12817,10 +12818,26 @@ ul, li {
     background-color: #006837;
 }
 
+
+
+
+
+
 .full-width {
     width: 100%;
 }
+.my-custom-scrollbar {
+    position: relative;
+    height: 200px;
+    overflow: auto;
+}
+.table-wrapper-scroll-y {
+    display: block;
+}
 
+.margin-top-5 {
+    margin-top: 5px;
+}
 /** custom style ends here */
 
 

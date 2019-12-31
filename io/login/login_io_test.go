@@ -16,7 +16,7 @@ func TestDoRegister(t *testing.T) {
 }
 
 func TestDoLogin(t *testing.T) {
-	result, err := DoLogin("espoirditekemena@gmail.com", "dfadfa")
+	result, err := DoLogin("espoirditekemena@gmail.com", "1234")
 	if err != nil {
 		fmt.Println("This has errors: ", err.Error())
 	}
