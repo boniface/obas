@@ -6,12 +6,12 @@ import (
 	domain "obas/domain/users"
 )
 
-const userMatricSubjectURL = api.BASE_URL + "/institution/matric/subject/"
+const userMatricSubjectURL = api.BASE_URL + "/users/institution/matric/subject"
 
-func CreateUserMatricSubject(obj domain.UserMatricSubject) (domain.UserMatricSubject, error) {
-	entity := domain.UserMatricSubject{}
-	resp, _ := api.Rest().SetBody(obj).Post(userMatricSubjectURL + "create")
-
+func CreateUserMatricSubject(entity domain.UserMatricSubject) (domain.UserMatricSubject, error) {
+	resp, _ := api.Rest().
+		SetBody(entity).
+		Post(userMatricSubjectURL + "create")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -21,68 +21,18 @@ func CreateUserMatricSubject(obj domain.UserMatricSubject) (domain.UserMatricSub
 	}
 	return entity, nil
 }
-func GetUserMatricSubjectForUser(userId string) ([]domain.UserMatricSubject, error) {
-	entity := []domain.UserMatricSubject{}
+
+func GetUserMatricSubjects(userId string) ([]domain.UserMatricSubject, error) {
+	entities := []domain.UserMatricSubject{}
+	//entities = append(entities, domain.UserMatricSubject{userId, "1", 34.78})
+	//entities = append(entities, domain.UserMatricSubject{userId, "2", 74.78})
 	resp, _ := api.Rest().Get(userMatricSubjectURL + "allforuser/" + userId)
-
 	if resp.IsError() {
-		return entity, errors.New(resp.Status())
+		return entities, errors.New(resp.Status())
 	}
-	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	err := api.JSON.Unmarshal(resp.Body(), &entities)
 	if err != nil {
-		return entity, errors.New(resp.Status())
+		return entities, errors.New(resp.Status())
 	}
-	return entity, nil
-}
-func GetUserMatricSubjects() ([]domain.UserMatricSubject, error) {
-	entity := []domain.UserMatricSubject{}
-	resp, _ := api.Rest().Get(userMatricSubjectURL + "all")
-
-	if resp.IsError() {
-		return entity, errors.New(resp.Status())
-	}
-	err := api.JSON.Unmarshal(resp.Body(), &entity)
-	if err != nil {
-		return entity, errors.New(resp.Status())
-	}
-	return entity, nil
-}
-func GetUserMatricSubject(userId, subjectId string) ([]domain.UserMatricSubject, error) {
-	entity := []domain.UserMatricSubject{}
-	resp, _ := api.Rest().Get(userMatricSubjectURL + "get/" + userId + "/" + subjectId)
-
-	if resp.IsError() {
-		return entity, errors.New(resp.Status())
-	}
-	err := api.JSON.Unmarshal(resp.Body(), &entity)
-	if err != nil {
-		return entity, errors.New(resp.Status())
-	}
-	return entity, nil
-}
-func UpdateUserMatricSubject(obj domain.UserMatricSubject) (domain.UserMatricSubject, error) {
-	entity := domain.UserMatricSubject{}
-	resp, _ := api.Rest().SetBody(obj).Post(userMatricSubjectURL + "update")
-
-	if resp.IsError() {
-		return entity, errors.New(resp.Status())
-	}
-	err := api.JSON.Unmarshal(resp.Body(), &entity)
-	if err != nil {
-		return entity, errors.New(resp.Status())
-	}
-	return entity, nil
-}
-func DeleteUserMatricSubject(obj domain.UserMatricSubject) (domain.UserMatricSubject, error) {
-	entity := domain.UserMatricSubject{}
-	resp, _ := api.Rest().SetBody(obj).Post(userMatricSubjectURL + "delete")
-
-	if resp.IsError() {
-		return entity, errors.New(resp.Status())
-	}
-	err := api.JSON.Unmarshal(resp.Body(), &entity)
-	if err != nil {
-		return entity, errors.New(resp.Status())
-	}
-	return entity, nil
+	return entities, nil
 }

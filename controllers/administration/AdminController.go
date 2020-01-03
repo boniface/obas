@@ -25,7 +25,7 @@ func Admin(app *config.Env) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", AdminHandler(app))
 	r.Get("/applicant", AdminApplicantHandler(app))
-	r.Get("/applicant/application/{userId}/{applicationId}", AdminApplicantApplicationHandler(app))
+	r.Get("/applicant/application/{userId}/{applicationId}", AdminApplicationDocumentsHandler(app))
 	r.Get("/application", AdminApplicationHandler(app))
 
 	r.Post("/email", AdminEmailHandler(app))
@@ -210,15 +210,18 @@ func getDocument(docId string) documents.Document {
 }
 
 type applicantDetails struct {
-	ApplicantionId string
-	Email          string
-	Name           string
-	LatName        string
-	ApplicantType  string
-	institution    string
-	Course         string
-	DateTime       time.Time
+	ApplicantionId  string
+	Email           string
+	Name            string
+	LatName         string
+	ApplicantType   string
+	Institution     string
+	Course          string
+	DateTime        time.Time
+	ApplicationStat applicationIO.ApplicationStatus
+	Stat            string
 }
+
 type applicantsearch struct {
 	ApplicantDetails   applicantDetails
 	ApplicationStatus  string
@@ -227,11 +230,13 @@ type applicantsearch struct {
 	ModificationDate   time.Time
 	Comment            string
 }
+
 type documentDetails struct {
 	DocumentType   string
 	Status         string
 	Document       users.UserDocument
 	DocumentStatus []domain4.GenericStatus
+	Doc            documents.Document
 }
 
 func getUser(userId string) users.User {
@@ -307,44 +312,59 @@ func getApplicants() []applicantDetails {
 		if err != nil {
 			fmt.Println("error reading course in getApplicants")
 		}
+		applicationStat, err := applicationIO.GetApplicationStatus(application.ApplicantTypeId)
+		if err != nil {
+			fmt.Println("error reading applicationStat in getApplicants")
+		}
+		//Getting the status from the ApplicationStatusId
+		status, err := util.GetStatus(applicationStat.StatusId)
+		if err != nil {
+			fmt.Println("error reading applicationStat in getApplicants")
+		}
 
 		applicantType, err := applicationIO.GetApplicantType(application.ApplicantTypeId)
 		if err != nil {
 			fmt.Println("error reading applicantType in getApplicants")
 		}
 
-		applicant = applicantDetails{userApplication.ApplicationId, user.Email, user.FirstName, user.LastName, applicantType.Name, institution.Name, course.CourseName, userApplication.DateTime}
+		applicant = applicantDetails{userApplication.ApplicationId, user.Email, user.FirstName, user.LastName, applicantType.Name, institution.Name, course.CourseName, userApplication.DateTime, applicationStat, status.Name}
 
 		applicantD = append(applicantD, applicant)
 	}
 	return applicantD
 }
 
-func AdminApplicantApplicationHandler(app *config.Env) http.HandlerFunc {
+//this method takes UserId and applicationId, so that it can find user's documents
+func AdminApplicationDocumentsHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		userId := chi.URLParam(r, "userId")
 		applicationId := chi.URLParam(r, "applicationId")
+		fmt.Println(userId, "<<<<<userId||applicationId>>>>", applicationId)
 		var myDocumentList []documentDetails
+
+		documentsStatus, err := util.GetStatuses()
+		if err != nil {
+			fmt.Println("error reading userDocuments in AdminApplicationDocumentsHandler")
+		}
 
 		if userId != "" || applicationId != "" {
 
 			userDocuments, err := users.GetUserDocuments(userId)
 			if err != nil {
-				fmt.Println("error reading userDocuments in AdminApplicantApplicationHandler")
-			}
-			documentsStatus, err := util.GetStatuses()
-			if err != nil {
-				fmt.Println("error reading userDocuments in AdminApplicantApplicationHandler")
+				fmt.Println("error reading userDocuments in AdminApplicationDocumentsHandler")
 			}
 
 			for _, document := range userDocuments {
 				doc, err := documents.GetDocument(document.DocumentId)
+				if err != nil {
+					fmt.Println("error reading doc in AdminApplicationDocumentsHandler")
+				}
 				documentType, err := documents.GetDocumentType(document.DocumentId)
 				if err != nil {
-					fmt.Println("error reading documentType in AdminApplicantApplicationHandler")
+					fmt.Println("error reading documentType in AdminApplicationDocumentsHandler")
 				}
-				myDocumentList = append(myDocumentList, documentDetails{documentType.DocumentTypename, doc.DocumentStatus, document, documentsStatus})
+				myDocumentList = append(myDocumentList, documentDetails{documentType.DocumentTypename, doc.DocumentStatus, document, documentsStatus, doc})
 			}
 		}
 
@@ -360,6 +380,7 @@ func AdminApplicantApplicationHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "content/admin/template/navbar.template.html",
 			app.Path + "base/template/footer.template.html",
 		}
+
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
@@ -408,10 +429,14 @@ type MyUserApplication struct {
 func AdminApplicantHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
+		documents := []documentDetails{}
+		application := applicantsearch{}
 		type Pagedate struct {
-			Applicant []applicantDetails
+			Applicant   []applicantDetails
+			Document    []documentDetails
+			Application applicantsearch
 		}
-		Data := Pagedate{getApplicants()}
+		Data := Pagedate{getApplicants(), documents, application}
 		files := []string{
 			app.Path + "content/admin/admin_applicant.html",
 			app.Path + "content/admin/template/sidebar.template.html",
