@@ -375,11 +375,11 @@ func InstitutionManagementHandler(app *config.Env) http.HandlerFunc {
 			}
 		}
 
-		institutionCourse, err := institutionIO.GetInstitutionCourses()
+		allInstitutionCourse, err := institutionIO.GetAllInstitutionCourse()
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		} else {
-			for _, institutionCourse := range institutionCourse {
+			for _, institutionCourse := range allInstitutionCourse {
 				institution, err := institutionIO.GetInstitution(institutionCourse.InstitutionId)
 				if err != nil {
 					fmt.Println("error reading institution in InstitutionManagementHandler method")

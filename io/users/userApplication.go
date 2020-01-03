@@ -20,6 +20,7 @@ func CreateUserApplication(obj domain.UserApplication) (domain.UserApplication, 
 	}
 	return entity, nil
 }
+
 func GetUserApplication(userId, applicationId string) (domain.UserApplication, error) {
 	entity := domain.UserApplication{}
 	resp, _ := api.Rest().Get(userapplicationURL + "/get/" + userId + "/" + applicationId)

@@ -41,7 +41,7 @@ func DeleteApplication(obj domain.Application) (domain.Application, error) {
 
 func GetApplication(id string) (domain.Application, error) {
 	entity := domain.Application{}
-
+	//entity = domain.Application{"1", "1", "1"}
 	resp, _ := api.Rest().Get(applicationURL + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

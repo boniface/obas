@@ -23,6 +23,11 @@ func CreateSubject(obj domain.Subject) (domain.Subject, error) {
 
 func GetSubject(id string) (domain.Subject, error) {
 	entity := domain.Subject{}
+	//if id == "1" {
+	//	entity = domain.Subject{id, "English"}
+	//} else if id == "2" {
+	//	entity = domain.Subject{id, "Mathematics"}
+	//}
 	resp, _ := api.Rest().Get(subjectURL + "/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
@@ -33,6 +38,7 @@ func GetSubject(id string) (domain.Subject, error) {
 	}
 	return entity, nil
 }
+
 func GetSubjects() ([]domain.Subject, error) {
 	entity := []domain.Subject{}
 	resp, _ := api.Rest().Get(subjectURL + "/all")
@@ -45,6 +51,7 @@ func GetSubjects() ([]domain.Subject, error) {
 	}
 	return entity, nil
 }
+
 func DeleteSubject(obj domain.Subject) (domain.Subject, error) {
 	entity := domain.Subject{}
 	resp, _ := api.Rest().SetBody(obj).Post(subjectURL + "/delete")
@@ -57,6 +64,7 @@ func DeleteSubject(obj domain.Subject) (domain.Subject, error) {
 	}
 	return entity, nil
 }
+
 func UpdateSubject(obj domain.Subject) (domain.Subject, error) {
 	entity := domain.Subject{}
 	resp, _ := api.Rest().SetBody(obj).Post(subjectURL + "/update")
