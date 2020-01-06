@@ -39,7 +39,7 @@ func GetInstitution(id string) (domain.Institution, error) {
 	//if id == "1" {
 	//	entity = domain.Institution{id, "3", "Sea Point High School"}
 	//} else if id == "2" {
-	//	entity = domain.Institution{id, "1", "UWC"}
+	//	entity = domain.Institution{id, "1", "University of Western Cape"}
 	//} else if id == "3" {
 	//	entity = domain.Institution{id, "1", "Stellenbosch"}
 	//}

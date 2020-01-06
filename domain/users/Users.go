@@ -68,17 +68,6 @@ type UserDocument struct {
 	DocumentId string `json:"documentId"`
 }
 
-type UserMatricInstitution struct {
-	UserId        string `json:"userId"`
-	InstitutionId string `json:"institutionId"`
-}
-
-type UserMatricSubject struct {
-	UserId      string  `json:"userId"`
-	SubjectId   string  `json:"subjectId"`
-	SubjectMark float64 `json:"subjectMark"`
-}
-
 type UserPassword struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
@@ -125,4 +114,15 @@ type UserTertiarySubject struct {
 type UserTown struct {
 	UserId     string `json:"userId"`
 	LocationId string `json:"locationId"`
+}
+
+type UserMatricInstitution struct {
+	UserId        string `json:"userId"`
+	InstitutionId string `json:"institutionId"`
+}
+
+type UserMatricSubject struct {
+	UserId      string  `json:"userId"`
+	SubjectId   string  `json:"subjectId"`
+	SubjectMark float64 `json:"subjectMark"`
 }
