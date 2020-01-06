@@ -32,7 +32,7 @@ func DeletecourseSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 		fmt.Println("courseId", courseId)
 		fmt.Println("SubjectId", SubjectId)
 		_ = app.Session.Destroy(r.Context())
-		courseSubjectObject := domain.CourseSubject{courseId, SubjectId}
+		courseSubjectObject := academicsDomain.CourseSubject{courseId, SubjectId}
 		if courseSubjectObject.SubjectId != "" {
 			_, err := academics.DeleteCourseSubject(courseSubjectObject)
 			if err != nil {
@@ -93,7 +93,7 @@ func CreateCourseSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 
 		fmt.Println(subjectId, "<<<< subjectId||courseId>>>>", courseId)
 		if subjectId != "" || courseId != "" {
-			newcCourseSubject := domain.CourseSubject{courseId, subjectId}
+			newcCourseSubject := academicsDomain.CourseSubject{courseId, subjectId}
 			_, err := academics.CreateCourseSubject(newcCourseSubject)
 			if err != nil {
 				fmt.Println("An error in CreateCourseManagementHandler create myCourse")
@@ -113,7 +113,7 @@ func CreateSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 		subjectDesc := r.PostFormValue("Description")
 
 		if subjectName != "" || subjectDesc != "" {
-			newcCourse := domain.Subject{"", subjectName, subjectDesc}
+			newcCourse := academicsDomain.Subject{"", subjectName, subjectDesc}
 			_, err := academics.CreateSubject(newcCourse)
 			if err != nil {
 				fmt.Println("An error in CreateCourseManagementHandler create myCourse")
@@ -133,7 +133,7 @@ func CreateCourseManagementHandler(app *config.Env) http.HandlerFunc {
 		courseDescription := r.PostFormValue("courseDescription")
 
 		if courseName != "" || courseDescription != "" {
-			newcCourse := academics.Course{"", courseName, courseDescription}
+			newcCourse := academicsDomain.Course{"", courseName, courseDescription}
 			_, err := academics.SaveCourse(newcCourse)
 			if err != nil {
 				fmt.Println("An error in CreateCourseManagementHandler create myCourse")

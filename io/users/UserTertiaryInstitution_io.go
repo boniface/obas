@@ -6,89 +6,30 @@ import (
 	domain "obas/domain/users"
 )
 
-const userTertiaryInstitutionURL = api.BASE_URL + "/institution/tertiary/"
+const userTertiaryInstitutionURL = api.BASE_URL + "/users/institution/tertiary/"
 
-func GetUserTertiaryInstitutions() ([]domain.UserTertiaryInstitution, error) {
-	entity := []domain.UserTertiaryInstitution{}
-	resp, _ := api.Rest().Get(userTertiaryInstitutionURL + "all")
-
+func CreateUserTertiaryInstitution(entity domain.UserTertiaryInstitution) (domain.UserTertiaryInstitution, error) {
+	resp, _ := api.Rest().
+		SetBody(entity).
+		Post(userTertiaryInstitutionURL + "create")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entity)
-
-	if err != nil {
-		return entity, errors.New(resp.Status())
-	}
-	return entity, nil
-}
-func GetAllForUser(userId string) (domain.UserTertiaryInstitution, error) {
-	entity := domain.UserTertiaryInstitution{}
-	resp, _ := api.Rest().Get(userTertiaryInstitutionURL + "allforuser/" + userId)
-
-	if resp.IsError() {
-		return entity, errors.New(resp.Status())
-	}
-	err := api.JSON.Unmarshal(resp.Body(), &entity)
-
-	if err != nil {
-		return entity, errors.New(resp.Status())
-	}
-	return entity, nil
-}
-func GetUserTertiaryInstitutionForApp(userId, application string) (domain.UserTertiaryInstitution, error) {
-	entity := domain.UserTertiaryInstitution{}
-	resp, _ := api.Rest().Get(userTertiaryInstitutionURL + "getforapplication/" + userId + "/" + application)
-
-	if resp.IsError() {
-		return entity, errors.New(resp.Status())
-	}
-	err := api.JSON.Unmarshal(resp.Body(), &entity)
-
-	if err != nil {
-		return entity, errors.New(resp.Status())
-	}
-	return entity, nil
-}
-func CreateUserTertiaryInstitution(obj domain.UserTertiaryInstitution) (domain.UserTertiaryInstitution, error) {
-	entity := domain.UserTertiaryInstitution{}
-	resp, _ := api.Rest().SetBody(obj).Post(userTertiaryInstitutionURL + "create/")
-
-	if resp.IsError() {
-		return entity, errors.New(resp.Status())
-	}
-	err := api.JSON.Unmarshal(resp.Body(), &entity)
-
 	if err != nil {
 		return entity, errors.New(resp.Status())
 	}
 	return entity, nil
 }
 
-func UpdateUserTertiaryInstitution(obj domain.UserTertiaryInstitution) (domain.UserTertiaryInstitution, error) {
+func GetUserTertiaryInstitutionForApplication(userId, applicationId string) (domain.UserTertiaryInstitution, error) {
 	entity := domain.UserTertiaryInstitution{}
-	resp, _ := api.Rest().SetBody(obj).Post(userTertiaryInstitutionURL + "update/")
-
+	//entity = domain.UserTertiaryInstitution{userId, applicationId, "2", 62889.09}
+	resp, _ := api.Rest().Get(userTertiaryInstitutionURL + "getforapplication/" + userId + "/" + applicationId)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entity)
-
-	if err != nil {
-		return entity, errors.New(resp.Status())
-	}
-	return entity, nil
-}
-
-func DeleteUserTertiaryInstitution(obj domain.UserTertiaryInstitution) (domain.UserTertiaryInstitution, error) {
-	entity := domain.UserTertiaryInstitution{}
-	resp, _ := api.Rest().SetBody(obj).Post(userTertiaryInstitutionURL + "detele/")
-
-	if resp.IsError() {
-		return entity, errors.New(resp.Status())
-	}
-	err := api.JSON.Unmarshal(resp.Body(), &entity)
-
 	if err != nil {
 		return entity, errors.New(resp.Status())
 	}
