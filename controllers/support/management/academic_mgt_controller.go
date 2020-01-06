@@ -6,7 +6,7 @@ import (
 	"html/template"
 	"net/http"
 	"obas/config"
-	domain "obas/domain/academics"
+	academicsDomain "obas/domain/academics"
 	"obas/io/academics"
 )
 
@@ -63,8 +63,8 @@ func AcademiManagementHandler(app *config.Env) http.HandlerFunc {
 		}
 
 		type PageData struct {
-			Subjects       []domain.Subject
-			Courses        []academics.Course
+			Subjects       []academicsDomain.Subject
+			Courses        []academicsDomain.Course
 			CourseSubjects []CourseSubjectHolder
 			MyActiveTab    tabs
 		}

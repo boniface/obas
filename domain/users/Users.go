@@ -71,12 +71,6 @@ type UserRole struct {
 	RoleId string `json:"roleId"`
 }
 
-type UserCourse struct {
-	UserId        string `json:"UserId"`
-	CourseId      string `json:"courseId"`
-	InstitutionId string `json:"institutionId"`
-}
-
 type UserApplication struct {
 	UserId        string    `json:"userId"`
 	ApplicationId string    `json:"applicationId"`
@@ -96,5 +90,25 @@ type UserMatricInstitution struct {
 type UserMatricSubject struct {
 	UserId      string  `json:"userId"`
 	SubjectId   string  `json:"subjectId"`
+	SubjectMark float64 `json:"subjectMark"`
+}
+
+type UserTertiaryInstitution struct {
+	UserId        string  `json:"userId"`
+	ApplicationId string  `json:"applicationId"`
+	InstitutionId string  `json:"institutionId"`
+	DebtAmount    float64 `json:"debtAmount"`
+}
+
+type UserTertiaryCourse struct {
+	UserId        string `json:"userId"`
+	ApplicationId string `json:"applicationId"`
+	CourseId      string `json:"courseId"`
+}
+
+type UserTertiarySubject struct {
+	UserId string `json:"userId"`
+	ApplicationId string `json:"applicationId"`
+	SubjectId string `json:"subjectId"`
 	SubjectMark float64 `json:"subjectMark"`
 }

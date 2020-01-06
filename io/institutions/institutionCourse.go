@@ -57,7 +57,13 @@ func CreateInstitutionCourse(obj domain.InstitutionCourse) (domain.InstitutionCo
 
 func GetInstitutionCourses(institutionId string) ([]domain.InstitutionCourse, error) {
 	entities := []domain.InstitutionCourse{}
-	//entities = append(entities, domain.InstitutionCourse{institutionId, "1"})
+	//if institutionId == "1" {
+	//	entities = append(entities, domain.InstitutionCourse{institutionId, "1"})
+	//} else {
+	//	entities = append(entities, domain.InstitutionCourse{institutionId, "2"})
+	//	entities = append(entities, domain.InstitutionCourse{institutionId, "3"})
+	//	entities = append(entities, domain.InstitutionCourse{institutionId, "4"})
+	//}
 	resp, _ := api.Rest().Get(institutioncourseURL + "/course/getcourses/" + institutionId)
 	if resp.IsError() {
 		return entities, errors.New(resp.Status())

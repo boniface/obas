@@ -6,13 +6,14 @@ import (
 	"html/template"
 	"net/http"
 	"obas/config"
+	locationHelper "obas/controllers/location"
+	academicsDomain "obas/domain/academics"
 	institutionDomain "obas/domain/institutions"
 	locationDomain "obas/domain/location"
 	"obas/io/academics"
 	"obas/io/address"
 	institutionIO "obas/io/institutions"
 	location "obas/io/location"
-	"obas/util"
 )
 
 func InstitutionManagement(app *config.Env) http.Handler {
@@ -431,7 +432,7 @@ func InstitutionManagementHandler(app *config.Env) http.HandlerFunc {
 				}
 			}
 		}
-		provinces, _ := util.GetProvinces()
+		provinces, _ := locationHelper.GetProvinces(app)
 		courses, err := academics.GetAllCourses()
 		if err != nil {
 			fmt.Println("error in InstitutionManagementHandler when reading courses")
@@ -449,7 +450,7 @@ func InstitutionManagementHandler(app *config.Env) http.HandlerFunc {
 			Provinces           []locationDomain.Location
 			InstitutionLocation []InstitutionLocHolder
 			MyActiveTab         Tabs
-			Courses             []academics.Course
+			Courses             []academicsDomain.Course
 			InstitutionCourse   []InstitutionCourseHolder
 			AddressTypes        []address.AddressType
 			InstitutionAddress  []InstitutionAddressHolder
