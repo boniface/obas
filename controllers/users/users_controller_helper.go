@@ -205,6 +205,20 @@ func getUserTertiaryCourseForApplication(app *config.Env, userId string, applica
 }
 
 /**
+Get user (prospective) application course given user id and application id
+ */
+func getUserApplicationCourse(app *config.Env, userId, applicationId string) (userDomain.UserApplicationCourse, genericHelper.PageToast) {
+	var userApplicationCourse userDomain.UserApplicationCourse
+	var alert genericHelper.PageToast
+	userApplicationCourse, err := usersIO.GetUserApplicationCourse(userId, applicationId)
+	if err != nil {
+		app.ErrorLog.Println(err.Error())
+		alert = genericHelper.PageToast{genericHelper.DangerAlertStyle, "Could not retrieve user application course!"}
+	}
+	return userApplicationCourse, alert
+}
+
+/**
 Get subjects for course given course id
  */
 func getCourseSubjects(app *config.Env, courseId string) ([]academicsDomain.Subject, genericHelper.PageToast) {
@@ -221,4 +235,18 @@ func getCourseSubjects(app *config.Env, courseId string) ([]academicsDomain.Subj
 		}
 	}
 	return subjects, alert
+}
+
+/**
+Get user application (prospective) institution given user id and application id
+ */
+func getUserApplicationInstitution(app *config.Env, userId, applicationId string) (userDomain.UserApplicationInstitution, genericHelper.PageToast) {
+	var userApplicationInstitution userDomain.UserApplicationInstitution
+	var alert genericHelper.PageToast
+	userApplicationInstitution, err := usersIO.GetUserApplicationInstitution(userId, applicationId)
+	if err != nil {
+		app.ErrorLog.Println(err.Error())
+		alert = genericHelper.PageToast{genericHelper.DangerAlertStyle, "Could not retrieve user application institution!"}
+	}
+	return userApplicationInstitution, alert
 }

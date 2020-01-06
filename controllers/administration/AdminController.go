@@ -303,7 +303,7 @@ func getApplicants() []applicantDetails {
 			fmt.Println("error reading institution in getApplicants")
 		}
 
-		userApplicationCourse, err := users.GetUserApplicationCourseForAppl(user.Email, application.Id)
+		userApplicationCourse, err := users.GetUserApplicationCourse(user.Email, application.Id)
 		if err != nil {
 			fmt.Println("error reading userApplicationCourse in getApplicants")
 		}

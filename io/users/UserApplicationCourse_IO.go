@@ -8,7 +8,7 @@ import (
 
 const userApplicationCourseURL = api.BASE_URL + "/user/application/course/"
 
-func GetUserApplicationCourses() (domain.UserApplicationCourse, error) {
+func GetAllUserApplicationCourses() (domain.UserApplicationCourse, error) {
 	entity := domain.UserApplicationCourse{}
 	resp, _ := api.Rest().Get(userApplicationCourseURL + "all")
 	if resp.IsError() {
@@ -21,7 +21,7 @@ func GetUserApplicationCourses() (domain.UserApplicationCourse, error) {
 	}
 	return entity, nil
 }
-func GetUserApplicationCourseAllForUser(userId string) ([]domain.UserApplicationCourse, error) {
+func GetUserApplicationCourses(userId string) ([]domain.UserApplicationCourse, error) {
 	entity := []domain.UserApplicationCourse{}
 	resp, _ := api.Rest().Get(userApplicationCourseURL + "allforuser/" + userId)
 	if resp.IsError() {
@@ -35,14 +35,14 @@ func GetUserApplicationCourseAllForUser(userId string) ([]domain.UserApplication
 	return entity, nil
 }
 
-func GetUserApplicationCourseForAppl(userId, applicationId string) (domain.UserApplicationCourse, error) {
+func GetUserApplicationCourse(userId, applicationId string) (domain.UserApplicationCourse, error) {
 	entity := domain.UserApplicationCourse{}
+	//entity = domain.UserApplicationCourse{userId, applicationId, "4"}
 	resp, _ := api.Rest().Get(userApplicationCourseURL + "getforapplication/" + userId + "/" + applicationId)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entity)
-
 	if err != nil {
 		return entity, errors.New(resp.Status())
 	}
@@ -76,6 +76,7 @@ func UpdateUserApplicationCourse(obj domain.UserApplicationCourse) (domain.UserA
 	}
 	return entity, nil
 }
+
 func DeleteUserApplicationCourse(obj domain.UserApplicationCourse) (domain.UserApplicationCourse, error) {
 	entity := domain.UserApplicationCourse{}
 	resp, _ := api.Rest().SetBody(obj).Post(userApplicationCourseURL + "delete")

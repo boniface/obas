@@ -22,7 +22,7 @@ func TestDeleteUserApplicationInstitution(t *testing.T) {
 	assert.NotNil(t, result)
 }
 func TestGetUserApplicationInstitutionAllForUser(t *testing.T) {
-	result, err := GetUserApplicationInstitutionAllForUser("")
+	result, err := GetUserApplicationInstitutions("")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)
 	assert.NotNil(t, result)
@@ -35,13 +35,13 @@ func TestUpdateUserApplicationInstitution(t *testing.T) {
 	assert.NotNil(t, result)
 }
 func TestGetUserApplicationInstitutionForAppl(t *testing.T) {
-	result, err := GetUserApplicationInstitutionForAppl("", "")
+	result, err := GetUserApplicationInstitution("", "")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)
 	assert.NotNil(t, result)
 }
 func TestGetUserApplicationInstitutions(t *testing.T) {
-	result, err := GetUserApplicationInstitutions()
+	result, err := GetAllUserApplicationInstitutions()
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)
 	assert.NotNil(t, result)

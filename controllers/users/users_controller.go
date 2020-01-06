@@ -6,7 +6,6 @@ import (
 	"io"
 	"net/http"
 	"obas/config"
-	academicsHelper "obas/controllers/academics"
 	institutionHelper "obas/controllers/institutions"
 	locationHelper "obas/controllers/location"
 	genericHelper "obas/controllers/misc"
@@ -92,9 +91,100 @@ func Users(app *config.Env) http.Handler {
 	r.Post("/student/bursary/application/institution/current/update", StudentBursaryApplicationCurrentInstitutionHandler(app))
 	r.Post("/student/bursary/application/institution/current/course/update", StudentBursaryApplicationCurrentInstitutionCourseHandler(app))
 	r.Post("/student/bursary/application/institution/current/subject/update", StudentBursaryApplicationCurrentInstitutionSubjectHandler(app))
-
+	r.Post("/student/bursary/application/institution/prospective/update", StudentBursaryApplicationProspectiveInstitutionHandler(app))
+	r.Post("/student/bursary/application/institution/prospective/course/update", StudentBursaryApplicationProspectiveInstitutionCourseHandler(app))
 
 	return r
+}
+
+func StudentBursaryApplicationProspectiveInstitutionCourseHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+
+		failureMessage := "Prospective Institution Course NOT saved!"
+		successMessage := "Prospective Institution Course saved!"
+		proceed := true
+
+		r.ParseForm()
+		applicationId := r.PostFormValue("applicationId")
+		courseId := r.PostFormValue("course")
+
+		if applicationId == "" || courseId == "" {
+			proceed = false
+			errorMsg := " Course can't be empty!"
+			app.ErrorLog.Println(errorMsg)
+			genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, failureMessage+errorMsg)
+		}
+		if proceed {
+			userApplicationCourse := userDomain.UserApplicationCourse{user.Email, applicationId, courseId}
+			app.InfoLog.Println("User prospective course to save: ", userApplicationCourse)
+			userApplicationCourse, err = usersIO.CreateUserApplicationCourse(userApplicationCourse)
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+				genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, failureMessage)
+			} else {
+				app.InfoLog.Println("User Prospective Institution Course saved: ", userApplicationCourse)
+				genericHelper.SetSessionMessage(app, r, genericHelper.SuccessAlertStyle, successMessage)
+			}
+		}
+		http.Redirect(w, r, "/users/student/bursary/application", 301)
+	}
+}
+
+func StudentBursaryApplicationProspectiveInstitutionHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+
+		failureMessage := "Prospective Institution NOT saved!"
+		successMessage := "Prospective Institution saved!"
+		proceed := true
+
+		r.ParseForm()
+		applicationId := r.PostFormValue("applicationId")
+		institutionId := r.PostFormValue("institution")
+
+		if applicationId == "" || institutionId == "" {
+			proceed = false
+			errorMsg := " Institution can't be empty!"
+			app.ErrorLog.Println(errorMsg)
+			genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, failureMessage+errorMsg)
+		}
+		if proceed {
+			userApplicationInstitution := userDomain.UserApplicationInstitution{user.Email, applicationId, institutionId}
+			app.InfoLog.Println("User prospective institution to save: ", userApplicationInstitution)
+			userApplicationInstitution, err = usersIO.CreateUserApplicationInstitution(userApplicationInstitution)
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+				genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, failureMessage)
+			} else {
+				app.InfoLog.Println("User Prospective Institution saved: ", userApplicationInstitution)
+				genericHelper.SetSessionMessage(app, r, genericHelper.SuccessAlertStyle, successMessage)
+			}
+		}
+		http.Redirect(w, r, "/users/student/bursary/application", 301)
+	}
 }
 
 func StudentBursaryApplicationCurrentInstitutionSubjectHandler(app *config.Env) http.HandlerFunc {
@@ -400,14 +490,16 @@ func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 		var provinces []locationDomain.Location
 		var institutionTypes []institutionDomain.InstitutionTypes
 		var userMatricInstitution userDomain.UserMatricInstitution
-		var userMatricInstitutionName, userTertiaryInstitutionName, userTertiaryCourseName string
+		var userMatricInstitutionName, userTertiaryInstitutionName, userApplicationInstitutionName string
 		var matricSubjects []academicsDomain.Subject
 		var eUserMatricSubjects []ExtendedUserMatricSubject
 		var userTertiaryInstitution userDomain.UserTertiaryInstitution
 		var userTertiaryCourse userDomain.UserTertiaryCourse
-		var tertiaryCourses []academicsDomain.Course
+		var currentTertiaryCourses, prospectiveTertiaryCourses []academicsDomain.Course
 		var currentCourseSubjects []academicsDomain.Subject
 		var eUserCurrentTertiarySubjects []ExtendedUserTertiarySubject
+		var userApplicationInstitution userDomain.UserApplicationInstitution
+		var userApplicationCourse userDomain.UserApplicationCourse
 		isComplete := true
 
 		latestUserApplication, err := usersIO.GetLatestUserApplication(email)
@@ -473,15 +565,11 @@ func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 						proceed = alert.AlertInfo == ""
 					}
 					if proceed {
-						tertiaryCourses, alert = getInstitutionCourses(app, userTertiaryInstitution.InstitutionId)
+						currentTertiaryCourses, alert = getInstitutionCourses(app, userTertiaryInstitution.InstitutionId)
 						proceed = alert.AlertInfo == ""
 					}
 					if proceed {
 						userTertiaryCourse, alert = getUserTertiaryCourseForApplication(app, user.Email, application.Id)
-						proceed = alert.AlertInfo == ""
-					}
-					if proceed {
-						userTertiaryCourseName, alert = academicsHelper.GetCourseName(app, userTertiaryCourse.CourseId)
 						proceed = alert.AlertInfo == ""
 					}
 					if proceed {
@@ -493,6 +581,22 @@ func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 						proceed = alert.AlertInfo == ""
 					}
 					if proceed {
+						userApplicationInstitution, alert = getUserApplicationInstitution(app, user.Email, application.Id)
+						proceed = alert.AlertInfo == ""
+					}
+					if proceed {
+						userApplicationInstitutionName, alert = institutionHelper.GetInstitutionName(app, userApplicationInstitution.InstitutionId)
+						proceed = alert.AlertInfo == ""
+					}
+					if proceed {
+						prospectiveTertiaryCourses, alert = getInstitutionCourses(app, userApplicationInstitution.InstitutionId)
+						proceed = alert.AlertInfo == ""
+					}
+					if proceed {
+						userApplicationCourse, alert = getUserApplicationCourse(app, user.Email, application.Id)
+						proceed = alert.AlertInfo == ""
+					}
+					if proceed {
 						alert = genericHelper.CheckForSessionAlert(app, r)
 					}
 				}
@@ -500,25 +604,28 @@ func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 		}
 
 		type PageData struct {
-			Student                     usersIO.User
-			Menu                        string
-			SubMenu                     string
-			ApplicationTypes            []applicationDomain.ApplicationType
-			ApplicantTypes              []applicationDomain.ApplicantType
-			Application                 applicationDomain.Application
-			IsComplete                  bool
-			Provinces                   []locationDomain.Location
-			InstitutionTypes            []institutionDomain.InstitutionTypes
-			UserMatricInstitutionName   string
-			MatricSubjects              []academicsDomain.Subject
-			UserMatricSubjects          []ExtendedUserMatricSubject
-			UserTertiaryInstitutionName string
-			UserTertiaryInstitution     userDomain.UserTertiaryInstitution
-			CurrentTertiaryCourses      []academicsDomain.Course
-			UserTertiaryCourseName      string
-			CurrentCourseSubjects       []academicsDomain.Subject
-			UserTertiarySubjects        []ExtendedUserTertiarySubject
-			Alert                       genericHelper.PageToast
+			Student                        usersIO.User
+			Menu                           string
+			SubMenu                        string
+			ApplicationTypes               []applicationDomain.ApplicationType
+			ApplicantTypes                 []applicationDomain.ApplicantType
+			Application                    applicationDomain.Application
+			IsComplete                     bool
+			Provinces                      []locationDomain.Location
+			InstitutionTypes               []institutionDomain.InstitutionTypes
+			UserMatricInstitutionName      string
+			MatricSubjects                 []academicsDomain.Subject
+			UserMatricSubjects             []ExtendedUserMatricSubject
+			UserTertiaryInstitutionName    string
+			UserTertiaryInstitution        userDomain.UserTertiaryInstitution
+			CurrentTertiaryCourses         []academicsDomain.Course
+			UserTertiaryCourse             userDomain.UserTertiaryCourse
+			CurrentCourseSubjects          []academicsDomain.Subject
+			UserTertiarySubjects           []ExtendedUserTertiarySubject
+			UserApplicationInstitutionName string
+			ProspectiveTertiaryCourses     []academicsDomain.Course
+			UserApplicationCourse          userDomain.UserApplicationCourse
+			Alert                          genericHelper.PageToast
 		}
 
 		data := PageData{
@@ -536,10 +643,13 @@ func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 			eUserMatricSubjects,
 			userTertiaryInstitutionName,
 			userTertiaryInstitution,
-			tertiaryCourses,
-			userTertiaryCourseName,
+			currentTertiaryCourses,
+			userTertiaryCourse,
 			currentCourseSubjects,
 			eUserCurrentTertiarySubjects,
+			userApplicationInstitutionName,
+			prospectiveTertiaryCourses,
+			userApplicationCourse,
 			alert}
 
 		files := []string{
