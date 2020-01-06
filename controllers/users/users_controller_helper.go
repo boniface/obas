@@ -1,18 +1,14 @@
-package controllers
+package users
 
 import (
-	"net/http"
 	"obas/config"
+	academicsHelper "obas/controllers/academics"
+	institutionHelper "obas/controllers/institutions"
+	genericHelper "obas/controllers/misc"
 	academicsDomain "obas/domain/academics"
-	institutionDomain "obas/domain/institutions"
-	locationDomain "obas/domain/location"
 	userDomain "obas/domain/users"
-	academicsIO "obas/io/academics"
 	demographyIO "obas/io/demographics"
-	institutionIO "obas/io/institutions"
 	usersIO "obas/io/users"
-	"obas/util"
-	"strings"
 )
 
 type ExtendedUserMatricSubject struct {
@@ -20,94 +16,23 @@ type ExtendedUserMatricSubject struct {
 	SubjectName string
 }
 
-func getProvinces(app *config.Env) ([]locationDomain.Location, PageToast) {
-	var provinces []locationDomain.Location
-	var alert PageToast
-	provinces, err := util.GetProvinces()
-	if err != nil {
-		app.ErrorLog.Println(err.Error())
-		alert = PageToast{dangerAlertStyle, "Could not retrieve provinces!"}
-	}
-	return provinces, alert
-}
-
-func getInstitutionTypes(app *config.Env) ([]institutionDomain.InstitutionTypes, PageToast) {
-	var alert PageToast
-	var institutionTypes []institutionDomain.InstitutionTypes
-	institutionTypes, err := institutionIO.GetInstitutionTypes()
-	if err != nil {
-		app.ErrorLog.Println(err.Error())
-		alert = PageToast{dangerAlertStyle, "Could not retrieve institution types!"}
-	}
-	return institutionTypes, alert
+type ExtendedUserTertiarySubject struct {
+	userDomain.UserTertiarySubject
+	SubjectName string
 }
 
 /**
 Get user matric institution given user id
 */
-func getUserMatricInstitution(app *config.Env, userId string) (userDomain.UserMatricInstitution, PageToast) {
+func getUserMatricInstitution(app *config.Env, userId string) (userDomain.UserMatricInstitution, genericHelper.PageToast) {
 	var userMatricInstitution userDomain.UserMatricInstitution
-	var alert PageToast
+	var alert genericHelper.PageToast
 	userMatricInstitution, err := usersIO.GetUserMatricInstitution(userId)
 	if err != nil {
 		app.ErrorLog.Println(err.Error())
-		alert = PageToast{dangerAlertStyle, "Could not retrieve user matric institution!"}
+		alert = genericHelper.PageToast{genericHelper.DangerAlertStyle, "Could not retrieve user matric institution!"}
 	}
 	return userMatricInstitution, alert
-}
-
-/**
-Get Matric institution name for user
-*/
-func getUserMatricInstitutionName(app *config.Env, institutionId string) (string, PageToast) {
-	var institutionName string
-	var institution institutionDomain.Institution
-	var alert PageToast
-	institution, alert = getInstitution(app, institutionId)
-	if alert.AlertInfo == "" {
-		if institution.Id == "" {
-			institutionName = "<< NOT SET >>"
-		} else {
-			institutionName = institution.Name
-		}
-	}
-	return institutionName, alert
-}
-
-/**
-Get institution given institution id
-*/
-func getInstitution(app *config.Env, institutionId string) (institutionDomain.Institution, PageToast) {
-	var institution institutionDomain.Institution
-	var alert PageToast
-	institution, err := institutionIO.GetInstitution(institutionId)
-	if err != nil {
-		app.ErrorLog.Println(err.Error())
-		alert = PageToast{dangerAlertStyle, "Could not retrieve institution!"}
-	}
-	return institution, alert
-}
-
-/**
-Check if session has alert message
-*/
-func checkForSessionAlert(app *config.Env, r *http.Request) PageToast {
-	message := app.Session.GetString(r.Context(), "message")
-	messageType := app.Session.GetString(r.Context(), "message-type")
-	var alert PageToast
-	if message != "" && messageType != "" {
-		alert = PageToast{messageType, message}
-		app.Session.Remove(r.Context(), "message")
-		app.Session.Remove(r.Context(), "message-type")
-	}
-	return alert
-}
-
-/**
-Get date in YYYYMMDD format
-*/
-func getDate_YYYYMMDD(dateString string) string {
-	return strings.Split(dateString, " ")[0]
 }
 
 /**
@@ -149,18 +74,18 @@ func getUserGender(demography usersIO.UserDemography, genders []demographyIO.Gen
 /**
 Get Matric subjects given institution id
 */
-func getMatricSubjects(app *config.Env, institutionId string) ([]academicsDomain.Subject, PageToast) {
+func getMatricSubjects(app *config.Env, institutionId string) ([]academicsDomain.Subject, genericHelper.PageToast) {
 	var subjects []academicsDomain.Subject
 	var courseSubjects []academicsDomain.CourseSubject
-	var alert PageToast
-	institutionCourses, alert := getInstitutionCourses(app, institutionId)
+	var alert genericHelper.PageToast
+	institutionCourses, alert := institutionHelper.GetInstitutionCourses(app, institutionId)
 	if alert.AlertInfo == "" && len(institutionCourses) > 0 {
 		institutionCourse := institutionCourses[0]
-		courseSubjects, alert = getSubjectsForCourse(app, institutionCourse.CourseId)
+		courseSubjects, alert = academicsHelper.GetSubjectsForCourse(app, institutionCourse.CourseId)
 	}
 	if alert.AlertInfo == "" {
 		for _, courseSubject := range courseSubjects {
-			subject, alert := getSubject(app, courseSubject.SubjectId)
+			subject, alert := academicsHelper.GetSubject(app, courseSubject.SubjectId)
 			if alert.AlertInfo == "" {
 				subjects = append(subjects, subject)
 			}
@@ -169,57 +94,29 @@ func getMatricSubjects(app *config.Env, institutionId string) ([]academicsDomain
 	return subjects, alert
 }
 
-/**
-Get Subject details given subject id
- */
-func getSubject(app *config.Env, subjectId string) (academicsDomain.Subject, PageToast) {
-	var subject academicsDomain.Subject
-	var alert PageToast
-	subject, err := academicsIO.GetSubject(subjectId)
-	if err != nil {
-		app.ErrorLog.Println(err.Error())
-		alert = PageToast{dangerAlertStyle, "Could not retrieve subject!"}
+func getInstitutionCourses(app *config.Env, institutionId string) ([]academicsDomain.Course, genericHelper.PageToast) {
+	var courses []academicsDomain.Course
+	institutionCourses, alert := institutionHelper.GetInstitutionCourses(app, institutionId)
+	if alert.AlertInfo == "" && len(institutionCourses) > 0 {
+		for _, institutionCourse := range institutionCourses {
+			course, alert := academicsHelper.GetCourse(app, institutionCourse.CourseId)
+			if alert.AlertInfo == "" {
+				courses = append(courses, course)
+			}
+		}
 	}
-	return subject, alert
-}
-
-/**
-Get subjects for course given course id
- */
-func getSubjectsForCourse(app *config.Env, courseId string) ([]academicsDomain.CourseSubject, PageToast) {
-	var courseSubjects []academicsDomain.CourseSubject
-	var alert PageToast
-	courseSubjects, err := academicsIO.GetCourseSubjects(courseId)
-	if err != nil {
-		app.ErrorLog.Println(err.Error())
-		alert = PageToast{dangerAlertStyle, "Could not retrieve subjects for course!"}
-	}
-	return courseSubjects, alert
-}
-
-/**
-Get courses for institution given institution id
- */
-func getInstitutionCourses(app *config.Env, institutionId string) ([]institutionDomain.InstitutionCourse, PageToast) {
-	var institutionCourses []institutionDomain.InstitutionCourse
-	var alert PageToast
-	institutionCourses, err := institutionIO.GetInstitutionCourses(institutionId)
-	if err != nil {
-		app.ErrorLog.Println(err.Error())
-		alert = PageToast{dangerAlertStyle, "Could not retrieve institution courses!"}
-	}
-	return institutionCourses, alert
+	return courses, alert
 }
 
 /**
 Get (ETL) transformed user matric subjects given userId
- */
-func getTransformedUserMatricSubjects(app *config.Env, userId string) ([]ExtendedUserMatricSubject, PageToast) {
+*/
+func getTransformedUserMatricSubjects(app *config.Env, userId string) ([]ExtendedUserMatricSubject, genericHelper.PageToast) {
 	var eUserMatricSubjects []ExtendedUserMatricSubject
 	userMatricSubjects, alert := getUserMatricSubjects(app, userId)
 	if alert.AlertInfo == "" {
 		for _, userMatricSubject := range userMatricSubjects {
-			subject, alert := getSubject(app, userMatricSubject.SubjectId)
+			subject, alert := academicsHelper.GetSubject(app, userMatricSubject.SubjectId)
 			if alert.AlertInfo == "" {
 				eUserMatricSubject := ExtendedUserMatricSubject{userMatricSubject, subject.Name}
 				eUserMatricSubjects = append(eUserMatricSubjects, eUserMatricSubject)
@@ -232,15 +129,124 @@ func getTransformedUserMatricSubjects(app *config.Env, userId string) ([]Extende
 }
 
 /**
-Get user matric subjects given user id.
+Get (ETL) user tertiary subjects given userid and application id
+*/
+func getTransformedUserTertiarySubjects(app *config.Env, userId, applicationId string) ([]ExtendedUserTertiarySubject, genericHelper.PageToast) {
+	var eUserTertiarySubjects []ExtendedUserTertiarySubject
+	userTertiarySubjects, alert := getUserTertiarySubjectsForApplication(app, userId, applicationId)
+	if alert.AlertInfo == "" {
+		for _, userTertiarySubject := range userTertiarySubjects {
+			subject, alert := academicsHelper.GetSubject(app, userTertiarySubject.SubjectId)
+			if alert.AlertInfo == "" {
+				eUserTertiarySubject := ExtendedUserTertiarySubject{userTertiarySubject, subject.Name}
+				eUserTertiarySubjects = append(eUserTertiarySubjects, eUserTertiarySubject)
+			} else {
+				app.ErrorLog.Println(alert.AlertInfo)
+			}
+		}
+	}
+	return eUserTertiarySubjects, alert
+}
+
+/**
+Get user tertiary subjects for application given user id and application id
  */
-func getUserMatricSubjects(app *config.Env, userId string) ([]userDomain.UserMatricSubject, PageToast) {
+func getUserTertiarySubjectsForApplication(app *config.Env, userId, applicationId string) ([]userDomain.UserTertiarySubject, genericHelper.PageToast) {
+	var userTertiarySubjects []userDomain.UserTertiarySubject
+	var alert genericHelper.PageToast
+	userTertiarySubjects, err := usersIO.GetUserTertiarySubjects(userId, applicationId)
+	if err != nil {
+		app.ErrorLog.Println(err.Error())
+		alert = genericHelper.PageToast{genericHelper.DangerAlertStyle, "Could not retrieve user tertiary subjects!"}
+	}
+	return userTertiarySubjects, alert
+}
+
+/**
+Get user matric subjects given user id.
+*/
+func getUserMatricSubjects(app *config.Env, userId string) ([]userDomain.UserMatricSubject, genericHelper.PageToast) {
 	var userMatricSubjects []userDomain.UserMatricSubject
-	var alert PageToast
+	var alert genericHelper.PageToast
 	userMatricSubjects, err := usersIO.GetUserMatricSubjects(userId)
 	if err != nil {
 		app.ErrorLog.Println(err.Error())
-		alert = PageToast{dangerAlertStyle, "Could not retrieve user matric subjects!"}
+		alert = genericHelper.PageToast{genericHelper.DangerAlertStyle, "Could not retrieve user matric subjects!"}
 	}
 	return userMatricSubjects, alert
+}
+
+/**
+Get user tertiary institution for application given user id
+*/
+func getUserTertiaryInstitutionForApplication(app *config.Env, userId string, applicationId string) (userDomain.UserTertiaryInstitution, genericHelper.PageToast) {
+	var userTertiaryInstitution userDomain.UserTertiaryInstitution
+	var alert genericHelper.PageToast
+	userTertiaryInstitution, err := usersIO.GetUserTertiaryInstitutionForApplication(userId, applicationId)
+	if err != nil {
+		app.ErrorLog.Println(err.Error())
+		alert = genericHelper.PageToast{genericHelper.DangerAlertStyle, "Could not retrieve user current institution!"}
+	}
+	return userTertiaryInstitution, alert
+}
+
+/**
+Get user tertiary course for application given user id
+ */
+func getUserTertiaryCourseForApplication(app *config.Env, userId string, applicationId string) (userDomain.UserTertiaryCourse, genericHelper.PageToast) {
+	var userTertiaryCourse userDomain.UserTertiaryCourse
+	var alert genericHelper.PageToast
+	userTertiaryCourse, err := usersIO.GetUserTertiaryCourseForApplication(userId, applicationId)
+	if err != nil {
+		app.ErrorLog.Println(err.Error())
+		alert = genericHelper.PageToast{genericHelper.DangerAlertStyle, "Could not retrieve user current course!"}
+	}
+	return userTertiaryCourse, alert
+}
+
+/**
+Get user (prospective) application course given user id and application id
+ */
+func getUserApplicationCourse(app *config.Env, userId, applicationId string) (userDomain.UserApplicationCourse, genericHelper.PageToast) {
+	var userApplicationCourse userDomain.UserApplicationCourse
+	var alert genericHelper.PageToast
+	userApplicationCourse, err := usersIO.GetUserApplicationCourse(userId, applicationId)
+	if err != nil {
+		app.ErrorLog.Println(err.Error())
+		alert = genericHelper.PageToast{genericHelper.DangerAlertStyle, "Could not retrieve user application course!"}
+	}
+	return userApplicationCourse, alert
+}
+
+/**
+Get subjects for course given course id
+ */
+func getCourseSubjects(app *config.Env, courseId string) ([]academicsDomain.Subject, genericHelper.PageToast) {
+	var subjects []academicsDomain.Subject
+	var courseSubjects []academicsDomain.CourseSubject
+	var alert genericHelper.PageToast
+	courseSubjects, alert = academicsHelper.GetSubjectsForCourse(app, courseId)
+	if alert.AlertInfo == "" {
+		for _, courseSubject := range courseSubjects {
+			subject, alert := academicsHelper.GetSubject(app, courseSubject.SubjectId)
+			if alert.AlertInfo == "" {
+				subjects = append(subjects, subject)
+			}
+		}
+	}
+	return subjects, alert
+}
+
+/**
+Get user application (prospective) institution given user id and application id
+ */
+func getUserApplicationInstitution(app *config.Env, userId, applicationId string) (userDomain.UserApplicationInstitution, genericHelper.PageToast) {
+	var userApplicationInstitution userDomain.UserApplicationInstitution
+	var alert genericHelper.PageToast
+	userApplicationInstitution, err := usersIO.GetUserApplicationInstitution(userId, applicationId)
+	if err != nil {
+		app.ErrorLog.Println(err.Error())
+		alert = genericHelper.PageToast{genericHelper.DangerAlertStyle, "Could not retrieve user application institution!"}
+	}
+	return userApplicationInstitution, alert
 }

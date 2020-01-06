@@ -20,9 +20,22 @@ type UserAddress struct {
 	PostalCode    string `json:"postalCode"`
 }
 
-type UserApplicationResult struct {
-	UserApplicationResultId string `json:"userApplicationResultId"`
-	Description             string `json:"description"`
+type UserApplication struct {
+	UserId        string    `json:"userId"`
+	ApplicationId string    `json:"applicationId"`
+	DateTime      time.Time `json:"dateTime"`
+}
+
+type UserApplicationCourse struct {
+	UserId        string `json:"userId"`
+	ApplicationId string `json:"applicationId"`
+	CourseId      string `json:"courseId"`
+}
+
+type UserApplicationInstitution struct {
+	UserId        string `json:"userId"`
+	ApplicationId string `json:"applicationId"`
+	InstitutionId string `json:"institutionId"`
 }
 
 type UserCommunication struct {
@@ -34,6 +47,13 @@ type UserContacts struct {
 	UserId        string `json:"userId"`
 	ContactTypeId string `json:"contactTypeId"`
 	Contact       string `json:"contact"`
+}
+
+type UserCourentLocation struct {
+	UserId   string `json:"userId"`
+	Province string `json:"province"`
+	District string `json:"district"`
+	TownCode string `json:"townCode"`
 }
 
 type UserDemographics struct {
@@ -71,16 +91,24 @@ type UserRole struct {
 	RoleId string `json:"roleId"`
 }
 
-type UserCourse struct {
-	UserId        string `json:"UserId"`
+type UserTertiaryCourse struct {
+	UserId        string `json:"userId"`
+	ApplicationId string `json:"applicationId"`
 	CourseId      string `json:"courseId"`
-	InstitutionId string `json:"institutionId"`
 }
 
-type UserApplication struct {
-	UserId        string    `json:"userId"`
-	ApplicationId string    `json:"applicationId"`
-	DateTime      time.Time `json:"dateTime"`
+type UserTertiaryInstitution struct {
+	UserId        string  `json:"userId"`
+	ApplicationId string  `json:"applicationId"`
+	InstitutionId string  `json:"institutionId"`
+	DebtAmount    float64 `json:"debtAmount"`
+}
+
+type UserTertiarySubject struct {
+	UserId        string  `json:"userId"`
+	ApplicationId string  `json:"applicationId"`
+	SubjectId     string  `json:"subjectId"`
+	SubjectMark   float64 `json:"subjectMark"`
 }
 
 type UserTown struct {

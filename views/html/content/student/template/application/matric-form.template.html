@@ -25,7 +25,7 @@
                 <div id="matric-institution" class="tab-pane fade show active" role="tabpanel"
                      aria-labelledby="matric-institution-tab" aria-expanded="false">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="{{ if .UserMatricInstitutionName }} col-md-8 {{ else }} col-md-12 {{ end }}">
                             <form id="matricInstitutionForm" method="post"
                                   action="/users/student/bursary/application/institution/matric/update">
                                 {{ template "location-form" .}}
@@ -51,17 +51,19 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card ">
-                                <div class="card-footer ">
-                                    {{ .UserMatricInstitutionName }}
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="fa fa-cog"></i>Your Matric Institution
+                        {{ if .UserMatricInstitutionName }}
+                            <div class="col-md-4">
+                                <div class="card ">
+                                    <div class="card-footer ">
+                                        <p>{{ .UserMatricInstitutionName }}</p>
+                                        <hr>
+                                        <div class="stats">
+                                            <i class="fa fa-cog"></i>Your Matric Institution
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        {{ end }}
                     </div>
                 </div>
                 <div id="matric-subject" class="tab-pane fade" role="tabpanel" aria-labelledby="matric-subject-tab"

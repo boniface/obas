@@ -6,13 +6,14 @@ import (
 	"html/template"
 	"net/http"
 	"obas/config"
+	locationHelper "obas/controllers/location"
+	academicsDomain "obas/domain/academics"
 	institutionDomain "obas/domain/institutions"
 	locationDomain "obas/domain/location"
 	"obas/io/academics"
 	"obas/io/address"
 	institutionIO "obas/io/institutions"
 	location "obas/io/location"
-	"obas/util"
 )
 
 func InstitutionManagement(app *config.Env) http.Handler {
@@ -159,7 +160,7 @@ func SaveInstitutionLocationHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		r.ParseForm()
-		locationId := r.PostFormValue("townId")
+		locationId := r.PostFormValue("town")
 		institutionId := r.PostFormValue("institution")
 		longitude := r.PostFormValue("longitude")
 		latitude := r.PostFormValue("latitude")
@@ -168,6 +169,8 @@ func SaveInstitutionLocationHandler(app *config.Env) http.HandlerFunc {
 
 		if locationId != "" || institutionId != "" || longitude != "" || latitude != "" {
 			institutionLocation := institutionDomain.InstitutionLocation{institutionId, locationId, longitude, latitude}
+
+			fmt.Println(institutionLocation)
 			_, err := institutionIO.CreateInstitutionLocation(institutionLocation)
 			if err != nil {
 				app.ErrorLog.Println(err.Error())
@@ -400,7 +403,7 @@ func InstitutionManagementHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 		} else {
 			for _, institutionLoca := range institutsLocation {
-				fmt.Println("error in reading townNamw in InstitutionManagementHandler method", institutionLoca.LocationId)
+				//fmt.Println("error in reading townNamw in InstitutionManagementHandler method", institutionLoca.LocationId)
 
 				institutionName, errr := institutionIO.GetInstitution(institutionLoca.InstitutionId)
 				if errr != nil {
@@ -408,7 +411,7 @@ func InstitutionManagementHandler(app *config.Env) http.HandlerFunc {
 					app.ErrorLog.Println(errr.Error())
 				}
 				townNamw, err := location.GetLocation(institutionLoca.LocationId)
-				fmt.Println("error in reading townNamw in InstitutionManagementHandler method", townNamw)
+				//fmt.Println("error in reading townNamw in InstitutionManagementHandler method", townNamw)
 				if err != nil {
 					fmt.Println("error in reading townNamw in InstitutionManagementHandler method")
 					app.ErrorLog.Println(err.Error())
@@ -431,7 +434,7 @@ func InstitutionManagementHandler(app *config.Env) http.HandlerFunc {
 				}
 			}
 		}
-		provinces, _ := util.GetProvinces()
+		provinces, _ := locationHelper.GetProvinces(app)
 		courses, err := academics.GetAllCourses()
 		if err != nil {
 			fmt.Println("error in InstitutionManagementHandler when reading courses")
@@ -449,7 +452,7 @@ func InstitutionManagementHandler(app *config.Env) http.HandlerFunc {
 			Provinces           []locationDomain.Location
 			InstitutionLocation []InstitutionLocHolder
 			MyActiveTab         Tabs
-			Courses             []academics.Course
+			Courses             []academicsDomain.Course
 			InstitutionCourse   []InstitutionCourseHolder
 			AddressTypes        []address.AddressType
 			InstitutionAddress  []InstitutionAddressHolder
