@@ -8,10 +8,10 @@ import (
 
 const userRoleUrl = api.BASE_URL + "/users"
 
-type uRole domain.UserRole
+type UserRole domain.UserRole
 
-func GetUserRoles() ([]uRole, error) {
-	entites := []uRole{}
+func GetUserRoles() ([]UserRole, error) {
+	entites := []UserRole{}
 	resp, _ := api.Rest().Get(userRoleUrl + "/role/all")
 
 	if resp.IsError() {
@@ -24,8 +24,8 @@ func GetUserRoles() ([]uRole, error) {
 	return entites, nil
 }
 
-func GetUserRole(id string) (uRole, error) {
-	entity := uRole{}
+func GetUserRole(id string) (UserRole, error) {
+	entity := UserRole{}
 	resp, _ := api.Rest().Get(userRoleUrl + "/role/get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
@@ -68,4 +68,16 @@ func DeleteUserRole(entity interface{}) (bool, error) {
 	}
 
 	return true, nil
+}
+func GetUserRoleWithUserId(userId string) (domain.UserRole, error) {
+	entity := domain.UserRole{}
+	resp, _ := api.Rest().Get(userRoleUrl + "/role/getforuser/" + userId)
+	if resp.IsError() {
+		return entity, errors.New(resp.Status())
+	}
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(resp.Status())
+	}
+	return entity, nil
 }
