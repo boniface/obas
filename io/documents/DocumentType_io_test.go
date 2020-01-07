@@ -18,7 +18,7 @@ func TestGetDocumentTypes(t *testing.T) {
 
 func TestGetDocumentsType(t *testing.T) {
 	expected := "COURSES"
-	value, err := GetDocument("2")
+	value, err := GetDocumentType("LACP-5CEXS")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
 	assert.Equal(t, value, expected)
@@ -27,7 +27,7 @@ func TestGetDocumentsType(t *testing.T) {
 func TestCreateDocumentTypes(t *testing.T) {
 	//docType := domain.DocumentType{"2", "COURSES"}
 	docType := DocumentType{"2", "COURSES"}
-	value, err := CreateDocument(docType, token)
+	value, err := CreateDocumentType(docType)
 	assert.Nil(t, err)
 	assert.True(t, value)
 }

@@ -8,7 +8,7 @@ import (
 )
 
 func TestGetUserDocuments(t *testing.T) {
-	result, err := GetUserDocuments("")
+	result, err := GetUserDocuments("espoirditekemena@gmail.com")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)
 	assert.True(t, len(result) > 0)

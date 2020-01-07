@@ -3,6 +3,7 @@ package controller
 import (
 	"fmt"
 	"github.com/go-chi/chi"
+	"github.com/go-chi/render"
 	"html/template"
 	"net/http"
 	"obas/config"
@@ -26,6 +27,8 @@ func Admin(app *config.Env) http.Handler {
 	r.Get("/", AdminHandler(app))
 	r.Get("/applicant", AdminApplicantHandler(app))
 	r.Get("/applicant/application/{userId}/{applicationId}", AdminApplicationDocumentsHandler(app))
+	r.Get("/applicant/document/{applicationId}/{userId}", AdminApplicantDocumentsHandler(app))
+	r.Get("/applicant/applications", AdminApplicationsDocumentsHandler(app))
 	r.Get("/application", AdminApplicationHandler(app))
 
 	r.Post("/email", AdminEmailHandler(app))
@@ -33,6 +36,29 @@ func Admin(app *config.Env) http.Handler {
 	r.Post("/change/application-status", ChangeApplicationStatusHandler(app))
 
 	return r
+}
+
+func AdminApplicantDocumentsHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		applicationId := chi.URLParam(r, "applicationId")
+		user := chi.URLParam(r, "userId")
+
+		if user != "" || applicationId != "" {
+			app.Session.Destroy(r.Context())
+			app.Session.Put(r.Context(), "userId", email) //this should be admin's email
+			app.Session.Put(r.Context(), "token", token)
+
+			app.Session.Put(r.Context(), "applicationId", applicationId)
+			app.Session.Put(r.Context(), "user", user) //this user is the student's email
+
+			app.Session.Put(r.Context(), "Admin_message", "")
+		}
+		http.Redirect(w, r, "/admin/applicant/applications", 301)
+		return
+	}
 }
 
 func ChangeDocumentStatusHandler(app *config.Env) http.HandlerFunc {
@@ -51,7 +77,7 @@ func ChangeDocumentStatusHandler(app *config.Env) http.HandlerFunc {
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
-		/***This method still not existing in the backend**/
+		/***This method still not existing in the backend
 		userRole, err := users.GetUserRoleWithUserId(email)
 		if err != nil {
 			fmt.Println("error reading userRole in ChangeDocumentStatusHandler")
@@ -71,12 +97,14 @@ func ChangeDocumentStatusHandler(app *config.Env) http.HandlerFunc {
 			fmt.Println("error Not an Admin in ChangeDocumentStatusHandler")
 			http.Redirect(w, r, "/login", 301)
 			return
-		}
+		}**/
 
 		r.ParseForm()
 		documentStatusId := r.PostFormValue("documentStatusId")
 		documentId := r.PostFormValue("documentId")
 		comment := r.PostFormValue("comment")
+		UserId := r.PostFormValue("UserId")
+		applicationId := r.PostFormValue("applicationId")
 
 		if documentStatusId != "" || documentId != "" {
 			documentStatus := domain3.DocumentStatus{documentId, documentStatusId, email, comment, time.Now()}
@@ -84,13 +112,15 @@ func ChangeDocumentStatusHandler(app *config.Env) http.HandlerFunc {
 			if err != nil {
 				fmt.Println("error reading document in ChangeDocumentStatusHandler")
 			}
+
 			app.Session.Destroy(r.Context())
 			app.Session.Put(r.Context(), "userId", email)
 			app.Session.Put(r.Context(), "token", token)
+			app.Session.Put(r.Context(), "user", UserId)
+			app.Session.Put(r.Context(), "applicationId", applicationId)
 			app.Session.Put(r.Context(), "Admin_message", "Successfully Updated")
 		}
-
-		http.Redirect(w, r, "/support/management/academics", 301)
+		http.Redirect(w, r, "/admin/applicant/applications", 301)
 	}
 }
 
@@ -110,7 +140,7 @@ func ChangeApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
-		/***This method still not existing in the backend**/
+		/***This method still not existing in the backend
 		userRole, err := users.GetUserRoleWithUserId(email)
 		if err != nil {
 			fmt.Println("error reading userRole in ChangeApplicationStatusHandler")
@@ -130,12 +160,13 @@ func ChangeApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 			fmt.Println("error Not an Admin in ChangeApplicationStatusHandler")
 			http.Redirect(w, r, "/login", 301)
 			return
-		}
+		}**/
 
 		r.ParseForm()
 
 		applicationStatus := r.PostFormValue("applicationStatus")
 		applicationId := r.PostFormValue("applicationId")
+		UserId := r.PostFormValue("UserId")
 		comment := r.PostFormValue("comment")
 		if applicationStatus != "" || applicationId != "" {
 			newApplicationStatus := applicationIO.ApplicationStatus{applicationId, applicationStatus, email, comment, time.Now()}
@@ -147,9 +178,10 @@ func ChangeApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 			app.Session.Destroy(r.Context())
 			app.Session.Put(r.Context(), "userId", email)
 			app.Session.Put(r.Context(), "token", token)
+			app.Session.Put(r.Context(), "user", UserId)
 			app.Session.Put(r.Context(), "Admin_message", "Successfully Updated")
 		}
-		http.Redirect(w, r, "/support/management/academics", 301)
+		http.Redirect(w, r, "/admin/applicant/applications", 301)
 	}
 }
 
@@ -232,11 +264,15 @@ type applicantsearch struct {
 }
 
 type documentDetails struct {
+	Id             string
 	DocumentType   string
-	Status         string
+	DocumentStatu  domain3.DocumentStatus
 	Document       users.UserDocument
 	DocumentStatus []domain4.GenericStatus
 	Doc            documents.Document
+	UserId         string
+	ApplicationId  string
+	Stat           string
 }
 
 func getUser(userId string) users.User {
@@ -335,6 +371,100 @@ func getApplicants() []applicantDetails {
 }
 
 //this method takes UserId and applicationId, so that it can find user's documents
+func AdminApplicationsDocumentsHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		//userId := chi.URLParam(r, "applicationId")
+		//applicationId := chi.URLParam(r, "userId")
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+
+		applicationId := app.Session.GetString(r.Context(), "applicationId")
+		userId := app.Session.GetString(r.Context(), "user")
+		Admin_message := app.Session.GetString(r.Context(), "Admin_message")
+
+		fmt.Println(userId, "<<<<<userId||applicationId>>>>", applicationId, "<<<<<")
+		var myDocumentList []documentDetails
+
+		documentsStatus, err := util.GetStatuses()
+		if err != nil {
+			fmt.Println("error reading userDocuments in AdminApplicationDocumentsHandler")
+		}
+
+		if userId != "" || applicationId != "" {
+
+			userDocuments, err := users.GetUserDocuments(userId)
+			fmt.Println("userDocuments>>>>", userDocuments)
+			if err != nil {
+				fmt.Println("error reading userDocuments in AdminApplicationDocumentsHandler")
+			}
+
+			for _, document := range userDocuments {
+				doc, err := documents.GetDocument(document.DocumentId)
+				if err != nil {
+					fmt.Println("error reading doc in AdminApplicationDocumentsHandler")
+				}
+				documentType, err := documents.GetDocumentType(doc.DocumentTypeId)
+				fmt.Println("documentType>>>>>>>   ", documentType)
+				if err != nil {
+					fmt.Println("error reading documentType in AdminApplicationDocumentsHandler")
+				}
+				myDocumentList = append(myDocumentList, documentDetails{doc.DocumentId, documentType.DocumentTypename, getDocumentStat(doc.DocumentId), document, documentsStatus, doc, userId, applicationId, getstat(getDocumentStat(doc.DocumentId).StatusId)})
+			}
+		}
+
+		type PageData struct {
+			Applicant   []applicantDetails
+			Document    []documentDetails
+			Application applicantsearch
+			Message     string
+		}
+		Data := PageData{getApplicants(), myDocumentList, getSearchResult(applicationId), Admin_message}
+
+		files := []string{
+			app.Path + "content/admin/admin_applicant.html",
+			app.Path + "content/admin/template/sidebar.template.html",
+			app.Path + "content/admin/template/navbar.template.html",
+			app.Path + "base/template/footer.template.html",
+		}
+
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, Data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+	}
+}
+
+func getDocumentStat(documentId string) domain3.DocumentStatus {
+	entity := domain3.DocumentStatus{}
+	resp, err := documents.GetDocumentStatus(documentId)
+	if err != nil {
+		fmt.Println("error reading GetDocumentStatus getDocumentStat", resp)
+		return entity
+	}
+	return resp
+}
+func getstat(statId string) string {
+	result := ""
+	resp, err := util.GetStatus(statId)
+	if err != nil {
+		fmt.Println("error reading GetStatus in getstat", resp)
+		return result
+	}
+	return resp.Name
+}
+
+//this method takes UserId and applicationId, so that it can find user's documents
 func AdminApplicationDocumentsHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
@@ -360,14 +490,16 @@ func AdminApplicationDocumentsHandler(app *config.Env) http.HandlerFunc {
 				if err != nil {
 					fmt.Println("error reading doc in AdminApplicationDocumentsHandler")
 				}
-				documentType, err := documents.GetDocumentType(document.DocumentId)
+				documentType, err := documents.GetDocumentType(doc.DocumentTypeId)
+				fmt.Println("documentType>>>>>>>   ", documentType)
 				if err != nil {
 					fmt.Println("error reading documentType in AdminApplicationDocumentsHandler")
 				}
-				myDocumentList = append(myDocumentList, documentDetails{documentType.DocumentTypename, doc.DocumentStatus, document, documentsStatus, doc})
+				myDocumentList = append(myDocumentList, documentDetails{doc.DocumentId, documentType.DocumentTypename, getDocumentStat(doc.DocumentId), document, documentsStatus, doc, userId, applicationId, getstat(getDocumentStat(doc.DocumentId).StatusId)})
 			}
 		}
-
+		render.JSON(w, r, myDocumentList)
+		/***
 		type PageData struct {
 			Applicant   []applicantDetails
 			Document    []documentDetails
@@ -389,7 +521,7 @@ func AdminApplicationDocumentsHandler(app *config.Env) http.HandlerFunc {
 		err = ts.Execute(w, Data)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
-		}
+		}*/
 	}
 }
 
