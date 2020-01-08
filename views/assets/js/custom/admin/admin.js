@@ -1,3 +1,5 @@
+const BudgetURL = "http://localhost:4000/admin/budget/give-budget";
+
 var table = document.getElementById("myTable");
 function GetDocuments(userId,applicationId) {
     var i = 0;
@@ -42,4 +44,35 @@ function GetDocumentStat(DocumentStatu) {
     document.getElementById("ModifiedBy").value=DocumentStatu.modifiedBy;
     document.getElementById("Comment").value=DocumentStatu.comment;
     document.getElementById("DateTime").value=DocumentStatu.dateTime;
+}
+function GetApplicationStat(modifier,timeDate,comment) {
+    document.getElementById("ModifiedBy").value=modifier;
+    document.getElementById("Comment").value=comment;
+    document.getElementById("DateTime").value=timeDate;
+}
+function budgetAllocation() {
+    swal({
+        title: "Are you sure?",
+        text: 'You will not be able to recover this Action.  You are about to allocate   R '+document.getElementById("amount").value+'.00  to Espoir',
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, proceed !",
+        cancelButtonText: "No, cancel !",
+        closeOnConfirm: false,
+        closeOnCancel: false
+    },function (isConfirm) {
+        if (isConfirm) {
+            const url =BudgetURL+"/"+applicationId+"/"+amount
+            $.get(url, function(data){
+                if(data==true){
+                    swal("Allocated!", "You have successfully made allocation.", "success");
+                }else {
+                    swal("Error!", "Something went wrong.", "error");
+                }
+            });
+
+        } else {
+            swal("Cancelled", "You have successfully cancelled allocation :)", "error");
+        }
+    });
 }

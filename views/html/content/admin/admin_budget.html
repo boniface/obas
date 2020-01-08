@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+
+    <link rel="apple-touch-icon" sizes="76x76" href="../../../assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="../../../assets/img/favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <base href="/">
+    <title>OBAS</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+          name='viewport'/>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
+    <!-- CSS Files -->
+    <link href="../../../assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../../../assets/css/light-bootstrap-dashboard.css?v=2.0.1" rel="stylesheet"/>
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+
+    <link href="../../../assets/css/form.css" rel="stylesheet"/>
+    <link href="../../../assets/css/demo.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../../../assets/css/custom/student/application.css" rel="stylesheet"/>
+</head>
+
+<body>
+<div class="wrapper">
+
+    {{ template "sidebar" .}}
+
+    <div class="main-panel">
+        <!-- Navbar -->
+        {{ template "navbar" .}}
+        <!-- End Navbar -->
+        <div class="content">
+
+                <div class="card-body beautify">
+
+                    <div class="tab-content">
+                            <div class="row justify-content-center">
+                                <div class="col-md-12">
+                                    <div class="bootstrap-table rectagler ">
+                                        <div class="fixed-table-toolbar">
+                                            <div class="bars pull-left">
+                                                <div class="toolbar">
+                                                    <!--        Here you can write extra buttons/actions for the toolbar              -->
+                                                </div>
+                                            </div>
+                                            <div class="columns columns-right d-none">
+                                                <button class="btn btn-outline" type="button" name="toggle" title="Toggle">
+                                                    <i
+                                                            class="glyphicon fa fa-th-list"></i></button>
+                                                <div class="keep-open btn-group" title="Columns">
+                                                    <button type="button" class="btn btn-outline dropdown-toggle"
+                                                            data-toggle="dropdown"><i class="glyphicon fa fa-columns"></i>
+                                                        <span
+                                                                class="caret"></span></button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li><label><input type="checkbox" data-field="id" value="1"
+                                                                          checked="checked"> Student email</label></li>
+                                                        <li><label><input type="checkbox" data-field="name" value="2"
+                                                                          checked="checked"> Name</label></li>
+                                                        <li><label><input type="checkbox" data-field="salary" value="3"
+                                                                          checked="checked"> Application Status</label></li>
+                                                        <li><label><input type="checkbox" data-field="country" value="4"
+                                                                          checked="checked"> Application Date</label></li>
+                                                        <li><label><input type="checkbox" data-field="city" value="5"
+                                                                          checked="checked"> Action</label></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="fixed-table-container" style="padding-bottom: 0px;">
+                                            <div class="fixed-table-header" style="display: none;">
+                                                <table></table>
+                                            </div>
+                                            <div class="fixed-table-body">
+                                                <div class="fixed-table-loading" style="top: 41px;">Loading, please
+                                                    wait...
+                                                </div>
+                                                <table id="bootstrap-table" class="table table-hover">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="bs-checkbox " style="width: 36px; " data-field="state">
+                                                            <div class="th-inner "><input name="btSelectAll"
+                                                                                          type="checkbox"></div>
+                                                            <div class="fht-cell"></div>
+                                                        </th>
+                                                        <th class="text-center" style="" data-field="id">
+                                                            <div class="th-inner ">Student email</div>
+                                                            <div class="fht-cell"></div>
+                                                        </th>
+                                                        <th style="" data-field="name">
+                                                            <div class="th-inner sortable both">Name</div>
+                                                            <div class="fht-cell"></div>
+                                                        </th>
+                                                        <th style="" data-field="salary">
+                                                            <div class="th-inner sortable both">Application Status</div>
+                                                            <div class="fht-cell"></div>
+                                                        </th>
+                                                        <th style="" data-field="country">
+                                                            <div class="th-inner sortable both">Application Date</div>
+                                                            <div class="fht-cell"></div>
+                                                        </th>
+                                                        <th style="" data-field="city">
+                                                            <div class="th-inner ">Action</div>
+                                                            <div class="fht-cell"></div>
+                                                        </th>
+
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr data-index="16">
+                                                        <td class="bs-checkbox"><input data-index="16" name="btSelectItem"
+                                                                                       type="checkbox"></td>
+                                                        <td class="text-center" style="">17</td>
+                                                        <td style="">Connor Wagner</td>
+                                                        <td style="">$86,537</td>
+                                                        <td style="">Germany</td>
+                                                        <td >
+                                                            <div class="row">
+
+                                                                    <div class=" col-md-10 justify-content-center">
+                                                                        <input id="amount" class="form-control" type="text" name="comment" placeholder="Amount" >
+                                                                    </div>
+                                                                    <div class="col-md-12 justify-content-center">
+                                                                        <div class="row">
+                                                                            <div class="col-md-7">
+                                                                                <select name="applicationStatus" class="selectpicker"
+                                                                                        data-style="btn-default btn-outline"
+                                                                                        data-menu-style="dropdown-blue">
+                                                                                    <option value="id" disabled selected>Type</option>
+                                                                                            <option value="">School</option>
+                                                                                </select>
+                                                                            </div>
+{{/*                                                                            <input type="hidden" name="applicationId" value="{{.Application.ApplicantDetails.ApplicantionId}}" >*/}}
+{{/*                                                                            <input type="hidden" name="UserId" value="{{.Application.ApplicantDetails.Email}}" >*/}}
+                                                                            <div style="margin-top: 1%; margin-left:-6%" class="col-lg-4">
+                                                                                <button  class="btn btn-info " onclick="budgetAllocation()">submit
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr data-index="17">
+                                                        <td class="bs-checkbox"><input data-index="17" name="btSelectItem"
+                                                                                       type="checkbox"></td>
+                                                        <td class="text-center" style="">18</td>
+                                                        <td style="">Boris Horton</td>
+                                                        <td style="">$35,094</td>
+                                                        <td style="">Laos</td>
+                                                        <td >
+                                                            <div class="row">
+                                                                <form method="post" action="/admin/change/application-status">
+                                                                    <div class=" col-md-12 justify-content-center">
+                                                                        <input class="form-control" type="text" name="comment" placeholder="Comment" >
+                                                                    </div>
+                                                                    <div class="row justify-content-center">
+                                                                        <div class="row">
+                                                                            <div class="col-md-7">
+                                                                                <select name="applicationStatus" class="selectpicker"
+                                                                                        data-style="btn-default btn-outline"
+                                                                                        data-menu-style="dropdown-blue">
+                                                                                    <option value="id" disabled selected>Status</option>
+
+                                                                                            <option value="">sgfhsgh</option>
+
+                                                                                </select>
+                                                                            </div>
+{{/*                                                                            <input type="hidden" name="applicationId" value="{{.Application.ApplicantDetails.ApplicantionId}}" >*/}}
+{{/*                                                                            <input type="hidden" name="UserId" value="{{.Application.ApplicantDetails.Email}}" >*/}}
+                                                                            <div style="margin-top: 3%" class="col-lg-4">
+                                                                                <button type="submit" class="btn btn-info ">submit
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr data-index="18">
+                                                        <td class="bs-checkbox"><input data-index="18" name="btSelectItem"
+                                                                                       type="checkbox"></td>
+                                                        <td class="text-center" style="">19</td>
+                                                        <td style="">Winifred Ryan</td>
+                                                        <td style="">$64,436</td>
+                                                        <td style="">Ireland</td>
+                                                        <td >
+                                                            <div class="row">
+                                                                <form method="post" action="/admin/change/application-status">
+                                                                    <div class=" col-md-12 justify-content-center">
+                                                                        <input class="form-control" type="text" name="comment" placeholder="Comment" >
+                                                                    </div>
+                                                                    <div class="row justify-content-center">
+                                                                        <div class="row">
+                                                                            <div class="col-md-7">
+                                                                                <select name="applicationStatus" class="selectpicker"
+                                                                                        data-style="btn-default btn-outline"
+                                                                                        data-menu-style="dropdown-blue">
+                                                                                    <option value="id" disabled selected>Status</option>
+
+                                                                                            <option value="">asddfd</option>
+
+                                                                                </select>
+                                                                            </div>
+{{/*                                                                            <input type="hidden" name="applicationId" value="{{.Application.ApplicantDetails.ApplicantionId}}" >*/}}
+{{/*                                                                            <input type="hidden" name="UserId" value="{{.Application.ApplicantDetails.Email}}" >*/}}
+                                                                            <div style="margin-top: 3%" class="col-lg-4">
+                                                                                <button type="submit" class="btn btn-info ">submit
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="fixed-table-footer" style="display: none;">
+                                                <table>
+                                                    <tbody>
+                                                    <tr></tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="fixed-table-pagination">
+                                                <div class="pull-left pagination-detail"><span
+                                                            class="pagination-info"></span><span
+                                                            class="page-list"><span class="btn-group dropup"><button
+                                                                    type="button"
+                                                                    class="btn btn-outline  dropdown-toggle"
+                                                                    data-toggle="dropdown"><span
+                                                                        class="page-size">8</span> <span
+                                                                        class="caret"></span></button><ul
+                                                                    class="dropdown-menu"
+                                                                    role="menu"><li
+                                                                        class="active"><a
+                                                                            href="javascript:void(0)">8</a></li><li><a
+                                                                            href="javascript:void(0)">10</a></li><li><a
+                                                                            href="javascript:void(0)">25</a></li></ul></span> rows visible</span>
+                                                </div>
+                                                <div class="pull-right pagination">
+                                                    <ul class="pagination">
+                                                        <li class="page-first"><a href="javascript:void(0)">«</a></li>
+                                                        <li class="page-pre"><a href="javascript:void(0)">‹</a></li>
+                                                        <li class="page-number"><a href="javascript:void(0)">1</a></li>
+                                                        <li class="page-number"><a href="javascript:void(0)">2</a></li>
+                                                        <li class="page-number active"><a href="javascript:void(0)">3</a>
+                                                        </li>
+                                                        <li class="page-next disabled"><a href="javascript:void(0)">›</a>
+                                                        </li>
+                                                        <li class="page-last disabled"><a href="javascript:void(0)">»</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div id="current-subject" class="tab-pane fade" role="tabpanel" aria-labelledby="current-subject-tab"
+                             aria-expanded="false">
+                        </div>
+                    </div>
+                </div>
+
+
+        </div>
+
+        <div class="modal fade" id="documentModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Documents </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="row">
+
+                    <div class="modal-body">
+                        <!-- Extended material form grid -->
+                        <div class="col-lg-12">
+                        <table class="table" id="myTable">
+                            <thead>
+                            <th>Document Type</th>
+                            <th class="text-center">Document</th>
+                            <th class="text-center">file Document</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Date</th>
+                            <th class="text-center">Date</th>
+                            </thead>
+
+                            <tbody>
+                            <tr>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!------------------------------------------------------------------>
+
+        <div class="modal fade" id="documentStatModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Documents </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="row">
+
+                        <div class="modal-body">
+                            <!-- Extended material form grid -->
+                                <form method="" class="col-12" action="">
+
+                                    <label class=" control-label">ModifiedBy</label>
+                                    <div class="col-12">
+                                        <input disabled type="text" id="ModifiedBy" name="CustomerName" onfocus="this.placeholder = ''"
+                                               onblur="this.placeholder = 'First Name'"
+                                               required class="single-input col-12">
+                                    </div>
+                                    <label class=" control-label">Comment</label>
+                                    <div class="col-12">
+                                        <input  disabled type="text" id="Comment" name="CustomerSurName" onfocus="this.placeholder = ''"
+                                               onblur="this.placeholder = 'Last Name'"
+                                               required class="single-input col-12">
+                                    </div>
+                                    <label class=" control-label">DateTime</label>
+                                    <div class="col-12">
+                                        <input disabled type="text" id="DateTime" name="Statust" onfocus="this.placeholder = ''"
+                                               onblur="this.placeholder = 'Email address'"
+                                               required class="single-input col-12">
+                                    </div>
+
+                                </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!------------------------------------------------------------------>
+
+        {{ template "footer" .}}
+    </div>
+</div>
+
+</body>
+<!--   Core JS Files   -->
+<script src="../../../assets/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
+<script src="../../../assets/js/core/popper.min.js" type="text/javascript"></script>
+<script src="../../../assets/js/core/bootstrap.min.js" type="text/javascript"></script>
+<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
+<script src="../../../assets/js/plugins/bootstrap-switch.js"></script>
+<!--  Google Maps Plugin    -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?YOUR_KEY_HERE"></script>
+<!--  Chartist Plugin  -->
+<script src="../../../assets/js/plugins/chartist.min.js"></script>
+<!--  Notifications Plugin    -->
+<script src="../../../assets/js/plugins/bootstrap-notify.js"></script>
+<!--  jVector Map  -->
+<script src="../../../assets/js/plugins/jquery-jvectormap.js" type="text/javascript"></script>
+<!--  Plugin for Date Time Picker and Full Calendar Plugin-->
+<script src="../../../assets/js/plugins/moment.min.js"></script>
+<!--  DatetimePicker   -->
+<script src="../../../assets/js/plugins/bootstrap-datetimepicker.js"></script>
+<!--  Sweet Alert  -->
+<script src="../../../assets/js/plugins/sweetalert2.min.js" type="text/javascript"></script>
+<!--  Tags Input  -->
+<script src="../../../assets/js/plugins/bootstrap-tagsinput.js" type="text/javascript"></script>
+<!--  Sliders  -->
+<script src="../../../assets/js/plugins/nouislider.js" type="text/javascript"></script>
+<!--  Bootstrap Select  -->
+<script src="../../../assets/js/plugins/bootstrap-selectpicker.js" type="text/javascript"></script>
+<!--  jQueryValidate  -->
+<script src="../../../assets/js/plugins/jquery.validate.min.js" type="text/javascript"></script>
+<!--  Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
+<script src="../../../assets/js/plugins/jquery.bootstrap-wizard.js"></script>
+<!--  Bootstrap Table Plugin -->
+<script src="../../../assets/js/plugins/bootstrap-table.js"></script>
+<!--  DataTable Plugin -->
+<script src="../../../assets/js/plugins/jquery.dataTables.min.js"></script>
+<!--  Full Calendar   -->
+<script src="../../../assets/js/plugins/fullcalendar.min.js"></script>
+<!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="../../../assets/js/light-bootstrap-dashboard.js?v=2.0.1" type="text/javascript"></script>
+<!-- customer js-->
+<script src="../../../assets/js/custom/admin/admin.js" type="text/javascript"></script>
+<!-- Light Dashboard DEMO methods, don't include it in your project! -->
+<script src="../../../assets/js/demo.js"></script>
+<script>
+   function myShowSwal(type) {
+       swal({
+           title: "Sweet!",
+           text: "Here's a custom image.",
+           imageUrl: type
+       });
+   }
+</script>
+<script type="text/javascript">
+    var $table = $('#bootstrap-table');
+
+    function operateFormatter(value, row, index) {
+        return [
+            '<a rel="tooltip" title="View" class="btn btn-link btn-info table-action view" href="javascript:void(0)">',
+            '<i class="fa fa-image"></i>',
+            '</a>',
+            '<a rel="tooltip" title="Edit" class="btn btn-link btn-warning table-action edit" href="javascript:void(0)">',
+            '<i class="fa fa-edit"></i>',
+            '</a>',
+            '<a rel="tooltip" title="Remove" class="btn btn-link btn-danger table-action remove" href="javascript:void(0)">',
+            '<i class="fa fa-remove"></i>',
+            '</a>'
+        ].join('');
+    }
+
+    $().ready(function () {
+        window.operateEvents = {
+            'click .view': function (e, value, row, index) {
+                info = JSON.stringify(row);
+
+                swal('You click view icon, row: ', info);
+                console.log(info);
+            },
+            'click .edit': function (e, value, row, index) {
+                info = JSON.stringify(row);
+
+                swal('You click edit icon, row: ', info);
+                console.log(info);
+            },
+            'click .remove': function (e, value, row, index) {
+                console.log(row);
+                $table.bootstrapTable('remove', {
+                    field: 'id',
+                    values: [row.id]
+                });
+            }
+        };
+
+        $table.bootstrapTable({
+            toolbar: ".toolbar",
+            clickToSelect: true,
+            showRefresh: true,
+            search: true,
+            showToggle: true,
+            showColumns: true,
+            pagination: true,
+            searchAlign: 'left',
+            pageSize: 8,
+            clickToSelect: false,
+            pageList: [8, 10, 25, 50, 100],
+
+            formatShowingRows: function (pageFrom, pageTo, totalRows) {
+                //do nothing here, we don't want to show the text "showing x of y from..."
+            },
+            formatRecordsPerPage: function (pageNumber) {
+                return pageNumber + " rows visible";
+            },
+            icons: {
+                refresh: 'fa fa-refresh',
+                toggle: 'fa fa-th-list',
+                columns: 'fa fa-columns',
+                detailOpen: 'fa fa-plus-circle',
+                detailClose: 'fa fa-minus-circle'
+            }
+        });
+
+        //activate the tooltips after the data table is initialized
+        $('[rel="tooltip"]').tooltip();
+
+        $(window).resize(function () {
+            $table.bootstrapTable('resetView');
+        });
+
+
+    });
+
+
+</script>
+
+</html>

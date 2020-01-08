@@ -25,6 +25,8 @@ import (
 func Admin(app *config.Env) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", AdminHandler(app))
+	r.Get("/budget", BudgetHandler(app))
+	r.Get("/budget/{applicationId}/{amount}", BudgetAllocationHandler(app))
 	r.Get("/applicant", AdminApplicantHandler(app))
 	r.Get("/applicant/application/{userId}/{applicationId}", AdminApplicationDocumentsHandler(app))
 	r.Get("/applicant/document/{applicationId}/{userId}", AdminApplicantDocumentsHandler(app))
@@ -38,6 +40,60 @@ func Admin(app *config.Env) http.Handler {
 	return r
 }
 
+/**this method still need to be implemented waiting for the io**/
+func BudgetAllocationHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		_, err := users.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		render.JSON(w, r, true)
+	}
+}
+
+func BudgetHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		_, err := users.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		files := []string{
+			app.Path + "content/admin/admin_budget.html",
+			app.Path + "content/admin/template/sidebar.template.html",
+			app.Path + "content/admin/template/navbar.template.html",
+			app.Path + "base/template/footer.template.html",
+		}
+
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, nil)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+	}
+}
+
 func AdminApplicantDocumentsHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
@@ -45,6 +101,17 @@ func AdminApplicantDocumentsHandler(app *config.Env) http.HandlerFunc {
 		token := app.Session.GetString(r.Context(), "token")
 		applicationId := chi.URLParam(r, "applicationId")
 		user := chi.URLParam(r, "userId")
+
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		_, err := users.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
 
 		if user != "" || applicationId != "" {
 			app.Session.Destroy(r.Context())
@@ -179,6 +246,7 @@ func ChangeApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 			app.Session.Put(r.Context(), "userId", email)
 			app.Session.Put(r.Context(), "token", token)
 			app.Session.Put(r.Context(), "user", UserId)
+			app.Session.Put(r.Context(), "applicationId", applicationId)
 			app.Session.Put(r.Context(), "Admin_message", "Successfully Updated")
 		}
 		http.Redirect(w, r, "/admin/applicant/applications", 301)
@@ -261,6 +329,7 @@ type applicantsearch struct {
 	Modifier           users.User
 	ModificationDate   time.Time
 	Comment            string
+	ApplicationStat    applicationIO.ApplicationStatus
 }
 
 type documentDetails struct {
@@ -307,7 +376,7 @@ func getSearchResult(applicationId string) applicantsearch {
 			if err != nil {
 				fmt.Println("error reading applicationStatues in getSearchResult")
 			}
-			return applicantsearch{applicantDetails, getStatus(applicationStatus.StatusId).Name, Statues, getUser(applicationStatus.ModifiedBy), applicationStatus.DateTime, applicationStatus.Comment}
+			return applicantsearch{applicantDetails, getStatus(applicationStatus.StatusId).Name, Statues, getUser(applicationStatus.ModifiedBy), applicationStatus.DateTime, applicationStatus.Comment, applicationStatus}
 		}
 	}
 	return entity

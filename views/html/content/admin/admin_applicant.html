@@ -130,6 +130,10 @@
                                         <td >
                                             <div class="row justify-content-center">
                                                 <form method="post" action="/admin/change/document-status">
+
+                                                    <div class=" col-md-12 justify-content-center">
+                                                        <input class="form-control" type="text" name="comment" placeholder="Comment" >
+                                                    </div>
                                                     <div class="row justify-content-center">
 
                                                         <div class="row">
@@ -149,6 +153,7 @@
                                                             <input type="hidden" name="documentId" value="{{.Doc.DocumentId}}" >
                                                             <input type="hidden" name="UserId" value="{{.UserId}}" >
                                                             <input type="hidden" name="applicationId" value="{{.ApplicationId}}" >
+
                                                             <div style="margin-top: 3%" class="col-lg-5">
                                                                 <button  type="submit" class="btn btn-info ">submit
                                                                 </button>
@@ -178,8 +183,8 @@
                             <div class="card-body table-full-width table-responsive">
                                 <table class="table table-hover table-striped">
                                     <div class="card-header ">
-                                        <h4 class="card-title">Student details Table</h4>
-                                        <p class="card-category">Details for Espoir Diteekemena</p>
+                                        <h4 class="card-title">Application details Table</h4>
+                                        <p class="card-category"> </p>
                                     </div>
                                     <thead>
                                     <th>Name</th>
@@ -197,10 +202,17 @@
                                         <td>{{.Application.ApplicantDetails.ApplicantType}}</td>
                                         <td>{{.Application.ApplicantDetails.Institution}}</td>
                                         <td>{{.Application.ApplicantDetails.Course}}</td>
-                                        <td>{{.Application.ApplicationStatus}}</td>
+                                        <td>
+                                            <a class="edit nav-link" title="View Document stat details" href=""
+                                               data-toggle="modal" data-target="#documentStatModal"
+                                               onclick="GetApplicationStat({{.Application.Modifier.Email}},{{.Application.ModificationDate}},{{.Application.Comment}})">{{.Application.ApplicationStatus}}</a>
+                                            </td>
                                         <td >
                                             <div class="row">
                                             <form method="post" action="/admin/change/application-status">
+                                                <div class=" col-md-12 justify-content-center">
+                                                    <input class="form-control" type="text" name="comment" placeholder="Comment" >
+                                                </div>
                                                 <div class="row justify-content-center">
                                                         <div class="row">
                                                         <div class="col-md-7">
@@ -217,8 +229,8 @@
                                                         </div>
                                                             <input type="hidden" name="applicationId" value="{{.Application.ApplicantDetails.ApplicantionId}}" >
                                                             <input type="hidden" name="UserId" value="{{.Application.ApplicantDetails.Email}}" >
-                                                        <div style="margin-top: 3%" class="col-lg-5">
-                                                                <button type="button" class="btn btn-info ">submit
+                                                        <div style="margin-top: 3%" class="col-lg-4">
+                                                                <button type="submit" class="btn btn-info ">submit
                                                                 </button>
                                                         </div>
                                                         </div>
