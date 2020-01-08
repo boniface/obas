@@ -44,7 +44,6 @@ func GetUserApplicationInstitution(userId, applicationId string) (domain.UserApp
 		return entity, errors.New(resp.Status())
 	}
 	err := api.JSON.Unmarshal(resp.Body(), &entity)
-
 	if err != nil {
 		return entity, errors.New(resp.Status())
 	}
