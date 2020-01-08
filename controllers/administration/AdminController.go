@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"obas/config"
 	domain "obas/domain/application"
-	domain3 "obas/domain/documents"
-	domain2 "obas/domain/users"
+	documentDomain "obas/domain/documents"
+	userDomain "obas/domain/users"
 	domain4 "obas/domain/util"
 	"obas/io/academics"
 	applicationIO "obas/io/applications"
@@ -79,7 +79,7 @@ func ChangeDocumentStatusHandler(app *config.Env) http.HandlerFunc {
 		comment := r.PostFormValue("comment")
 
 		if documentStatusId != "" || documentId != "" {
-			documentStatus := domain3.DocumentStatus{documentId, documentStatusId, email, comment, time.Now()}
+			documentStatus := documentDomain.DocumentStatus{documentId, documentStatusId, email, comment, time.Now()}
 			_, err := documents.CreateDocumentStatus(documentStatus)
 			if err != nil {
 				fmt.Println("error reading document in ChangeDocumentStatusHandler")
@@ -199,8 +199,8 @@ func AdminEmailHandler(app *config.Env) http.HandlerFunc {
 		http.Redirect(w, r, "/support/management/academics", 301)
 	}
 }
-func getDocument(docId string) documents.Document {
-	entity := documents.Document{}
+func getDocument(docId string) documentDomain.Document {
+	entity := documentDomain.Document{}
 	document, err := documents.GetDocument(docId)
 	if err != nil {
 		return entity
@@ -226,7 +226,7 @@ type applicantsearch struct {
 	ApplicantDetails   applicantDetails
 	ApplicationStatus  string
 	ApplicationStatues []domain4.GenericStatus
-	Modifier           users.User
+	Modifier           userDomain.User
 	ModificationDate   time.Time
 	Comment            string
 }
@@ -234,13 +234,13 @@ type applicantsearch struct {
 type documentDetails struct {
 	DocumentType   string
 	Status         string
-	Document       users.UserDocument
+	Document       userDomain.UserDocument
 	DocumentStatus []domain4.GenericStatus
-	Doc            documents.Document
+	Doc            documentDomain.Document
 }
 
-func getUser(userId string) users.User {
-	var entity = users.User{}
+func getUser(userId string) userDomain.User {
+	var entity = userDomain.User{}
 	user, err := users.GetUser(userId)
 	if err != nil {
 		fmt.Println("error reading applicationStatus in getSearchResult")
@@ -415,11 +415,11 @@ func AdminApplicationHandler(app *config.Env) http.HandlerFunc {
 
 type MyUserApplication struct {
 	Application     domain.Application
-	User            domain2.User
-	UserApplication domain2.UserApplication
+	User            userDomain.User
+	UserApplication userDomain.UserApplication
 }
 
-//func getUserAplication(applicationId string)domain2.UserApplication{
+//func getUserAplication(applicationId string)userDomain.UserApplication{
 //	//return usersIO.
 //	return func(w http.ResponseWriter, r *http.Request) {
 //		return

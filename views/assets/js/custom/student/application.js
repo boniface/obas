@@ -80,7 +80,6 @@ $(document).ready(function(){
 
     $("#saveProspectiveTertiaryCourseBtn").show();
     const selectedProspectiveCourse = $("form#prospectiveCourseForm select#course").val();
-    console.log(selectedProspectiveCourse)
     if (selectedProspectiveCourse) {
         $("#saveProspectiveTertiaryCourseBtn").hide();
     }
