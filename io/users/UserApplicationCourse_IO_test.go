@@ -8,7 +8,7 @@ import (
 )
 
 func TestGetUserApplicationCourseAllForUser(t *testing.T) {
-	result, err := GetUserApplicationCourseAllForUser("")
+	result, err := GetUserApplicationCourses("")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)
 	assert.NotNil(t, result)
@@ -28,7 +28,7 @@ func TestDeleteUserApplicationCourse(t *testing.T) {
 	assert.NotNil(t, result)
 }
 func TestGetUserApplicationCourses(t *testing.T) {
-	result, err := GetUserApplicationCourses()
+	result, err := GetAllUserApplicationCourses()
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)
 	assert.NotNil(t, result)
@@ -41,7 +41,7 @@ func TestUpdateUserApplicationCourse(t *testing.T) {
 	assert.NotNil(t, result)
 }
 func TestGetUserApplicationCourseForAppl(t *testing.T) {
-	result, err := GetUserApplicationCourseForAppl("", "")
+	result, err := GetUserApplicationCourse("", "")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)
 	assert.NotNil(t, result)

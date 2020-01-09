@@ -6,8 +6,9 @@ import (
 	"html/template"
 	"net/http"
 	"obas/config"
+	userDomain "obas/domain/users"
 	"obas/io/demographics"
-	users2 "obas/io/users"
+	userIO "obas/io/users"
 )
 
 func UserManagement(app *config.Env) http.Handler {
@@ -67,13 +68,13 @@ func RoleUpdateManagementHandler(app *config.Env) http.HandlerFunc {
 		actualRole := r.PostFormValue("newRole")
 		fmt.Println(actualUser, "<<<<<<actualUser||actualRole>>>>>", actualRole)
 		if actualRole != "" || actualUser != "" {
-			userRole := users2.UserRole{actualUser, actualRole}
-			//_,err:=users2.UpdateUserRole(userRole)
-			_, err := users2.DeleteUserRole(userRole)
+			userRole := userDomain.UserRole{actualUser, actualRole}
+			//_,err:=userIO.UpdateUserRole(userRole)
+			_, err := userIO.DeleteUserRole(userRole)
 			if err != nil {
 				fmt.Println("error delete UserRole")
 			} else {
-				users2.CreateUserRole(userRole)
+				userIO.CreateUserRole(userRole)
 				fmt.Println("about to update roles")
 			}
 		}
@@ -93,9 +94,9 @@ type myUserRole struct {
 	Roles        []demographics.Role
 }
 
-func getUserRole(userId string) users2.UserRole {
-	entity := users2.UserRole{}
-	user, err := users2.GetUserRole(userId)
+func getUserRole(userId string) userDomain.UserRole {
+	entity := userDomain.UserRole{}
+	user, err := userIO.GetUserRole(userId)
 	if err != nil {
 		return entity
 	}
@@ -112,7 +113,7 @@ func getRole(roleId string) demographics.Role {
 func UserManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var userRoleList []myUserRole
-		users, err := users2.GetUsers()
+		users, err := userIO.GetUsers()
 		if err != nil {
 			fmt.Println("error reading Users")
 		}
@@ -120,7 +121,7 @@ func UserManagementHandler(app *config.Env) http.HandlerFunc {
 		if err != nil {
 			fmt.Println("error reading Roles")
 		}
-		userRoles, err := users2.GetUserRoles()
+		userRoles, err := userIO.GetUserRoles()
 		if err != nil {
 			fmt.Println("error reading userRole")
 		} else {
@@ -134,9 +135,9 @@ func UserManagementHandler(app *config.Env) http.HandlerFunc {
 		tab := app.Session.GetString(r.Context(), "tab")
 		activeTab := myTabs(tab)
 		type PageData struct {
-			Users        []users2.User
+			Users        []userDomain.User
 			Roles        []demographics.Role
-			UserRole     []users2.UserRole
+			UserRole     []userDomain.UserRole
 			UserRoleList []myUserRole
 			MyActiveTab  Roletabs
 		}
