@@ -88,11 +88,11 @@
                                                             <div class="fht-cell"></div>
                                                         </th>
                                                         <th class="text-center" style="" data-field="id">
-                                                            <div class="th-inner ">Student email</div>
+                                                            <div class="th-inner ">Name</div>
                                                             <div class="fht-cell"></div>
                                                         </th>
                                                         <th style="" data-field="name">
-                                                            <div class="th-inner sortable both">Name</div>
+                                                            <div class="th-inner sortable both">LastName</div>
                                                             <div class="fht-cell"></div>
                                                         </th>
                                                         <th style="" data-field="salary">
@@ -111,18 +111,19 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
+                                                    {{with .Applications}}
+                                                    {{range .}}
                                                     <tr data-index="16">
                                                         <td class="bs-checkbox"><input data-index="16" name="btSelectItem"
                                                                                        type="checkbox"></td>
-                                                        <td class="text-center" style="">17</td>
-                                                        <td style="">Connor Wagner</td>
-                                                        <td style="">$86,537</td>
-                                                        <td style="">Germany</td>
-                                                        <td >
-                                                            <div class="row">
-
+                                                        <td style="">{{.Name}}</td>
+                                                        <td style="">{{.LatName}}</td>
+                                                        <td style="">{{.Stat}}</td>
+                                                        <td style="">{{.DateTime}}</td>
+                                                        <td class=" col-md-10">
+                                                            <div class="row ">
                                                                     <div class=" col-md-10 justify-content-center">
-                                                                        <input id="amount" class="form-control" type="text" name="comment" placeholder="Amount" >
+                                                                        <input id="amount" class="form-control budget" type="text" name="comment" placeholder="Amount" >
                                                                     </div>
                                                                     <div class="col-md-12 justify-content-center">
                                                                         <div class="row">
@@ -137,7 +138,7 @@
 {{/*                                                                            <input type="hidden" name="applicationId" value="{{.Application.ApplicantDetails.ApplicantionId}}" >*/}}
 {{/*                                                                            <input type="hidden" name="UserId" value="{{.Application.ApplicantDetails.Email}}" >*/}}
                                                                             <div style="margin-top: 1%; margin-left:-6%" class="col-lg-4">
-                                                                                <button  class="btn btn-info " onclick="budgetAllocation()">submit
+                                                                                <button  class="btn btn-info budgetBTN" onclick="budgetAllocation()">submit
                                                                                 </button>
                                                                             </div>
                                                                         </div>
@@ -146,81 +147,8 @@
                                                             </div>
                                                         </td>
                                                     </tr>
-
-                                                    <tr data-index="17">
-                                                        <td class="bs-checkbox"><input data-index="17" name="btSelectItem"
-                                                                                       type="checkbox"></td>
-                                                        <td class="text-center" style="">18</td>
-                                                        <td style="">Boris Horton</td>
-                                                        <td style="">$35,094</td>
-                                                        <td style="">Laos</td>
-                                                        <td >
-                                                            <div class="row">
-                                                                <form method="post" action="/admin/change/application-status">
-                                                                    <div class=" col-md-12 justify-content-center">
-                                                                        <input class="form-control" type="text" name="comment" placeholder="Comment" >
-                                                                    </div>
-                                                                    <div class="row justify-content-center">
-                                                                        <div class="row">
-                                                                            <div class="col-md-7">
-                                                                                <select name="applicationStatus" class="selectpicker"
-                                                                                        data-style="btn-default btn-outline"
-                                                                                        data-menu-style="dropdown-blue">
-                                                                                    <option value="id" disabled selected>Status</option>
-
-                                                                                            <option value="">sgfhsgh</option>
-
-                                                                                </select>
-                                                                            </div>
-{{/*                                                                            <input type="hidden" name="applicationId" value="{{.Application.ApplicantDetails.ApplicantionId}}" >*/}}
-{{/*                                                                            <input type="hidden" name="UserId" value="{{.Application.ApplicantDetails.Email}}" >*/}}
-                                                                            <div style="margin-top: 3%" class="col-lg-4">
-                                                                                <button type="submit" class="btn btn-info ">submit
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr data-index="18">
-                                                        <td class="bs-checkbox"><input data-index="18" name="btSelectItem"
-                                                                                       type="checkbox"></td>
-                                                        <td class="text-center" style="">19</td>
-                                                        <td style="">Winifred Ryan</td>
-                                                        <td style="">$64,436</td>
-                                                        <td style="">Ireland</td>
-                                                        <td >
-                                                            <div class="row">
-                                                                <form method="post" action="/admin/change/application-status">
-                                                                    <div class=" col-md-12 justify-content-center">
-                                                                        <input class="form-control" type="text" name="comment" placeholder="Comment" >
-                                                                    </div>
-                                                                    <div class="row justify-content-center">
-                                                                        <div class="row">
-                                                                            <div class="col-md-7">
-                                                                                <select name="applicationStatus" class="selectpicker"
-                                                                                        data-style="btn-default btn-outline"
-                                                                                        data-menu-style="dropdown-blue">
-                                                                                    <option value="id" disabled selected>Status</option>
-
-                                                                                            <option value="">asddfd</option>
-
-                                                                                </select>
-                                                                            </div>
-{{/*                                                                            <input type="hidden" name="applicationId" value="{{.Application.ApplicantDetails.ApplicantionId}}" >*/}}
-{{/*                                                                            <input type="hidden" name="UserId" value="{{.Application.ApplicantDetails.Email}}" >*/}}
-                                                                            <div style="margin-top: 3%" class="col-lg-4">
-                                                                                <button type="submit" class="btn btn-info ">submit
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                    {{end}}
+                                                    {{end}}
 
                                                     </tbody>
                                                 </table>

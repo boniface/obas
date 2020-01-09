@@ -662,7 +662,7 @@ func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 			UserApplicationCourse          userDomain.UserApplicationCourse
 			UserDocuments                  []ExtendedDocument
 			ApplicationProgress            float64
-			IsMatricApplicant bool
+			IsMatricApplicant              bool
 			Alert                          genericHelper.PageToast
 		}
 

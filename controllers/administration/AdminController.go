@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"net/http"
 	"obas/config"
+	domain "obas/domain/application"
 
 	documentDomain "obas/domain/documents"
 	userDomain "obas/domain/users"
@@ -75,19 +76,22 @@ func BudgetHandler(app *config.Env) http.HandlerFunc {
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
+		type PageData struct {
+			Applications []applicantDetails
+		}
+		data := PageData{getApplicants()}
 		files := []string{
 			app.Path + "content/admin/admin_budget.html",
 			app.Path + "content/admin/template/sidebar.template.html",
 			app.Path + "content/admin/template/navbar.template.html",
 			app.Path + "base/template/footer.template.html",
 		}
-
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			return
 		}
-		err = ts.Execute(w, nil)
+		err = ts.Execute(w, data)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		}
@@ -334,10 +338,10 @@ type applicantsearch struct {
 type documentDetails struct {
 	Id             string
 	DocumentType   string
-	DocumentStatu  domain3.DocumentStatus
-	Document       users.UserDocument
+	DocumentStatu  documentDomain.DocumentStatus
+	Document       userDomain.UserDocument
 	DocumentStatus []domain4.GenericStatus
-	Doc            documents.Document
+	Doc            documentDomain.Document
 	UserId         string
 	ApplicationId  string
 	Stat           string
@@ -406,17 +410,15 @@ func getApplicants() []applicantDetails {
 		if err != nil {
 			fmt.Println("error reading institution in getApplicants")
 		}
-
-		userApplicationCourse, err := users.GetUserApplicationCourseForAppl(user.Email, application.Id)
+		userApplicationCourse, err := users.GetUserApplicationCourse(user.Email, application.Id)
 		if err != nil {
 			fmt.Println("error reading userApplicationCourse in getApplicants")
 		}
-
 		course, err := academics.GetCourse(userApplicationCourse.UserId)
 		if err != nil {
 			fmt.Println("error reading course in getApplicants")
 		}
-		applicationStat, err := applicationIO.GetApplicationStatus(application.ApplicantTypeId)
+		applicationStat, err := applicationIO.GetApplicationStatus(application.Id)
 		if err != nil {
 			fmt.Println("error reading applicationStat in getApplicants")
 		}
@@ -425,7 +427,6 @@ func getApplicants() []applicantDetails {
 		if err != nil {
 			fmt.Println("error reading applicationStat in getApplicants")
 		}
-
 		applicantType, err := applicationIO.GetApplicantType(application.ApplicantTypeId)
 		if err != nil {
 			fmt.Println("error reading applicantType in getApplicants")
@@ -513,8 +514,8 @@ func AdminApplicationsDocumentsHandler(app *config.Env) http.HandlerFunc {
 	}
 }
 
-func getDocumentStat(documentId string) domain3.DocumentStatus {
-	entity := domain3.DocumentStatus{}
+func getDocumentStat(documentId string) documentDomain.DocumentStatus {
+	entity := documentDomain.DocumentStatus{}
 	resp, err := documents.GetDocumentStatus(documentId)
 	if err != nil {
 		fmt.Println("error reading GetDocumentStatus getDocumentStat", resp)
