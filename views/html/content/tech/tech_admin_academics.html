@@ -6,7 +6,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="../../../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../../../assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>Light Bootstrap Dashboard</title>
+    <title>OBAS</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
           name='viewport'/>
     <!--     Fonts and icons     -->
@@ -39,7 +39,7 @@
                             <i class="fa fa-navicon visible-on-sidebar-mini"></i>
                         </button>
                     </div>
-                    <a class="navbar-brand" href="#pablo"> Dashboard PRO </a>
+                    <a class="navbar-brand" href="#pablo"> Support </a>
                 </div>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                         aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -216,8 +216,8 @@
                                                                     <td><div class="row justify-content-center">
                                                                             <div class="col-md-6">
                                                                         <a class="edit" title="Edit"
-                                                                           data-toggle="modal" data-target="#editModal" href=""
-                                                                           onclick="editForm({{.}})"><i
+                                                                           data-toggle="modal" data-target="#editCourseModal" href=""
+                                                                           onclick="editFormCourse({{.}})"><i
                                                                                     class="material-icons">&#xE254;</i></a>
                                                                             </div>
                                                                             <div class="col-md-6">
@@ -289,7 +289,7 @@
                                                 <div class="card-body table-full-width table-responsive">
                                                     <table class="table table-hover table-striped">
                                                         <thead>
-                                                        <th>Course</th>
+                                                        <th>Subject</th>
                                                         <th>Description</th>
                                                         <th class="text-center">Actions</th>
                                                         </thead>
@@ -302,9 +302,9 @@
                                                                     <td><div class="row justify-content-center">
                                                                             <div class="col-md-6">
                                                                                 <a class="edit" title="Edit"
-                                                                                   data-toggle="modal" data-target="#editModal" href=""
-                                                                                   onclick="editForm({{.}})"><i
-                                                                                            class="material-icons">&#xE254;</i></a>
+                                                                                   data-toggle="modal" data-target="#editSubjectModal" href=""
+                                                                                   onclick="editSubjectForm({{.}})">
+                                                                                    <i class="material-icons">&#xE254;</i></a>
                                                                             </div>
                                                                             <div class="col-md-6">
                                                                                 <a class="delete" title="Delete"
@@ -438,7 +438,9 @@
                     </div>
                 </div>
 
-                <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+                <!---subject update form--->
+
+                <div class="modal fade" id="editSubjectModal" tabindex="-1" role="dialog"
                      aria-labelledby="exampleModalLabel"
                      aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -451,7 +453,7 @@
                             </div>
                             <div class="modal-body">
                                 <!-- Extended material form grid -->
-                                <form name="siteEditForm" method="POST"
+                                <form name="soubjectEditForm" method="POST"
                                       action="/support/management/institution/type/edit" novalidate>
 
                                     <input type="hidden" class="form-control" name="Id" id="Id">
@@ -470,6 +472,57 @@
                                         <div class="form-group col-md-12">
                                             <label for="Description">Institution description</label>
                                             <input type="text" class="form-control" name="Description"
+                                                   id="Description">
+
+                                        </div>
+                                    </div>
+
+                                    <!-- Grid row -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                            Close
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+<!------Course form----->
+
+                <div class="modal fade" id="editCourseModal" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Site Edit </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Extended material form grid -->
+                                <form name="siteEditCourseForm" method="POST"
+                                      action="/support/management/academics/update/course" novalidate>
+                                    <input type="hidden" class="form-control" name="Id" id="courseId">
+                                    <div class="form-row">
+                                        <!-- Default input -->
+                                        <div class="form-group col-md-12">
+                                            <label for="Name">Course name</label>
+                                            <input type="text" class="form-control" name="Name" id="courseName">
+
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <!-- Default input -->
+                                        <div class="form-group col-md-12">
+                                            <label for="Description">Course description</label>
+                                            <input type="text" class="form-control" name="courseDescription"
                                                    id="Description">
 
                                         </div>
@@ -542,5 +595,20 @@
 <script src="../../../assets/js/light-bootstrap-dashboard.js?v=2.0.1" type="text/javascript"></script>
 <script src="../../../assets/js/custom/generics.js"></script>
 <script src="../../../assets/js/custom/techadmin/institution.js"></script>
+<script>
+    function editFormCourse(event) {
 
+        var form = document.forms['siteEditCourseForm'];
+        form.elements["courseId"].value = event.id;
+        form.elements["courseName"].value = event.courseName;
+        form.elements["courseDescription"].value = event.courseDesc;
+    }
+    function editSubjectForm(event) {
+
+        var form = document.forms['soubjectEditForm'];
+        form.elements["Id"].value = event.id;
+        form.elements["Name"].value = event.subjectName;
+        form.elements["Description"].value = event.subjectDesc;
+    }
+</script>
 </html>

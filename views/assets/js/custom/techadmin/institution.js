@@ -25,6 +25,14 @@ $(document).ready(function () {
         let institutionDropDown = getDropDownElement(institutionElement, "Institution");
         populateInstitutionDropDownByType(institutionDropDown, institutionTypeId);
     });
+
+    
+    $("form#institution_location select#institutionType").change(function() {
+        const institutionTypeId = $(this).val();
+        let institutionElement = $('form#institution_location select#institution');
+        let institutionDropDown = getDropDownElement(institutionElement, "Institution");
+        populateInstitutionDropDownByType(institutionDropDown, institutionTypeId);
+    });
     /** Institution Location ends here **/
 
     $("#institutionTypeAddressDrop").change(function() {
@@ -40,16 +48,41 @@ $(document).ready(function () {
         let institutionAddressDropDown = getDropDownElement(institutionAddressElement, "Institution");
         populateInstitutionDropDownByType(institutionAddressDropDown, institutionTypeAddress);
     });
+    $("form#institution_location select#institutionTypeCourseDrop").change(function() {
+        const institutionTypeAddress = $(this).val();
+        let institutionAddressElement = $('form#institution_location select#institutionCourseDrop');
+        let institutionAddressDropDown = getDropDownElement(institutionAddressElement, "Institution");
+        populateInstitutionDropDownByType(institutionAddressDropDown, institutionTypeAddress);
+    });
+    $("form#institution_address select#institutionTypeCourseDrop").change(function() {
+        const institutionTypeAddress = $(this).val();
+        let institutionAddressElement = $('form#institution_address select#institutionCourseDrop');
+        let institutionAddressDropDown = getDropDownElement(institutionAddressElement, "Institution");
+        populateInstitutionDropDownByType(institutionAddressDropDown, institutionTypeAddress);
+    });
+    $("form#institution_course select#institutionTypeCourseDrop").change(function() {
+        const institutionTypeAddress = $(this).val();
+        let institutionAddressElement = $('form#institution_course select#institutionCourseDrop');
+        let institutionAddressDropDown = getDropDownElement(institutionAddressElement, "Institution");
+        populateInstitutionDropDownByType(institutionAddressDropDown, institutionTypeAddress);
+    });
+    $("form#institutionLocationEditForm select#institutionTypeCourseDrop").change(function() {
+        const institutionTypeAddress = $(this).val();
+        let institutionAddressElement = $('form#institutionLocationEditForm select#institutionCourseDrop');
+        let institutionAddressDropDown = getDropDownElement(institutionAddressElement, "Institution");
+        populateInstitutionDropDownByType(institutionAddressDropDown, institutionTypeAddress);
+    });
 });
 
-function editForm(event) {
+
+
+function editCourseForm(event) {
     var form = document.forms['siteEditForm'];
     form.elements["Id"].value = event.id;
     form.elements["Name"].value = event.name;
     form.elements["Description"].value = event.description;
 }
 function editLocationForm(app) {
-
     var form = document.forms['locationEditForm'];
     form.elements["LocationId"].value = app.locationId;
     form.elements["Name"].value = app.name;

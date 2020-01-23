@@ -23,7 +23,7 @@ func TestGetRace(t *testing.T) {
 }
 
 func TestCreateRace(t *testing.T) {
-	race := domain.Race{"50", "RED"}
+	race := domain.Race{"", "Indian"}
 	value, err := CreateRace(race)
 	assert.Nil(t, err)
 	assert.True(t, value)

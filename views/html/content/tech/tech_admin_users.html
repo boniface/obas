@@ -6,7 +6,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="../../../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../../../assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>Light Bootstrap Dashboard</title>
+    <title>OBAS</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
           name='viewport'/>
     <!--     Fonts and icons     -->
@@ -40,7 +40,7 @@
                             <i class="fa fa-navicon visible-on-sidebar-mini"></i>
                         </button>
                     </div>
-                    <a class="navbar-brand" href="#pablo"> Dashboard PRO </a>
+                    <a class="navbar-brand" href="#pablo"> Support </a>
                 </div>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                         aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -128,7 +128,7 @@
 
                         <li class="nav-item">
                             <a class="nav-link  waves-light" id="users-table-tab" data-toggle="tab"
-                               href="#course-tab"
+                               href="#role"
                                role="tab" aria-controls="users-table" aria-selected="true">
                                 <div style="text-align: center;"><i class="fas fa-user fa " aria-hidden="true"></i>
                                 </div>
@@ -137,18 +137,26 @@
 
                         <li class="nav-item">
                             <a class="nav-link  waves-light" id="users-table-tab" data-toggle="tab"
-                               href="#subject-tab"
+                               href="#userRole"
                                role="tab" aria-controls="users-table" aria-selected="true">
                                 <div style="text-align: center;"><i class="fas fa-user fa " aria-hidden="true"></i>
                                 </div>
                                 <br>User Role</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link  waves-light" id="users-table-tab" data-toggle="tab"
+                               href="#applicantType"
+                               role="tab" aria-controls="users-table" aria-selected="true">
+                                <div style="text-align: center;"><i class="fas fa-user fa " aria-hidden="true"></i>
+                                </div>
+                                <br>Applicant Type</a>
                         </li>
 
                     </ul>
 
                     <div class="tab-content card" id="rolesTabContent">
 
-                        <div class="tab-pane fade {{.MyActiveTab.Tab1}}" id="course-tab" role="tabpanel"
+                        <div class="tab-pane fade {{.MyActiveTab.Tab1}}" id="role" role="tabpanel"
                              aria-labelledby="pool-roles">
                             <p></p>
                             <!-- Table with panel -->
@@ -231,7 +239,7 @@
                             <!-- Table with panel -->
                         </div>
 
-                        <div class="tab-pane fade {{.MyActiveTab.Tab2}}" id="subject-tab" role="tabpanel"
+                        <div class="tab-pane fade {{.MyActiveTab.Tab2}}" id="userRole" role="tabpanel"
                              aria-labelledby="pool-roles">
                             <p></p>
                             <!-- Table with panel -->
@@ -307,6 +315,91 @@
                                 </div>
                             </div>
                                 </div>
+
+                        <div class="tab-pane fade {{.MyActiveTab.Tab3}}" id="applicantType" role="tabpanel"
+                             aria-labelledby="pool-roles">
+                            <p></p>
+                            <!-- Table with panel -->
+                            <div class="content">
+                                <div class="container-fluid">
+
+                                    <div class="card green">
+                                        <form id="" method="post" action="/support/management/user/applicantType/create">
+
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-8">
+                                                    <label class="control-label label-font-color">Applicant Type</label>
+                                                    <input type="text" name="applicationType" class="form-control"
+                                                           placeholder="Enter type ..." id="">
+                                                </div>
+                                            </div>
+
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-8">
+                                                    <label class="control-label label-font-color">Description</label>
+                                                    <input type="text" name="Description" class="form-control"
+                                                           placeholder="" id="">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-8 text-center">
+                                                    <button type="submit" id="documentUpdateBtn"
+                                                            class="btn btn-wd btn-info btn-outline full-width">
+                                             <span class="btn-label">
+                                             </span>Upload
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <!-- INSTITUTION TYPE --->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card strpied-tabled-with-hover">
+                                                <div class="card-body table-full-width table-responsive">
+                                                    <table class="table table-hover table-striped">
+                                                        <thead>
+                                                        <th>Role</th>
+                                                        <th>Description</th>
+                                                        <th class="text-center">Actions</th>
+                                                        </thead>
+                                                        <tbody>
+                                                        {{ with .ApplicantType }}
+                                                            {{ range .}}
+                                                                <tr>
+                                                                    <td>{{ .Name}}</td>
+                                                                    <td>{{ .Description}}</td>
+                                                                    <td><div class="row justify-content-center">
+                                                                            <div class="col-md-6">
+                                                                                <a class="edit" title="Edit"
+                                                                                   data-toggle="modal" data-target="#editModal" href=""
+                                                                                   onclick="editForm({{.}})"><i
+                                                                                            class="material-icons">&#xE254;</i></a>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <a class="delete" title="Delete"
+                                                                                   href="/support/management/user/applicantType/delete/{{.Id}}"
+                                                                                   data-toggle="tooltip"><i
+                                                                                            class="material-icons">&#xE872;</i></a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            {{ end }}
+                                                        {{ end}}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Table with panel -->
+                        </div>
                             </div>
                             <!-- Table with panel -->
                         </div>

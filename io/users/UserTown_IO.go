@@ -42,3 +42,16 @@ func UpdateUserTown(entity domain.UserTown, token string) (bool, error) {
 	}
 	return true, nil
 }
+func GetUserTowns() ([]domain.UserTown, error) {
+	entity := []domain.UserTown{}
+	//entity = domain.UserTown{userId, "6"}
+	resp, _ := api.Rest().Get(userTownURL + "/getAll/")
+	if resp.IsError() {
+		return entity, errors.New(resp.Status())
+	}
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(resp.Status())
+	}
+	return entity, nil
+}

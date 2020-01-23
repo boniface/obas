@@ -27,11 +27,35 @@ func InstitutionManagement(app *config.Env) http.Handler {
 	r.Get("/delete-institutionAddress/{InstitutionAddressId}/{AddressTypeId}", DeleteInstitutionAddressHandler(app))
 	r.Post("/type/add", AddInstitutiontypeHandler(app))
 	r.Post("/type/edit", EditTypeHandler(app))
+	r.Post("/institution/update", UpdateInstitutionHandler(app))
+	r.Post("/location/update", UpdateInstitutionHandler(app))
 	r.Post("/add", AddInstitutionHandler(app))
 	r.Post("/save/institution-location", SaveInstitutionLocationHandler(app))
 	r.Post("/save/institution-course", SaveInstitutionCourseHandler(app))
 	r.Post("/save/institution-address", SaveInstitutionAddressHandler(app))
 	return r
+}
+
+func UpdateInstitutionHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		r.ParseForm()
+		institutionId := r.PostFormValue("Id")
+		institutionType := r.PostFormValue("institutionType")
+		name := r.PostFormValue("Name")
+
+		_ = app.Session.Destroy(r.Context())
+		if institutionType != "" || institutionId != "" || name != "" {
+			institution := institutionDomain.Institution{institutionId, institutionType, name}
+			fmt.Println("institution>>>>", institution)
+			_, err := institutionIO.UpdateInstitution(institution)
+			if err != nil {
+				fmt.Println("error in Updating institution")
+				app.ErrorLog.Println(err.Error())
+			}
+		}
+		app.Session.Put(r.Context(), "tab", "tab2")
+		http.Redirect(w, r, "/support/management/institution", 301)
+	}
 }
 
 func DeleteInstitutionAddressHandler(app *config.Env) http.HandlerFunc {
@@ -239,13 +263,10 @@ func EditTypeHandler(app *config.Env) http.HandlerFunc {
 
 			institutionTypeObject := institutionDomain.InstitutionTypes{institutionTypeId, institutionTypeName, institutionTypeDescription}
 			fmt.Print(institutionTypeObject)
-			_, err := institutionIO.DeleteInstitutionType(institutionTypeObject)
-			if err != nil {
-				app.ErrorLog.Println(err.Error())
-			}
-			_, erro := institutionIO.CreateInstitutionType(institutionTypeObject)
+
+			_, erro := institutionIO.UpdateInstitutionType(institutionTypeObject)
 			if erro != nil {
-				app.ErrorLog.Println(err.Error())
+				app.ErrorLog.Println(erro.Error())
 			}
 		}
 		app.Session.Put(r.Context(), "tab", "tab1")

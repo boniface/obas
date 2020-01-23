@@ -1,7 +1,7 @@
 
 
 
-const BudgetURL = "http://localhost:4000/admin/budget/give-budget";
+const BudgetURL = "155.238.30.101:4000/admin/budget/give-budget";
 
 var table = document.getElementById("myTable");
 function GetDocuments(userId,applicationId) {
@@ -16,7 +16,7 @@ function GetDocuments(userId,applicationId) {
         table.deleteRow(i);
     }
 
-    const url = "http://localhost:4000/admin/applicant/application/" + userId+"/"+applicationId;
+    const url = "155.238.30.101:4000/admin/applicant/application/" + userId+"/"+applicationId;
     $.get(url, function(data) {
         console.log(data)
         $.each(data, function (key, value) {

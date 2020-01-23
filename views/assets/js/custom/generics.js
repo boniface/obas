@@ -1,5 +1,5 @@
-const LOCATION_RESTAPI = "http://localhost:4000/location/api/";
-const INSTITUTION_RESTAPI = "http://localhost:4000/institution/api/";
+const LOCATION_RESTAPI = "http://155.238.30.101:4000/location/api/";
+const INSTITUTION_RESTAPI = "http://155.238.30.101:4000/institution/api/";
 
 let populateLocationDropDown = function(element, locationId) {
     if (locationId) {
@@ -36,6 +36,7 @@ let populateInstitutionDropDownByType = function (element, institutionTypeId) {
     if (institutionTypeId) {
         const url = INSTITUTION_RESTAPI + "getInstitutionsByType/" + institutionTypeId;
         $.get(url, function(institutions) {
+            //console.log(institutions.)
             $.each(institutions, function (key, value) {
                 let option = new Option(value.name, value.id);
                 element.append(option);

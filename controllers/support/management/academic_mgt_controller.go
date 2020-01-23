@@ -18,11 +18,41 @@ func AcademicManagement(app *config.Env) http.Handler {
 	r.Get("/delete/course/{courseId}", DeletecourseManagementHandler(app))
 	r.Get("/delete/coursesubject/{courseId}/{subjectId}", DeletecourseSubjectManagementHandler(app))
 
+	r.Post("/update/course", UpdateCourseManagementHandler(app))
 	r.Post("/create/course", CreateCourseManagementHandler(app))
 	r.Post("/create/subject", CreateSubjectManagementHandler(app))
 	r.Post("/create/courseSubject", CreateCourseSubjectManagementHandler(app))
 
 	return r
+}
+
+func UpdateCourseManagementHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		r.ParseForm()
+		courseId := r.PostFormValue("courseId")
+		courseName := r.PostFormValue("courseName")
+		courseDescription := r.PostFormValue("courseDescription")
+
+		if courseId != "" || courseName != "" || courseDescription != "" {
+
+			courseObject := academicsDomain.Course{courseId, courseName, courseDescription}
+			fmt.Print(courseObject)
+			_, err := academics.UpdateCourse(courseObject, token)
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+			}
+		}
+		app.Session.Put(r.Context(), "userId", email)
+		app.Session.Put(r.Context(), "token", token)
+		app.Session.Put(r.Context(), "tab", "tab1")
+		http.Redirect(w, r, "/support/management/academics", 301)
+	}
 }
 
 func DeletecourseSubjectManagementHandler(app *config.Env) http.HandlerFunc {
@@ -167,7 +197,7 @@ func AcademiManagementHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(errr.Error())
 		}
 		courseSubjects, errrr := academics.GetAllCourseSubject()
-		fmt.Println("All the courseSubjects", courseSubjects)
+		//fmt.Println("All the courseSubjects", courseSubjects)
 		if errrr != nil {
 			fmt.Println("An error in AcademiManagementHandler reading courseSubjects")
 			app.ErrorLog.Println(errrr.Error())
@@ -184,7 +214,7 @@ func AcademiManagementHandler(app *config.Env) http.HandlerFunc {
 					app.ErrorLog.Println(err.Error())
 				}
 				if subject.Name != "" || course.CourseName != "" {
-					fmt.Println(myCourseSubject.CourseId, "<<<CourseId,  SubjectId>>>>>", myCourseSubject.SubjectId)
+					//fmt.Println(myCourseSubject.CourseId, "<<<CourseId,  SubjectId>>>>>", myCourseSubject.SubjectId)
 					myCourseSubjectHolder := CourseSubjectHolder{myCourseSubject.CourseId, myCourseSubject.SubjectId, course.CourseName, subject.Name}
 					courseSubjectHolder = append(courseSubjectHolder, myCourseSubjectHolder)
 				}

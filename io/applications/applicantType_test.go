@@ -8,7 +8,7 @@ import (
 )
 
 func TestCreateApplicantType(t *testing.T) {
-	obj := domain.ApplicantType{"EEGG-4CNTX", "College applicant", "A student currently doing his high certificate"}
+	obj := domain.ApplicantType{"", "University Student", "A student currently doing his high certificate"}
 	valeu, err := CreateApplicantType(obj)
 	assert.Nil(t, err)
 	fmt.Println(" The Results", valeu)

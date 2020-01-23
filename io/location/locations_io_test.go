@@ -15,7 +15,7 @@ func TestGetLocations(t *testing.T) {
 }
 
 func TestGetLocation(t *testing.T) {
-	value, err := GetLocation("CTTE-4OILY")
+	value, err := GetLocation("HHDO-FOQRU")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
 	fmt.Println(" The Results", value.Name)

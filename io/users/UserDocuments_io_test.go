@@ -16,7 +16,7 @@ func TestGetUserDocuments(t *testing.T) {
 
 func TestGetUserDocument(t *testing.T) {
 	expected := "45"
-	result, err := GetUserDocument("12")
+	result, err := GetUserDocument("12", "")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)
 	assert.Equal(t, expected, result.DocumentId)
@@ -24,7 +24,7 @@ func TestGetUserDocument(t *testing.T) {
 }
 
 func TestCreateUserDocument(t *testing.T) {
-	userDoc := UserDocument{"585", "532"}
+	userDoc := domain.UserDocument{"585", "532"}
 	result, err := CreateUserDocument(userDoc, "")
 	assert.Nil(t, err)
 	assert.True(t, result)
@@ -32,7 +32,7 @@ func TestCreateUserDocument(t *testing.T) {
 }
 
 func TestUpdateUserDocument(t *testing.T) {
-	userDoc := UserDocument{"12", "45"}
+	userDoc := domain.UserDocument{"12", "45"}
 	result, err := UpdateUserDocument(userDoc, "")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)

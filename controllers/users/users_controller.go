@@ -1,6 +1,7 @@
 package users
 
 import (
+	"fmt"
 	"github.com/go-chi/chi"
 	"html/template"
 	"io"
@@ -885,21 +886,32 @@ func StudentProfileTownUpdateHandler(app *config.Env) http.HandlerFunc {
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
+		var updated bool
 		r.ParseForm()
-		townCode := r.PostFormValue("town")
-		userTown := userDomain.UserTown{email, townCode}
-		app.InfoLog.Println("UserTown to update: ", userTown)
-		updated, err := usersIO.UpdateUserTown(userTown, token)
-		successMessage := "User town updated!"
-		failureMessage := "User town NOT updated!"
+		townCode := r.PostFormValue("townId")
+		town, err := locationIO.GetLocation(townCode)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
-			genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, failureMessage)
-		} else {
-			if updated {
-				genericHelper.SetSessionMessage(app, r, genericHelper.SuccessAlertStyle, successMessage)
-			} else {
+			fmt.Println("error town>>>", err)
+		}
+		fmt.Println("townCode>>>", townCode)
+		fmt.Println("town>>>", town)
+		if townCode != "" {
+			userTown := userDomain.UserTown{email, town.LocationId}
+			app.InfoLog.Println("UserTown to update: ", userTown)
+			updated, err = usersIO.UpdateUserTown(userTown, token)
+
+			successMessage := "User town updated!"
+			failureMessage := "User town NOT updated!"
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
 				genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, failureMessage)
+			} else {
+				if updated {
+					genericHelper.SetSessionMessage(app, r, genericHelper.SuccessAlertStyle, successMessage)
+				} else {
+					genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, failureMessage)
+				}
 			}
 		}
 		app.InfoLog.Println("Update response is ", updated)
@@ -926,7 +938,9 @@ func StudentProfileDistrictHandler(app *config.Env) http.HandlerFunc {
 		var townName string
 
 		provinces, alert = locationHelper.GetProvinces(app)
-		if alert.AlertInfo != "" {
+		fmt.Println("provinces >>>>>", provinces)
+		fmt.Println("alert.AlertInfo >>>>>", alert.AlertInfo)
+		if alert.AlertInfo == "" {
 			userTown, err := usersIO.GetUserTown(email)
 			if err != nil {
 				app.ErrorLog.Println(err.Error())
@@ -947,7 +961,7 @@ func StudentProfileDistrictHandler(app *config.Env) http.HandlerFunc {
 				}
 			}
 		}
-
+		fmt.Println("atownName >>>>>", townName)
 		data := DistrictData{
 			user,
 			provinces,
@@ -958,6 +972,7 @@ func StudentProfileDistrictHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "content/student/profile/district_and_municipality.html",
 			app.Path + "content/student/template/sidebar.template.html",
 			app.Path + "base/template/footer.template.html",
+			app.Path + "base/template/form/location-form.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -1062,10 +1077,14 @@ func StudentProfileContactTypeHandler(app *config.Env) http.HandlerFunc {
 			ContactTypeId string
 			ContactName   string
 			Alert         genericHelper.PageToast
+			Menu          string
+			SubMenu       string
 		}
-		data := PageData{user, contactTypes, contacts, userContact, contactTypeId, contactName, alert}
+		data := PageData{user, contactTypes, contacts, userContact, contactTypeId, contactName, alert, "profile", "contacts"}
 		files := []string{
 			app.Path + "content/student/profile/contacts.html",
+			app.Path + "content/student/template/sidebar.template.html",
+			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
@@ -1628,11 +1647,15 @@ func StudentProfileAddressTypeHandler(app *config.Env) http.HandlerFunc {
 			Address       usersIO.UserAddress
 			AddressTypeID string
 			AddressName   string
+			Menu          string
+			SubMenu       string
 		}
 
-		data := PageData{user, addressTypes, addresses, userAddress, addressTypeId, addressName}
+		data := PageData{user, addressTypes, addresses, userAddress, addressTypeId, addressName, "profile", "address"}
 		files := []string{
 			app.Path + "content/student/profile/address.html",
+			app.Path + "content/student/template/sidebar.template.html",
+			app.Path + "base/template/footer.template.html",
 		}
 		ts, err := template.ParseFiles(files...)
 		if err != nil {

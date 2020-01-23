@@ -16,14 +16,14 @@ func TestGetTitles(t *testing.T) {
 
 func TestGetTitle(t *testing.T) {
 	expected := "DR"
-	value, err := GetTitle("51")
+	value, err := GetTitle("")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
 	assert.Equal(t, expected, value.TitleName)
 }
 
 func TestCreateTitle(t *testing.T) {
-	title := domain.Title{"47", "SIR"}
+	title := domain.Title{"", "Mrs"}
 	value, err := CreateTitle(title)
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
