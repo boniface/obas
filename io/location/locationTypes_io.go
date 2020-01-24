@@ -50,10 +50,10 @@ func CreateLocationType(entity domain.LocationType) (domain.LocationType, error)
 	return locationType, nil
 }
 
-func UpdateLocationType(entity interface{}) (bool, error) {
+func UpdateLocationType(entity domain.LocationType) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(locationTypeUrl + "/type/update")
+		Post(locationTypeUrl + "update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -64,7 +64,7 @@ func UpdateLocationType(entity interface{}) (bool, error) {
 func DeleteLocationType(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(locationTypeUrl + "/type/delete")
+		Post(locationTypeUrl + "delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

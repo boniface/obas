@@ -11,6 +11,7 @@ import (
 	"obas/io/applications"
 	"obas/io/demographics"
 	userIO "obas/io/users"
+	"strings"
 )
 
 func UserManagement(app *config.Env) http.Handler {
@@ -22,8 +23,30 @@ func UserManagement(app *config.Env) http.Handler {
 	r.Post("/role/create", RoleCreateManagementHandler(app))
 	r.Post("/applicantType/create", ApplicantionCreateManagementHandler(app))
 	r.Post("/role/update", RoleUpdateManagementHandler(app))
+	r.Post("/applicantType/update", ApplicantUpdateManagementHandler(app))
 
 	return r
+}
+
+func ApplicantUpdateManagementHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		_ = app.Session.Destroy(r.Context())
+		r.ParseForm()
+		id := r.PostFormValue("id")
+		name := r.PostFormValue("Name")
+		Description := r.PostFormValue("Description")
+
+		if id != "" || Description != "" || name != "" {
+			newApplicantion := domain.ApplicantType{id, name, Description}
+			_, err := applications.UpdateApplicantType(newApplicantion)
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+				fmt.Println("fail to update applicant type")
+			}
+		}
+		app.Session.Put(r.Context(), "tab", "tab3")
+		http.Redirect(w, r, "/support/management/user", 301)
+	}
 }
 
 func DeleteApplicantTypeManagementHandler(app *config.Env) http.HandlerFunc {
@@ -106,21 +129,18 @@ func RoleUpdateManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		_ = app.Session.Destroy(r.Context())
 		r.ParseForm()
-		actualUser := r.PostFormValue("userId")
-		actualRole := r.PostFormValue("newRole")
-		fmt.Println(actualUser, "<<<<<<actualUser||actualRole>>>>>", actualRole)
-		if actualRole != "" || actualUser != "" {
-			userRole := userDomain.UserRole{actualUser, actualRole}
+		id := strings.TrimSpace(r.PostFormValue("Id"))
+		role := r.PostFormValue("Role")
+		fmt.Println(">>>>", id, "<<<<<<actualUser||actualRole>>>>>", role)
+		if id != "" || role != "" {
+			userRole := demographics.Role{id, role}
 			//_,err:=userIO.UpdateUserRole(userRole)
-			_, err := userIO.DeleteUserRole(userRole)
+			_, err := demographics.UpdateRole(userRole)
 			if err != nil {
-				fmt.Println("error delete UserRole")
-			} else {
-				userIO.CreateUserRole(userRole)
-				fmt.Println("about to update roles")
+				fmt.Println("error update UserRole")
 			}
 		}
-		app.Session.Put(r.Context(), "tab", "tab2")
+		app.Session.Put(r.Context(), "tab", "tab1")
 		http.Redirect(w, r, "/support/management/user", 301)
 	}
 

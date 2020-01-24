@@ -409,8 +409,8 @@
                                                                     <td><div class="row justify-content-center">
                                                                             <div class="col-md-6">
                                                                                 <a class="edit" title="Edit"
-                                                                                   data-toggle="modal" data-target="#editModal" href=""
-                                                                                   onclick=""><i
+                                                                                   data-toggle="modal" data-target="#editcourseSubjectModal" href=""
+                                                                                   onclick="editcourseSubjectForm({{.}})"><i
                                                                                             class="material-icons">&#xE254;</i></a>
                                                                             </div>
                                                                             <div class="col-md-6">
@@ -454,7 +454,7 @@
                             <div class="modal-body">
                                 <!-- Extended material form grid -->
                                 <form name="soubjectEditForm" method="POST"
-                                      action="/support/management/institution/type/edit" novalidate>
+                                      action="/support/management/academics/update/subject" novalidate>
 
                                     <input type="hidden" class="form-control" name="Id" id="Id">
 
@@ -462,7 +462,7 @@
                                     <div class="form-row">
                                         <!-- Default input -->
                                         <div class="form-group col-md-12">
-                                            <label for="Name">Institution name</label>
+                                            <label for="Name">subject name</label>
                                             <input type="text" class="form-control" name="Name" id="Name">
 
                                         </div>
@@ -492,6 +492,96 @@
                     </div>
                 </div>
 
+                <!---course-subject update form--->
+
+                <div class="modal fade" id="editcourseSubjectModal" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Site Edit </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Extended material form grid -->
+                                <form name="editcourseSubjecEditForm" method="POST"
+                                      action="/support/management/academics/update/coursesubject" novalidate>
+
+                                    <input type="hidden" class="form-control" name="CourseId" id="CourseId">
+                                    <input type="hidden" class="form-control" name="SubjectId" id="SubjectId">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card "id="courseSubjectContent" >
+                                                <!--div class="card-header ">
+                                                                        <h4 class="card-title"></h4>
+                                                                        <p class="card-category"></p>
+                                                                    </div-->
+
+                                                <div class="card-footer ">
+                                                    <hr>
+                                                    <div class="stats">
+                                                        <i class="fa fa-cog"></i>Course & Subject
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-8">
+                                            <label class="control-label label-font-color">Course</label>
+                                            <select name="mycourseId" class="selectpicker"
+                                                    data-style="btn-default btn-outline"
+                                                    data-menu-style="dropdown-blue">
+                                                <option value="" disabled selected>Select
+                                                    Institution Type
+                                                </option>
+                                                {{with .Courses}}
+                                                    {{range .}}
+                                                        <option value={{ .Id }}>{{ .CourseName }}</option>
+                                                    {{end}}
+                                                {{end}}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-8">
+                                            <label class="control-label label-font-color">Subject</label>
+                                            <select name="mysubjectId" class="selectpicker"
+                                                    data-style="btn-default btn-outline"
+                                                    data-menu-style="dropdown-blue">
+                                                <option value="" disabled selected>Select
+                                                    Institution Type
+                                                </option>
+                                                {{with .Subjects}}
+                                                    {{range .}}
+                                                        <option value={{ .Id }}>{{ .Name }}</option>
+                                                    {{end}}
+                                                {{end}}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Grid row -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                            Close
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
 <!------Course form----->
 
                 <div class="modal fade" id="editCourseModal" tabindex="-1" role="dialog"
@@ -500,7 +590,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Site Edit </h5>
+                                <h5 class="modal-title" id="exampleModalLabel">Course Edit </h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -597,7 +687,6 @@
 <script src="../../../assets/js/custom/techadmin/institution.js"></script>
 <script>
     function editFormCourse(event) {
-
         var form = document.forms['siteEditCourseForm'];
         form.elements["courseId"].value = event.id;
         form.elements["courseName"].value = event.courseName;
@@ -609,6 +698,13 @@
         form.elements["Id"].value = event.id;
         form.elements["Name"].value = event.subjectName;
         form.elements["Description"].value = event.subjectDesc;
+    }
+    function editcourseSubjectForm(event) {
+        var form = document.forms['editcourseSubjecEditForm'];
+        var myArea = document.getElementById("courseSubjectContent");
+        form.elements["CourseId"].value = event.CourseId;
+        form.elements["SubjectId"].value = event.SubjectId;
+        myArea.innerHTML="<p> Course: "+event.CourseName+"<br/> Subject: "+event.SubjectName+"<p>";
     }
 </script>
 </html>

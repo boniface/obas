@@ -450,8 +450,8 @@
                                                             <td>
                                                                 <div class="row justify-content-center">
                                                                     <div class="col-md-6">
-                                                                <a class="edit" href="" title="Edit" data-toggle="tooltip"
-                                                                   data-target="#" onclick="">
+                                                                <a class="edit"  title="Edit" data-toggle="modal"
+                                                                   data-target="#editInstitutionLocationModal"  href="" onclick="editinstitutionLocationForm({{.}})">
                                                                     <i class="material-icons">&#xE254;</i></a>
                                                                     </div>
                                                                     <div class="col-md-6">
@@ -721,8 +721,8 @@
                 </div>
                 <!------Institution Types----->
                 <div class="modal fade" id="editInstitutionTypeModal" tabindex="-1" role="dialog"
-                     aria-labelledby="exampleModalLabel"
-                     aria-hidden="true">
+                           aria-labelledby="exampleModalLabel"
+                           aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -851,10 +851,11 @@
                                 <form name="institutionLocationEditForm" method="POST"
                                       action="/support/management/institution/location/update" novalidate>
 
-                                    <input type="hidden" class="form-control" name="Id" id="Id">
+
 
                                     {{ template "location-form" .}}
                                     {{ template "institution-form" .}}
+                                    <input type="hidden" class="form-control" name="Id" id="Id">
                                     <div class="row justify-content-center">
                                         <div class="col-md-5">
                                             <label class="control-label label-font-color">Longitude</label>
@@ -994,6 +995,12 @@
         form.elements["Id"].value = app.Id;
         form.elements["Name"].value = app.InstitutionName;
 
+    }
+    function editinstitutionLocationForm(app) {
+        var form = document.forms['institutionLocationEditForm'];
+        // form.elements["Id"].value = app.Id;
+        // form.elements["Name"].value = app.Institution;
+        // form.elements["Description"].value = app.Longitude;
     }
 </script>
 </html>

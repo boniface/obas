@@ -26,7 +26,7 @@ $(document).ready(function () {
         populateInstitutionDropDownByType(institutionDropDown, institutionTypeId);
     });
 
-    
+
     $("form#institution_location select#institutionType").change(function() {
         const institutionTypeId = $(this).val();
         let institutionElement = $('form#institution_location select#institution');
@@ -82,10 +82,13 @@ function editCourseForm(event) {
     form.elements["Name"].value = event.name;
     form.elements["Description"].value = event.description;
 }
+
 function editLocationForm(app) {
     var form = document.forms['locationEditForm'];
-    form.elements["LocationId"].value = app.locationId;
-    form.elements["Name"].value = app.name;
-    form.elements["Longitude"].value = app.longitude;
-    form.elements["Latitude"].value = app.latitude;
+    var myArea = document.getElementById("courseSubjectContent");
+    form.elements["LocationId"].value = app.Location.locationId;
+    form.elements["Name"].value = app.Location.name;
+    form.elements["Longitude"].value = app.Location.longitude;
+    form.elements["Latitude"].value = app.Location.latitude;
+    myArea.innerHTML="<p> Location Type: "+app.LocationType.name+"<br/> Parent: "+app.ParentLocation.name+"<p>";
 }

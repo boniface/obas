@@ -19,6 +19,9 @@ func AcademicManagement(app *config.Env) http.Handler {
 	r.Get("/delete/coursesubject/{courseId}/{subjectId}", DeletecourseSubjectManagementHandler(app))
 
 	r.Post("/update/course", UpdateCourseManagementHandler(app))
+	r.Post("/update/coursesubject", UpdateCourseSubjectManagementHandler(app))
+
+	r.Post("/update/subject", UpdatesubjectManagementHandler(app))
 	r.Post("/create/course", CreateCourseManagementHandler(app))
 	r.Post("/create/subject", CreateSubjectManagementHandler(app))
 	r.Post("/create/courseSubject", CreateCourseSubjectManagementHandler(app))
@@ -26,18 +29,98 @@ func AcademicManagement(app *config.Env) http.Handler {
 	return r
 }
 
-func UpdateCourseManagementHandler(app *config.Env) http.HandlerFunc {
+func UpdateCourseSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		email := app.Session.GetString(r.Context(), "userId")
 		token := app.Session.GetString(r.Context(), "token")
+		fmt.Println(email, "<<<<<<email || TOKEN>>>>>", token)
 		if email == "" || token == "" {
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
 		r.ParseForm()
-		courseId := r.PostFormValue("courseId")
-		courseName := r.PostFormValue("courseName")
+		//to delete
+		subjectId := r.PostFormValue("SubjectId")
+		CourseId := r.PostFormValue("CourseId")
+
+		//from the dropdown
+		mycourseId := r.PostFormValue("mycourseId")
+		mysubjectId := r.PostFormValue("mysubjectId")
+
+		fmt.Println(subjectId, "subjectId||CourseId", CourseId)
+		fmt.Println(mycourseId, "<<<<mycourseId||mysubjectId>>>>", mysubjectId)
+
+		if subjectId != "" || CourseId != "" || mycourseId != "" || mysubjectId != "" {
+			courseObjectToCreate := academicsDomain.CourseSubject{mycourseId, mysubjectId}
+			courseObjectTodetelete := academicsDomain.CourseSubject{CourseId, subjectId}
+
+			fmt.Print(courseObjectToCreate, "<<<<courseObjectToCreate")
+			fmt.Print(courseObjectTodetelete, "<<<<courseObjectTodetelete")
+
+			_, err := academics.DeleteCourseSubject(courseObjectTodetelete)
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+				fmt.Println("error deleting courseSubject")
+			} else {
+				_, err := academics.CreateCourseSubject(courseObjectToCreate)
+				if err != nil {
+					fmt.Println("error creating courseSubject")
+					app.ErrorLog.Println(err.Error())
+				}
+			}
+		}
+		app.Session.Put(r.Context(), "userId", email)
+		app.Session.Put(r.Context(), "token", token)
+		app.Session.Put(r.Context(), "tab", "tab3")
+		http.Redirect(w, r, "/support/management/academics", 301)
+	}
+}
+
+func UpdatesubjectManagementHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		fmt.Println(email, "<<<<<<email || TOKEN>>>>>", token)
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		r.ParseForm()
+		subjectId := r.PostFormValue("Id")
+		subjectName := r.PostFormValue("Name")
+		subjectdesc := r.PostFormValue("Description")
+		fmt.Println(subjectId, "subjectId||subjectName", subjectName, "subjectdesc>>>>>", subjectdesc)
+		fmt.Println(subjectName, "<<<<subjectName||subjectId>>>>", subjectId, "subjectdesc>>>>", subjectdesc)
+
+		if subjectId != "" || subjectName != "" || subjectdesc != "" {
+			courseObject := academicsDomain.Course{subjectId, subjectName, subjectdesc}
+			fmt.Print(courseObject)
+			_, err := academics.UpdateCourse(courseObject, token)
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+			}
+		}
+		app.Session.Put(r.Context(), "userId", email)
+		app.Session.Put(r.Context(), "token", token)
+		app.Session.Put(r.Context(), "tab", "tab2")
+		http.Redirect(w, r, "/support/management/academics", 301)
+	}
+}
+
+func UpdateCourseManagementHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		fmt.Println(email, "<<<<<<email || TOKEN>>>>>", token)
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		r.ParseForm()
+		courseId := r.PostFormValue("Id")
+		courseName := r.PostFormValue("Name")
 		courseDescription := r.PostFormValue("courseDescription")
+		fmt.Println(courseName, "<<<<courseName||courseId>>>>", courseId, "courseDescription>>>>", courseDescription)
 
 		if courseId != "" || courseName != "" || courseDescription != "" {
 
@@ -78,6 +161,7 @@ func DeletecourseSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 func DeletecourseManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		courseId := chi.URLParam(r, "courseId")
+		fmt.Println("courseId>>>", courseId)
 		_ = app.Session.Destroy(r.Context())
 		courseObject, err := academics.GetCourse(courseId)
 		if err != nil {
