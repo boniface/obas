@@ -19,6 +19,7 @@
     <link href="../../../assets/css/light-bootstrap-dashboard.css?v=2.0.1" rel="stylesheet"/>
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="../../../assets/css/demo.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../../../assets/css/custom/student/application.css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -274,16 +275,15 @@
                                                                     <td>{{.UserIdNumber}}</td>
                                                                     <td>{{.RoleName}}</td>
                                                                     <td>
-                                                                        <form method="post"
-                                                                              action="/support/management/user/role/update">
+                                                                        <form method="post" action="/support/management/user/role/update">
                                                                             <div class="row ">
                                                                                 <div class="col-md-6">
-                                                                                    <select name="newRole"
+                                                                                    <select name="roleId"
                                                                                             class="selectpicker"
                                                                                             data-title="Select contact type"
                                                                                             data-style="btn-default btn-outline"
                                                                                             data-menu-style="dropdown-blue">
-                                                                                        <option value="" disabled selected>Select Role</option>
+                                                                                        <option  disabled selected>Select Role</option>
                                                                                         {{with .Roles}}
                                                                                             {{range.}}
                                                                                         <option value="{{.Id}}">{{.RoleName}}</option>

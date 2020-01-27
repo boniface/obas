@@ -30,6 +30,8 @@ func UserManagement(app *config.Env) http.Handler {
 
 func ApplicantUpdateManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		userId := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
 		_ = app.Session.Destroy(r.Context())
 		r.ParseForm()
 		id := r.PostFormValue("id")
@@ -45,6 +47,8 @@ func ApplicantUpdateManagementHandler(app *config.Env) http.HandlerFunc {
 			}
 		}
 		app.Session.Put(r.Context(), "tab", "tab3")
+		app.Session.Put(r.Context(), "userId", userId)
+		app.Session.Put(r.Context(), "token", token)
 		http.Redirect(w, r, "/support/management/user", 301)
 	}
 }
@@ -52,6 +56,8 @@ func ApplicantUpdateManagementHandler(app *config.Env) http.HandlerFunc {
 func DeleteApplicantTypeManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		roleId := chi.URLParam(r, "Id")
+		userId := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
 		_ = app.Session.Destroy(r.Context())
 		applicantType, err := applications.GetApplicantType(roleId)
 		if err != nil {
@@ -64,12 +70,16 @@ func DeleteApplicantTypeManagementHandler(app *config.Env) http.HandlerFunc {
 			}
 		}
 		app.Session.Put(r.Context(), "tab", "tab3")
+		app.Session.Put(r.Context(), "userId", userId)
+		app.Session.Put(r.Context(), "token", token)
 		http.Redirect(w, r, "/support/management/user", 301)
 	}
 }
 
 func ApplicantionCreateManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		userId := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
 		_ = app.Session.Destroy(r.Context())
 		r.ParseForm()
 		applicationType := r.PostFormValue("applicationType")
@@ -83,6 +93,8 @@ func ApplicantionCreateManagementHandler(app *config.Env) http.HandlerFunc {
 			}
 		}
 		app.Session.Put(r.Context(), "tab", "tab3")
+		app.Session.Put(r.Context(), "userId", userId)
+		app.Session.Put(r.Context(), "token", token)
 		http.Redirect(w, r, "/support/management/user", 301)
 	}
 }
@@ -90,6 +102,8 @@ func ApplicantionCreateManagementHandler(app *config.Env) http.HandlerFunc {
 func DeleteRoleManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		roleId := chi.URLParam(r, "roleId")
+		userId := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
 		_ = app.Session.Destroy(r.Context())
 		roleeObject, err := demographics.GetRole(roleId)
 		if err != nil {
@@ -102,12 +116,16 @@ func DeleteRoleManagementHandler(app *config.Env) http.HandlerFunc {
 			}
 		}
 		app.Session.Put(r.Context(), "tab", "tab1")
+		app.Session.Put(r.Context(), "userId", userId)
+		app.Session.Put(r.Context(), "token", token)
 		http.Redirect(w, r, "/support/management/user", 301)
 	}
 }
 
 func RoleCreateManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		userId := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
 		_ = app.Session.Destroy(r.Context())
 		r.ParseForm()
 		role := r.PostFormValue("role")
@@ -121,26 +139,32 @@ func RoleCreateManagementHandler(app *config.Env) http.HandlerFunc {
 			}
 		}
 		app.Session.Put(r.Context(), "tab", "tab1")
+		app.Session.Put(r.Context(), "userId", userId)
+		app.Session.Put(r.Context(), "token", token)
 		http.Redirect(w, r, "/support/management/user", 301)
 	}
 }
 
 func RoleUpdateManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		userId := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
 		_ = app.Session.Destroy(r.Context())
 		r.ParseForm()
-		id := strings.TrimSpace(r.PostFormValue("Id"))
-		role := r.PostFormValue("Role")
-		fmt.Println(">>>>", id, "<<<<<<actualUser||actualRole>>>>>", role)
-		if id != "" || role != "" {
-			userRole := demographics.Role{id, role}
-			//_,err:=userIO.UpdateUserRole(userRole)
-			_, err := demographics.UpdateRole(userRole)
+		id := strings.TrimSpace(r.PostFormValue("userId"))
+		role := r.PostFormValue("roleId")
+		fmt.Println(">>>>", id, "<<<<<<actualUser||actualRole>>>>>", role, "user ", userId)
+		if id != "" || role != "" || token != "" {
+			userRole := userDomain.UserRole{id, role}
+			_, err := userIO.UpdateUserRole(userRole, token)
+			//_, err := demographics.UpdateRole(userRole,token)
 			if err != nil {
-				fmt.Println("error update UserRole")
+				fmt.Println("error update Role")
 			}
 		}
-		app.Session.Put(r.Context(), "tab", "tab1")
+		app.Session.Put(r.Context(), "tab", "tab2")
+		app.Session.Put(r.Context(), "userId", userId)
+		app.Session.Put(r.Context(), "token", token)
 		http.Redirect(w, r, "/support/management/user", 301)
 	}
 

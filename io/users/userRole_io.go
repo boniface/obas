@@ -44,8 +44,9 @@ func CreateUserRole(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateUserRole(entity interface{}) (bool, error) {
+func UpdateUserRole(entity userDomain.UserRole, token string) (bool, error) {
 	resp, _ := api.Rest().
+		SetAuthToken(token).
 		SetBody(entity).
 		Post(userRoleUrl + "/role/update")
 	if resp.IsError() {
