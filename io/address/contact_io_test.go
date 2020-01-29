@@ -14,6 +14,7 @@ func TestGetContacts(t *testing.T) {
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
 	assert.True(t, len(value) > 0)
+
 }
 
 func TestGetContactType(t *testing.T) {

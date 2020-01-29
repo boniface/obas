@@ -6,7 +6,7 @@ import (
 	demographyDomain "obas/domain/demographics"
 )
 
-const raceUrl = api.BASE_URL + "/demographics"
+const raceUrl = api.BASE_URL + "/demographics/race/"
 
 type Race demographyDomain.Race
 
@@ -15,7 +15,7 @@ func GetRaces() ([]Race, error) {
 	//entites = append(entites, Race{"1", "Black"})
 	//entites = append(entites, Race{"2", "White"})
 	//entites = append(entites, Race{"3", "Colored"})
-	resp, _ := api.Rest().Get(raceUrl + "/race/all")
+	resp, _ := api.Rest().Get(raceUrl + "all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -29,7 +29,7 @@ func GetRaces() ([]Race, error) {
 
 func GetRace(id string) (demographyDomain.Race, error) {
 	entity := demographyDomain.Race{}
-	resp, _ := api.Rest().Get(raceUrl + "/race/get/" + id)
+	resp, _ := api.Rest().Get(raceUrl + "get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -43,7 +43,7 @@ func GetRace(id string) (demographyDomain.Race, error) {
 func CreateRace(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(raceUrl + "/race/create")
+		Post(raceUrl + "create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -54,7 +54,7 @@ func CreateRace(entity interface{}) (bool, error) {
 func UpdateRace(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(raceUrl + "/race/update")
+		Post(raceUrl + "update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -65,7 +65,7 @@ func UpdateRace(entity interface{}) (bool, error) {
 func DeleteRace(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(raceUrl + "/race/delete")
+		Post(raceUrl + "delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

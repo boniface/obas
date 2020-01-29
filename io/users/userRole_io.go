@@ -6,11 +6,11 @@ import (
 	userDomain "obas/domain/users"
 )
 
-const userRoleUrl = api.BASE_URL + "/users"
+const userRoleUrl = api.BASE_URL + "/users/role/"
 
 func GetUserRoles() ([]userDomain.UserRole, error) {
 	entites := []userDomain.UserRole{}
-	resp, _ := api.Rest().Get(userRoleUrl + "/role/all")
+	resp, _ := api.Rest().Get(userRoleUrl + "all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
@@ -23,7 +23,7 @@ func GetUserRoles() ([]userDomain.UserRole, error) {
 
 func GetUserRole(id string) (userDomain.UserRole, error) {
 	entity := userDomain.UserRole{}
-	resp, _ := api.Rest().Get(userRoleUrl + "/role/get/" + id)
+	resp, _ := api.Rest().Get(userRoleUrl + "get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -37,7 +37,7 @@ func GetUserRole(id string) (userDomain.UserRole, error) {
 func CreateUserRole(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(userRoleUrl + "/role/create")
+		Post(userRoleUrl + "create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -48,7 +48,7 @@ func UpdateUserRole(entity userDomain.UserRole, token string) (bool, error) {
 	resp, _ := api.Rest().
 		SetAuthToken(token).
 		SetBody(entity).
-		Post(userRoleUrl + "/role/update")
+		Post(userRoleUrl + "update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -58,7 +58,7 @@ func UpdateUserRole(entity userDomain.UserRole, token string) (bool, error) {
 func DeleteUserRole(entity userDomain.UserRole) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(userRoleUrl + "/role/delete")
+		Post(userRoleUrl + "delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -67,7 +67,7 @@ func DeleteUserRole(entity userDomain.UserRole) (bool, error) {
 
 func GetUserRoleWithUserId(userId string) (userDomain.UserRole, error) {
 	entity := userDomain.UserRole{}
-	resp, _ := api.Rest().Get(userRoleUrl + "/role/getforuser/" + userId)
+	resp, _ := api.Rest().Get(userRoleUrl + "getforuser/" + userId)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}

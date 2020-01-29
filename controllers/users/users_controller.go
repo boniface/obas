@@ -5,6 +5,7 @@ import (
 	"github.com/go-chi/chi"
 	"html/template"
 	"io"
+	"math"
 	"net/http"
 	"obas/config"
 	institutionHelper "obas/controllers/institutions"
@@ -85,6 +86,7 @@ func Users(app *config.Env) http.Handler {
 
 	r.Get("/student/bursary/application", StudentBursaryApplicationHandler(app))
 	r.Post("/student/bursary/application/start", StudentBursaryApplicationStartHandler(app))
+	r.Post("/student/bursary/application/end", StudentBursaryApplicationEndHandler(app))
 	r.Post("/student/bursary/application/institution/matric/update", StudentBursaryApplicationMatricHandler(app))
 	r.Post("/student/bursary/application/type/update", StudentBursaryApplicationTypeHandler(app))
 	r.Post("/student/bursary/application/matric/subject/update", StudentBursaryApplicationMatricSubjectHandler(app))
@@ -94,7 +96,112 @@ func Users(app *config.Env) http.Handler {
 	r.Post("/student/bursary/application/institution/prospective/update", StudentBursaryApplicationProspectiveInstitutionHandler(app))
 	r.Post("/student/bursary/application/institution/prospective/course/update", StudentBursaryApplicationProspectiveInstitutionCourseHandler(app))
 
+	r.Get("/student/bursary/history", StudentBursaryApplicationHistoryHandler(app))
+
 	return r
+}
+
+func StudentBursaryApplicationHistoryHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		if email == "" || len(email) <= 0 {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+
+		var alert genericHelper.PageToast
+
+		extendedUserApplications, alert := getExtendedUserApplications(app, user.Email)
+
+		type PageData struct {
+			Student                  userDomain.User
+			Menu                     string
+			SubMenu                  string
+			ExtendedUserApplications []ExtendedUserApplication
+			Alert                    genericHelper.PageToast
+		}
+
+		data := PageData{
+			user,
+			"bursary",
+			"history",
+			extendedUserApplications,
+			alert}
+
+		files := []string{
+			app.Path + "content/student/bursary/application_history.html",
+			app.Path + "content/student/template/sidebar.template.html",
+			app.Path + "base/template/footer.template.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+	}
+}
+
+func StudentBursaryApplicationEndHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		user, err := usersIO.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+
+		failureMessage := "Application NOT submitted!"
+		successMessage := "Application submitted!"
+		isSuccessful := false
+
+		r.ParseForm()
+		applicationId := r.PostFormValue("applicationId")
+
+		if applicationId != "" {
+			completeStatus, err := utilIO.GetCompleteStatus()
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+				genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, failureMessage)
+			} else {
+				if completeStatus.Id != "" {
+					userApplicationStatus := applicationDomain.ApplicationStatus{applicationId, completeStatus.Id, user.Email, "Application submitted", time.Now()}
+					app.InfoLog.Println("Application Status to create: ", userApplicationStatus)
+					_, err = applicationIO.CreateApplicationStatus(userApplicationStatus)
+					if err != nil {
+						app.ErrorLog.Println(err.Error() + " ~ User Application Status NOT created!")
+						genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, failureMessage)
+					} else {
+						isSuccessful = true
+						genericHelper.SetSessionMessage(app, r, genericHelper.SuccessAlertStyle, successMessage)
+					}
+				} else {
+					app.ErrorLog.Println("No status id found!")
+					genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, failureMessage)
+				}
+			}
+		} else {
+			app.ErrorLog.Println("No application id!")
+			genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, failureMessage)
+		}
+		app.InfoLog.Println("application response is ", isSuccessful)
+		http.Redirect(w, r, "/users/student/bursary/application", 301)
+	}
 }
 
 func StudentBursaryApplicationProspectiveInstitutionCourseHandler(app *config.Env) http.HandlerFunc {
@@ -505,133 +612,131 @@ func StudentBursaryApplicationHandler(app *config.Env) http.HandlerFunc {
 		var applicationProgress float64
 		var matricApplicant applicationDomain.ApplicantType
 		var progressBarValue float64
+		var proceed bool
 		isComplete := true
 		isMatricApplicant := false
 
-		latestUserApplication, err := usersIO.GetLatestUserApplication(email)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			alert = genericHelper.PageToast{genericHelper.DangerAlertStyle, "Could not retrieve your latest application!"}
-		} else {
-			if latestUserApplication.ApplicationId != "" {
-				isComplete, err = applicationIO.IsApplicationCompleted(latestUserApplication.ApplicationId)
-				if err != nil {
-					app.ErrorLog.Println(err.Error())
-					alert = genericHelper.PageToast{genericHelper.DangerAlertStyle, "Could not retrieve status of latest application"}
-				} else {
-					application, err = applicationIO.GetApplication(latestUserApplication.ApplicationId)
-					if err != nil {
-						app.ErrorLog.Println(err.Error())
-						alert = genericHelper.PageToast{genericHelper.DangerAlertStyle, "Could not retrieve application!"}
-					} else {
-						matricApplicant, alert = getMatricApplicantType(app)
-						if alert.AlertInfo == "" {
-							isMatricApplicant = matricApplicant.Id == application.ApplicantTypeId
-							if isMatricApplicant {
-								progressBarValue = genericHelper.MatricProgressBarIncrementVale
-							} else {
-								progressBarValue = genericHelper.NonMatricProgressBarIncrementValue
-							}
-							if application.ApplicantTypeId != "" {
-								applicationProgress += progressBarValue
+		applicantTypes, alert = getApplicantTypes(app)
+		proceed = alert.AlertInfo == ""
+		if proceed {
+			latestUserApplication, alert := getLatestUserApplication(app, email)
+			proceed = alert.AlertInfo == ""
+			if proceed {
+				if latestUserApplication.ApplicationId != "" {
+					isComplete, alert = isApplicationCompleted(app, latestUserApplication.ApplicationId)
+					proceed = alert.AlertInfo == ""
+					if proceed && !isComplete {
+						application, alert = getApplication(app, latestUserApplication.ApplicationId)
+						proceed = alert.AlertInfo == ""
+						if proceed {
+							matricApplicant, alert = getMatricApplicantType(app)
+							proceed = alert.AlertInfo == ""
+							if proceed {
+								isMatricApplicant = matricApplicant.Id == application.ApplicantTypeId
+								if isMatricApplicant {
+									progressBarValue = genericHelper.MatricProgressBarIncrementVale
+								} else {
+									progressBarValue = genericHelper.NonMatricProgressBarIncrementValue
+								}
+								if application.ApplicantTypeId != "" {
+									applicationProgress += progressBarValue
+								}
+								provinces, alert = locationHelper.GetProvinces(app)
+								proceed = alert.AlertInfo == ""
+								if proceed {
+									institutionTypes, alert = getInstitutionTypes(app)
+									proceed = alert.AlertInfo == ""
+								}
+								if proceed {
+									documentTypes, alert = getDocumentTypes(app)
+									proceed = alert.AlertInfo == ""
+								}
+								if proceed {
+									userMatricInstitution, alert = getUserMatricInstitution(app, user.Email)
+									proceed = alert.AlertInfo == ""
+								}
+								if proceed && userMatricInstitution.InstitutionId != "" {
+									applicationProgress += progressBarValue
+									userMatricInstitutionName, alert = institutionHelper.GetInstitutionName(app, userMatricInstitution.InstitutionId)
+									proceed = alert.AlertInfo == ""
+								}
+								if proceed && userMatricInstitution.InstitutionId != "" {
+									matricSubjects, alert = getMatricSubjects(app, userMatricInstitution.InstitutionId)
+									proceed = alert.AlertInfo == ""
+								}
+								if proceed {
+									eUserMatricSubjects, alert = getTransformedUserMatricSubjects(app, user.Email)
+									proceed = alert.AlertInfo == ""
+								}
+								if proceed {
+									applicationProgress += progressBarValue * float64(len(eUserMatricSubjects))
+									if !isMatricApplicant {
+										userTertiaryInstitution, alert = getUserTertiaryInstitutionForApplication(app, user.Email, application.Id)
+										proceed = alert.AlertInfo == ""
+									}
+								}
+								if proceed && userTertiaryInstitution.InstitutionId != "" && !isMatricApplicant {
+									applicationProgress += progressBarValue
+									userTertiaryInstitutionName, alert = institutionHelper.GetInstitutionName(app, userTertiaryInstitution.InstitutionId)
+									proceed = alert.AlertInfo == ""
+								}
+								if proceed && userTertiaryInstitution.InstitutionId != "" && !isMatricApplicant {
+									currentTertiaryCourses, alert = getInstitutionCourses(app, userTertiaryInstitution.InstitutionId)
+									proceed = alert.AlertInfo == ""
+								}
+								if proceed && !isMatricApplicant {
+									userTertiaryCourse, alert = getUserTertiaryCourseForApplication(app, user.Email, application.Id)
+									proceed = alert.AlertInfo == ""
+								}
+								if proceed && userTertiaryCourse.CourseId != "" && !isMatricApplicant {
+									applicationProgress += progressBarValue
+									currentCourseSubjects, alert = getCourseSubjects(app, userTertiaryCourse.CourseId)
+									proceed = alert.AlertInfo == ""
+								}
+								if proceed && !isMatricApplicant {
+									eUserCurrentTertiarySubjects, alert = getTransformedUserTertiarySubjects(app, user.Email, application.Id)
+									proceed = alert.AlertInfo == ""
+								}
+								if proceed {
+									applicationProgress += progressBarValue * float64(len(eUserCurrentTertiarySubjects))
+									userApplicationInstitution, alert = getUserApplicationInstitution(app, user.Email, application.Id)
+									proceed = alert.AlertInfo == ""
+								}
+								if proceed && userApplicationInstitution.InstitutionId != "" {
+									applicationProgress += progressBarValue
+									userApplicationInstitutionName, alert = institutionHelper.GetInstitutionName(app, userApplicationInstitution.InstitutionId)
+									proceed = alert.AlertInfo == ""
+								}
+								if proceed && userApplicationInstitution.InstitutionId != "" {
+									prospectiveTertiaryCourses, alert = getInstitutionCourses(app, userApplicationInstitution.InstitutionId)
+									proceed = alert.AlertInfo == ""
+								}
+								if proceed {
+									userApplicationCourse, alert = getUserApplicationCourse(app, user.Email, application.Id)
+									proceed = alert.AlertInfo == ""
+								}
+								if proceed {
+									if userApplicationCourse.CourseId != "" {
+										applicationProgress += progressBarValue
+									}
+									userDocuments, alert = getUserDocumentData(app, user.Email)
+									proceed = alert.AlertInfo == ""
+								}
+								if proceed {
+									applicationProgress += progressBarValue * float64(len(userDocuments))
+									applicationProgress = math.Round(applicationProgress*100) / 100
+									if applicationProgress > 100 {
+										applicationProgress = 100
+									}
+									alert = genericHelper.CheckForSessionAlert(app, r)
+								}
 							}
 						}
 					}
-				}
-			}
-			applicantTypes, alert = getApplicantTypes(app)
-			proceed := alert.AlertInfo == ""
-			if proceed {
-				if isComplete {
+				} else {
 					applicationTypes, alert = getApplicationTypes(app)
 					proceed = alert.AlertInfo == ""
 					if proceed {
-						alert = genericHelper.CheckForSessionAlert(app, r)
-					}
-				} else {
-					provinces, alert = locationHelper.GetProvinces(app)
-					proceed = alert.AlertInfo == ""
-					if proceed {
-						institutionTypes, alert = getInstitutionTypes(app)
-						proceed = alert.AlertInfo == ""
-					}
-					if proceed {
-						documentTypes, alert = getDocumentTypes(app)
-						proceed = alert.AlertInfo == ""
-					}
-					if proceed {
-						userMatricInstitution, alert = getUserMatricInstitution(app, user.Email)
-						proceed = alert.AlertInfo == ""
-					}
-					if proceed && userMatricInstitution.InstitutionId != "" {
-						applicationProgress += progressBarValue
-						userMatricInstitutionName, alert = institutionHelper.GetInstitutionName(app, userMatricInstitution.InstitutionId)
-						proceed = alert.AlertInfo == ""
-					}
-					if proceed && userMatricInstitution.InstitutionId != "" {
-						matricSubjects, alert = getMatricSubjects(app, userMatricInstitution.InstitutionId)
-						proceed = alert.AlertInfo == ""
-					}
-					if proceed {
-						eUserMatricSubjects, alert = getTransformedUserMatricSubjects(app, user.Email)
-						proceed = alert.AlertInfo == ""
-					}
-					if proceed {
-						applicationProgress += progressBarValue * float64(len(eUserMatricSubjects))
-						if !isMatricApplicant {
-							userTertiaryInstitution, alert = getUserTertiaryInstitutionForApplication(app, user.Email, application.Id)
-							proceed = alert.AlertInfo == ""
-						}
-					}
-					if proceed && userTertiaryInstitution.InstitutionId != "" && !isMatricApplicant {
-						applicationProgress += progressBarValue
-						userTertiaryInstitutionName, alert = institutionHelper.GetInstitutionName(app, userTertiaryInstitution.InstitutionId)
-						proceed = alert.AlertInfo == ""
-					}
-					if proceed && userTertiaryInstitution.InstitutionId != "" && !isMatricApplicant {
-						currentTertiaryCourses, alert = getInstitutionCourses(app, userTertiaryInstitution.InstitutionId)
-						proceed = alert.AlertInfo == ""
-					}
-					if proceed && !isMatricApplicant {
-						userTertiaryCourse, alert = getUserTertiaryCourseForApplication(app, user.Email, application.Id)
-						proceed = alert.AlertInfo == ""
-					}
-					if proceed && userTertiaryCourse.CourseId != "" && !isMatricApplicant {
-						applicationProgress += progressBarValue
-						currentCourseSubjects, alert = getCourseSubjects(app, userTertiaryCourse.CourseId)
-						proceed = alert.AlertInfo == ""
-					}
-					if proceed && !isMatricApplicant {
-						eUserCurrentTertiarySubjects, alert = getTransformedUserTertiarySubjects(app, user.Email, application.Id)
-						proceed = alert.AlertInfo == ""
-					}
-					if proceed {
-						applicationProgress += progressBarValue * float64(len(eUserCurrentTertiarySubjects))
-						userApplicationInstitution, alert = getUserApplicationInstitution(app, user.Email, application.Id)
-						proceed = alert.AlertInfo == ""
-					}
-					if proceed && userApplicationInstitution.InstitutionId != "" {
-						applicationProgress += progressBarValue
-						userApplicationInstitutionName, alert = institutionHelper.GetInstitutionName(app, userApplicationInstitution.InstitutionId)
-						proceed = alert.AlertInfo == ""
-					}
-					if proceed && userApplicationInstitution.InstitutionId != "" {
-						prospectiveTertiaryCourses, alert = getInstitutionCourses(app, userApplicationInstitution.InstitutionId)
-						proceed = alert.AlertInfo == ""
-					}
-					if proceed {
-						userApplicationCourse, alert = getUserApplicationCourse(app, user.Email, application.Id)
-						proceed = alert.AlertInfo == ""
-					}
-					if proceed {
-						if userApplicationCourse.CourseId != "" {
-							applicationProgress += progressBarValue
-						}
-						userDocuments, alert = getUserDocumentData(app, user.Email)
-						proceed = alert.AlertInfo == ""
-					}
-					if proceed {
-						applicationProgress += progressBarValue * float64(len(userDocuments))
 						alert = genericHelper.CheckForSessionAlert(app, r)
 					}
 				}
@@ -736,6 +841,7 @@ func StudentBursaryApplicationStartHandler(app *config.Env) http.HandlerFunc {
 		}
 
 		var newApplication = applicationDomain.Application{}
+		var proceed bool
 		failureMessage := "Application NOT created!"
 		successMessage := "Application created!"
 		isSuccessful := false
@@ -745,47 +851,57 @@ func StudentBursaryApplicationStartHandler(app *config.Env) http.HandlerFunc {
 		applicantTypeId := r.PostFormValue("applicantType")
 
 		if applicationTypeId != "" && applicantTypeId != "" {
-			application := applicationDomain.Application{"", applicationTypeId, applicantTypeId}
-			app.InfoLog.Println("Application to create: ", application)
-			newApplication, err = applicationIO.CreateApplication(application)
-			if err != nil {
-				app.ErrorLog.Println(err.Error())
-				genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, failureMessage)
-			} else {
-				if newApplication.Id != "" {
-					userApplication := userDomain.UserApplication{email, newApplication.Id, time.Now()}
-					app.InfoLog.Println("User Application to create: ", userApplication)
-					_, err := usersIO.CreateUserApplication(userApplication)
+			isDuplicateApplication, alert := checkUserCurrentYearApplications(app, user.Email, applicationTypeId)
+			proceed = alert.AlertInfo == ""
+			if proceed {
+				if isDuplicateApplication {
+					genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, "You have already submitted an application!")
+				} else {
+					application := applicationDomain.Application{"", applicationTypeId, applicantTypeId}
+					app.InfoLog.Println("Application to create: ", application)
+					newApplication, err = applicationIO.CreateApplication(application)
 					if err != nil {
 						app.ErrorLog.Println(err.Error())
 						genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, failureMessage)
 					} else {
-						incompleteStatus, err := utilIO.GetIncompleteStatus()
-						if err != nil {
-							app.ErrorLog.Println(err.Error())
-							genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, failureMessage)
-						} else {
-							if incompleteStatus.Id != "" {
-								userApplicationStatus := applicationIO.ApplicationStatus{newApplication.Id, incompleteStatus.Id, user.Email, "Starting Application", time.Now()}
-								app.InfoLog.Println("Application Status to create: ", userApplicationStatus)
-								_, err = applicationIO.CreateApplicationStatus(userApplicationStatus)
+						if newApplication.Id != "" {
+							userApplication := userDomain.UserApplication{email, newApplication.Id, time.Now()}
+							app.InfoLog.Println("User Application to create: ", userApplication)
+							_, err := usersIO.CreateUserApplication(userApplication)
+							if err != nil {
+								app.ErrorLog.Println(err.Error())
+								genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, failureMessage)
+							} else {
+								incompleteStatus, err := utilIO.GetIncompleteStatus()
 								if err != nil {
-									app.ErrorLog.Println(err.Error() + " ~ User Application Status NOT created!")
+									app.ErrorLog.Println(err.Error())
 									genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, failureMessage)
 								} else {
-									isSuccessful = true
-									genericHelper.SetSessionMessage(app, r, genericHelper.SuccessAlertStyle, successMessage)
+									if incompleteStatus.Id != "" {
+										userApplicationStatus := applicationDomain.ApplicationStatus{newApplication.Id, incompleteStatus.Id, user.Email, "Starting Application", time.Now()}
+										app.InfoLog.Println("Application Status to create: ", userApplicationStatus)
+										_, err = applicationIO.CreateApplicationStatus(userApplicationStatus)
+										if err != nil {
+											app.ErrorLog.Println(err.Error() + " ~ User Application Status NOT created!")
+											genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, failureMessage)
+										} else {
+											isSuccessful = true
+											genericHelper.SetSessionMessage(app, r, genericHelper.SuccessAlertStyle, successMessage)
+										}
+									} else {
+										app.ErrorLog.Println("No status id found!")
+										genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, failureMessage)
+									}
 								}
-							} else {
-								app.ErrorLog.Println("No status id found!")
-								genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, failureMessage)
 							}
+						} else {
+							app.ErrorLog.Println("No application id!")
+							genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, failureMessage)
 						}
 					}
-				} else {
-					app.ErrorLog.Println("No application id!")
-					genericHelper.SetSessionMessage(app, r, genericHelper.DangerAlertStyle, failureMessage)
 				}
+			} else {
+				genericHelper.SetSessionMessage(app, r, alert.AlertType, alert.AlertInfo)
 			}
 		} else {
 			error := "Application type and/or applicant type is null!"
@@ -1555,19 +1671,18 @@ func StudentProfileAddressHandler(app *config.Env) http.HandlerFunc {
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
+		addresses := []AddressPlaceHolder{}
 		addressTypes, err := addressIO.GetAddressTypes()
 		if err != nil {
 			app.ErrorLog.Println(err.Error(), addressTypes)
-		}
-
-		addresses := []AddressPlaceHolder{}
-
-		for _, addressType := range addressTypes {
-			userAddress, err := usersIO.GetUserAddress(email, addressType.AddressTypeID)
-			if err != nil {
-				app.ErrorLog.Println(err.Error())
-			} else {
-				addresses = append(addresses, AddressPlaceHolder{addressType.AddressName, userAddress.Address, userAddress.PostalCode})
+		} else {
+			for _, addressType := range addressTypes {
+				userAddress, err := usersIO.GetUserAddress(email, addressType.AddressTypeID)
+				if err != nil {
+					app.ErrorLog.Println(err.Error())
+				} else {
+					addresses = append(addresses, AddressPlaceHolder{addressType.AddressName, userAddress.Address, userAddress.PostalCode})
+				}
 			}
 		}
 
@@ -1621,22 +1736,21 @@ func StudentProfileAddressTypeHandler(app *config.Env) http.HandlerFunc {
 		}
 
 		addressTypes, err := addressIO.GetAddressTypes()
-		if err != nil {
-			app.ErrorLog.Println(err.Error(), addressTypes)
-		}
-
 		addresses := []AddressPlaceHolder{}
 		var addressName string
-
-		for _, addressType := range addressTypes {
-			if addressTypeId == addressType.AddressTypeID {
-				addressName = addressType.AddressName
-			}
-			userAddress, err := usersIO.GetUserAddress(email, addressType.AddressTypeID)
-			if err != nil {
-				app.ErrorLog.Println(err.Error())
-			} else {
-				addresses = append(addresses, AddressPlaceHolder{addressType.AddressName, userAddress.Address, userAddress.PostalCode})
+		if err != nil {
+			app.ErrorLog.Println(err.Error(), addressTypes)
+		} else {
+			for _, addressType := range addressTypes {
+				if addressTypeId == addressType.AddressTypeID {
+					addressName = addressType.AddressName
+				}
+				userAddress, err := usersIO.GetUserAddress(email, addressType.AddressTypeID)
+				if err != nil {
+					app.ErrorLog.Println(err.Error())
+				} else {
+					addresses = append(addresses, AddressPlaceHolder{addressType.AddressName, userAddress.Address, userAddress.PostalCode})
+				}
 			}
 		}
 
@@ -1719,7 +1833,7 @@ func StudentProfilePersonalHandler(app *config.Env) http.HandlerFunc {
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
-		dobString := genericHelper.GetDate_YYYYMMDD(user.DateOfBirth.String()) // split date and get in format: yyy-mm-dd
+		dobString := genericHelper.FormatDate(user.DateOfBirth)
 
 		type PageData struct {
 			Student     userDomain.User
@@ -1759,7 +1873,7 @@ func UpdateStudentProfilePersonalHandler(app *config.Env) http.HandlerFunc {
 		firstName := r.PostFormValue("first_name")
 		lastName := r.PostFormValue("last_name")
 		dateOfBirthStr := r.PostFormValue("dateOfBirth")
-		dateOfBirth, _ := time.Parse(genericHelper.LayoutOBAS, dateOfBirthStr)
+		dateOfBirth, _ := time.Parse(genericHelper.YYYYMMDD_FORMAT, dateOfBirthStr)
 		user := userDomain.User{email, idNumber, firstName, "", lastName, dateOfBirth}
 		app.InfoLog.Println("User to update: ", user)
 		updated, err := usersIO.UpdateUser(user, token)

@@ -392,7 +392,7 @@ func InstitutionManagementHandler(app *config.Env) http.HandlerFunc {
 		var institutionsCourseHolder []InstitutionCourseHolder
 		var institutionsAddressHolder []InstitutionAddressHolder
 
-		institutionAddresses, err := institutionIO.GetInstitutionAddresses()
+		institutionAddresses, err := institutionIO.GetAllInstitutionAddresses()
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		} else if institutionAddresses != nil {
@@ -409,7 +409,7 @@ func InstitutionManagementHandler(app *config.Env) http.HandlerFunc {
 			}
 		}
 
-		allInstitutionCourse, err := institutionIO.GetAllInstitutionCourse()
+		allInstitutionCourse, err := institutionIO.GetAllInstitutionCourses()
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		} else {

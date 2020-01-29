@@ -62,3 +62,17 @@ func GetIncompleteStatus()(domain.GenericStatus, error) {
 	}
 	return entity, nil
 }
+
+func GetCompleteStatus()(domain.GenericStatus, error) {
+	entity := domain.GenericStatus{}
+	//entity = domain.GenericStatus{"1", "Incomplete", ""}
+	resp, _ := api.Rest().Get(utilStatusURL + "complete")
+	if resp.IsError() {
+		return entity, errors.New(resp.Status())
+	}
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(err.Error())
+	}
+	return entity, nil
+}

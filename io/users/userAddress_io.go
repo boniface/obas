@@ -6,7 +6,7 @@ import (
 	domain "obas/domain/users"
 )
 
-const userAddressUrl = api.BASE_URL + "/users"
+const userAddressUrl = api.BASE_URL + "/users/address/"
 
 type UserAddress domain.UserAddress
 
@@ -18,7 +18,7 @@ func GetUserAddresses() ([]UserAddress, error) {
 	//allAdd := []UserAddress{addT1, addT2}
 	//
 	//entities = allAdd
-	resp, _ := api.Rest().Get(userAddressUrl + "/address/all")
+	resp, _ := api.Rest().Get(userAddressUrl + "all")
 
 	if resp.IsError() {
 		return entities, errors.New(resp.Status())
@@ -37,7 +37,7 @@ func GetUserAddress(userId string, addressTypeId string) (UserAddress, error) {
 	//} else if addressTypeId == "246" {
 	//	entity = UserAddress{userId, addressTypeId, "P.0.Box 3278 Brackenfell", "6792"}
 	//}
-	resp, _ := api.Rest().Get(userAddressUrl + "/address/get/" + userId + "/" + addressTypeId)
+	resp, _ := api.Rest().Get(userAddressUrl + "get/" + userId + "/" + addressTypeId)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -51,7 +51,7 @@ func GetUserAddress(userId string, addressTypeId string) (UserAddress, error) {
 func CreateUserAddress(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(userAddressUrl + "/address/create")
+		Post(userAddressUrl + "create")
 	if resp.IsError() {
 
 		return false, errors.New(resp.Status())
@@ -64,7 +64,7 @@ func UpdateUserAddress(entity UserAddress, token string) (bool, error) {
 	resp, _ := api.Rest().
 		SetAuthToken(token).
 		SetBody(entity).
-		Post(userAddressUrl + "/address/update")
+		Post(userAddressUrl + "update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -75,7 +75,7 @@ func UpdateUserAddress(entity UserAddress, token string) (bool, error) {
 func DeleteUserAddress(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(userAddressUrl + "/address/delete")
+		Post(userAddressUrl + "delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

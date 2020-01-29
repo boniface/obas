@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"obas/config"
 	domain "obas/domain/application"
-
 	documentDomain "obas/domain/documents"
 	userDomain "obas/domain/users"
 	domain4 "obas/domain/util"
@@ -210,7 +209,7 @@ func ChangeApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
-		/***This method still not existing in the backend
+		/***This method still not existing in the backend**/
 		userRole, err := users.GetUserRoleWithUserId(email)
 		if err != nil {
 			fmt.Println("error reading userRole in ChangeApplicationStatusHandler")
@@ -230,7 +229,7 @@ func ChangeApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 			fmt.Println("error Not an Admin in ChangeApplicationStatusHandler")
 			http.Redirect(w, r, "/login", 301)
 			return
-		}**/
+		}
 
 		r.ParseForm()
 
@@ -410,10 +409,12 @@ func getApplicants() []applicantDetails {
 		if err != nil {
 			fmt.Println("error reading institution in getApplicants")
 		}
+
 		userApplicationCourse, err := users.GetUserApplicationCourse(user.Email, application.Id)
 		if err != nil {
 			fmt.Println("error reading userApplicationCourse in getApplicants")
 		}
+
 		course, err := academics.GetCourse(userApplicationCourse.UserId)
 		if err != nil {
 			fmt.Println("error reading course in getApplicants")
@@ -427,6 +428,7 @@ func getApplicants() []applicantDetails {
 		if err != nil {
 			fmt.Println("error reading applicationStat in getApplicants")
 		}
+
 		applicantType, err := applicationIO.GetApplicantType(application.ApplicantTypeId)
 		if err != nil {
 			fmt.Println("error reading applicantType in getApplicants")

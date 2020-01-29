@@ -8,10 +8,8 @@ import (
 
 const applicationStatusUrl = api.BASE_URL + "/application/status/"
 
-type ApplicationStatus domain.ApplicationStatus
-
-func GetAllStatusesForApplication(applicationId string) ([]ApplicationStatus, error) {
-	entites := []ApplicationStatus{}
+func GetAllStatusesForApplication(applicationId string) ([]domain.ApplicationStatus, error) {
+	entites := []domain.ApplicationStatus{}
 	resp, _ := api.Rest().Get(applicationStatusUrl + "all/" + applicationId)
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -23,8 +21,8 @@ func GetAllStatusesForApplication(applicationId string) ([]ApplicationStatus, er
 	return entites, nil
 }
 
-func GetApplicationStatus(applicationId string) (ApplicationStatus, error) {
-	entity := ApplicationStatus{}
+func GetApplicationStatus(applicationId string) (domain.ApplicationStatus, error) {
+	entity := domain.ApplicationStatus{}
 	resp, _ := api.Rest().Get(applicationStatusUrl + "getforapplication/" + applicationId)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
@@ -36,7 +34,7 @@ func GetApplicationStatus(applicationId string) (ApplicationStatus, error) {
 	return entity, nil
 }
 
-func CreateApplicationStatus(entity ApplicationStatus) (bool, error) {
+func CreateApplicationStatus(entity domain.ApplicationStatus) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
 		Post(applicationStatusUrl + "create")
@@ -46,8 +44,8 @@ func CreateApplicationStatus(entity ApplicationStatus) (bool, error) {
 	return true, nil
 }
 
-func GetLatestForStatus(applicationId, statusId string) (ApplicationStatus, error) {
-	entity := ApplicationStatus{}
+func GetLatestForStatus(applicationId, statusId string) (domain.ApplicationStatus, error) {
+	entity := domain.ApplicationStatus{}
 	resp, _ := api.Rest().Get(applicationStatusUrl + "getforstatus/" + applicationId + "/" + statusId)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())

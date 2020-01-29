@@ -21,12 +21,6 @@ func TestDeleteInstitutionAddress(t *testing.T) {
 	fmt.Println(" The Results", resp)
 	assert.Nil(t, err)
 }
-func TestGetInstitutionAddress(t *testing.T) {
-	resp, err := GetInstitutionAddress("001")
-	assert.NotNil(t, resp)
-	fmt.Println(" The Results", resp)
-	assert.Nil(t, err)
-}
 func TestGetInstitutionAddresses(t *testing.T) {
 	resp, err := GetInstitutionAddresses()
 	assert.NotNil(t, resp)
