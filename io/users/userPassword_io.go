@@ -7,13 +7,13 @@ import (
 	domain "obas/domain/users"
 )
 
-const usersPwdUrl = api.BASE_URL + "/users"
+const usersPwdUrl = api.BASE_URL + "/users/password/"
 
 type UserPassword domain.UserPassword
 
 func GetUserPasswords() ([]UserPassword, error) {
 	entites := []UserPassword{}
-	resp, serverEr := api.Rest().Get(usersPwdUrl + "/password/all")
+	resp, serverEr := api.Rest().Get(usersPwdUrl + "all")
 
 	if resp.IsError() {
 		fmt.Println(" Is request from Server Okay", serverEr)
@@ -28,7 +28,7 @@ func GetUserPasswords() ([]UserPassword, error) {
 
 func GetUserPassword(id string) (UserPassword, error) {
 	entity := UserPassword{}
-	resp, _ := api.Rest().Get(usersPwdUrl + "/password/get/" + id)
+	resp, _ := api.Rest().Get(usersPwdUrl + "get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -42,7 +42,7 @@ func GetUserPassword(id string) (UserPassword, error) {
 func CreateUserPassword(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(usersPwdUrl + "/password/create")
+		Post(usersPwdUrl + "create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -52,7 +52,7 @@ func CreateUserPassword(entity interface{}) (bool, error) {
 func UpdateUserPassword(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(usersPwdUrl + "/password/update")
+		Post(usersPwdUrl + "update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -62,7 +62,7 @@ func UpdateUserPassword(entity interface{}) (bool, error) {
 func DeleteUserPassword(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(usersPwdUrl + "/password/delete")
+		Post(usersPwdUrl + "delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

@@ -6,7 +6,7 @@ import (
 	domain "obas/domain/demographics"
 )
 
-const genderUrl = api.BASE_URL + "/demographics"
+const genderUrl = api.BASE_URL + "/demographics/gender/"
 
 type Gender domain.Gender
 
@@ -14,7 +14,7 @@ func GetGenders() ([]Gender, error) {
 	entites := []Gender{}
 	//entites = append(entites, Gender{"1", "Male"})
 	//entites = append(entites, Gender{"2", "Female"})
-	resp, _ := api.Rest().Get(genderUrl + "/gender/all")
+	resp, _ := api.Rest().Get(genderUrl + "all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -28,7 +28,7 @@ func GetGenders() ([]Gender, error) {
 
 func GetGender(id string) (Gender, error) {
 	entity := Gender{}
-	resp, _ := api.Rest().Get(genderUrl + "/gender/get/" + id)
+	resp, _ := api.Rest().Get(genderUrl + "get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -42,7 +42,7 @@ func GetGender(id string) (Gender, error) {
 func CreateGender(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(genderUrl + "/gender/create")
+		Post(genderUrl + "create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -53,7 +53,7 @@ func CreateGender(entity interface{}) (bool, error) {
 func UpdateGender(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(genderUrl + "/gender/update")
+		Post(genderUrl + "update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -64,7 +64,7 @@ func UpdateGender(entity interface{}) (bool, error) {
 func DeleteGender(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(genderUrl + "/gender/delete")
+		Post(genderUrl + "delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

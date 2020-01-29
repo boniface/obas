@@ -6,13 +6,13 @@ import (
 	domain "obas/domain/users"
 )
 
-const usersComUrl = api.BASE_URL + "/users"
+const usersComUrl = api.BASE_URL + "/users/communication/"
 
 type UsersCom domain.UserCommunication
 
 func GetUserCommunications() ([]UsersCom, error) {
 	entites := []UsersCom{}
-	resp, _ := api.Rest().Get(usersComUrl + "/communication/all")
+	resp, _ := api.Rest().Get(usersComUrl + "all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -26,7 +26,7 @@ func GetUserCommunications() ([]UsersCom, error) {
 
 func GetUserCommunication(id string) (UsersCom, error) {
 	entity := UsersCom{}
-	resp, _ := api.Rest().Get(usersComUrl + "/communication/get/" + id)
+	resp, _ := api.Rest().Get(usersComUrl + "get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -40,7 +40,7 @@ func GetUserCommunication(id string) (UsersCom, error) {
 func CreateUserCommunication(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(usersComUrl + "/communication/create")
+		Post(usersComUrl + "create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -51,7 +51,7 @@ func CreateUserCommunication(entity interface{}) (bool, error) {
 func UpdateUserCommunication(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(usersComUrl + "/communication/update")
+		Post(usersComUrl + "update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -62,7 +62,7 @@ func UpdateUserCommunication(entity interface{}) (bool, error) {
 func DeleteUserCommunication(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(usersComUrl + "/communication/delete")
+		Post(usersComUrl + "delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

@@ -186,14 +186,14 @@
                                                     <table class="table table-hover table-striped">
                                                         <thead>
                                                         <th>Country</th>
-                                                        <th>Actions</th>
+                                                        <th class="text-right">Actions</th>
                                                         </thead>
                                                         <tbody>
                                                         {{ with .LocationTypes }}
                                                             {{ range .}}
                                                                 <tr>
                                                                     <td>{{ .Name }}</td>
-                                                                    <td>
+                                                                    <td class="text-right">
                                                                         <a class="edit" title="Edit"
                                                                            data-toggle="tooltip"><i
                                                                                     class="material-icons">&#xE254;</i></a>
@@ -313,7 +313,7 @@
                                                                 <th>Location Name</th>
                                                                 <th>Longitude</th>
                                                                 <th>Latitude</th>
-                                                                <th class=" disabled-sorting text-right"></th>
+                                                                <th class=" disabled-sorting text-center">Actions</th>
                                                             </tr>
                                                             </thead>
                                                             <tfoot>
@@ -321,7 +321,7 @@
                                                                 <th>Location Name</th>
                                                                 <th>Longitude</th>
                                                                 <th>Latitude</th>
-                                                                <th class=" text-right">Actions</th>
+                                                                <th class="text-center">Actions</th>
                                                             </tr>
                                                             </tfoot>
                                                             <tbody>
@@ -333,20 +333,16 @@
                                                                         <td>{{ .Latitude }}</td>
                                                                         <td>
                                                                             <div class="row justify-content-center">
-                                                                                <div class="col-md-6">
-                                                                                    <a class="edit" title="Edit"
-                                                                                       data-toggle="modal"
-                                                                                       data-target="#editModal" href=""
-                                                                                       onclick="editLocationForm({{.}})"><i
-                                                                                                class="material-icons">&#xE254;</i></a>
-                                                                                </div>
-                                                                                <div class="col-md-6">
-                                                                                    <a class="delete"
-                                                                                       href="/support/management/location/delete/location/{{.LocationId}}"
-                                                                                       title="Delete"
-                                                                                       data-toggle="tooltip"><i
-                                                                                                class="material-icons">&#xE872;</i></a>
-                                                                                </div>
+                                                                                <a class="edit" title="Edit"
+                                                                                   data-toggle="modal"
+                                                                                   data-target="#editModal" href=""
+                                                                                   onclick="editLocationForm({{.}})"><i
+                                                                                            class="material-icons">&#xE254;</i></a>
+                                                                                <a class="delete"
+                                                                                   href="/support/management/location/delete/location/{{.LocationId}}"
+                                                                                   title="Delete"
+                                                                                   data-toggle="tooltip"><i
+                                                                                            class="material-icons">&#xE872;</i></a>
                                                                             </div>
                                                                         </td>
                                                                     </tr>
@@ -469,6 +465,7 @@
 
         </div>
     </div>
+</div>
 
 </body>
 <!--   Core JS Files   -->

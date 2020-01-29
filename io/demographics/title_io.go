@@ -6,7 +6,7 @@ import (
 	demographyDomain "obas/domain/demographics"
 )
 
-const titleUrl = api.BASE_URL + "/demographics"
+const titleUrl = api.BASE_URL + "/demographics/title/"
 
 type Title demographyDomain.Title
 
@@ -16,7 +16,7 @@ func GetTitles() ([]Title, error) {
 	//entites = append(entites, Title{"2", "Miss"})
 	//entites = append(entites, Title{"3", "Mrs"})
 	//entites = append(entites, Title{"4", "Dr"})
-	resp, _ := api.Rest().Get(titleUrl + "/title/all")
+	resp, _ := api.Rest().Get(titleUrl + "all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -30,7 +30,7 @@ func GetTitles() ([]Title, error) {
 
 func GetTitle(id string) (demographyDomain.Title, error) {
 	entity := demographyDomain.Title{}
-	resp, _ := api.Rest().Get(titleUrl + "/title/get/" + id)
+	resp, _ := api.Rest().Get(titleUrl + "get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -44,7 +44,7 @@ func GetTitle(id string) (demographyDomain.Title, error) {
 func CreateTitle(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(titleUrl + "/title/create")
+		Post(titleUrl + "create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -55,7 +55,7 @@ func CreateTitle(entity interface{}) (bool, error) {
 func UpdateTitle(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(titleUrl + "/title/update")
+		Post(titleUrl + "update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -66,7 +66,7 @@ func UpdateTitle(entity interface{}) (bool, error) {
 func DeleteTitle(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(titleUrl + "/title/delete")
+		Post(titleUrl + "delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

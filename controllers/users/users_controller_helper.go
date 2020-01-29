@@ -12,8 +12,11 @@ import (
 	documentDomain "obas/domain/documents"
 	institutionDomain "obas/domain/institutions"
 	userDomain "obas/domain/users"
+	domain "obas/domain/util"
+	applicationIO "obas/io/applications"
 	demographyIO "obas/io/demographics"
 	usersIO "obas/io/users"
+	"obas/io/util"
 )
 
 type ExtendedUserMatricSubject struct {
@@ -31,6 +34,14 @@ type ExtendedDocument struct {
 	DocumentType        string
 	DocumentDate        string
 	DocumentStatusBadge string
+}
+
+type ExtendedUserApplication struct {
+	userDomain.UserApplication
+	ApplicationName string
+	ApplicationStatus string
+	ApplicationDate string
+	StatusBadge string
 }
 
 /**
@@ -294,16 +305,9 @@ func getUserDocumentData(app *config.Env, userId string) ([]ExtendedDocument, ge
 				proceed = alert.AlertInfo == ""
 			}
 			if proceed {
-				date := genericHelper.GetDate_YYYYMMDD(document.Date.String())
-				var progressBadge string
+				date := genericHelper.FormatDate(document.Date)
 				documentStatus := document.DocumentStatus
-				if documentStatus == "Approved" {
-					progressBadge = "badge-success"
-				} else if documentStatus == "Not Approved" {
-					progressBadge = "badge-danger"
-				} else {
-					progressBadge = "badge-warning"
-				}
+				progressBadge := genericHelper.GetBadge(documentStatus)
 				eUserDocument := ExtendedDocument{document, documentType.DocumentTypename, date, progressBadge}
 				eUserDocuments = append(eUserDocuments, eUserDocument)
 			} else {
@@ -343,8 +347,145 @@ func getApplicationTypes(app *config.Env) ([]applicationDomain.ApplicationType, 
 }
 
 /**
+Get application give application id
+ */
+func getApplication(app *config.Env, applicationId string) (applicationDomain.Application, genericHelper.PageToast) {
+	return applicationHelper.GetApplication(app, applicationId)
+}
+
+/**
 Get matric appliant
  */
 func getMatricApplicantType(app *config.Env) (applicationDomain.ApplicantType, genericHelper.PageToast) {
 	return applicationHelper.GetMatricApplicantType(app)
+}
+
+func getUserCurrentYearApplication(app *config.Env, userId string) ([]userDomain.UserApplication, genericHelper.PageToast) {
+	var userCurrentApplications []userDomain.UserApplication
+	var alert genericHelper.PageToast
+	userCurrentApplications, err := usersIO.GetUserCurrentYearApplications(userId)
+	if err != nil {
+		app.ErrorLog.Println(err.Error())
+		alert = genericHelper.PageToast{genericHelper.DangerAlertStyle, "Could not retrieve user applications for current year!"}
+	}
+	return userCurrentApplications, alert
+}
+
+/**
+Check if application is completed given application id
+ */
+func isApplicationCompleted(app *config.Env, applicationId string) (bool, genericHelper.PageToast) {
+	return applicationHelper.IsApplicationCompleted(app, applicationId)
+}
+
+/**
+Get latest user application give user id
+ */
+func getLatestUserApplication(app *config.Env, userId string) (userDomain.UserApplication, genericHelper.PageToast) {
+	var latestUserApplication userDomain.UserApplication
+	var alert genericHelper.PageToast
+	latestUserApplication, err := usersIO.GetLatestUserApplication(userId)
+	if err != nil {
+		app.ErrorLog.Println(err.Error())
+		alert = genericHelper.PageToast{genericHelper.DangerAlertStyle, "Could not retrieve your latest application!"}
+	}
+	return latestUserApplication, alert
+}
+
+/**
+Check if user has already applied for same application in the current year
+ */
+func checkUserCurrentYearApplications(app *config.Env, userId, applicationTypeId string) (bool, genericHelper.PageToast) {
+	var isDuplicateApplication bool
+	var alert genericHelper.PageToast
+	currentYearUserApplications, alert := getUserCurrentYearApplication(app, userId)
+	if alert.AlertInfo == "" {
+		for _, currentYearUserApplication := range currentYearUserApplications {
+			application, err := applicationIO.GetApplication(currentYearUserApplication.ApplicationId)
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+				alert = genericHelper.PageToast{genericHelper.DangerAlertStyle, "Could not retrieve one or more user applications for current year!"}
+				break
+			} else {
+				if application.ApplicantTypeId == applicationTypeId {
+					isDuplicateApplication = true
+					break
+				}
+			}
+		}
+	}
+	return isDuplicateApplication, alert
+}
+
+/**
+Get user applications given user id
+ */
+func getUserApplications(app *config.Env, userId string) ([]userDomain.UserApplication, genericHelper.PageToast) {
+	var userApplications []userDomain.UserApplication
+	var alert genericHelper.PageToast
+	userApplications, err := usersIO.GetUserApplications(userId)
+	if err != nil {
+		app.ErrorLog.Println(err.Error())
+		alert = genericHelper.PageToast{genericHelper.DangerAlertStyle, "Could not get user applications!"}
+	}
+	return userApplications, alert
+}
+
+func getExtendedUserApplications(app *config.Env, userId string)([]ExtendedUserApplication, genericHelper.PageToast) {
+	var extendedUserApplications []ExtendedUserApplication
+	var alert genericHelper.PageToast
+	userApplications, alert := getUserApplications(app, userId)
+	proceed := alert.AlertInfo == ""
+	if proceed {
+		statuses, err := util.GetStatuses()
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			alert = genericHelper.PageToast{genericHelper.DangerAlertStyle, "Could not retrieve statuses!"}
+		} else {
+			applicationTypes, alert := applicationHelper.GetApplicationTypes(app)
+			proceed = alert.AlertInfo == ""
+			if proceed {
+				for _, userApplication := range userApplications {
+					applicationStatus, alert := applicationHelper.GetApplicationStatus(app, userApplication.ApplicationId)
+					proceed = alert.AlertInfo == ""
+					if proceed {
+						application, alert := getApplication(app, userApplication.ApplicationId)
+						proceed = alert.AlertInfo == ""
+						if proceed {
+							applicationDate := genericHelper.FormatDateTime(userApplication.DateTime)
+							statusName := getStatusName(applicationStatus.StatusId, statuses)
+							statusBadge := genericHelper.GetBadge(statusName)
+							applicationName := getApplicationName(application, applicationTypes)
+							extendedUserApplication := ExtendedUserApplication{userApplication, applicationName, statusName, applicationDate, statusBadge}
+							extendedUserApplications = append(extendedUserApplications, extendedUserApplication)
+						} else {
+							break
+						}
+					} else {
+						break
+					}
+				}
+			}
+
+		}
+	}
+	return extendedUserApplications, alert
+}
+
+func getApplicationName(application applicationDomain.Application, applicationTypes []applicationDomain.ApplicationType) string {
+	for _, applicationType := range applicationTypes {
+		if application.ApplicationTypeId == applicationType.Id {
+			return applicationType.Name
+		}
+	}
+	return "unknown"
+}
+
+func getStatusName(statusId string, statuses []domain.GenericStatus) string {
+	for _, status := range statuses {
+		if status.Id == statusId {
+			return status.Name
+		}
+	}
+	return "unknown"
 }

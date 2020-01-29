@@ -6,7 +6,7 @@ import (
 	"html/template"
 	"net/http"
 	"obas/config"
-	domain "obas/domain/application"
+	applicationDomain "obas/domain/application"
 	documentDomain "obas/domain/documents"
 	userDomain "obas/domain/users"
 	domain4 "obas/domain/util"
@@ -138,7 +138,7 @@ func ChangeApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 		applicationId := r.PostFormValue("applicationId")
 		comment := r.PostFormValue("comment")
 		if applicationStatus != "" || applicationId != "" {
-			newApplicationStatus := applicationIO.ApplicationStatus{applicationId, applicationStatus, email, comment, time.Now()}
+			newApplicationStatus := applicationDomain.ApplicationStatus{applicationId, applicationStatus, email, comment, time.Now()}
 
 			_, err := applicationIO.CreateApplicationStatus(newApplicationStatus)
 			if err != nil {
@@ -218,7 +218,7 @@ type applicantDetails struct {
 	Institution     string
 	Course          string
 	DateTime        time.Time
-	ApplicationStat applicationIO.ApplicationStatus
+	ApplicationStat applicationDomain.ApplicationStatus
 	Stat            string
 }
 
@@ -414,7 +414,7 @@ func AdminApplicationHandler(app *config.Env) http.HandlerFunc {
 }
 
 type MyUserApplication struct {
-	Application     domain.Application
+	Application     applicationDomain.Application
 	User            userDomain.User
 	UserApplication userDomain.UserApplication
 }
