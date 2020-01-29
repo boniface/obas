@@ -340,21 +340,34 @@
                                                                         <td>{{ .Location.Longitude }}</td>
                                                                         <td>{{ .Location.Latitude }}</td>
                                                                         <td>
+{{/*                                                                            <div class="row justify-content-center">*/}}
+{{/*                                                                                <div class="col-md-6">*/}}
+{{/*                                                                                    <a class="edit" title="Edit"*/}}
+{{/*                                                                                       data-toggle="modal"*/}}
+{{/*                                                                                       data-target="#editModal" href=""*/}}
+{{/*                                                                                       onclick="editLocationForm({{.}})"><i*/}}
+{{/*                                                                                                class="material-icons">&#xE254;</i></a>*/}}
+{{/*                                                                                </div>*/}}
+{{/*                                                                                <div class="col-md-6">*/}}
+{{/*                                                                                    <a class="delete"*/}}
+{{/*                                                                                       href="/support/management/location/delete/location/{{.Location.LocationId}}"*/}}
+{{/*                                                                                       title="Delete"*/}}
+{{/*                                                                                       data-toggle="tooltip"><i*/}}
+{{/*                                                                                                class="material-icons">&#xE872;</i></a>*/}}
+{{/*                                                                                </div>*/}}
+{{/*                                                                            </div>*/}}
+
                                                                             <div class="row justify-content-center">
-                                                                                <div class="col-md-6">
-                                                                                    <a class="edit" title="Edit"
-                                                                                       data-toggle="modal"
-                                                                                       data-target="#editModal" href=""
-                                                                                       onclick="editLocationForm({{.}})"><i
-                                                                                                class="material-icons">&#xE254;</i></a>
-                                                                                </div>
-                                                                                <div class="col-md-6">
-                                                                                    <a class="delete"
-                                                                                       href="/support/management/location/delete/location/{{.Location.LocationId}}"
-                                                                                       title="Delete"
-                                                                                       data-toggle="tooltip"><i
-                                                                                                class="material-icons">&#xE872;</i></a>
-                                                                                </div>
+                                                                                <a class="edit" title="Edit"
+                                                                                   data-toggle="modal"
+                                                                                   data-target="#editModal" href=""
+                                                                                   onclick="editLocationForm({{.}})"><i
+                                                                                            class="material-icons">&#xE254;</i></a>
+                                                                                <a class="delete"
+                                                                                   href="/support/management/location/delete/location/{{.Location.LocationId}}"
+                                                                                   title="Delete"
+                                                                                   data-toggle="tooltip"><i
+                                                                                            class="material-icons">&#xE872;</i></a>
                                                                             </div>
                                                                         </td>
                                                                     </tr>
