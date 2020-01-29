@@ -1,8 +1,8 @@
-// const LOCATION_RESTAPI = "http://155.238.32.219:4000/location/api/";
-// const INSTITUTION_RESTAPI = "http://155.238.32.219:4000/institution/api/";
+const LOCATION_RESTAPI = "http://155.238.32.219:4000/location/api/";
+const INSTITUTION_RESTAPI = "http://155.238.32.219:4000/institution/api/";
 
-const LOCATION_RESTAPI = "http://localhost:4000/location/api/";
-const INSTITUTION_RESTAPI = "http://localhost:4000/institution/api/";
+// const LOCATION_RESTAPI = "http://localhost:4000/location/api/";
+// const INSTITUTION_RESTAPI = "http://localhost:4000/institution/api/";
 
 let populateLocationDropDown = function(element, locationId) {
     if (locationId) {
