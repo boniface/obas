@@ -38,6 +38,12 @@ func InstitutionManagement(app *config.Env) http.Handler {
 
 func UpdateInstitutionHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
 		r.ParseForm()
 		institutionId := r.PostFormValue("Id")
 		institutionType := r.PostFormValue("institutionType")
@@ -47,7 +53,7 @@ func UpdateInstitutionHandler(app *config.Env) http.HandlerFunc {
 		if institutionType != "" || institutionId != "" || name != "" {
 			institution := institutionDomain.Institution{institutionId, institutionType, name}
 			fmt.Println("institution>>>>", institution)
-			_, err := institutionIO.UpdateInstitution(institution)
+			_, err := institutionIO.UpdateInstitution(institution, token)
 			if err != nil {
 				fmt.Println("error in Updating institution")
 				app.ErrorLog.Println(err.Error())
@@ -84,6 +90,12 @@ func DeleteInstitutionAddressHandler(app *config.Env) http.HandlerFunc {
 
 func SaveInstitutionAddressHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
 		r.ParseForm()
 		addressType := r.PostFormValue("addressType")
 		institutionId := r.PostFormValue("institutionAddress")
@@ -185,7 +197,7 @@ func SaveInstitutionLocationHandler(app *config.Env) http.HandlerFunc {
 
 		r.ParseForm()
 		locationId := r.PostFormValue("town")
-		institutionId := r.PostFormValue("institution")
+		institutionId := r.PostFormValue("institutionLocationDrop")
 		longitude := r.PostFormValue("longitude")
 		latitude := r.PostFormValue("latitude")
 
@@ -246,12 +258,12 @@ func AddInstitutionHandler(app *config.Env) http.HandlerFunc {
 
 func EditTypeHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		//email := app.Session.GetString(r.Context(), "userId")
-		//token := app.Session.GetString(r.Context(), "token")
-		//if email == "" || token == "" {
-		//	http.Redirect(w, r, "/login", 301)
-		//	return
-		//}
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
 		r.ParseForm()
 		institutionTypeId := r.PostFormValue("Id")
 		institutionTypeName := r.PostFormValue("Name")
@@ -264,7 +276,7 @@ func EditTypeHandler(app *config.Env) http.HandlerFunc {
 			institutionTypeObject := institutionDomain.InstitutionTypes{institutionTypeId, institutionTypeName, institutionTypeDescription}
 			fmt.Print(institutionTypeObject)
 
-			_, erro := institutionIO.UpdateInstitutionType(institutionTypeObject)
+			_, erro := institutionIO.UpdateInstitutionType(institutionTypeObject, token)
 			if erro != nil {
 				app.ErrorLog.Println(erro.Error())
 			}
@@ -456,6 +468,7 @@ func InstitutionManagementHandler(app *config.Env) http.HandlerFunc {
 			}
 		}
 		provinces, _ := locationHelper.GetProvinces(app)
+		fmt.Println("provinces>>>", provinces)
 		courses, err := academics.GetAllCourses()
 		if err != nil {
 			fmt.Println("error in InstitutionManagementHandler when reading courses")

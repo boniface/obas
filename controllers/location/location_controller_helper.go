@@ -23,10 +23,12 @@ func GetProvinces(app *config.Env) ([]locationDomain.Location, genericHelper.Pag
 
 func getProvinces() ([]locationDomain.Location, error) {
 	southAfricaId, err := getCountryId()
+	//fmt.Println("country Id>>>",southAfricaId)
 	if err != nil {
 		return nil, err
-	} else {
+	} else { //DACI-MPCGU
 		provinces, err := locationIO.GetLocationsForParent(southAfricaId)
+
 		if err != nil {
 			return nil, err
 		} else {
@@ -42,6 +44,7 @@ func getCountryId() (string, error) {
 		return id, err
 	} else {
 		if len(countries) > 0 {
+			//fmt.Println("country Id>>>",countries)
 			id = countries[0].LocationId
 		}
 		return id, nil

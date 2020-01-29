@@ -36,14 +36,14 @@ func TestGetInstitution(t *testing.T) {
 	assert.NotNil(t, resp)
 }
 func TestGetInstitutionsByType(t *testing.T) {
-	resp, err := GetInstitutionsByType("SGHL-INSBO")
+	resp, err := GetInstitutionsByType("ERSS-4EBHJ")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", resp)
 	assert.NotNil(t, resp)
 }
 func TestUpdateInstitution(t *testing.T) {
 	obj := domain.Institution{"CILN-FSBER", "VVVY-CJKQW", "STELLENBOSCH UNIVERSITY"}
-	resp, err := UpdateInstitution(obj)
+	resp, err := UpdateInstitution(obj, "")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", resp)
 	assert.NotNil(t, resp)

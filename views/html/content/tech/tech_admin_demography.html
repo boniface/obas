@@ -17,7 +17,8 @@
     <!-- CSS Files -->
     <link href="../../../assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="../../../assets/css/light-bootstrap-dashboard.css?v=2.0.1" rel="stylesheet"/>
-    <link href="../../../assets/css/custom/generic.css" rel="stylesheet"/>
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="../../../assets/css/demo.css" rel="stylesheet"/>
     <link rel="stylesheet" href="../../../assets/css/custom/student/application.css" rel="stylesheet"/>
 </head>
 
@@ -128,37 +129,35 @@
 
                         <li class="nav-item">
                             <a class="nav-link  waves-light" id="users-table-tab" data-toggle="tab"
-                               href="#course-tab"
+                               href="#TitleTab"
                                role="tab" aria-controls="users-table" aria-selected="true">
                                 <div style="text-align: center;"><i class="fas fa-user fa " aria-hidden="true"></i>
                                 </div>
-                                <br>Course</a>
+                                <br>Title</a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link  waves-light" id="users-table-tab" data-toggle="tab"
-                               href="#subject-tab"
+                               href="#GenderTab"
                                role="tab" aria-controls="users-table" aria-selected="true">
                                 <div style="text-align: center;"><i class="fas fa-user fa " aria-hidden="true"></i>
                                 </div>
-                                <br>Subjects</a>
+                                <br>Gender</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link  waves-light" id="users-table-tab" data-toggle="tab"
-                               href="#coursesubject-tab"
+                               href="#RoleTab"
                                role="tab" aria-controls="users-table" aria-selected="true">
                                 <div style="text-align: center;"><i class="fas fa-user fa " aria-hidden="true"></i>
                                 </div>
-                                <br>Course & Subject</a>
+                                <br>Role</a>
                         </li>
-
-
 
                     </ul>
 
                     <div class="tab-content card" id="rolesTabContent">
 
-                        <div class="tab-pane fade {{.MyActiveTab.Tab1}}" id="course-tab" role="tabpanel"
+                        <div class="tab-pane fade {{.Tab.Tab1}}" id="TitleTab" role="tabpanel"
                              aria-labelledby="pool-roles">
                             <p></p>
                             <!-- Table with panel -->
@@ -166,23 +165,16 @@
                                 <div class="container-fluid">
 
                                     <div class="card green">
-                                        <form id="" method="post" action="/support/management/academics/create/course">
+                                        <form id="" method="post" action="/support/demography/create/title">
 
                                             <div class="row justify-content-center">
                                                 <div class="col-md-8">
-                                                    <label class="control-label label-font-color">Course</label>
-                                                    <input type="text" name="courseName" class="form-control"
+                                                    <label class="control-label label-font-color">Title</label>
+                                                    <input type="text" name="tile" class="form-control"
                                                            placeholder="Enter type ..." id="">
                                                 </div>
                                             </div>
 
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-8">
-                                                    <label class="control-label label-font-color">Course Description</label>
-                                                    <input type="text" name="courseDescription" class="form-control"
-                                                           placeholder="" id="">
-                                                </div>
-                                            </div>
 
 
                                             <div class="row justify-content-center">
@@ -204,28 +196,26 @@
                                                 <div class="card-body table-full-width table-responsive">
                                                     <table class="table table-hover table-striped">
                                                         <thead>
-                                                        <th>Course</th>
-                                                        <th>Description</th>
+                                                        <th>Role</th>
                                                         <th class="text-center">Actions</th>
                                                         </thead>
                                                         <tbody>
-                                                        {{ with .Courses }}
+                                                        {{ with .Title }}
                                                             {{ range .}}
                                                                 <tr>
-                                                                    <td>{{ .CourseName }}</td>
-                                                                    <td>{{ .CourseDesc }}</td>
+                                                                    <td>{{ .TitleName}}</td>
                                                                     <td><div class="row justify-content-center">
                                                                             <div class="col-md-6">
-                                                                        <a class="edit" title="Edit"
-                                                                           data-toggle="modal" data-target="#editCourseModal" href=""
-                                                                           onclick="editFormCourse({{.}})"><i
-                                                                                    class="material-icons">&#xE254;</i></a>
+                                                                                <a class="edit" title="Edit"
+                                                                                   data-toggle="modal" data-target="#editTileModal" href=""
+                                                                                   onclick="editTitleForm({{.}})"><i
+                                                                                            class="material-icons">&#xE254;</i></a>
                                                                             </div>
                                                                             <div class="col-md-6">
-                                                                        <a class="delete" title="Delete"
-                                                                           href="/support/management/academics/delete/course/{{.Id}}"
-                                                                           data-toggle="tooltip"><i
-                                                                                    class="material-icons">&#xE872;</i></a>
+                                                                                <a class="delete" title="Delete" onclick="Deleting({{.TitleId}},{{ .TitleName}},'title')" href=""
+{{/*                                                                                   href="/support/management/demography/title/delete/{{.TitleId}}"*/}}
+                                                                                   data-toggle="modal"><i
+                                                                                            class="material-icons">&#xE872;</i></a>
                                                                             </div>
                                                                         </div>
                                                                     </td>
@@ -243,7 +233,7 @@
                             <!-- Table with panel -->
                         </div>
 
-                        <div class="tab-pane fade {{.MyActiveTab.Tab2}}" id="subject-tab" role="tabpanel"
+                        <div class="tab-pane fade {{.Tab.Tab2}}" id="GenderTab" role="tabpanel"
                              aria-labelledby="pool-roles">
                             <p></p>
                             <!-- Table with panel -->
@@ -251,20 +241,19 @@
                                 <div class="container-fluid">
 
                                     <div class="card green">
-                                        <form id="" method="post" action="/support/management/academics/create/subject">
+                                        <form id="" method="post" action="/support/management/demography/create/gender">
 
                                             <div class="row justify-content-center">
                                                 <div class="col-md-8">
-                                                    <label class="control-label label-font-color">Subject Name</label>
-                                                    <input type="text" name="subjectName" class="form-control"
-                                                           placeholder="Enter Subject ..." id="">
+                                                    <label class="control-label label-font-color">Applicant Type</label>
+                                                    <input type="text" name="applicationType" class="form-control"
+                                                           placeholder="Enter type ..." id="">
                                                 </div>
                                             </div>
 
-
                                             <div class="row justify-content-center">
                                                 <div class="col-md-8">
-                                                    <label class="control-label label-font-color">Subject Description</label>
+                                                    <label class="control-label label-font-color">Description</label>
                                                     <input type="text" name="Description" class="form-control"
                                                            placeholder="" id="">
                                                 </div>
@@ -282,6 +271,89 @@
                                             </div>
                                         </form>
                                     </div>
+                                    <!-- INSTITUTION TYPE --->
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card strpied-tabled-with-hover">
+                                                <div class="card-body table-full-width table-responsive">
+                                                    <table class="table table-hover table-striped">
+                                                        <thead>
+                                                        <th>Gender</th>
+                                                        <th class="text-center">Action</th>
+                                                        </thead>
+                                                        <tbody>
+                                                        {{with .Gender}}
+                                                            {{range .}}
+                                                                <tr>
+
+                                                                    <td>{{.GenderName}}</td>
+                                                                    <td><div class="row justify-content-center">
+                                                                            <div class="col-md-6">
+                                                                                <a class="edit" title="Edit"
+                                                                                   data-toggle="modal" data-target="#editGenderModal" href=""
+                                                                                   onclick="editGenderForm({{.}})"><i
+                                                                                            class="material-icons">&#xE254;</i></a>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <a class="delete" title="Delete"
+                                                                                   href="/support/management/demography/gender/delete/{{.GenderId}}"
+                                                                                   data-toggle="tooltip"><i
+                                                                                            class="material-icons">&#xE872;</i></a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            {{end}}
+                                                        {{end}}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                </div>
+
+                        <div class="tab-pane fade {{.Tab.Tab3}}" id="RoleTab" role="tabpanel"
+                             aria-labelledby="pool-roles">
+                            <p></p>
+                            <!-- Table with panel -->
+                            <div class="content">
+                                <div class="container-fluid">
+
+                                    <div class="card green">
+                                        <form id="" method="post" action="/support/management/demography/create/role">
+
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-8">
+                                                    <label class="control-label label-font-color">Role Name</label>
+                                                    <input type="text" name="role" class="form-control"
+                                                           placeholder="Enter type ..." id="">
+                                                </div>
+                                            </div>
+
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-8">
+                                                    <label class="control-label label-font-color">Role Description</label>
+                                                    <input type="text" name="roleDescription" class="form-control"
+                                                           placeholder="" id="">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-8 text-center">
+                                                    <button type="submit" id="documentUpdateBtn"
+                                                            class="btn btn-wd btn-info btn-outline full-width">
+                                             <span class="btn-label">
+                                             </span>Upload
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
 
                                     <!-- INSTITUTION TYPE --->
                                     <div class="row">
@@ -290,26 +362,24 @@
                                                 <div class="card-body table-full-width table-responsive">
                                                     <table class="table table-hover table-striped">
                                                         <thead>
-                                                        <th>Subject</th>
-                                                        <th>Description</th>
+                                                        <th>Role</th>
                                                         <th class="text-center">Actions</th>
                                                         </thead>
                                                         <tbody>
-                                                        {{ with .Subjects }}
+                                                        {{ with .Roles }}
                                                             {{ range .}}
                                                                 <tr>
-                                                                    <td>{{ .Name }}</td>
-                                                                    <td>{{ .SubjectDesc }}</td>
+                                                                    <td>{{ .RoleName}}</td>
                                                                     <td><div class="row justify-content-center">
                                                                             <div class="col-md-6">
                                                                                 <a class="edit" title="Edit"
-                                                                                   data-toggle="modal" data-target="#editSubjectModal" href=""
-                                                                                   onclick="editSubjectForm({{.}})">
-                                                                                    <i class="material-icons">&#xE254;</i></a>
+                                                                                   data-toggle="modal" data-target="#editRoleModal" href=""
+                                                                                   onclick="editRoleForm({{.}})"><i
+                                                                                            class="material-icons">&#xE254;</i></a>
                                                                             </div>
                                                                             <div class="col-md-6">
                                                                                 <a class="delete" title="Delete"
-                                                                                   href="/support/management/academics/delete/subject/{{.Id}}"
+                                                                                   href="/support/management/demography/role/delete/{{.Id}}"
                                                                                    data-toggle="tooltip"><i
                                                                                             class="material-icons">&#xE872;</i></a>
                                                                             </div>
@@ -328,322 +398,223 @@
                             </div>
                             <!-- Table with panel -->
                         </div>
-
-                        <div class="tab-pane fade  {{.MyActiveTab.Tab3}}" id="coursesubject-tab" role="tabpanel"
-                             aria-labelledby="pool-roles">
-                            <p></p>
+                            </div>
                             <!-- Table with panel -->
-                            <div class="content">
-                                <div class="container-fluid">
+                        </div>
 
-                                    <div class="card green">
-                                        <form id="addInstitutionForm" method="post"
-                                              action="/support/management/academics/create/courseSubject">
+                    </div>
+                </div>
 
 
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-8">
-                                                    <label class="control-label label-font-color">Course</label>
-                                                    <select name="courseId" class="selectpicker"
-                                                            data-style="btn-default btn-outline"
-                                                            data-menu-style="dropdown-blue">
-                                                        <option value="" disabled selected>Select
-                                                            Course
-                                                        </option>
-                                                        {{with .Courses}}
-                                                            {{range .}}
-                                                                <option value={{ .Id }}>{{ .CourseName }}</option>
-                                                            {{end}}
-                                                        {{end}}
-                                                    </select>
-                                                </div>
-                                            </div>
+        <!------Title----->
+        <div class="modal fade" id="editTileModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Institution Type Edit </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Extended material form grid -->
+                        <form name="userTitleEditForm" method="POST"
+                              action="/support/management/demography/update/title" novalidate>
 
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-8">
-                                                    <label class="control-label label-font-color">Subject</label>
-                                                    <select name="subjectId" class="selectpicker"
-                                                            data-style="btn-default btn-outline"
-                                                            data-menu-style="dropdown-blue">
-                                                        <option value="" disabled selected>Select
-                                                            Subject
-                                                        </option>
-                                                        {{with .Subjects}}
-                                                            {{range .}}
-                                                                <option value={{ .Id }}>{{ .Name }}</option>
-                                                            {{end}}
-                                                        {{end}}
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-8 text-center">
-                                                    <button type="submit" id="documentUpdateBtn"
-                                                            class="btn btn-wd btn-info btn-outline full-width">
-                                             <span class="btn-label">
-                                             </span>Submit
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
+                            <input type="hidden" class="form-control" name="Id" id="Id">
 
 
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="card strpied-tabled-with-hover">
-                                                <div class="card-body table-full-width table-responsive">
+                            <div class="form-row">
+                                <!-- Default input -->
+                                <div class="form-group col-md-12">
+                                    <label for="Name">Title</label>
+                                    <input type="text" class="form-control" name="titleName" id="titleName">
 
-                                                    <table class="table table-hover table-striped">
-                                                        <thead>
-                                                        <th>Course name</th>
-                                                        <th>Subject </th>
-                                                        <th class="text-center">Actions</th>
-                                                        </thead>
-                                                        <tbody>
-                                                        {{ with .CourseSubjects }}
-                                                            {{ range .}}
-                                                                <tr>
-                                                                    <td>{{ .CourseName}}</td>
-                                                                    <td>{{ .SubjectName }}</td>
-                                                                    <td><div class="row justify-content-center">
-                                                                            <div class="col-md-6">
-                                                                                <a class="edit" title="Edit"
-                                                                                   data-toggle="modal" data-target="#editcourseSubjectModal" href=""
-                                                                                   onclick="editcourseSubjectForm({{.}})"><i
-                                                                                            class="material-icons">&#xE254;</i></a>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <a class="delete" title="Delete"
-                                                                                   href="/support/management/academics/delete/coursesubject/{{.CourseId}}/{{.SubjectId}}"
-                                                                                   data-toggle="tooltip"><i
-                                                                                            class="material-icons">&#xE872;</i></a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            {{ end }}
-                                                        {{ end }}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
-                            <!-- Table with panel -->
-                        </div>
 
-                    </div>
-                </div>
 
-                <!---subject update form--->
-
-                <div class="modal fade" id="editSubjectModal" tabindex="-1" role="dialog"
-                     aria-labelledby="exampleModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Site Edit </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                            <!-- Grid row -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    Close
                                 </button>
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </div>
-                            <div class="modal-body">
-                                <!-- Extended material form grid -->
-                                <form name="soubjectEditForm" method="POST"
-                                      action="/support/management/academics/update/subject" novalidate>
+                        </form>
 
-                                    <input type="hidden" class="form-control" name="Id" id="Id">
-
-
-                                    <div class="form-row">
-                                        <!-- Default input -->
-                                        <div class="form-group col-md-12">
-                                            <label for="Name">subject name</label>
-                                            <input type="text" class="form-control" name="Name" id="Name">
-
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <!-- Default input -->
-                                        <div class="form-group col-md-12">
-                                            <label for="Description">Institution description</label>
-                                            <input type="text" class="form-control" name="Description"
-                                                   id="Description">
-
-                                        </div>
-                                    </div>
-
-                                    <!-- Grid row -->
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                            Close
-                                        </button>
-                                        <button type="submit" class="btn btn-primary">Save</button>
-                                    </div>
-                                </form>
-
-                            </div>
-
-                        </div>
                     </div>
+
                 </div>
+            </div>
+        </div>
 
-                <!---course-subject update form--->
+        <!------User_Role----->
+        <div class="modal fade" id="editRoleModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Institution Type Edit </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Extended material form grid -->
+                        <form name="userRoleEditForm" method="POST"
+                              action="/support/management/demography/role/update" novalidate>
 
-                <div class="modal fade" id="editcourseSubjectModal" tabindex="-1" role="dialog"
-                     aria-labelledby="exampleModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Site Edit </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                            <input type="hidden" class="form-control" name="Id" id="Id">
+
+
+                            <div class="form-row">
+                                <!-- Default input -->
+                                <div class="form-group col-md-12">
+                                    <label for="Name">Role</label>
+                                    <input type="text" class="form-control" name="Role" id="Role">
+
+                                </div>
+                            </div>
+                            {{/*                            <div class="form-row">*/}}
+                            {{/*                                <!-- Default input -->*/}}
+                            {{/*                                <div class="form-group col-md-12">*/}}
+                            {{/*                                    <label for="Description">Description</label>*/}}
+                            {{/*                                    <input type="text" class="form-control" name="Description"*/}}
+                            {{/*                                           id="Description">*/}}
+
+                            {{/*                                </div>*/}}
+                            {{/*                            </div>*/}}
+
+                            <!-- Grid row -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    Close
                                 </button>
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </div>
-                            <div class="modal-body">
-                                <!-- Extended material form grid -->
-                                <form name="editcourseSubjecEditForm" method="POST"
-                                      action="/support/management/academics/update/coursesubject" novalidate>
+                        </form>
 
-                                    <input type="hidden" class="form-control" name="CourseId" id="CourseId">
-                                    <input type="hidden" class="form-control" name="SubjectId" id="SubjectId">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="card "id="courseSubjectContent" >
-                                                <!--div class="card-header ">
-                                                                        <h4 class="card-title"></h4>
-                                                                        <p class="card-category"></p>
-                                                                    </div-->
-
-                                                <div class="card-footer ">
-                                                    <hr>
-                                                    <div class="stats">
-                                                        <i class="fa fa-cog"></i>Course & Subject
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="row justify-content-center">
-                                        <div class="col-md-8">
-                                            <label class="control-label label-font-color">Course</label>
-                                            <select name="mycourseId" class="selectpicker"
-                                                    data-style="btn-default btn-outline"
-                                                    data-menu-style="dropdown-blue">
-                                                <option value="" disabled selected>Select
-                                                    Institution Type
-                                                </option>
-                                                {{with .Courses}}
-                                                    {{range .}}
-                                                        <option value={{ .Id }}>{{ .CourseName }}</option>
-                                                    {{end}}
-                                                {{end}}
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row justify-content-center">
-                                        <div class="col-md-8">
-                                            <label class="control-label label-font-color">Subject</label>
-                                            <select name="mysubjectId" class="selectpicker"
-                                                    data-style="btn-default btn-outline"
-                                                    data-menu-style="dropdown-blue">
-                                                <option value="" disabled selected>Select
-                                                    Institution Type
-                                                </option>
-                                                {{with .Subjects}}
-                                                    {{range .}}
-                                                        <option value={{ .Id }}>{{ .Name }}</option>
-                                                    {{end}}
-                                                {{end}}
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <!-- Grid row -->
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                            Close
-                                        </button>
-                                        <button type="submit" class="btn btn-primary">Save</button>
-                                    </div>
-                                </form>
-
-                            </div>
-
-                        </div>
                     </div>
+
                 </div>
+            </div>
+        </div>
 
-<!------Course form----->
+        <!------Gender----->
+        <div class="modal fade" id="editGenderModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Institution Type Edit </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Extended material form grid -->
+                        <form name="userGenderEditForm" method="POST"
+                              action="/support/management/demography/update/gender" novalidate>
 
-                <div class="modal fade" id="editCourseModal" tabindex="-1" role="dialog"
-                     aria-labelledby="exampleModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Course Edit </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                            <input type="hidden" class="form-control" name="Id" id="Id">
+
+
+                            <div class="form-row">
+                                <!-- Default input -->
+                                <div class="form-group col-md-12">
+                                    <label for="Name">Title</label>
+                                    <input type="text" class="form-control" name="genderName" id="genderName">
+
+                                </div>
+                            </div>
+
+
+                            <!-- Grid row -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    Close
                                 </button>
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </div>
-                            <div class="modal-body">
-                                <!-- Extended material form grid -->
-                                <form name="siteEditCourseForm" method="POST"
-                                      action="/support/management/academics/update/course" novalidate>
-                                    <input type="hidden" class="form-control" name="Id" id="courseId">
-                                    <div class="form-row">
-                                        <!-- Default input -->
-                                        <div class="form-group col-md-12">
-                                            <label for="Name">Course name</label>
-                                            <input type="text" class="form-control" name="Name" id="courseName">
+                        </form>
 
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <!-- Default input -->
-                                        <div class="form-group col-md-12">
-                                            <label for="Description">Course description</label>
-                                            <input type="text" class="form-control" name="courseDescription"
-                                                   id="Description">
-
-                                        </div>
-                                    </div>
-
-                                    <!-- Grid row -->
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                            Close
-                                        </button>
-                                        <button type="submit" class="btn btn-primary">Save</button>
-                                    </div>
-                                </form>
-
-                            </div>
-
-                        </div>
                     </div>
+
                 </div>
+            </div>
+        </div>
+
+        <!------User_Role----->
+        <div class="modal fade" id="editApplicantTypeModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Institution Type Edit </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Extended material form grid -->
+                        <form name="userApplicantTypeEditForm" method="POST"
+                              action="/support/management/user/applicantType/update" novalidate>
+
+                            <input type="hidden" class="form-control" name="Id" id="Id">
+
+
+                            <div class="form-row">
+                                <!-- Default input -->
+                                <div class="form-group col-md-12">
+                                    <label for="Name">Type</label>
+                                    <input type="text" class="form-control" name="Name" id="Name">
+
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <!-- Default input -->
+                                <div class="form-group col-md-12">
+                                    <label for="Name">Description</label>
+                                    <input type="text" class="form-control" name="Description" id="Description">
+
+                                </div>
+                            </div>
+                            {{/*                            <div class="form-row">*/}}
+                            {{/*                                <!-- Default input -->*/}}
+                            {{/*                                <div class="form-group col-md-12">*/}}
+                            {{/*                                    <label for="Description">Description</label>*/}}
+                            {{/*                                    <input type="text" class="form-control" name="Description"*/}}
+                            {{/*                                           id="Description">*/}}
+
+                            {{/*                                </div>*/}}
+                            {{/*                            </div>*/}}
+
+                            <!-- Grid row -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    Close
+                                </button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
                 <!------------------------------------------------------------------>
 
-
+        {{ template "footer" .}}
             </div>
 
         </div>
-        {{ template "footer" .}}
-
-    </div>
-
-</div>
 
 </body>
 <!--   Core JS Files   -->
@@ -684,28 +655,84 @@
 <script src="../../../assets/js/plugins/fullcalendar.min.js"></script>
 <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="../../../assets/js/light-bootstrap-dashboard.js?v=2.0.1" type="text/javascript"></script>
-<script src="../../../assets/js/custom/generics.js"></script>
-<script src="../../../assets/js/custom/techadmin/institution.js"></script>
-<script>
-    function editFormCourse(event) {
-        var form = document.forms['siteEditCourseForm'];
-        form.elements["courseId"].value = event.id;
-        form.elements["courseName"].value = event.courseName;
-        form.elements["courseDescription"].value = event.courseDesc;
-    }
-    function editSubjectForm(event) {
+<!-- Light Dashboard DEMO methods, don't include it in your project! -->
+<script src="../../../assets/js/demo.js"></script>
 
-        var form = document.forms['soubjectEditForm'];
-        form.elements["Id"].value = event.id;
-        form.elements["Name"].value = event.subjectName;
-        form.elements["Description"].value = event.subjectDesc;
+</html>
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Javascript method's body can be found in assets/js/demos.js
+        demo.initDashboardPageCharts();
+
+
+        demo.initVectorMap();
+
+    });
+    function editTitleForm(app) {
+        var form = document.forms['userTitleEditForm'];
+         form.elements["Id"].value = app.titleId;
+        form.elements["titleName"].value = app.titlename;
+         //form.elements["Description"].value = app.roleName;
     }
-    function editcourseSubjectForm(event) {
-        var form = document.forms['editcourseSubjecEditForm'];
-        var myArea = document.getElementById("courseSubjectContent");
-        form.elements["CourseId"].value = event.CourseId;
-        form.elements["SubjectId"].value = event.SubjectId;
-        myArea.innerHTML="<p> Course: "+event.CourseName+"<br/> Subject: "+event.SubjectName+"<p>";
+    function editGenderForm(app) {
+        var form = document.forms['userGenderEditForm'];
+        form.elements["Id"].value = app.genderId;
+        form.elements["genderName"].value = app.genderName;
+    }
+    function editApplicantTypeForm(app) {
+        var form = document.forms['userApplicantTypeEditForm'];
+        form.elements["Id"].value = app.id;
+        form.elements["Name"].value = app.name;
+        form.elements["Description"].value = app.description;
+    }
+    function editRoleForm(app) {
+        var form = document.forms['userRoleEditForm'];
+        form.elements["Id"].value = app.id;
+        form.elements["Role"].value = app.roleName;
+    }
+
+
+
+    function Deleting(id,value,title) {
+        console.log(id +value+title);
+        //Alert(id,value,title);
+        swal({
+            title: "Are you sure?",
+            text: "<p>You will not be able to recover this Action.  You are about to Delete the following "+title+":"+ value+"</p>",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, proceed !",
+            cancelButtonText: "No, cancel !",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },function (isConfirm) {
+            if (isConfirm) {
+                //const url =BudgetURL+"/"+applicationId+"/"+amount
+                const url=tosendBack(id,title);
+                $.get(url, function(data){
+                    if(data=true){
+                        swal("Deletion!", "You have successfully delete.", "success");
+                    }else {
+                        swal("Error!", "Something went wrong.", "error");
+                    }
+                });
+            } else {
+                swal("Cancelled", "You have successfully cancelled allocation :)", "error");
+            }
+        });
+    }
+    function tosendBack(value,title) {
+        const BudgetURL="http://155.238.30.101:4000/support/demography";
+        switch(title) {
+            case "title":
+                // code block
+                return url =BudgetURL+"/title/deleteJ/"+value;
+                break;
+            case "":
+                // code block
+                break;
+            default:
+            // code block
+        }
     }
 </script>
-</html>

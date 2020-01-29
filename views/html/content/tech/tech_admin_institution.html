@@ -393,7 +393,29 @@
                                     <div class="card green">
                                         <form id="institution_location" method="post" action="/support/management/institution/save/institution-location">
                                             {{ template "location-form" .}}
-                                            {{ template "institution-form" .}}
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-5">
+                                                    <label class="control-label label-font-color">Institution Type</label>
+                                                    <select name="institutionTypeLocationDrop" class="obas-select obas-select-inner-text" id="institutionTypeLocationDrop"
+                                                            data-style="btn-default btn-outline"
+                                                            data-menu-style="dropdown-blue">
+                                                        <option value="" disabled selected>Select Institution Type</option>
+                                                        {{ with .InstitutionTypes }}
+                                                            {{ range .}}
+                                                                <option value="{{ .Id }}" >{{ .Name }}</option>
+                                                            {{ end }}
+                                                        {{ end }}
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <label class="control-label label-font-color">Institution</label>
+                                                    <select name="institutionLocationDrop" class="obas-select obas-select-inner-text" id="institutionLocationDrop"
+                                                            data-style="btn-default btn-outline"
+                                                            data-menu-style="dropdown-blue">
+                                                        <option value="" disabled selected>Select Institution</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                             <div class="row justify-content-center">
                                                 <div class="col-md-5">
                                                     <label class="control-label label-font-color">Longitude</label>
@@ -1143,8 +1165,8 @@
 <script src="../../../assets/js/plugins/fullcalendar.min.js"></script>
 <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="../../../assets/js/light-bootstrap-dashboard.js?v=2.0.1" type="text/javascript"></script>
-<script src="../../../assets/js/custom/generics.js"></script>
 <script src="../../../assets/js/custom/techadmin/institution.js"></script>
+<script src="../../../assets/js/custom/generics.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {

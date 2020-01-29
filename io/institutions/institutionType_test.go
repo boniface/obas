@@ -37,7 +37,7 @@ func TestGetInstitutionTypes(t *testing.T) {
 }
 func TestUpdateInstitutionType(t *testing.T) {
 	obj := domain.InstitutionTypes{"EEEE-IKMRY", "College", "this is a colleges for further education"}
-	resp, err := UpdateInstitutionType(obj)
+	resp, err := UpdateInstitutionType(obj, "")
 	assert.NotNil(t, resp)
 	fmt.Println(" The Results", resp)
 	assert.Nil(t, err)

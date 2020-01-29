@@ -19,21 +19,8 @@ $(document).ready(function () {
         populateLocationDropDown(townDropDown, districtId);
     });
 
-    $("#institutionType").change(function() {
-        const institutionTypeId = $(this).val();
-        let institutionElement = $('#institution');
-        let institutionDropDown = getDropDownElement(institutionElement, "Institution");
-        populateInstitutionDropDownByType(institutionDropDown, institutionTypeId);
-    });
 
-
-    $("form#institution_location select#institutionType").change(function() {
-        const institutionTypeId = $(this).val();
-        let institutionElement = $('form#institution_location select#institution');
-        let institutionDropDown = getDropDownElement(institutionElement, "Institution");
-        populateInstitutionDropDownByType(institutionDropDown, institutionTypeId);
-    });
-    /** Institution Location ends here **/
+    /** Institution types ends here **/
 
     $("#institutionTypeAddressDrop").change(function() {
         const institutionTypeAddress = $(this).val();
@@ -48,27 +35,10 @@ $(document).ready(function () {
         let institutionAddressDropDown = getDropDownElement(institutionAddressElement, "Institution");
         populateInstitutionDropDownByType(institutionAddressDropDown, institutionTypeAddress);
     });
-    $("form#institution_location select#institutionTypeCourseDrop").change(function() {
+    //location
+    $("#institutionTypeLocationDrop").change(function() {
         const institutionTypeAddress = $(this).val();
-        let institutionAddressElement = $('form#institution_location select#institutionCourseDrop');
-        let institutionAddressDropDown = getDropDownElement(institutionAddressElement, "Institution");
-        populateInstitutionDropDownByType(institutionAddressDropDown, institutionTypeAddress);
-    });
-    $("form#institution_address select#institutionTypeCourseDrop").change(function() {
-        const institutionTypeAddress = $(this).val();
-        let institutionAddressElement = $('form#institution_address select#institutionCourseDrop');
-        let institutionAddressDropDown = getDropDownElement(institutionAddressElement, "Institution");
-        populateInstitutionDropDownByType(institutionAddressDropDown, institutionTypeAddress);
-    });
-    $("form#institution_course select#institutionTypeCourseDrop").change(function() {
-        const institutionTypeAddress = $(this).val();
-        let institutionAddressElement = $('form#institution_course select#institutionCourseDrop');
-        let institutionAddressDropDown = getDropDownElement(institutionAddressElement, "Institution");
-        populateInstitutionDropDownByType(institutionAddressDropDown, institutionTypeAddress);
-    });
-    $("form#institutionLocationEditForm select#institutionTypeCourseDrop").change(function() {
-        const institutionTypeAddress = $(this).val();
-        let institutionAddressElement = $('form#institutionLocationEditForm select#institutionCourseDrop');
+        let institutionAddressElement = $('#institutionLocationDrop');
         let institutionAddressDropDown = getDropDownElement(institutionAddressElement, "Institution");
         populateInstitutionDropDownByType(institutionAddressDropDown, institutionTypeAddress);
     });

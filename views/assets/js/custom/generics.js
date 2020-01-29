@@ -36,10 +36,10 @@ let populateInstitutionDropDownByType = function (element, institutionTypeId) {
     if (institutionTypeId) {
         const url = INSTITUTION_RESTAPI + "getInstitutionsByType/" + institutionTypeId;
         $.get(url, function(institutions) {
-            //console.log(institutions.)
             $.each(institutions, function (key, value) {
                 let option = new Option(value.name, value.id);
                 element.append(option);
+                option=new Option();
             });
         });
     }

@@ -50,8 +50,9 @@ func CreateGender(entity interface{}) (bool, error) {
 	return true, nil
 }
 
-func UpdateGender(entity interface{}) (bool, error) {
+func UpdateGender(entity interface{}, token string) (bool, error) {
 	resp, _ := api.Rest().
+		SetAuthToken(token).
 		SetBody(entity).
 		Post(genderUrl + "/gender/update")
 	if resp.IsError() {
