@@ -23,7 +23,7 @@ func TestDeleteInstitutionCourse(t *testing.T) {
 }
 
 func TestGetInstitutionCourses(t *testing.T) {
-	resp, err := GetInstitutionCourses()
+	resp, err := GetInstitutionCourses("")
 	assert.NotNil(t, resp)
 	fmt.Println(" The Results", resp)
 	assert.Nil(t, err)

@@ -6,7 +6,7 @@ import (
 	domain3 "obas/domain/documents"
 )
 
-const DocumentStatus = api.BASE_URL + "Document/status"
+const DocumentStatus = api.BASE_URL + "/documents/status"
 
 func CreateDocumentStatus(obj domain3.DocumentStatus) (domain3.DocumentStatus, error) {
 	entity := domain3.DocumentStatus{}
@@ -44,9 +44,9 @@ func GetDocumentStatus(documentId string) (domain3.DocumentStatus, error) {
 	}
 	return entity, nil
 }
-func GetdocumentStatues() (domain3.DocumentStatus, error) {
-	entity := domain3.DocumentStatus{}
-	resp, _ := api.Rest().Get(DocumentStatus + "/all")
+func GetdocumentStatues(documentId string) ([]domain3.DocumentStatus, error) {
+	entity := []domain3.DocumentStatus{}
+	resp, _ := api.Rest().Get(DocumentStatus + "/all" + documentId)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}

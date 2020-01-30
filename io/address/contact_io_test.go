@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-var entity = domain.ContactType{ContactTypeId: "", Name: "Alternative Email"}
+var entity = domain.ContactType{ContactTypeId: "", Name: "Home"}
 
 func TestGetContacts(t *testing.T) {
 	value, err := GetContactTypes()

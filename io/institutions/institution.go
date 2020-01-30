@@ -88,9 +88,9 @@ func GetInstitutions() ([]domain.Institution, error) {
 	return entity, nil
 }
 
-func UpdateInstitution(obj domain.Institution) (domain.Institution, error) {
+func UpdateInstitution(obj domain.Institution, token string) (domain.Institution, error) {
 	entity := domain.Institution{}
-	resp, _ := api.Rest().SetBody(obj).Post(institutionURL + "/update")
+	resp, _ := api.Rest().SetAuthToken(token).SetBody(obj).Post(institutionURL + "/update")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}

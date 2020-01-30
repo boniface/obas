@@ -58,9 +58,9 @@ func DeleteInstitutionType(obj domain.InstitutionTypes) (bool, error) {
 	return true, nil
 }
 
-func UpdateInstitutionType(obj domain.InstitutionTypes) (domain.InstitutionTypes, error) {
+func UpdateInstitutionType(obj domain.InstitutionTypes, token string) (domain.InstitutionTypes, error) {
 	entity := domain.InstitutionTypes{}
-	resp, _ := api.Rest().SetBody(obj).Post(institutionTypeURL + "update")
+	resp, _ := api.Rest().SetAuthToken(token).SetBody(obj).Post(institutionTypeURL + "update")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}

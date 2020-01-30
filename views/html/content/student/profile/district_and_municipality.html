@@ -153,11 +153,11 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-8">
+
                                                 <div class="row justify-content-center">
 
-                                                    <div class="col-md-6">
-                                                        <label class="control-label"
-                                                               style="color: #ffffff">Province</label>
+                                                    <div class="col-md-10">
+                                                        <label class="control-label label-font-color">Province</label>
                                                         <select name="province" class="selectpicker" id="province"
                                                                 data-style="btn-default btn-outline"
                                                                 data-menu-style="dropdown-blue">
@@ -169,29 +169,33 @@
                                                             {{end}}
                                                         </select>
                                                     </div>
-
-                                                    <div class="col-md-6">
-                                                        <label class="control-label"
-                                                               style="color: #ffffff">District</label>
-                                                        <select name="district" class="obas-select obas-select-inner-text" id="district"
-                                                                data-style="btn-default btn-outline"
-                                                                data-menu-style="dropdown-blue">
-                                                            <option value="" disabled selected>Select District</option>
-                                                        </select>
-                                                    </div>
                                                 </div>
+
                                                 <form id="townForm" method="post"
                                                       action="/users/student-profile-town-update">
+
                                                     <div class="row justify-content-center">
-                                                        <div class="col-md-9">
-                                                            <label class="control-label"
-                                                                   style="color: #ffffff">Town</label>
-                                                            <select name="town" class="obas-select obas-select-inner-text" required id="town"
+
+                                                        <div class="col-md-5">
+                                                            <label class="control-label label-font-color">District</label>
+                                                            <select name="district" class="obas-select obas-select-inner-text"  id="district"
                                                                     data-style="btn-default btn-outline"
                                                                     data-menu-style="dropdown-blue">
+                                                                <option style="background-color: #0b2e13" value="" disabled selected>Select District</option>
+                                                            </select>
+                                                        </div>
+
+
+                                                        <div class="col-md-5">
+                                                            <label class="control-label label-font-color">Town</label>
+                                                            <select  class="obas-select obas-select-inner-text" id="town"
+                                                                     data-style="btn-default btn-outline"
+                                                                     data-menu-style="dropdown-blue" name="townId">
                                                                 <option value="" disabled selected>Select Town</option>
                                                             </select>
                                                         </div>
+                                                    </div>
+                                                    <div class="row justify-content-center">
                                                         <div class="col-md-3">
                                                             <label class="control-label"
                                                                    style="color: #ffffff">&nbsp;</label>
@@ -207,7 +211,7 @@
                                                 </form>
                                             </div>
 
-                                            <div class="col-md-4">
+                                            <div class="col-md-4" style="margin-top: 5%">
                                                 <div class="card ">
                                                     <div class="card-footer ">
                                                         {{ .TownName }}

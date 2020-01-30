@@ -6,9 +6,12 @@ import (
 	"html/template"
 	"net/http"
 	"obas/config"
+	domain "obas/domain/application"
 	userDomain "obas/domain/users"
+	"obas/io/applications"
 	"obas/io/demographics"
 	userIO "obas/io/users"
+	"strings"
 )
 
 func UserManagement(app *config.Env) http.Handler {
@@ -16,15 +19,91 @@ func UserManagement(app *config.Env) http.Handler {
 
 	r.Get("/", UserManagementHandler(app))
 	r.Get("/role/delete/{roleId}", DeleteRoleManagementHandler(app))
+	r.Get("/applicantType/delete/{Id}", DeleteApplicantTypeManagementHandler(app))
 	r.Post("/role/create", RoleCreateManagementHandler(app))
+	r.Post("/applicantType/create", ApplicantionCreateManagementHandler(app))
 	r.Post("/role/update", RoleUpdateManagementHandler(app))
+	r.Post("/applicantType/update", ApplicantUpdateManagementHandler(app))
 
 	return r
+}
+
+func ApplicantUpdateManagementHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		userId := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		_ = app.Session.Destroy(r.Context())
+		r.ParseForm()
+		id := r.PostFormValue("id")
+		name := r.PostFormValue("Name")
+		Description := r.PostFormValue("Description")
+
+		if id != "" || Description != "" || name != "" {
+			newApplicantion := domain.ApplicantType{id, name, Description}
+			_, err := applications.UpdateApplicantType(newApplicantion)
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+				fmt.Println("fail to update applicant type")
+			}
+		}
+		app.Session.Put(r.Context(), "tab", "tab3")
+		app.Session.Put(r.Context(), "userId", userId)
+		app.Session.Put(r.Context(), "token", token)
+		http.Redirect(w, r, "/support/management/user", 301)
+	}
+}
+
+func DeleteApplicantTypeManagementHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		roleId := chi.URLParam(r, "Id")
+		userId := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		_ = app.Session.Destroy(r.Context())
+		applicantType, err := applications.GetApplicantType(roleId)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+		if applicantType.Id != "" {
+			_, err := applications.DeleteApplicantType(applicantType)
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+			}
+		}
+		app.Session.Put(r.Context(), "tab", "tab3")
+		app.Session.Put(r.Context(), "userId", userId)
+		app.Session.Put(r.Context(), "token", token)
+		http.Redirect(w, r, "/support/management/user", 301)
+	}
+}
+
+func ApplicantionCreateManagementHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		userId := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		_ = app.Session.Destroy(r.Context())
+		r.ParseForm()
+		applicationType := r.PostFormValue("applicationType")
+		Description := r.PostFormValue("Description")
+
+		if applicationType != "" || Description != "" {
+			newApplicantion := domain.ApplicantType{"", applicationType, Description}
+			_, err := applications.CreateApplicantType(newApplicantion)
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+			}
+		}
+		app.Session.Put(r.Context(), "tab", "tab3")
+		app.Session.Put(r.Context(), "userId", userId)
+		app.Session.Put(r.Context(), "token", token)
+		http.Redirect(w, r, "/support/management/user", 301)
+	}
 }
 
 func DeleteRoleManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		roleId := chi.URLParam(r, "roleId")
+		userId := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
 		_ = app.Session.Destroy(r.Context())
 		roleeObject, err := demographics.GetRole(roleId)
 		if err != nil {
@@ -37,12 +116,16 @@ func DeleteRoleManagementHandler(app *config.Env) http.HandlerFunc {
 			}
 		}
 		app.Session.Put(r.Context(), "tab", "tab1")
+		app.Session.Put(r.Context(), "userId", userId)
+		app.Session.Put(r.Context(), "token", token)
 		http.Redirect(w, r, "/support/management/user", 301)
 	}
 }
 
 func RoleCreateManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		userId := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
 		_ = app.Session.Destroy(r.Context())
 		r.ParseForm()
 		role := r.PostFormValue("role")
@@ -56,29 +139,32 @@ func RoleCreateManagementHandler(app *config.Env) http.HandlerFunc {
 			}
 		}
 		app.Session.Put(r.Context(), "tab", "tab1")
+		app.Session.Put(r.Context(), "userId", userId)
+		app.Session.Put(r.Context(), "token", token)
 		http.Redirect(w, r, "/support/management/user", 301)
 	}
 }
 
 func RoleUpdateManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		userId := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
 		_ = app.Session.Destroy(r.Context())
 		r.ParseForm()
-		actualUser := r.PostFormValue("userId")
-		actualRole := r.PostFormValue("newRole")
-		fmt.Println(actualUser, "<<<<<<actualUser||actualRole>>>>>", actualRole)
-		if actualRole != "" || actualUser != "" {
-			userRole := userDomain.UserRole{actualUser, actualRole}
-			//_,err:=userIO.UpdateUserRole(userRole)
-			_, err := userIO.DeleteUserRole(userRole)
+		id := strings.TrimSpace(r.PostFormValue("userId"))
+		role := r.PostFormValue("roleId")
+		fmt.Println(">>>>", id, "<<<<<<actualUser||actualRole>>>>>", role, "user ", userId)
+		if id != "" || role != "" || token != "" {
+			userRole := userDomain.UserRole{id, role}
+			_, err := userIO.UpdateUserRole(userRole, token)
+			//_, err := demographics.UpdateRole(userRole,token)
 			if err != nil {
-				fmt.Println("error delete UserRole")
-			} else {
-				userIO.CreateUserRole(userRole)
-				fmt.Println("about to update roles")
+				fmt.Println("error update Role")
 			}
 		}
 		app.Session.Put(r.Context(), "tab", "tab2")
+		app.Session.Put(r.Context(), "userId", userId)
+		app.Session.Put(r.Context(), "token", token)
 		http.Redirect(w, r, "/support/management/user", 301)
 	}
 
@@ -117,6 +203,10 @@ func UserManagementHandler(app *config.Env) http.HandlerFunc {
 		if err != nil {
 			fmt.Println("error reading Users")
 		}
+		applicant, err := applications.GetApplicantTypes()
+		if err != nil {
+			fmt.Println("error reading applicant")
+		}
 		roles, err := demographics.GetRoles()
 		if err != nil {
 			fmt.Println("error reading Roles")
@@ -135,13 +225,14 @@ func UserManagementHandler(app *config.Env) http.HandlerFunc {
 		tab := app.Session.GetString(r.Context(), "tab")
 		activeTab := myTabs(tab)
 		type PageData struct {
-			Users        []userDomain.User
-			Roles        []demographics.Role
-			UserRole     []userDomain.UserRole
-			UserRoleList []myUserRole
-			MyActiveTab  Roletabs
+			Users         []userDomain.User
+			Roles         []demographics.Role
+			UserRole      []userDomain.UserRole
+			UserRoleList  []myUserRole
+			MyActiveTab   Roletabs
+			ApplicantType []domain.ApplicantType
 		}
-		Data := PageData{users, roles, userRoles, userRoleList, activeTab}
+		Data := PageData{users, roles, userRoles, userRoleList, activeTab, applicant}
 		files := []string{
 			app.Path + "content/tech/tech_admin_users.html",
 			app.Path + "content/tech/template/sidebar.template.html",
@@ -162,15 +253,18 @@ func UserManagementHandler(app *config.Env) http.HandlerFunc {
 type Roletabs struct {
 	Tab1 string
 	Tab2 string
+	Tab3 string
 }
 
 func myTabs(tab string) Roletabs {
 	switch tab {
 	case "tab1":
-		return Roletabs{"active show", ""}
+		return Roletabs{"active show", "", ""}
 	case "tab2":
-		return Roletabs{"", "active show"}
+		return Roletabs{"", "active show", ""}
+	case "tab3":
+		return Roletabs{"", "", "active show"}
 	default:
-		return Roletabs{"active show", ""}
+		return Roletabs{"active show", "", ""}
 	}
 }

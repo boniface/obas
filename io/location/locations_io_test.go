@@ -15,7 +15,7 @@ func TestGetLocations(t *testing.T) {
 }
 
 func TestGetLocation(t *testing.T) {
-	value, err := GetLocation("CTTE-4OILY")
+	value, err := GetLocation("OOII-CDSIX")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
 	fmt.Println(" The Results", value.Name)
@@ -45,7 +45,7 @@ func TestDeleteDocument(t *testing.T) {
 }
 
 func TestGetLocationsForParent(t *testing.T) {
-	value, err := GetLocationsForParent("AAIL-YLRUW")
+	value, err := GetLocationsForParent("DACI-MPCGU")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", value)
 	assert.NotNil(t, value)

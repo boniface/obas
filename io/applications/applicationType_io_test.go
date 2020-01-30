@@ -3,6 +3,7 @@ package applications
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	domain "obas/domain/application"
 	"testing"
 )
 
@@ -20,7 +21,8 @@ func TestGetApplicationtype(t *testing.T) {
 }
 
 func TestCreateApplicationtype(t *testing.T) {
-	value, err := CreateApplicationType("")
+	obj := domain.ApplicationType{"", "Motsepe Bursary", ""}
+	value, err := CreateApplicationType(obj)
 	assert.Nil(t, err)
 	assert.True(t, value)
 }
