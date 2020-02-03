@@ -11,7 +11,7 @@ const applicationTypeUrl = api.BASE_URL + "/application/type/"
 func GetApplicationTypes() ([]domain.ApplicationType, error) {
 	entites := []domain.ApplicationType{}
 	//entites = append(entites, domain.ApplicationType{"1", "Motsepe Bursary", ""})
-	resp, _ := api.Rest().Get(applicationTypeUrl + "/type/all")
+	resp, _ := api.Rest().Get(applicationTypeUrl + "all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
