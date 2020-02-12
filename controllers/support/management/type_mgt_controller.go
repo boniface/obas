@@ -694,7 +694,7 @@ func CreateDocumentTypeHandler(app *config.Env) http.HandlerFunc {
 		if documentType != "" {
 			institutionType := domain2.DocumentType{"", documentType}
 
-			result, err := documents.CreateDocumentType(institutionType)
+			result, err := documents.CreateDocumentType(institutionType, token)
 			if err != nil {
 				fmt.Println("error when creating institutionType ")
 				message = "An error has occurred please try again later."

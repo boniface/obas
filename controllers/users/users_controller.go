@@ -921,6 +921,7 @@ func StudentDocumentsUploadHandler(app *config.Env) http.HandlerFunc {
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
+		println("in")
 		r.ParseMultipartForm(10 << 20)
 		documentTypeId := r.PostFormValue("documenttype")
 		file, handler, err := r.FormFile("file")
@@ -990,7 +991,9 @@ func StudentDocumentsUploadHandler(app *config.Env) http.HandlerFunc {
 				}
 			}
 		}
-		http.Redirect(w, r, "/users/student/documents", 301)
+		println("getting at the end")
+		//http.Redirect(w, r, "/users/student/documents", 301)
+		http.Redirect(w, r, "/users/student/bursary/application", 301)
 	}
 }
 
