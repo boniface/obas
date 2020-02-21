@@ -83,7 +83,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item ">
+                <li class="nav-item {{if eq .Tab "dashboard" }} active{{end}} ">
                     <a class="nav-link" href="/support">
                         <i class="nc-icon nc-chart-pie-35"></i>
                         <p>Dashboard</p>
@@ -133,30 +133,37 @@
                 <li class="nav-item ">
                     <a class="nav-link" data-toggle="collapse" href="#mapsExamples">
                         <i class="nc-icon nc-settings-90"></i>
-                        <!--  <i class="nc-icon nc-single-copy-04"></i>-->
                         <p>Institution
                             <b class="caret"></b>
                         </p>
                     </a>
-                    <div class="collapse " id="mapsExamples">
+                    <div class="collapse {{if eq .Tab "institution"}} show{{end}} " id="mapsExamples">
                         <ul class="nav">
-                            <li class="nav-item ">
-                                <a class="nav-link" href="/support/management/institution">
-                                    <i class="nc-icon nc-attach-87"></i>
+                            <li class="nav-item {{if eq .subTab "institution"}} active{{end}} ">
+                                <a class="nav-link" href="/support/management/institution/institution">
+                                    <span class="sidebar-mini">I</span>
                                     <p>Institutions</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/support/management/institution">
-                                    <span class="sidebar-mini">IA</span>
+                            <li class="nav-item {{if eq .subTab "location"}} active{{end}}">
+                                <a class="nav-link" href="/support/management/institution/location">
+                                    <span class="sidebar-mini">L</span>
+                                    <p>
+                                        Location
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item {{if eq .subTab "address"}} active{{end}}">
+                                <a class="nav-link" href="/support/management/institution/address">
+                                    <span class="sidebar-mini">A</span>
                                     <p>
                                         Address
                                     </p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/support/management/institution">
-                                    <i class="nc-icon nc-money-coins"></i>
+                            <li class="nav-item {{if eq .subTab "course"}} active{{end}}">
+                                <a class="nav-link" href="/support/management/institution/course">
+                                    <span class="sidebar-mini">C</span>
                                     <p>
                                         Course
                                     </p>

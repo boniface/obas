@@ -146,15 +146,14 @@ func loginHandler(app *config.Env) http.HandlerFunc {
 		password := r.PostFormValue("password")
 		loginToken, err := login.DoLogin(email, password)
 		if err != nil {
-			app.ErrorLog.Println(err.Error())
+			app.ErrorLog.Println(err.Error(), "149")
 			app.Session.Put(r.Context(), "message", "Wrong Credentials!")
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
-
 		userRole, err := users.GetUserRole(email)
 		if err != nil {
-			app.ErrorLog.Println(err.Error())
+			app.ErrorLog.Println(err.Error(), "156")
 			app.Session.Put(r.Context(), "message", "Wrong Credentials!")
 			http.Redirect(w, r, "/login", 301)
 			return

@@ -32,7 +32,53 @@ func Admin(app *config.Env) http.Handler {
 	r.Post("/change/document-status", ChangeDocumentStatusHandler(app))
 	r.Post("/change/application-status", ChangeApplicationStatusHandler(app))
 
+	r.Get("/applicant/document/{userId}/{applicationId}", AdminApplicationDocumentHandler(app))
+
 	return r
+}
+
+func AdminApplicationDocumentHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+
+		userId := chi.URLParam(r, "userId")
+		applicationId := chi.URLParam(r, "applicationId")
+
+		var documents []documentDomain.Document
+
+		app.Session.Put(r.Context(), "Admin_message", "Fail to Update")
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		_, err := users.GetUser(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		/***This method still not existing in the backend**/
+		if userId != "" || applicationId != "" {
+			userDocuments, err := users.GetUserDocuments(userId)
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+				http.Redirect(w, r, "/login", 301)
+				return
+			}
+			for _, result := range userDocuments {
+				document := getDocument(result.DocumentId)
+				documents = append(documents, document)
+			}
+		}
+		type PageData struct {
+			Applicant   []applicantDetails
+			Document    []documentDetails
+			Application applicantsearch
+		}
+
+		http.Redirect(w, r, "/support/management/academics", 301)
+	}
 }
 
 func ChangeDocumentStatusHandler(app *config.Env) http.HandlerFunc {
@@ -89,7 +135,6 @@ func ChangeDocumentStatusHandler(app *config.Env) http.HandlerFunc {
 			app.Session.Put(r.Context(), "token", token)
 			app.Session.Put(r.Context(), "Admin_message", "Successfully Updated")
 		}
-
 		http.Redirect(w, r, "/support/management/academics", 301)
 	}
 }
@@ -438,7 +483,8 @@ func AdminApplicantHandler(app *config.Env) http.HandlerFunc {
 		}
 		Data := Pagedate{getApplicants(), documents, application}
 		files := []string{
-			app.Path + "content/admin/admin_applicant.html",
+			app.Path + "content/admin/admin_application3.html",
+			//app.Path + "content/admin/admin_applicant.html",
 			app.Path + "content/admin/template/sidebar.template.html",
 			app.Path + "content/admin/template/navbar.template.html",
 			app.Path + "base/template/footer.template.html",
@@ -457,19 +503,19 @@ func AdminApplicantHandler(app *config.Env) http.HandlerFunc {
 
 func AdminHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		/**email := app.Session.GetString(r.Context(), "userId")
+		email := app.Session.GetString(r.Context(), "userId")
 		token := app.Session.GetString(r.Context(), "token")
 		if email == "" || token == "" {
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
-		user, err := users_io.GetUser(email)
+		user, err := users.GetUser(email)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
-		fmt.Println("User ", user)*/
+		fmt.Println("User ", user)
 
 		files := []string{
 			app.Path + "content/admin/admin_dashboard.page.html",
