@@ -14,6 +14,9 @@ func AcademicManagement(app *config.Env) http.Handler {
 	r := chi.NewRouter()
 
 	r.Get("/", AcademiManagementHandler(app))
+	r.Get("/course", CourseManagementHandler(app))
+	r.Get("/subject", SubjectManagementHandler(app))
+	r.Get("/subject_course", SubjectCourseManagementHandler(app))
 	r.Get("/delete/subject/{resetKey}", DeleteSubjectManagementHandler(app))
 	r.Get("/delete/course/{courseId}", DeletecourseManagementHandler(app))
 	r.Get("/delete/coursesubject/{courseId}/{subjectId}", DeletecourseSubjectManagementHandler(app))
@@ -27,6 +30,137 @@ func AcademicManagement(app *config.Env) http.Handler {
 	r.Post("/create/courseSubject", CreateCourseSubjectManagementHandler(app))
 
 	return r
+}
+
+func SubjectCourseManagementHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		var courseSubjectHolder []CourseSubjectHolder
+
+		courses, err := academics.GetAllCourses()
+		if err != nil {
+			fmt.Println("An error in AcademiManagementHandler reading courses")
+			app.ErrorLog.Println(err.Error())
+		}
+		subjects, errr := academics.GetSubjects()
+		if errr != nil {
+			fmt.Println("An error in AcademiManagementHandler reading subjects")
+			app.ErrorLog.Println(errr.Error())
+		}
+
+		courseSubjects, errrr := academics.GetAllCourseSubject()
+		//fmt.Println("All the courseSubjects", courseSubjects)
+		if errrr != nil {
+			fmt.Println("An error in AcademiManagementHandler reading courseSubjects")
+			app.ErrorLog.Println(errrr.Error())
+		} else {
+			for _, myCourseSubject := range courseSubjects {
+				course, err := academics.GetCourse(myCourseSubject.CourseId)
+				if err != nil {
+					fmt.Println("An error in AcademiManagementHandler reading cours")
+					app.ErrorLog.Println(err.Error())
+				}
+				subject, err := academics.GetSubject(myCourseSubject.SubjectId)
+				if err != nil {
+					fmt.Println("An error in AcademiManagementHandler reading subject")
+					app.ErrorLog.Println(err.Error())
+				}
+				if subject.Name != "" || course.CourseName != "" {
+					//fmt.Println(myCourseSubject.CourseId, "<<<CourseId,  SubjectId>>>>>", myCourseSubject.SubjectId)
+					myCourseSubjectHolder := CourseSubjectHolder{myCourseSubject.CourseId, myCourseSubject.SubjectId, course.CourseName, subject.Name}
+					courseSubjectHolder = append(courseSubjectHolder, myCourseSubjectHolder)
+				}
+			}
+		}
+
+		type PageData struct {
+			Subjects       []academicsDomain.Subject
+			Courses        []academicsDomain.Course
+			CourseSubjects []CourseSubjectHolder
+			Tab            string
+			SubTab         string
+		}
+
+		Data := PageData{subjects, courses, courseSubjectHolder, "academics", "course_subject"}
+		files := []string{
+			app.Path + "content/tech/academics/course_subject.html",
+			app.Path + "content/tech/template/sidebar.template.html",
+			app.Path + "base/template/footer.template.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, Data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+	}
+}
+
+func SubjectManagementHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		subjects, errr := academics.GetSubjects()
+		if errr != nil {
+			fmt.Println("An error in AcademiManagementHandler reading subjects")
+			app.ErrorLog.Println(errr.Error())
+		}
+
+		type PageData struct {
+			Subjects []academicsDomain.Subject
+			Tab      string
+			SubTab   string
+		}
+
+		Data := PageData{subjects, "academics", "subject"}
+		files := []string{
+			app.Path + "content/tech/academics/subject.html",
+			app.Path + "content/tech/template/sidebar.template.html",
+			app.Path + "base/template/footer.template.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, Data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+	}
+}
+
+func CourseManagementHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		courses, err := academics.GetAllCourses()
+		if err != nil {
+			fmt.Println("An error in AcademiManagementHandler reading courses")
+			app.ErrorLog.Println(err.Error())
+		}
+
+		type PageData struct {
+			Courses []academicsDomain.Course
+			Tab     string
+			SubTab  string
+		}
+		Data := PageData{courses, "academics", "course"}
+		files := []string{
+			app.Path + "content/tech/academics/course.html",
+			app.Path + "content/tech/template/sidebar.template.html",
+			app.Path + "base/template/footer.template.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, Data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+	}
 }
 
 func UpdateCourseSubjectManagementHandler(app *config.Env) http.HandlerFunc {
@@ -69,10 +203,8 @@ func UpdateCourseSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 				}
 			}
 		}
-		app.Session.Put(r.Context(), "userId", email)
-		app.Session.Put(r.Context(), "token", token)
-		app.Session.Put(r.Context(), "tab", "tab3")
-		http.Redirect(w, r, "/support/management/academics", 301)
+
+		http.Redirect(w, r, "/support/management/academics/course_subject", 301)
 	}
 }
 
@@ -100,10 +232,7 @@ func UpdatesubjectManagementHandler(app *config.Env) http.HandlerFunc {
 				app.ErrorLog.Println(err.Error())
 			}
 		}
-		app.Session.Put(r.Context(), "userId", email)
-		app.Session.Put(r.Context(), "token", token)
-		app.Session.Put(r.Context(), "tab", "tab2")
-		http.Redirect(w, r, "/support/management/academics", 301)
+		http.Redirect(w, r, "/support/management/academics/subject", 301)
 	}
 }
 
@@ -131,10 +260,8 @@ func UpdateCourseManagementHandler(app *config.Env) http.HandlerFunc {
 				app.ErrorLog.Println(err.Error())
 			}
 		}
-		app.Session.Put(r.Context(), "userId", email)
-		app.Session.Put(r.Context(), "token", token)
-		app.Session.Put(r.Context(), "tab", "tab1")
-		http.Redirect(w, r, "/support/management/academics", 301)
+
+		http.Redirect(w, r, "/support/management/academics/course", 301)
 	}
 }
 
@@ -142,9 +269,7 @@ func DeletecourseSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		courseId := chi.URLParam(r, "courseId")
 		SubjectId := chi.URLParam(r, "subjectId")
-		fmt.Println("courseId", courseId)
-		fmt.Println("SubjectId", SubjectId)
-		_ = app.Session.Destroy(r.Context())
+
 		courseSubjectObject := academicsDomain.CourseSubject{courseId, SubjectId}
 		if courseSubjectObject.SubjectId != "" {
 			_, err := academics.DeleteCourseSubject(courseSubjectObject)
@@ -152,17 +277,15 @@ func DeletecourseSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 				app.ErrorLog.Println(err.Error())
 			}
 		}
-		fmt.Println("course subject to detele>>>", courseSubjectObject)
-		app.Session.Put(r.Context(), "tab", "tab3")
-		http.Redirect(w, r, "/support/management/academics", 301)
+
+		http.Redirect(w, r, "/support/management/academics/course_subject", 301)
 	}
 }
 
 func DeletecourseManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		courseId := chi.URLParam(r, "courseId")
-		fmt.Println("courseId>>>", courseId)
-		_ = app.Session.Destroy(r.Context())
+
 		courseObject, err := academics.GetCourse(courseId)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
@@ -173,16 +296,13 @@ func DeletecourseManagementHandler(app *config.Env) http.HandlerFunc {
 				app.ErrorLog.Println(err.Error())
 			}
 		}
-		app.Session.Put(r.Context(), "tab", "tab1")
-		http.Redirect(w, r, "/support/management/academics", 301)
+		http.Redirect(w, r, "/support/management/academics/course", 301)
 	}
 }
 
 func DeleteSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		subjectId := chi.URLParam(r, "resetKey")
-		_ = app.Session.Destroy(r.Context())
-		fmt.Println("subject Id to delete>>>>", subjectId)
 		subjectObject, err := academics.GetSubject(subjectId)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
@@ -193,19 +313,17 @@ func DeleteSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 				app.ErrorLog.Println(err.Error())
 			}
 		}
-		app.Session.Put(r.Context(), "tab", "tab2")
-		http.Redirect(w, r, "/support/management/academics", 301)
+		http.Redirect(w, r, "/support/management/academics/subject", 301)
 	}
 }
 
 func CreateCourseSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
-		_ = app.Session.Destroy(r.Context())
 		subjectId := r.PostFormValue("subjectId")
 		courseId := r.PostFormValue("courseId")
 
-		fmt.Println(subjectId, "<<<< subjectId||courseId>>>>", courseId)
+		//fmt.Println(subjectId, "<<<< subjectId||courseId>>>>", courseId)
 		if subjectId != "" || courseId != "" {
 			newcCourseSubject := academicsDomain.CourseSubject{courseId, subjectId}
 			_, err := academics.CreateCourseSubject(newcCourseSubject)
@@ -214,15 +332,13 @@ func CreateCourseSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 				app.ErrorLog.Println(err.Error())
 			}
 		}
-		app.Session.Put(r.Context(), "tab", "tab3")
-		http.Redirect(w, r, "/support/management/academics", 301)
+		http.Redirect(w, r, "/support/management/academics/course_subject", 301)
 	}
 }
 
 func CreateSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
-		_ = app.Session.Destroy(r.Context())
 		subjectName := r.PostFormValue("subjectName")
 		subjectDesc := r.PostFormValue("Description")
 
@@ -234,15 +350,13 @@ func CreateSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 				app.ErrorLog.Println(err.Error())
 			}
 		}
-		app.Session.Put(r.Context(), "tab", "tab2")
-		http.Redirect(w, r, "/support/management/academics", 301)
+		http.Redirect(w, r, "/support/management/academics/subject", 301)
 	}
 }
 
 func CreateCourseManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
-		_ = app.Session.Destroy(r.Context())
 		courseName := r.PostFormValue("courseName")
 		courseDescription := r.PostFormValue("courseDescription")
 
@@ -254,8 +368,8 @@ func CreateCourseManagementHandler(app *config.Env) http.HandlerFunc {
 				app.ErrorLog.Println(err.Error())
 			}
 		}
-		app.Session.Put(r.Context(), "tab", "tab1")
-		http.Redirect(w, r, "/support/management/academics", 301)
+
+		http.Redirect(w, r, "/support/management/academics/course", 301)
 	}
 }
 
@@ -310,11 +424,13 @@ func AcademiManagementHandler(app *config.Env) http.HandlerFunc {
 			Courses        []academicsDomain.Course
 			CourseSubjects []CourseSubjectHolder
 			MyActiveTab    tabs
+			Tab            string
+			SubTab         string
 		}
 		tab := app.Session.GetString(r.Context(), "tab")
 		activeTab := getTabs(tab)
 
-		Data := PageData{subjects, courses, courseSubjectHolder, activeTab}
+		Data := PageData{subjects, courses, courseSubjectHolder, activeTab, "academics", ""}
 		files := []string{
 			app.Path + "content/tech/tech_admin_academics.html",
 			app.Path + "content/tech/template/sidebar.template.html",

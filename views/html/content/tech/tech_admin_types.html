@@ -141,7 +141,7 @@
                             <a class="nav-link  waves-light" id="users-table-tab" data-toggle="tab"
                                href="#institution"
                                role="tab" aria-controls="users-table" aria-selected="true">
-                                <div style="text-align: center;"><i class="fas fa-user fa " aria-hidden="true"></i>
+                                <div style="text-align: center;"><i class="nc-icon nc-bank" aria-hidden="true"></i>
                                 </div>
                                 <br>Institution </a>
                         </li>
@@ -150,7 +150,7 @@
                             <a class="nav-link  waves-light" id="users-table-tab" data-toggle="tab"
                                href="#document"
                                role="tab" aria-controls="users-table" aria-selected="true">
-                                <div style="text-align: center;"><i class="fas fa-user fa " aria-hidden="true"></i>
+                                <div style="text-align: center;"><i class="nc-icon nc-single-copy-04" aria-hidden="true"></i>
                                 </div>
                                 <br>Document</a>
                         </li>
@@ -158,7 +158,7 @@
                             <a class="nav-link  waves-light" id="users-table-tab" data-toggle="tab"
                                href="#address"
                                role="tab" aria-controls="users-table" aria-selected="true">
-                                <div style="text-align: center;"><i class="fas fa-user fa " aria-hidden="true"></i>
+                                <div style="text-align: center;"><i class="nc-icon nc-pin-3" aria-hidden="true"></i>
                                 </div>
                                 <br>Address</a>
                         </li>
@@ -166,7 +166,7 @@
                             <a class="nav-link  waves-light" id="users-table-tab" data-toggle="tab"
                                href="#application"
                                role="tab" aria-controls="users-table" aria-selected="true">
-                                <div style="text-align: center;"><i class="fas fa-user fa " aria-hidden="true"></i>
+                                <div style="text-align: center;"><i class="nc-icon nc-notes" aria-hidden="true"></i>
                                 </div>
                                 <br>Application</a>
                         </li>
@@ -182,7 +182,7 @@
                             <a class="nav-link  waves-light" id="users-table-tab" data-toggle="tab"
                                href="#location"
                                role="tab" aria-controls="users-table" aria-selected="true">
-                                <div style="text-align: center;"><i class="fas fa-user fa " aria-hidden="true"></i>
+                                <div style="text-align: center;"><i class="nc-icon nc-square-pin" aria-hidden="true"></i>
                                 </div>
                                 <br>Location</a>
                         </li>
@@ -298,23 +298,12 @@
                                                            placeholder="Enter type ..." id="">
                                                 </div>
                                             </div>
-
-                                            {{/*                                            <div class="row justify-content-center">*/}}
-                                            {{/*                                                <div class="col-md-8">*/}}
-                                            {{/*                                                    <label class="control-label label-font-color">Description</label>*/}}
-                                            {{/*                                                    <input type="text" name="Description" class="form-control"*/}}
-                                            {{/*                                                           placeholder="" id="">*/}}
-                                            {{/*                                                </div>*/}}
-                                            {{/*                                            </div>*/}}
-
-
                                             <div class="row justify-content-center">
                                                 <div class="col-md-8 text-center">
                                                     <button type="submit" id="documentUpdateBtn"
                                                             class="btn btn-wd btn-info btn-outline full-width">
                                              <span class="btn-label">
-                                             </span>Upload
-                                                    </button>
+                                             </span>Upload</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -341,14 +330,14 @@
                                                                             <div class="col-md-6">
                                                                                 <a class="edit" title="Edit"
                                                                                    data-toggle="modal"
-                                                                                   data-target="#editInstitutionTypeModal"
+                                                                                   data-target="#editDocmentTypeModal"
                                                                                    href=""
                                                                                    onclick="editDocumentnTypeForm({{.}})"><i
                                                                                             class="material-icons">&#xE254;</i></a>
                                                                             </div>
                                                                             <div class="col-md-6">
                                                                                 <a class="delete" title="Delete"
-                                                                                   href="/support/types/documentType/delete/{{.Id}}"
+                                                                                   href="/support/types/documentType/delete/{{.DocumentTypeId}}"
                                                                                    data-toggle="tooltip"><i
                                                                                             class="material-icons">&#xE872;</i></a>
                                                                             </div>
@@ -498,7 +487,7 @@
                                                         <th class="text-center">Actions</th>
                                                         </thead>
                                                         <tbody>
-                                                        {{ with .ApplicantType }}
+                                                        {{ with .ApplicationType }}
                                                             {{ range .}}
                                                                 <tr>
                                                                     <td>{{ .Name}}</td>
@@ -508,7 +497,7 @@
                                                                             <div class="col-md-6">
                                                                                 <a class="edit" title="Edit"
                                                                                    data-toggle="modal"
-                                                                                   data-target="#editApplicantTypeModal"
+                                                                                   data-target="#editApplicationTypeModal"
                                                                                    href=""
                                                                                    onclick="editApplicationTypeForm({{.}})"><i
                                                                                             class="material-icons">&#xE254;</i></a>
@@ -773,14 +762,14 @@
             </div>
         </div>
 
-        <!------User_Role----->
+        <!------Document_type----->
         <div class="modal fade" id="editDocmentTypeModal" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalLabel"
              aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Institution Type Edit </h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Document Type Edit </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -790,26 +779,15 @@
                         <form name="userDocumentTypeEditForm" method="POST"
                               action="/support/types/documentType/update" novalidate>
 
-                            <input type="hidden" class="form-control" name="Id" id="Id">
-
+                            <input type="hidden" class="form-control" name="documentTypeId" id="documentTypeId">
 
                             <div class="form-row">
                                 <!-- Default input -->
                                 <div class="form-group col-md-12">
                                     <label for="documentType">Role</label>
-                                    <input type="text" class="form-control" name="Role" id="Role">
-
+                                    <input type="text" class="form-control" name="documetName" id="documetName">
                                 </div>
                             </div>
-                            {{/*                            <div class="form-row">*/}}
-                            {{/*                                <!-- Default input -->*/}}
-                            {{/*                                <div class="form-group col-md-12">*/}}
-                            {{/*                                    <label for="Description">Description</label>*/}}
-                            {{/*                                    <input type="text" class="form-control" name="Description"*/}}
-                            {{/*                                           id="Description">*/}}
-
-                            {{/*                                </div>*/}}
-                            {{/*                            </div>*/}}
 
                             <!-- Grid row -->
                             <div class="modal-footer">
@@ -833,7 +811,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Institution Type Edit </h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Address Type Edit </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -843,27 +821,17 @@
                         <form name="userAddressTypeEditForm" method="POST"
                               action="/support/type/addressType/update" novalidate>
 
-                            <input type="hidden" class="form-control" name="Id" id="Id">
+                            <input type="hidden" class="form-control" name="addressId" id="addressId">
 
 
                             <div class="form-row">
                                 <!-- Default input -->
                                 <div class="form-group col-md-12">
                                     <label for="Name">Address Type</label>
-                                    <input type="text" class="form-control" name="Name" id="Name">
+                                    <input type="text" class="form-control" name="addressName" id="addressName">
 
                                 </div>
                             </div>
-                            {{/*                            <div class="form-row">*/}}
-                            {{/*                                <!-- Default input -->*/}}
-                            {{/*                                <div class="form-group col-md-12">*/}}
-                            {{/*                                    <label for="Name">Description</label>*/}}
-                            {{/*                                    <input type="text" class="form-control" name="Description" id="Description">*/}}
-
-                            {{/*                                </div>*/}}
-                            {{/*                            </div>*/}}
-
-
                             <!-- Grid row -->
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -886,7 +854,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Institution Type Edit </h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Application Type Edit </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -896,14 +864,14 @@
                         <form name="userApplicationTypeEditForm" method="POST"
                               action="/support/type/applicationType/update" novalidate>
 
-                            <input type="hidden" class="form-control" name="Id" id="Id">
+                            <input type="hidden" class="form-control" name="applicationId" id="applicationId">
 
 
                             <div class="form-row">
                                 <!-- Default input -->
                                 <div class="form-group col-md-12">
                                     <label for="Name">Address Type</label>
-                                    <input type="text" class="form-control" name="Name" id="Name">
+                                    <input type="text" class="form-control" name="applicationName" id="applicationName">
 
                                 </div>
                             </div>
@@ -911,7 +879,7 @@
                                 <!-- Default input -->
                                 <div class="form-group col-md-12">
                                     <label for="Name">Description</label>
-                                    <input type="text" class="form-control" name="Description" id="Description">
+                                    <input type="text" class="form-control" name="applicationDescription" id="applicationDescription">
 
                                 </div>
                             </div>
@@ -941,7 +909,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Institution Type Edit </h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Applicant Type Edit </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -950,24 +918,19 @@
                         <!-- Extended material form grid -->
                         <form name="userApplicantTypeEditForm" method="POST"
                               action="/support/types/applicantType/update" novalidate>
-
-                            <input type="hidden" class="form-control" name="Id" id="Id">
-
-
+                            <input type="hidden" class="form-control" name="applicantId" id="applicantId">
                             <div class="form-row">
                                 <!-- Default input -->
                                 <div class="form-group col-md-12">
                                     <label for="Name">Type</label>
-                                    <input type="text" class="form-control" name="Name" id="Name">
-
+                                    <input type="text" class="form-control" name="applicantName" id="applicantName">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <!-- Default input -->
                                 <div class="form-group col-md-12">
                                     <label for="Name">Description</label>
-                                    <input type="text" class="form-control" name="Description" id="Description">
-
+                                    <input type="text" class="form-control" name="applicantDescription" id="applicantDescription">
                                 </div>
                             </div>
                             <!-- Grid row -->
@@ -1005,17 +968,24 @@
                         <form name="locationTypeEditForm" method="POST"
                               action="/support/locationType/edit" novalidate>
 
-                            <input type="hidden" class="form-control" name="Id"
-                                   id="Id">
-                            <input type="hidden" class="form-control" name="Code"
-                                   id="Code">
+                            <input type="hidden" class="form-control" name="locationId"
+                                   id="locationId">
+
+                            <div class="form-row">
+                                <!-- Default input -->
+                                <div class="form-group col-md-12">
+                                    <label for="Name">Location Code</label>
+                                    <input type="text" class="form-control" name="locationCode" id="locationCode">
+
+                                </div>
+                            </div>
 
 
                             <div class="form-row">
                                 <!-- Default input -->
                                 <div class="form-group col-md-12">
-                                    <label for="Name">Institution name</label>
-                                    <input type="text" class="form-control" name="Name" id="Name">
+                                    <label for="Name">Location name</label>
+                                    <input type="text" class="form-control" name="locationName" id="locationName">
 
                                 </div>
                             </div>
@@ -1083,6 +1053,7 @@
 <script src="../../../assets/js/light-bootstrap-dashboard.js?v=2.0.1" type="text/javascript"></script>
 <!-- Light Dashboard DEMO methods, don't include it in your project! -->
 <script src="../../../assets/js/demo.js"></script>
+<script src="../../../assets/js/custom/techadmin/types.js"></script>
 
 </html>
 <script type="text/javascript">
@@ -1095,43 +1066,4 @@
 
     });
 
-    function editInstitutionTypeForm(app) {
-        var form = document.forms['userInstitutionTypeEditForm'];
-        form.elements["Id"].value = app.id;
-        form.elements["Role"].value = app.name;
-        form.elements["Description"].value = app.description;
-    }
-
-    function editDocumentnTypeForm(app) {
-        var form = document.forms['userDocumentTypeEditForm'];
-        form.elements["Id"].value = app.id;
-        form.elements["Role"].value = app.name;
-        form.elements["Description"].value = app.description;
-    }
-
-    function editAddressTypeForm(app) {
-        var form = document.forms['userAddressTypeEditForm'];
-        form.elements["Id"].value = app.id;
-        form.elements["Name"].value = app.name;
-        form.elements["Description"].value = app.description;
-    }
-
-    function editApplicationTypeForm(app) {
-        var form = document.forms['userApplicationTypeEditForm'];
-        form.elements["Id"].value = app.id;
-        form.elements["Name"].value = app.name;
-        form.elements["Description"].value = app.description;
-    }
-    function editApplicantTypeForm(app) {
-        var form = document.forms['userApplicantTypeEditForm'];
-        form.elements["Id"].value = app.id;
-        form.elements["Name"].value = app.name;
-        form.elements["Description"].value = app.description;
-    }
-    function editLocationTypeForm(app) {
-        var form = document.forms['locationTypeEditForm'];
-        form.elements["Id"].value = app.locationTypeId;
-        form.elements["Name"].value = app.name;
-        form.elements["Description"].value = app.code;
-    }
 </script>

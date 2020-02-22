@@ -201,7 +201,6 @@
                                     </div>
 
 
-
                                     <div class="row">
                                         <div class="card-body beautify">
                                             <div class="col-md-12">
@@ -234,22 +233,18 @@
                                                                 {{ with .InstitutionCourse }}
                                                                     {{ range .}}
                                                                         <tr>
-                                                                            <td>1</td>
                                                                             <td>{{.InstitutionNane}}</td>
                                                                             <td>{{.CourseName}}</td>
                                                                             <td>{{.CourseDescription}}</td>
 
                                                                             <td>
                                                                                 <div class="row justify-content-center">
-                                                                                    <div class="col-md-6">
                                                                                         <a class="edit" href="" title="Edit" data-toggle="tooltip"
                                                                                            data-target="#" onclick="editCourseForm({{.}})">
                                                                                             <i class="material-icons">&#xE254;</i></a>
-                                                                                    </div>
-                                                                                    <div class="col-md-6">
+
                                                                                         <a class="delete" href="/support/management/institution/delete-institutionCourse/{{.InstitutionId}}/{{.CourseId}}"title="Delete" data-toggle="tooltip"><i
                                                                                                     class="material-icons">&#xE872;</i></a>
-                                                                                    </div>
                                                                                 </div>
                                                                             </td>
                                                                         </tr>
@@ -263,7 +258,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                             <!-- Table with panel -->
@@ -271,59 +265,6 @@
 
                     </div>
                 </div>
-                <!----
-                 <div class="modal fade" id="editInstitutionLocationModal" tabindex="-1" role="dialog"
-                      aria-labelledby="exampleModalLabel"
-                      aria-hidden="true">
-                     <div class="modal-dialog" role="document">
-                         <div class="modal-content">
-                             <div class="modal-header">
-                                 <h5 class="modal-title" id="exampleModalLabel">Institution Edit </h5>
-                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                     <span aria-hidden="true">&times;</span>
-                                 </button>
-                             </div>
-                             <div class="modal-body">
-
-                                <form name="institutionLocationEditForm" method="POST"
-                                      action="/support/management/institution/location/update" novalidate>
-
-
-
-{{/*                                    {{ template "location-form" .}}*/}}
-{{/*                                    {{ template "institution-form" .}}*/}}
-                                    <input type="hidden" class="form-control" name="Id" id="Id">
-                                    <div class="row justify-content-center">
-                                        <div class="col-md-5">
-                                            <label class="control-label label-font-color">Longitude</label>
-                                            <input type="text" value="" name="longitude"
-                                                   class="form-control"
-                                                   placeholder="Enter longitude" id="">
-                                        </div>
-
-                                        <div class="col-md-5">
-                                            <label class="control-label label-font-color">Latitude</label>
-                                            <input type="text" value="" name="latitude"
-                                                   class="form-control"
-                                                   placeholder="Enter latitude" id="">
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                            Close
-                                        </button>
-                                        <button type="submit" class="btn btn-primary">Save</button>
-                                    </div>
-                                </form>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                -------------------------------------------------------------->
-
-
             </div>
 
         </div>
@@ -415,7 +356,7 @@
 
         //Like record
         table.on('click', '.like', function () {
-           // alert('You clicked on Like button');
+            // alert('You clicked on Like button');
         });
     });
     function editCourseForm(app) {

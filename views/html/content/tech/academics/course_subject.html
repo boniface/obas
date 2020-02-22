@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <link rel="apple-touch-icon" sizes="76x76" href="../../../../assets/img/apple-icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="../../../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../../../assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>OBAS</title>
@@ -15,10 +15,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <!-- CSS Files -->
-    <link href="../../../../assets/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="../../../../assets/css/light-bootstrap-dashboard.css?v=2.0.1" rel="stylesheet"/>
-    <link href="../../../../assets/css/custom/generic.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="../../../../assets/css/custom/student/application.css" rel="stylesheet"/>
+    <link href="../../../assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../../../assets/css/light-bootstrap-dashboard.css?v=2.0.1" rel="stylesheet"/>
+    <link href="../../../assets/css/custom/generic.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../../../assets/css/custom/student/application.css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -121,85 +121,87 @@
             <div class="container-fluid">
 
 
-
+                <!----------->
                 <div class="classic-tabs mx-2">
 
                     <ul class="nav nav-tabs md-tabs" id="poolsRolesTab" role="tablist">
 
                         <li class="nav-item">
-                            <a class="nav-link  waves-light" id="institution-table-tab" data-toggle="tab"
-                               href="#institutionLocation"
+                            <a class="nav-link  waves-light" id="users-table-tab" data-toggle="tab"
+                               href="#coursesubject-tab"
                                role="tab" aria-controls="users-table" aria-selected="true">
                                 <div style="text-align: center;"><i class="fas fa-user fa " aria-hidden="true"></i>
                                 </div>
-                                <br>Institution - Location</a>
+                                <br>Course & Subject</a>
                         </li>
+
+
+
                     </ul>
 
                     <div class="tab-content card" id="rolesTabContent">
 
-                        <div class="tab-pane fade  active show" id="institutionLocation" role="tabpanel"
-                             aria-labelledby="roles">
+                        <div class="tab-pane fade  active show" id="coursesubject-tab" role="tabpanel"
+                             aria-labelledby="pool-roles">
                             <p></p>
-
                             <!-- Table with panel -->
                             <div class="content">
                                 <div class="container-fluid">
 
                                     <div class="card green">
-                                        <form id="institution_location" method="post" action="/support/management/institution/save/institution-location">
-                                            {{ template "location-form" .}}
+                                        <form id="addInstitutionForm" method="post"
+                                              action="/support/management/academics/create/courseSubject">
+
+
                                             <div class="row justify-content-center">
-                                                <div class="col-md-5">
-                                                    <label class="control-label label-font-color">Institution Type</label>
-                                                    <select name="institutionTypeLocationDrop" class="obas-select obas-select-inner-text" id="institutionTypeLocationDrop"
+                                                <div class="col-md-8">
+                                                    <label class="control-label label-font-color">Course</label>
+                                                    <select name="courseId" class="selectpicker"
                                                             data-style="btn-default btn-outline"
                                                             data-menu-style="dropdown-blue">
-                                                        <option value="" disabled selected>Select Institution Type</option>
-                                                        {{ with .InstitutionTypes }}
-                                                            {{ range .}}
-                                                                <option value="{{ .Id }}" >{{ .Name }}</option>
-                                                            {{ end }}
-                                                        {{ end }}
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <label class="control-label label-font-color">Institution</label>
-                                                    <select name="institutionLocationDrop" class="obas-select obas-select-inner-text" id="institutionLocationDrop"
-                                                            data-style="btn-default btn-outline"
-                                                            data-menu-style="dropdown-blue">
-                                                        <option value="" disabled selected>Select Institution</option>
+                                                        <option value="" disabled selected>Select
+                                                            Course
+                                                        </option>
+                                                        {{with .Courses}}
+                                                            {{range .}}
+                                                                <option value={{ .Id }}>{{ .CourseName }}</option>
+                                                            {{end}}
+                                                        {{end}}
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-5">
-                                                    <label class="control-label label-font-color">Longitude</label>
-                                                    <input type="text" value="" name="longitude"
-                                                           class="form-control"
-                                                           placeholder="Enter longitude" id="">
-                                                </div>
 
-                                                <div class="col-md-5">
-                                                    <label class="control-label label-font-color">Latitude</label>
-                                                    <input type="text" value="" name="latitude"
-                                                           class="form-control"
-                                                           placeholder="Enter latitude" id="">
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-8">
+                                                    <label class="control-label label-font-color">Subject</label>
+                                                    <select name="subjectId" class="selectpicker"
+                                                            data-style="btn-default btn-outline"
+                                                            data-menu-style="dropdown-blue">
+                                                        <option value="" disabled selected>Select
+                                                            Subject
+                                                        </option>
+                                                        {{with .Subjects}}
+                                                            {{range .}}
+                                                                <option value={{ .Id }}>{{ .Name }}</option>
+                                                            {{end}}
+                                                        {{end}}
+                                                    </select>
                                                 </div>
                                             </div>
-
 
                                             <div class="row justify-content-center">
                                                 <div class="col-md-8 text-center">
                                                     <button type="submit" id="documentUpdateBtn"
                                                             class="btn btn-wd btn-info btn-outline full-width">
                                              <span class="btn-label">
-                                             </span>Upload
+                                             </span>Submit
                                                     </button>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
+
+
 
                                     <div class="row">
                                         <div class="card-body beautify">
@@ -214,48 +216,32 @@
                                                                    class="table table-striped table-no-bordered table-hover"
                                                                    cellspacing="0" width="100%" style="width:100%">
                                                                 <thead>
-                                                                <tr>
-                                                                    <th>Institution Name</th>
-                                                                    <th>Town</th>
-                                                                    <th>Longitude</th>
-                                                                    <th>Latitude</th>
-                                                                    <th class=" disabled-sorting text-right"></th>
-                                                                </tr>
+                                                                <th>Course name</th>
+                                                                <th>Subject </th>
+                                                                <th class="text-center">Actions</th>
                                                                 </thead>
-                                                                <tfoot>
-                                                                <tr>
-                                                                    <th>Institution Name</th>
-                                                                    <th>Town</th>
-                                                                    <th>Longitude</th>
-                                                                    <th>Latitude</th>
-                                                                    <th class=" text-center">Actions</th>
-                                                                </tr>
-                                                                </tfoot>
                                                                 <tbody>
-                                                                {{ with .InstitutionLocation }}
+                                                                {{ with .CourseSubjects }}
                                                                     {{ range .}}
                                                                         <tr>
-                                                                            <td>{{.Institution}}</td>
-                                                                            <td>{{.Town}}</td>
-                                                                            <td>{{.Longitude}}</td>
-                                                                            <td>{{.Latitude}}</td>
-                                                                            <td>
-                                                                                <div class="row justify-content-center">
+                                                                            <td>{{ .CourseName}}</td>
+                                                                            <td>{{ .SubjectName }}</td>
+                                                                            <td><div class="row justify-content-center">
+                                                                                        <a class="edit" title="Edit"
+                                                                                           data-toggle="modal" data-target="#editcourseSubjectModal" href=""
+                                                                                           onclick="editcourseSubjectForm({{.}})"><i
+                                                                                                    class="material-icons">&#xE254;</i></a>
 
-                                                                                        <a class="edit"  title="Edit" data-toggle="modal"
-                                                                                           data-target="#editInstitutionLocationModal"  href="" onclick="editinstitutionLocationForm({{.}})">
-                                                                                            <i class="material-icons">&#xE254;</i></a>
-
-                                                                                        <a class="delete" href="/support/management/institution/delete-institutionLocation/{{.Id}} "title="Delete" data-toggle="tooltip"><i
+                                                                                        <a class="delete" title="Delete"
+                                                                                           href="/support/management/academics/delete/coursesubject/{{.CourseId}}/{{.SubjectId}}"
+                                                                                           data-toggle="tooltip"><i
                                                                                                     class="material-icons">&#xE872;</i></a>
 
                                                                                 </div>
                                                                             </td>
-
                                                                         </tr>
-                                                                    {{end}}
-                                                                {{end}}
-
+                                                                    {{ end }}
+                                                                {{ end }}
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -264,6 +250,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                             <!-- Table with panel -->
@@ -271,154 +258,76 @@
 
                     </div>
                 </div>
-                <!------Institution Types----->
-                <div class="modal fade" id="editInstitutionTypeModal" tabindex="-1" role="dialog"
-                           aria-labelledby="exampleModalLabel"
-                           aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Institution Type Edit </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <!-- Extended material form grid -->
-                                <form name="institutionTypeEditForm" method="POST"
-                                      action="/support/management/institution/type/edit" novalidate>
-
-                                    <input type="hidden" class="form-control" name="Id" id="Id">
 
 
-                                    <div class="form-row">
-                                        <!-- Default input -->
-                                        <div class="form-group col-md-12">
-                                            <label for="Name">Institution type name</label>
-                                            <input type="text" class="form-control" name="Name" id="Name">
+                <!---course-subject update form--->
 
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <!-- Default input -->
-                                        <div class="form-group col-md-12">
-                                            <label for="Description">Institution description</label>
-                                            <input type="text" class="form-control" name="Description"
-                                                   id="Description">
-
-                                        </div>
-                                    </div>
-
-                                    <!-- Grid row -->
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                            Close
-                                        </button>
-                                        <button type="submit" class="btn btn-primary">Save</button>
-                                    </div>
-                                </form>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <!------Institutions----->
-                <div class="modal fade" id="editInstitutionModal" tabindex="-1" role="dialog"
+                <div class="modal fade" id="editcourseSubjectModal" tabindex="-1" role="dialog"
                      aria-labelledby="exampleModalLabel"
                      aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Institution Edit </h5>
+                                <h5 class="modal-title" id="exampleModalLabel">Site Edit </h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
                                 <!-- Extended material form grid -->
-                                <form name="institutionEditForm" method="POST"
-                                      action="/support/management/institution/institution/update" novalidate>
+                                <form name="editcourseSubjecEditForm" method="POST"
+                                      action="/support/management/academics/update/coursesubject" novalidate>
 
-                                    <input type="hidden" class="form-control" name="Id" id="Id">
-
-
-                                    <div class="form-row">
-                                        <!-- Default input -->
-                                        <div class="form-group col-md-12">
-                                            <label for="Name">Institution name</label>
-                                            <input type="text" class="form-control" name="Name" id="Name">
-
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <!-- Default input -->
-{{/*                                        <div class="row justify-content-center">*/}}
-                                            <div class="col-md-6">
-                                                <select name="institutionType" class="selectpicker" id="institution_Type"
-                                                        data-style="btn-default btn-outline"
-                                                        data-menu-style="dropdown-blue">
-                                                    <option value="" disabled selected>Select Institution Type </option>
-                                                    {{with .InstitutionTypes}}
-                                                        {{range .}}
-                                                            <option value={{ .Id }}>{{ .Name }}</option>
-                                                        {{end}}
-                                                    {{end}}
-                                                </select>
+                                    <input type="hidden" class="form-control" name="CourseId" id="CourseId">
+                                    <input type="hidden" class="form-control" name="SubjectId" id="SubjectId">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="control-label label-font-color">Actual Data</label>
+                                            <div class="card "id="courseSubjectContent" >
+                                                <div class="card-footer ">
+                                                    <hr>
+                                                    <div class="stats">
+                                                        <i class="fa fa-cog"></i>Course & Subject
+                                                    </div>
+                                                </div>
                                             </div>
-{{/*                                        </div>*/}}
+                                        </div>
                                     </div>
-                                    
-                                    <!-- Grid row -->
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                            Close
-                                        </button>
-                                        <button type="submit" class="btn btn-primary">Save</button>
-                                    </div>
-                                </form>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <!------Institutions Location----->
-                <div class="modal fade" id="editInstitutionLocationModal" tabindex="-1" role="dialog"
-                     aria-labelledby="exampleModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Institution Edit </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <!-- Extended material form grid -->
-                                <form name="institutionLocationEditForm" method="POST"
-                                      action="/support/management/institution/location/update" novalidate>
 
 
-
-                                    {{ template "location-form" .}}
-                                    {{ template "institution-form" .}}
-                                    <input type="hidden" class="form-control" name="Id" id="Id">
                                     <div class="row justify-content-center">
-                                        <div class="col-md-5">
-                                            <label class="control-label label-font-color">Longitude</label>
-                                            <input type="text" value="" name="longitude"
-                                                   class="form-control"
-                                                   placeholder="Enter longitude" id="">
+                                        <div class="col-md-8">
+                                            <label class="control-label label-font-color">Course</label>
+                                            <select name="mycourseId" class="selectpicker"
+                                                    data-style="btn-default btn-outline"
+                                                    data-menu-style="dropdown-blue">
+                                                <option value="" disabled selected>Select
+                                                    Institution Type
+                                                </option>
+                                                {{with .Courses}}
+                                                    {{range .}}
+                                                        <option value={{ .Id }}>{{ .CourseName }}</option>
+                                                    {{end}}
+                                                {{end}}
+                                            </select>
                                         </div>
+                                    </div>
 
-                                        <div class="col-md-5">
-                                            <label class="control-label label-font-color">Latitude</label>
-                                            <input type="text" value="" name="latitude"
-                                                   class="form-control"
-                                                   placeholder="Enter latitude" id="">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-8">
+                                            <label class="control-label label-font-color">Subject</label>
+                                            <select name="mysubjectId" class="selectpicker"
+                                                    data-style="btn-default btn-outline"
+                                                    data-menu-style="dropdown-blue">
+                                                <option value="" disabled selected>Select
+                                                    Institution Type
+                                                </option>
+                                                {{with .Subjects}}
+                                                    {{range .}}
+                                                        <option value={{ .Id }}>{{ .Name }}</option>
+                                                    {{end}}
+                                                {{end}}
+                                            </select>
                                         </div>
                                     </div>
 
@@ -436,7 +345,7 @@
                         </div>
                     </div>
                 </div>
-                <!------------------------------------------------------------------>
+
 
 
             </div>
@@ -487,10 +396,9 @@
 <script src="../../../../assets/js/plugins/fullcalendar.min.js"></script>
 <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="../../../../assets/js/light-bootstrap-dashboard.js?v=2.0.1" type="text/javascript"></script>
-<script src="../../../../assets/js/custom/techadmin/institution.js"></script>
 <script src="../../../../assets/js/custom/generics.js"></script>
-
-<script type="text/javascript">
+<script src="../../../../assets/js/custom/techadmin/institution.js"></script>
+<script>
     $(document).ready(function () {
         $('#datatables').DataTable({
             "pagingType": "full_numbers",
@@ -530,33 +438,17 @@
 
         //Like record
         table.on('click', '.like', function () {
-           // alert('You clicked on Like button');
+            // alert('You clicked on Like button');
         });
     });
-    function editinstitutionTypeForm(app) {
-        var form = document.forms['institutionTypeEditForm'];
-        form.elements["Id"].value = app.id;
-        form.elements["Name"].value = app.name;
-        form.elements["Description"].value = app.description;
-    }
-    function editinstitutionForm(app) {
-        var form = document.forms['institutionEditForm'];
-        form.elements["Id"].value = app.Id;
-        form.elements["Name"].value = app.InstitutionName;
 
-        changeInstitutionDrop(app.InstitutionType)
-    }
-    function editinstitutionLocationForm(app) {
-        var form = document.forms['institutionLocationEditForm'];
-        // form.elements["Id"].value = app.Id;
-        // form.elements["Name"].value = app.Institution;
-        // form.elements["Description"].value = app.Longitude;
-    }
 
-   function changeInstitutionDrop(initialApplicantType) {
-        const selectedApplicantType = $("#institution_Type").val();
-        if (initialApplicantType.localeCompare(selectedApplicantType)) {
-        }
-    };
+    function editcourseSubjectForm(event) {
+        var form = document.forms['editcourseSubjecEditForm'];
+        var myArea = document.getElementById("courseSubjectContent");
+        form.elements["CourseId"].value = event.CourseId;
+        form.elements["SubjectId"].value = event.SubjectId;
+        myArea.innerHTML="<p> Course: "+event.CourseName+"<br/> Subject: "+event.SubjectName+"<p>";
+    }
 </script>
 </html>

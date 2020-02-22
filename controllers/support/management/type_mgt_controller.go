@@ -61,9 +61,9 @@ func UpdateLocationTypeHandler(app *config.Env) http.HandlerFunc {
 		_ = app.Session.Destroy(r.Context())
 
 		r.ParseForm()
-		locationType := r.PostFormValue("Name")
-		Code := r.PostFormValue("Code")
-		id := r.PostFormValue("Id")
+		locationType := r.PostFormValue("locationName")
+		Code := r.PostFormValue("locationCode")
+		id := r.PostFormValue("locationId")
 
 		if locationType != "" || id != "" || Code != "" {
 
@@ -243,9 +243,9 @@ func UpdateApplicantTypeHandler(app *config.Env) http.HandlerFunc {
 		_ = app.Session.Destroy(r.Context())
 
 		r.ParseForm()
-		applicantType := r.PostFormValue("Name")
-		Description := r.PostFormValue("Description")
-		id := r.PostFormValue("Id")
+		applicantType := r.PostFormValue("applicantName")
+		Description := r.PostFormValue("applicantDescription")
+		id := r.PostFormValue("applicantId")
 
 		if applicantType != "" || id != "" || Description != "" {
 
@@ -378,9 +378,9 @@ func UpdateApplicationTypeHandler(app *config.Env) http.HandlerFunc {
 		_ = app.Session.Destroy(r.Context())
 
 		r.ParseForm()
-		applicationType := r.PostFormValue("Name")
-		Description := r.PostFormValue("Description")
-		id := r.PostFormValue("Id")
+		applicationType := r.PostFormValue("applicationName")
+		Description := r.PostFormValue("applicationDescription")
+		id := r.PostFormValue("applicationId")
 
 		if applicationType != "" || id != "" || Description != "" {
 
@@ -556,8 +556,8 @@ func UpdateAddressTypeHandler(app *config.Env) http.HandlerFunc {
 		_ = app.Session.Destroy(r.Context())
 
 		r.ParseForm()
-		addressType := r.PostFormValue("Name")
-		id := r.PostFormValue("Id")
+		addressType := r.PostFormValue("addressName")
+		id := r.PostFormValue("addressId")
 
 		if addressType != "" || id != "" {
 
@@ -646,8 +646,8 @@ func UpdateDocumentTypeHandler(app *config.Env) http.HandlerFunc {
 		_ = app.Session.Destroy(r.Context())
 
 		r.ParseForm()
-		documentType := r.PostFormValue("documentType")
-		id := r.PostFormValue("Id")
+		documentType := r.PostFormValue("documetName")
+		id := r.PostFormValue("documentTypeId")
 
 		if documentType != "" || id != "" {
 
@@ -855,6 +855,8 @@ func TypeHomeHandler(app *config.Env) http.HandlerFunc {
 			MyActiveTab     TypeTab
 			Message         string
 			MessageType     string
+			Tab             string
+			SubTab          string
 		}
 		data := PageData{
 			InstitutionType: institutionType,
@@ -866,6 +868,8 @@ func TypeHomeHandler(app *config.Env) http.HandlerFunc {
 			MyActiveTab:     tabPosition,
 			Message:         message,
 			MessageType:     messageType,
+			Tab:             "types",
+			SubTab:          "",
 		}
 
 		files := []string{

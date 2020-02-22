@@ -6,7 +6,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="../../../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../../../assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>Light Bootstrap Dashboard</title>
+    <title>OBAS</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
           name='viewport'/>
     <!--     Fonts and icons     -->
@@ -128,14 +128,6 @@
 
                     <ul class="nav nav-tabs md-tabs" id="poolsRolesTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link  waves-light active show" id="users-table-tab" data-toggle="tab"
-                               href="#loctype-table"
-                               role="tab" aria-controls="users-table" aria-selected="true">
-                                <div style="text-align: center;"><i class="fas fa-globe fa " aria-hidden="true"></i>
-                                </div>
-                                <br>Location Type</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link  waves-light" id="users-table-tab" data-toggle="tab"
                                href="#location-table"
                                role="tab" aria-controls="users-table" aria-selected="true">
@@ -147,80 +139,9 @@
                     </ul>
 
                     <div class="tab-content card" id="rolesTabContent">
-                        <div class="tab-pane fade {{.Tab1}}" id="loctype-table" role="tabpanel"
-                             aria-labelledby="pool-roles">
-                            <p></p>
-                            <!-- Table with panel -->
-                            <div class="content">
-                                <div class="container-fluid">
-
-                                    <div class="card green">
-                                        <form id="" method="post" action="/support/management/location/type/add">
-
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-8">
-                                                    <label class="control-label label-font-color">Location Type
-                                                        Name</label>
-                                                    <input type="text" name="locationTypeName" class="form-control"
-                                                           placeholder="Enter type ..." id="">
-                                                </div>
 
 
-                                            </div>
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-8">
-                                                    <button type="submit" id="documentUpdateBtn"
-                                                            class="btn btn-wd btn-info btn-outline full-width">
-                                             <span class="btn-label">
-                                             </span>Upload
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-
-
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="card strpied-tabled-with-hover">
-                                                <div class="card-body table-full-width table-responsive">
-
-                                                    <table class="table table-hover table-striped">
-                                                        <thead>
-                                                        <th>Location type</th>
-                                                        <th>Actions</th>
-                                                        </thead>
-                                                        <tbody>
-                                                        {{ with .LocationTypes }}
-                                                            {{ range .}}
-                                                                <tr>
-                                                                    <td>{{ .Name }}</td>
-                                                                    <td>
-                                                                        <a class="edit" title="Edit"
-                                                                           data-toggle="modal" data-target="#locationTypeModal" href=""
-                                                                           onclick="editLocationTypeForm({{.}})"><i
-                                                                                    class="material-icons">&#xE254;</i></a>
-                                                                        <a class="delete" title="Delete"href=""
-                                                                           data-toggle="tooltip"><i
-                                                                                    class="material-icons">&#xE872;</i></a>
-                                                                    </td>
-                                                                </tr>
-                                                            {{ end }}
-                                                        {{ end}}
-
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Table with panel -->
-                        </div>
-
-                        <div class="tab-pane fade {{.Tab2}}" id="location-table" role="tabpanel"
+                        <div class="tab-pane fade active show" id="location-table" role="tabpanel"
                              aria-labelledby="roles">
                             <p></p>
 
@@ -340,23 +261,6 @@
                                                                         <td>{{ .Location.Longitude }}</td>
                                                                         <td>{{ .Location.Latitude }}</td>
                                                                         <td>
-{{/*                                                                            <div class="row justify-content-center">*/}}
-{{/*                                                                                <div class="col-md-6">*/}}
-{{/*                                                                                    <a class="edit" title="Edit"*/}}
-{{/*                                                                                       data-toggle="modal"*/}}
-{{/*                                                                                       data-target="#editModal" href=""*/}}
-{{/*                                                                                       onclick="editLocationForm({{.}})"><i*/}}
-{{/*                                                                                                class="material-icons">&#xE254;</i></a>*/}}
-{{/*                                                                                </div>*/}}
-{{/*                                                                                <div class="col-md-6">*/}}
-{{/*                                                                                    <a class="delete"*/}}
-{{/*                                                                                       href="/support/management/location/delete/location/{{.Location.LocationId}}"*/}}
-{{/*                                                                                       title="Delete"*/}}
-{{/*                                                                                       data-toggle="tooltip"><i*/}}
-{{/*                                                                                                class="material-icons">&#xE872;</i></a>*/}}
-{{/*                                                                                </div>*/}}
-{{/*                                                                            </div>*/}}
-
                                                                             <div class="row justify-content-center">
                                                                                 <a class="edit" title="Edit"
                                                                                    data-toggle="modal"
@@ -396,7 +300,7 @@
                                aria-labelledby="exampleModalLabel"
                                aria-hidden="true">
                         <div class="modal-dialog" role="document">
-                            <div class="modal-content">
+                            <div class="modal-content" >
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel"> Edit Location</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -519,8 +423,9 @@
                                     <form name="locationTypeEditForm" method="POST"
                                           action="/support/management/location/type/edit" novalidate>
 
-                                        <input type="hidden" class="form-control" name="Id"
+                                        <input type="hidden" class="form-control" name="locationId"
                                                id="Id">
+
                                         <input type="hidden" class="form-control" name="Code"
                                                id="Code">
 

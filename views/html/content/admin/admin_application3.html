@@ -141,56 +141,58 @@
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id="applicants" class="card-collapse collapse show">
+                                        <div id="applicants" class="card-collapse  collapse {{if eq .Accordion ""}} show{{end}}">
                                             <div class="card-body beautify">
+
                                                 <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="card strpied-tabled-with-hover">
-                                                            <div class="card-header ">
-                                                                <h4 class="card-title"></h4>
-                                                                <!-- <p class="card-category">Applicant</p> -->
-                                                            </div>
-                                                            <div class="card-body table-full-width table-responsive">
-                                                                <table class="table table-hover table-striped">
-                                                                    <p>
-                                                                    <h4 style="color: #000000">
-                                                                        <center> Applicants</center>
-                                                                    </h4>
-                                                                    </p>
-                                                                    <thead>
+                                                    <div class="card-body beautify">
+                                                        <div class="col-md-12">
+                                                            <div class="card data-tables">
+                                                                <div class="card-body table-striped table-no-bordered table-hover dataTable dtr-inline table-full-width">
+                                                                    <div class="toolbar">
+                                                                        <!--        Here you can write extra buttons/actions for the toolbar              -->
+                                                                    </div>
+                                                                    <div class="fresh-datatables">
+                                                                        <table id="datatables"
+                                                                               class="table table-striped table-no-bordered table-hover"
+                                                                               cellspacing="0" width="100%" style="width:100%">
+                                                                            <thead>
 
-                                                                    <th>Applicant Email</th>
-                                                                    <th>Application Date</th>
-                                                                    <th>Application Status</th>
-                                                                    <th>Modifier</th>
-                                                                    <th>Date of Modification</th>
-                                                                    <th>View</th>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                    {{with .Applicant}}
-                                                                        {{range .}}
-                                                                            <tr>
+                                                                            <th>Applicant Email</th>
+                                                                            <th>Application Date</th>
+                                                                            <th>Application Status</th>
+                                                                            <th>Modifier</th>
+                                                                            <th>Date of Modification</th>
+                                                                            <th>View</th>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            {{with .Applicant}}
+                                                                                {{range .}}
+                                                                                    <tr>
 
-                                                                                <td>{{.Email}}</td>
-                                                                                <td>{{.DateTime}}</td>
-                                                                                <td>{{.Stat}}</td>
-                                                                                <td>{{.ApplicationStat.ModifiedBy}}</td>
-                                                                                <td>{{.ApplicationStat.DateTime}}</td>
-                                                                                <td>
-                                                                                    {{/*                                            <a class="edit nav-link" title="View Customer details" href=""*/}}
-                                                                                    {{/*                                               data-toggle="modal" data-target="#documentModal"*/}}
-                                                                                    {{/*                                               onclick="GetDocuments({{.Email}},{{.ApplicantionId}})">view documents</a>*/}}
-                                                                                    <a href="/admin/applicant/document/{{.ApplicantionId}}/{{.Email}}">verify documents</a></td>
-                                                                            </tr>
-                                                                        {{end}}
-                                                                    {{end}}
+                                                                                        <td>{{.Email}}</td>
+                                                                                        <td>{{.DateTime}}</td>
+                                                                                        <td>{{.Stat}}</td>
+                                                                                        <td>{{.ApplicationStat.ModifiedBy}}</td>
+                                                                                        <td>{{.ApplicationStat.DateTime}}</td>
+                                                                                        <td>
+                                                                                            {{/*                                            <a class="edit nav-link" title="View Customer details" href=""*/}}
+                                                                                            {{/*                                               data-toggle="modal" data-target="#documentModal"*/}}
+                                                                                            {{/*                                               onclick="GetDocuments({{.Email}},{{.ApplicantionId}})">view documents</a>*/}}
+                                                                                            <a href="/admin/applicant/document/{{.ApplicantionId}}/{{.Email}}">verify documents</a></td>
+                                                                                    </tr>
+                                                                                {{end}}
+                                                                            {{end}}
 
-                                                                    </tbody>
-                                                                </table>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -210,7 +212,7 @@
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id="applicantDocuments" class="card-collapse collapse">
+                                        <div id="applicantDocuments" class="card-collapse collapse {{if eq .Accordion "document"}} show{{end}}">
                                             <div class="card-body beautify">
                                                 <div class="row">
 
@@ -321,7 +323,7 @@
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id="applicationDetails" class="card-collapse collapse">
+                                        <div id="applicationDetails" class="card-collapse collapse ">
                                             <div class="card-body beautify">
                                                 <div class="row">
                                                     <div class="col-md-12">
@@ -494,5 +496,50 @@
 <!-- Light Dashboard DEMO methods, don't include it in your project! -->
 <script src="../../../assets/js/custom/generics.js"></script>
 <script src="../../../assets/js/custom/student/application.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#datatables').DataTable({
+            "pagingType": "full_numbers",
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            responsive: true,
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "Search records",
+            }
+
+        });
+
+
+        var table = $('#datatables').DataTable();
+
+        // Edit record
+        table.on('click', '.edit', function () {
+            $tr = $(this).closest('tr');
+
+            if ($tr.hasClass('child')) {
+                $tr = $tr.prev('.parent');
+            }
+
+            var data = table.row($tr).data();
+            //alert('You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.');
+        });
+
+        // Delete a record
+        table.on('click', '.remove', function (e) {
+            $tr = $(this).closest('tr');
+            table.row($tr).remove().draw();
+            e.preventDefault();
+        });
+
+        //Like record
+        table.on('click', '.like', function () {
+            // alert('You clicked on Like button');
+        });
+    });
+</script>
 
 </html>

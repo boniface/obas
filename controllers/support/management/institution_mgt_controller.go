@@ -6,8 +6,10 @@ import (
 	"html/template"
 	"net/http"
 	"obas/config"
+	locationHelper "obas/controllers/location"
 	academicsDomain "obas/domain/academics"
 	institutionDomain "obas/domain/institutions"
+	domain "obas/domain/location"
 	"obas/io/academics"
 	"obas/io/address"
 	institutionIO "obas/io/institutions"
@@ -46,11 +48,12 @@ func InstitutionManagementHandler(app *config.Env) http.HandlerFunc {
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
-		type PageData struct {
+		type MYPageData struct {
 			Tab    string
-			subTab string
+			SubTab string
 		}
-		data := PageData{"dashboard", ""}
+		data := MYPageData{"dashboard", "X"}
+		fmt.Println(data, "<<<<<data")
 		files := []string{
 			app.Path + "content/tech/tech_dashboard.html",
 			app.Path + "content/tech/template/sidebar.template.html",
@@ -97,7 +100,7 @@ func GetCourseHandler(app *config.Env) http.HandlerFunc {
 
 		type PageData struct {
 			Tab               string
-			subTab            string
+			SubTab            string
 			InstitutionTypes  []institutionDomain.InstitutionTypes
 			Courses           []academicsDomain.Course
 			InstitutionCourse []InstitutionCourseHolder
@@ -152,7 +155,7 @@ func GetAddressHandler(app *config.Env) http.HandlerFunc {
 
 		type PageData struct {
 			Tab                string
-			subTab             string
+			SubTab             string
 			InstitutionAddress []InstitutionAddressHolder
 			AddressTypes       []address.AddressType
 			InstitutionTypes   []institutionDomain.InstitutionTypes
@@ -196,15 +199,18 @@ func GetLocationHandler(app *config.Env) http.HandlerFunc {
 		if err != nil {
 			app.InfoLog.Println(err.Error(), "error reading institutionType")
 		}
+		/**Getting all the provinces **/
+		provinces, _ := locationHelper.GetProvinces(app)
 
 		type PageData struct {
+			Provinces           []domain.Location
 			Tab                 string
-			subTab              string
+			SubTab              string
 			InstitutionLocation []InstitutionLocHolder
 			InstitutionTypes    []institutionDomain.InstitutionTypes
 		}
 
-		data := PageData{"institution", "location", institutionsLocationHolder, institutionType}
+		data := PageData{provinces, "institution", "location", institutionsLocationHolder, institutionType}
 
 		files := []string{
 			app.Path + "content/tech/institution/location.html",
@@ -251,7 +257,7 @@ func GetInstitutionHandler(app *config.Env) http.HandlerFunc {
 
 		type PageData struct {
 			Tab                string
-			subTab             string
+			SubTab             string
 			InstitutionsHolder []InstitutionHolder
 			InstitutionTypes   []institutionDomain.InstitutionTypes
 		}

@@ -231,8 +231,10 @@ func UserManagementHandler(app *config.Env) http.HandlerFunc {
 			UserRoleList  []myUserRole
 			MyActiveTab   Roletabs
 			ApplicantType []domain.ApplicantType
+			Tab           string
+			SubTab        string
 		}
-		Data := PageData{users, roles, userRoles, userRoleList, activeTab, applicant}
+		Data := PageData{users, roles, userRoles, userRoleList, activeTab, applicant, "user", ""}
 		files := []string{
 			app.Path + "content/tech/tech_admin_users.html",
 			app.Path + "content/tech/template/sidebar.template.html",

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <link rel="apple-touch-icon" sizes="76x76" href="../../../../assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="../../../assets/img/favicon.png">
+    <link rel="icon" type="image/png" href="../../../../assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>OBAS</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
@@ -121,70 +121,48 @@
             <div class="container-fluid">
 
 
-
-                <div class="classic-tabs mx-2">
+                <!----------->
+                <div class="classic-tabs mx-2 text-center">
 
                     <ul class="nav nav-tabs md-tabs" id="poolsRolesTab" role="tablist">
 
                         <li class="nav-item">
-                            <a class="nav-link  waves-light" id="institution-table-tab" data-toggle="tab"
-                               href="#institutionLocation"
+                            <a class="nav-link  waves-light" id="users-table-tab" data-toggle="tab"
+                               href="#subject-tab"
                                role="tab" aria-controls="users-table" aria-selected="true">
                                 <div style="text-align: center;"><i class="fas fa-user fa " aria-hidden="true"></i>
                                 </div>
-                                <br>Institution - Location</a>
+                                <br>Subjects</a>
                         </li>
+
                     </ul>
 
                     <div class="tab-content card" id="rolesTabContent">
 
-                        <div class="tab-pane fade  active show" id="institutionLocation" role="tabpanel"
-                             aria-labelledby="roles">
+                        <div class="tab-pane fade active show" id="subject-tab" role="tabpanel"
+                             aria-labelledby="pool-roles">
                             <p></p>
-
                             <!-- Table with panel -->
                             <div class="content">
                                 <div class="container-fluid">
 
                                     <div class="card green">
-                                        <form id="institution_location" method="post" action="/support/management/institution/save/institution-location">
-                                            {{ template "location-form" .}}
+                                        <form id="" method="post" action="/support/management/academics/create/subject">
+
                                             <div class="row justify-content-center">
-                                                <div class="col-md-5">
-                                                    <label class="control-label label-font-color">Institution Type</label>
-                                                    <select name="institutionTypeLocationDrop" class="obas-select obas-select-inner-text" id="institutionTypeLocationDrop"
-                                                            data-style="btn-default btn-outline"
-                                                            data-menu-style="dropdown-blue">
-                                                        <option value="" disabled selected>Select Institution Type</option>
-                                                        {{ with .InstitutionTypes }}
-                                                            {{ range .}}
-                                                                <option value="{{ .Id }}" >{{ .Name }}</option>
-                                                            {{ end }}
-                                                        {{ end }}
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <label class="control-label label-font-color">Institution</label>
-                                                    <select name="institutionLocationDrop" class="obas-select obas-select-inner-text" id="institutionLocationDrop"
-                                                            data-style="btn-default btn-outline"
-                                                            data-menu-style="dropdown-blue">
-                                                        <option value="" disabled selected>Select Institution</option>
-                                                    </select>
+                                                <div class="col-md-8">
+                                                    <label class="control-label label-font-color">Subject Name</label>
+                                                    <input type="text" name="subjectName" class="form-control"
+                                                           placeholder="Enter Subject ..." id="">
                                                 </div>
                                             </div>
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-5">
-                                                    <label class="control-label label-font-color">Longitude</label>
-                                                    <input type="text" value="" name="longitude"
-                                                           class="form-control"
-                                                           placeholder="Enter longitude" id="">
-                                                </div>
 
-                                                <div class="col-md-5">
-                                                    <label class="control-label label-font-color">Latitude</label>
-                                                    <input type="text" value="" name="latitude"
-                                                           class="form-control"
-                                                           placeholder="Enter latitude" id="">
+
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-8">
+                                                    <label class="control-label label-font-color">Subject Description</label>
+                                                    <input type="text" name="Description" class="form-control"
+                                                           placeholder="" id="">
                                                 </div>
                                             </div>
 
@@ -201,6 +179,9 @@
                                         </form>
                                     </div>
 
+                                    <!-- INSTITUTION TYPE --->
+
+
                                     <div class="row">
                                         <div class="card-body beautify">
                                             <div class="col-md-12">
@@ -214,48 +195,33 @@
                                                                    class="table table-striped table-no-bordered table-hover"
                                                                    cellspacing="0" width="100%" style="width:100%">
                                                                 <thead>
-                                                                <tr>
-                                                                    <th>Institution Name</th>
-                                                                    <th>Town</th>
-                                                                    <th>Longitude</th>
-                                                                    <th>Latitude</th>
-                                                                    <th class=" disabled-sorting text-right"></th>
-                                                                </tr>
+                                                                <th class="text-center">Subject</th>
+                                                                <th class="text-center">Description</th>
+                                                                <th class="text-center">Actions</th>
                                                                 </thead>
-                                                                <tfoot>
-                                                                <tr>
-                                                                    <th>Institution Name</th>
-                                                                    <th>Town</th>
-                                                                    <th>Longitude</th>
-                                                                    <th>Latitude</th>
-                                                                    <th class=" text-center">Actions</th>
-                                                                </tr>
-                                                                </tfoot>
                                                                 <tbody>
-                                                                {{ with .InstitutionLocation }}
+                                                                {{ with .Subjects }}
                                                                     {{ range .}}
                                                                         <tr>
-                                                                            <td>{{.Institution}}</td>
-                                                                            <td>{{.Town}}</td>
-                                                                            <td>{{.Longitude}}</td>
-                                                                            <td>{{.Latitude}}</td>
-                                                                            <td>
-                                                                                <div class="row justify-content-center">
+                                                                            <td>{{ .Name }}</td>
+                                                                            <td>{{ .SubjectDesc }}</td>
+                                                                            <td><div class="row justify-content-center">
 
-                                                                                        <a class="edit"  title="Edit" data-toggle="modal"
-                                                                                           data-target="#editInstitutionLocationModal"  href="" onclick="editinstitutionLocationForm({{.}})">
+                                                                                        <a class="edit" title="Edit"
+                                                                                           data-toggle="modal" data-target="#editSubjectModal" href=""
+                                                                                           onclick="editSubjectForm({{.}})">
                                                                                             <i class="material-icons">&#xE254;</i></a>
 
-                                                                                        <a class="delete" href="/support/management/institution/delete-institutionLocation/{{.Id}} "title="Delete" data-toggle="tooltip"><i
+                                                                                        <a class="delete" title="Delete"
+                                                                                           href="/support/management/academics/delete/subject/{{.Id}}"
+                                                                                           data-toggle="tooltip"><i
                                                                                                     class="material-icons">&#xE872;</i></a>
 
                                                                                 </div>
                                                                             </td>
-
                                                                         </tr>
-                                                                    {{end}}
-                                                                {{end}}
-
+                                                                    {{ end }}
+                                                                {{ end}}
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -264,6 +230,51 @@
                                             </div>
                                         </div>
                                     </div>
+
+
+
+
+
+{{/*                                    <div class="row">*/}}
+{{/*                                        <div class="col-md-12">*/}}
+{{/*                                            <div class="card strpied-tabled-with-hover">*/}}
+{{/*                                                <div class="card-body table-full-width table-responsive">*/}}
+{{/*                                                    <table class="table table-hover table-striped">*/}}
+{{/*                                                        <thead>*/}}
+{{/*                                                        <th>Subject</th>*/}}
+{{/*                                                        <th>Description</th>*/}}
+{{/*                                                        <th class="text-center">Actions</th>*/}}
+{{/*                                                        </thead>*/}}
+{{/*                                                        <tbody>*/}}
+{{/*                                                        {{ with .Subjects }}*/}}
+{{/*                                                            {{ range .}}*/}}
+{{/*                                                                <tr>*/}}
+{{/*                                                                    <td>{{ .Name }}</td>*/}}
+{{/*                                                                    <td>{{ .SubjectDesc }}</td>*/}}
+{{/*                                                                    <td><div class="row justify-content-center">*/}}
+{{/*                                                                            <div class="col-md-6">*/}}
+{{/*                                                                                <a class="edit" title="Edit"*/}}
+{{/*                                                                                   data-toggle="modal" data-target="#editSubjectModal" href=""*/}}
+{{/*                                                                                   onclick="editSubjectForm({{.}})">*/}}
+{{/*                                                                                    <i class="material-icons">&#xE254;</i></a>*/}}
+{{/*                                                                            </div>*/}}
+{{/*                                                                            <div class="col-md-6">*/}}
+{{/*                                                                                <a class="delete" title="Delete"*/}}
+{{/*                                                                                   href="/support/management/academics/delete/subject/{{.Id}}"*/}}
+{{/*                                                                                   data-toggle="tooltip"><i*/}}
+{{/*                                                                                            class="material-icons">&#xE872;</i></a>*/}}
+{{/*                                                                            </div>*/}}
+{{/*                                                                        </div>*/}}
+{{/*                                                                    </td>*/}}
+{{/*                                                                </tr>*/}}
+{{/*                                                            {{ end }}*/}}
+{{/*                                                        {{ end}}*/}}
+{{/*                                                        </tbody>*/}}
+{{/*                                                    </table>*/}}
+{{/*                                                </div>*/}}
+{{/*                                            </div>*/}}
+{{/*                                        </div>*/}}
+{{/*                                    </div>*/}}
                                 </div>
                             </div>
                             <!-- Table with panel -->
@@ -271,22 +282,24 @@
 
                     </div>
                 </div>
-                <!------Institution Types----->
-                <div class="modal fade" id="editInstitutionTypeModal" tabindex="-1" role="dialog"
-                           aria-labelledby="exampleModalLabel"
-                           aria-hidden="true">
+
+                <!---subject update form--->
+
+                <div class="modal fade" id="editSubjectModal" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Institution Type Edit </h5>
+                                <h5 class="modal-title" id="exampleModalLabel"> Edit Subject</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
                                 <!-- Extended material form grid -->
-                                <form name="institutionTypeEditForm" method="POST"
-                                      action="/support/management/institution/type/edit" novalidate>
+                                <form name="soubjectEditForm" method="POST"
+                                      action="/support/management/academics/update/subject" novalidate>
 
                                     <input type="hidden" class="form-control" name="Id" id="Id">
 
@@ -294,7 +307,7 @@
                                     <div class="form-row">
                                         <!-- Default input -->
                                         <div class="form-group col-md-12">
-                                            <label for="Name">Institution type name</label>
+                                            <label for="Name">subject name</label>
                                             <input type="text" class="form-control" name="Name" id="Name">
 
                                         </div>
@@ -324,118 +337,11 @@
                     </div>
                 </div>
 
-                <!------Institutions----->
-                <div class="modal fade" id="editInstitutionModal" tabindex="-1" role="dialog"
-                     aria-labelledby="exampleModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Institution Edit </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <!-- Extended material form grid -->
-                                <form name="institutionEditForm" method="POST"
-                                      action="/support/management/institution/institution/update" novalidate>
-
-                                    <input type="hidden" class="form-control" name="Id" id="Id">
 
 
-                                    <div class="form-row">
-                                        <!-- Default input -->
-                                        <div class="form-group col-md-12">
-                                            <label for="Name">Institution name</label>
-                                            <input type="text" class="form-control" name="Name" id="Name">
-
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <!-- Default input -->
-{{/*                                        <div class="row justify-content-center">*/}}
-                                            <div class="col-md-6">
-                                                <select name="institutionType" class="selectpicker" id="institution_Type"
-                                                        data-style="btn-default btn-outline"
-                                                        data-menu-style="dropdown-blue">
-                                                    <option value="" disabled selected>Select Institution Type </option>
-                                                    {{with .InstitutionTypes}}
-                                                        {{range .}}
-                                                            <option value={{ .Id }}>{{ .Name }}</option>
-                                                        {{end}}
-                                                    {{end}}
-                                                </select>
-                                            </div>
-{{/*                                        </div>*/}}
-                                    </div>
-                                    
-                                    <!-- Grid row -->
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                            Close
-                                        </button>
-                                        <button type="submit" class="btn btn-primary">Save</button>
-                                    </div>
-                                </form>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <!------Institutions Location----->
-                <div class="modal fade" id="editInstitutionLocationModal" tabindex="-1" role="dialog"
-                     aria-labelledby="exampleModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Institution Edit </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <!-- Extended material form grid -->
-                                <form name="institutionLocationEditForm" method="POST"
-                                      action="/support/management/institution/location/update" novalidate>
+<!------Course form----->
 
 
-
-                                    {{ template "location-form" .}}
-                                    {{ template "institution-form" .}}
-                                    <input type="hidden" class="form-control" name="Id" id="Id">
-                                    <div class="row justify-content-center">
-                                        <div class="col-md-5">
-                                            <label class="control-label label-font-color">Longitude</label>
-                                            <input type="text" value="" name="longitude"
-                                                   class="form-control"
-                                                   placeholder="Enter longitude" id="">
-                                        </div>
-
-                                        <div class="col-md-5">
-                                            <label class="control-label label-font-color">Latitude</label>
-                                            <input type="text" value="" name="latitude"
-                                                   class="form-control"
-                                                   placeholder="Enter latitude" id="">
-                                        </div>
-                                    </div>
-
-                                    <!-- Grid row -->
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                            Close
-                                        </button>
-                                        <button type="submit" class="btn btn-primary">Save</button>
-                                    </div>
-                                </form>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
                 <!------------------------------------------------------------------>
 
 
@@ -487,10 +393,11 @@
 <script src="../../../../assets/js/plugins/fullcalendar.min.js"></script>
 <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="../../../../assets/js/light-bootstrap-dashboard.js?v=2.0.1" type="text/javascript"></script>
-<script src="../../../../assets/js/custom/techadmin/institution.js"></script>
 <script src="../../../../assets/js/custom/generics.js"></script>
+<script src="../../../../assets/js/custom/techadmin/institution.js"></script>
+<script>
 
-<script type="text/javascript">
+
     $(document).ready(function () {
         $('#datatables').DataTable({
             "pagingType": "full_numbers",
@@ -530,33 +437,15 @@
 
         //Like record
         table.on('click', '.like', function () {
-           // alert('You clicked on Like button');
+            // alert('You clicked on Like button');
         });
     });
-    function editinstitutionTypeForm(app) {
-        var form = document.forms['institutionTypeEditForm'];
-        form.elements["Id"].value = app.id;
-        form.elements["Name"].value = app.name;
-        form.elements["Description"].value = app.description;
-    }
-    function editinstitutionForm(app) {
-        var form = document.forms['institutionEditForm'];
-        form.elements["Id"].value = app.Id;
-        form.elements["Name"].value = app.InstitutionName;
 
-        changeInstitutionDrop(app.InstitutionType)
+    function editSubjectForm(event) {
+        var form = document.forms['soubjectEditForm'];
+        form.elements["Id"].value = event.id;
+        form.elements["Name"].value = event.subjectName;
+        form.elements["Description"].value = event.subjectDesc;
     }
-    function editinstitutionLocationForm(app) {
-        var form = document.forms['institutionLocationEditForm'];
-        // form.elements["Id"].value = app.Id;
-        // form.elements["Name"].value = app.Institution;
-        // form.elements["Description"].value = app.Longitude;
-    }
-
-   function changeInstitutionDrop(initialApplicantType) {
-        const selectedApplicantType = $("#institution_Type").val();
-        if (initialApplicantType.localeCompare(selectedApplicantType)) {
-        }
-    };
 </script>
 </html>

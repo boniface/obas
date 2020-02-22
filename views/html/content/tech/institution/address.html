@@ -247,15 +247,14 @@
                                                                             <td>{{.Postal}}</td>
                                                                             <td>
                                                                                 <div class="row justify-content-center">
-                                                                                    <div class="col-md-6">
-                                                                                        <a class="edit" href="" title="Edit" data-toggle="tooltip"
-                                                                                           data-target="#" onclick="editInstitutionAddress({{.}})">
+
+                                                                                        <a class="edit" title="Edit"  data-toggle="modal"
+                                                                                           data-target="#" onclick="editInstitutionAddress({{.}})"  href="">
                                                                                             <i class="material-icons">&#xE254;</i></a>
-                                                                                    </div>
-                                                                                    <div class="col-md-6">
+
                                                                                         <a class="delete" href="/support/management/institution/delete-institutionAddress/{{.InstitutionAddressId}}/{{.AddressTypeId}} "title="Delete" data-toggle="tooltip"><i
                                                                                                     class="material-icons">&#xE872;</i></a>
-                                                                                    </div>
+
                                                                                 </div>
                                                                             </td>
                                                                         </tr>

@@ -77,7 +77,8 @@ func AdminApplicationDocumentHandler(app *config.Env) http.HandlerFunc {
 			Application applicantsearch
 		}
 
-		http.Redirect(w, r, "/support/management/academics", 301)
+		app.Session.Put(r.Context(), "tab", "document")
+		http.Redirect(w, r, "/admin/applicant", 301)
 	}
 }
 
@@ -135,7 +136,7 @@ func ChangeDocumentStatusHandler(app *config.Env) http.HandlerFunc {
 			app.Session.Put(r.Context(), "token", token)
 			app.Session.Put(r.Context(), "Admin_message", "Successfully Updated")
 		}
-		http.Redirect(w, r, "/support/management/academics", 301)
+		http.Redirect(w, r, "/admin/applicant", 301)
 	}
 }
 
@@ -194,7 +195,7 @@ func ChangeApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 			app.Session.Put(r.Context(), "token", token)
 			app.Session.Put(r.Context(), "Admin_message", "Successfully Updated")
 		}
-		http.Redirect(w, r, "/support/management/academics", 301)
+		http.Redirect(w, r, "/admin/applicant", 301)
 	}
 }
 
@@ -241,7 +242,7 @@ func AdminEmailHandler(app *config.Env) http.HandlerFunc {
 		message := r.PostFormValue("message")
 		fmt.Println("Sending mail to  " + studentEmail + "\nThe message is:\n" + message)
 
-		http.Redirect(w, r, "/support/management/academics", 301)
+		http.Redirect(w, r, "/admin/applicant", 301)
 	}
 }
 func getDocument(docId string) documentDomain.Document {
@@ -417,8 +418,10 @@ func AdminApplicationDocumentsHandler(app *config.Env) http.HandlerFunc {
 			Applicant   []applicantDetails
 			Document    []documentDetails
 			Application applicantsearch
+			Tab         string
+			SubMenu     string
 		}
-		Data := PageData{getApplicants(), myDocumentList, getSearchResult(applicationId)}
+		Data := PageData{getApplicants(), myDocumentList, getSearchResult(applicationId), "application", ""}
 		files := []string{
 			app.Path + "content/admin/admin_applicant.html",
 			app.Path + "content/admin/template/sidebar.template.html",
@@ -440,6 +443,11 @@ func AdminApplicationDocumentsHandler(app *config.Env) http.HandlerFunc {
 
 func AdminApplicationHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		type PageData struct {
+			Tab     string
+			SubMenu string
+		}
+		data := PageData{"application", ""}
 		files := []string{
 			app.Path + "content/admin/admin_application.html",
 			app.Path + "content/admin/template/sidebar.template.html",
@@ -451,7 +459,7 @@ func AdminApplicationHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 			return
 		}
-		err = ts.Execute(w, nil)
+		err = ts.Execute(w, data)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		}
@@ -474,14 +482,22 @@ type MyUserApplication struct {
 func AdminApplicantHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
+		tab := app.Session.GetString(r.Context(), "tab")
+		fmt.Println(tab, "<<<<<Tab session")
+		if tab == "" {
+			tab = ""
+		}
 		documents := []documentDetails{}
 		application := applicantsearch{}
 		type Pagedate struct {
 			Applicant   []applicantDetails
 			Document    []documentDetails
 			Application applicantsearch
+			Tab         string
+			SubMenu     string
+			Accordion   string
 		}
-		Data := Pagedate{getApplicants(), documents, application}
+		Data := Pagedate{getApplicants(), documents, application, "applicant", "", tab}
 		files := []string{
 			app.Path + "content/admin/admin_application3.html",
 			//app.Path + "content/admin/admin_applicant.html",
@@ -489,6 +505,7 @@ func AdminApplicantHandler(app *config.Env) http.HandlerFunc {
 			app.Path + "content/admin/template/navbar.template.html",
 			app.Path + "base/template/footer.template.html",
 		}
+		app.Session.Remove(r.Context(), "tab")
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
@@ -516,7 +533,11 @@ func AdminHandler(app *config.Env) http.HandlerFunc {
 			return
 		}
 		fmt.Println("User ", user)
-
+		type PageData struct {
+			Tab     string
+			SubMenu string
+		}
+		data := PageData{"dashboard", ""}
 		files := []string{
 			app.Path + "content/admin/admin_dashboard.page.html",
 			app.Path + "content/admin/template/sidebar.template.html",
@@ -528,7 +549,7 @@ func AdminHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 			return
 		}
-		err = ts.Execute(w, nil)
+		err = ts.Execute(w, data)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		}

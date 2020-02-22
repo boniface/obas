@@ -2,6 +2,7 @@ package users
 
 import (
 	"fmt"
+	"github.com/360EntSecGroup-Skylar/excelize/v2"
 	"github.com/stretchr/testify/assert"
 	domain "obas/domain/users"
 	"testing"
@@ -46,5 +47,26 @@ func TestDeleteUser(t *testing.T) {
 	result, err := DeleteUser(userC)
 	assert.Nil(t, err)
 	assert.True(t, result)
+
+}
+func TestCreateUser2(t *testing.T) {
+	user, err := excelize.OpenFile("C:/Users/Nicole Abrahams/go/src/obas/util/files/user.xlsx")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	cellVal, err := user.GetRows("Sheet1")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	//fmt.Println(cellVal)
+	for _, value := range cellVal {
+		/***reading the first value in the first row***/
+		fmt.Println(value[0], "<<<<")
+		//for _,value1:=range value{
+		//	fmt.Println(value1[1],"  ")
+		//}
+	}
 
 }
