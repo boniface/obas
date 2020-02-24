@@ -51,6 +51,7 @@ func TestDeleteUser(t *testing.T) {
 }
 func TestCreateUser2(t *testing.T) {
 	user, err := excelize.OpenFile("C:/Users/Nicole Abrahams/go/src/obas/util/files/user.xlsx")
+	var newUser domain.User
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -61,12 +62,16 @@ func TestCreateUser2(t *testing.T) {
 		return
 	}
 	//fmt.Println(cellVal)
+	time.Now()
 	for _, value := range cellVal {
 		/***reading the first value in the first row***/
-		fmt.Println(value[0], "<<<<")
+		//fmt.Println(index)
+		//fmt.Println(value[2])
+		newUser = domain.User{value[3], value[4], value[0], "", value[2], time.Now()}
 		//for _,value1:=range value{
-		//	fmt.Println(value1[1],"  ")
+		//	fmt.Println(value1[0])
 		//}
+		fmt.Println(newUser)
 	}
 
 }
