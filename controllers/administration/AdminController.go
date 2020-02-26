@@ -32,7 +32,7 @@ func Admin(app *config.Env) http.Handler {
 	r.Post("/change/document-status", ChangeDocumentStatusHandler(app))
 	r.Post("/change/application-status", ChangeApplicationStatusHandler(app))
 
-	r.Get("/applicant/document/{userId}/{applicationId}", AdminApplicationDocumentHandler(app))
+	r.Get("/applicant/document/{applicationId}/{userId}", AdminApplicationDocumentHandler(app))
 
 	return r
 }
@@ -41,44 +41,55 @@ func AdminApplicationDocumentHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		email := app.Session.GetString(r.Context(), "userId")
 		token := app.Session.GetString(r.Context(), "token")
+		fmt.Println(email, "<<<<<email||token>>>>>", token)
 
-		userId := chi.URLParam(r, "userId")
-		applicationId := chi.URLParam(r, "applicationId")
-
-		var documents []documentDomain.Document
-
-		app.Session.Put(r.Context(), "Admin_message", "Fail to Update")
 		if email == "" || token == "" {
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
-		_, err := users.GetUser(email)
-		if err != nil {
-			app.ErrorLog.Println(err.Error())
-			http.Redirect(w, r, "/login", 301)
-			return
-		}
-		/***This method still not existing in the backend**/
-		if userId != "" || applicationId != "" {
-			userDocuments, err := users.GetUserDocuments(userId)
-			if err != nil {
-				app.ErrorLog.Println(err.Error())
-				http.Redirect(w, r, "/login", 301)
-				return
-			}
-			for _, result := range userDocuments {
-				document := getDocument(result.DocumentId)
-				documents = append(documents, document)
-			}
-		}
-		type PageData struct {
+
+		userId := chi.URLParam(r, "userId")
+		//applicationId := chi.URLParam(r, "applicationId")
+		//var documents []documentDomain.Document
+		app.Session.Put(r.Context(), "Admin_message", "Fail to Update")
+
+		//_, err := users.GetUser(email)
+		//if err != nil {
+		//	app.ErrorLog.Println(err.Error())
+		//	http.Redirect(w, r, "/login", 301)
+		//	return
+		//}
+
+		application := applicantsearch{}
+
+		type Pagedate struct {
 			Applicant   []applicantDetails
 			Document    []documentDetails
 			Application applicantsearch
+			Tab         string
+			SubMenu     string
+			Accordion   string
 		}
 
-		app.Session.Put(r.Context(), "tab", "document")
-		http.Redirect(w, r, "/admin/applicant", 301)
+		data := Pagedate{getApplicants(), getDocumentDetails(userId), application, "applicant", "", "document"}
+
+		fmt.Println(getDocumentDetails(userId), "<<<<getDocumentDetails(userId)")
+
+		files := []string{ //views/html/content/admin/admin_application3.html
+			app.Path + "/content/admin/admin_application3.html",
+			app.Path + "/content/admin/template/sidebar.template.html",
+			app.Path + "/content/admin/template/navbar.template.html",
+			app.Path + "/base/template/footer.template.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			//return
+		}
+		err = ts.Execute(w, data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
 	}
 }
 
@@ -285,6 +296,37 @@ type documentDetails struct {
 	Doc            documentDomain.Document
 }
 
+func getDocumentDetails(user string) []documentDetails {
+	var docDetails []documentDetails
+	fmt.Println(user, "<<<<userId")
+	userDocuments, err := users.GetUserDocuments(user)
+	fmt.Println(userDocuments, "<<<<<userDocuments")
+	if err != nil {
+		fmt.Println(err.Error(), " error reading userDocuments")
+	}
+	for _, userdocument := range userDocuments {
+		docDetails = append(docDetails, documentDetails{"", "", userdocument, getDocumentStatus(userdocument.DocumentId), getDocument(userdocument.DocumentId)})
+	}
+	return docDetails
+}
+
+/***this Method returns all the status obj of a document**/
+func getDocumentStatus(documentId string) []domain4.GenericStatus {
+	var statues []domain4.GenericStatus
+	documentStatus, err := documents.GetdocumentStatues(documentId)
+	if err != nil {
+		fmt.Println(err.Error(), " error reading document status")
+	}
+	for _, status := range documentStatus {
+		stat, err := util.GetStatus(status.StatusId)
+		if err != nil {
+			fmt.Println(err.Error(), " error reading statu of a document>>>", status.DocumentId)
+		}
+		statues = append(statues, stat)
+	}
+	return statues
+}
+
 func getUser(userId string) userDomain.User {
 	var entity = userDomain.User{}
 	user, err := users.GetUser(userId)
@@ -294,6 +336,7 @@ func getUser(userId string) userDomain.User {
 	}
 	return user
 }
+
 func getStatus(statusId string) domain4.GenericStatus {
 	var entity = domain4.GenericStatus{}
 	status, err := util.GetStatus(statusId)

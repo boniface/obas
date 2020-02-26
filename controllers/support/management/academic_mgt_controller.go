@@ -322,7 +322,6 @@ func CreateCourseSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 		r.ParseForm()
 		subjectId := r.PostFormValue("subjectId")
 		courseId := r.PostFormValue("courseId")
-
 		//fmt.Println(subjectId, "<<<< subjectId||courseId>>>>", courseId)
 		if subjectId != "" || courseId != "" {
 			newcCourseSubject := academicsDomain.CourseSubject{courseId, subjectId}
@@ -332,7 +331,7 @@ func CreateCourseSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 				app.ErrorLog.Println(err.Error())
 			}
 		}
-		http.Redirect(w, r, "/support/management/academics/course_subject", 301)
+		http.Redirect(w, r, "/support/management/academics/subject_course", 301)
 	}
 }
 
