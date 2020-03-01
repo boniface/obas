@@ -16,13 +16,13 @@ func TestCreateDocumentStatus(t *testing.T) {
 	assert.NotNil(t, result)
 }
 func TestGetdocumentStatues(t *testing.T) {
-	result, err := GetdocumentStatues("03030")
+	result, err := GetdocumentStatues("403859ad7e5cfba0a8818c1bcb60c27f")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)
 	assert.NotNil(t, result)
 }
 func TestGetDocumentStatus(t *testing.T) {
-	result, err := GetDocumentStatus("03030")
+	result, err := GetDocumentStatus("403859ad7e5cfba0a8818c1bcb60c27f")
 	assert.Nil(t, err)
 	fmt.Println(" The Results", result)
 	assert.NotNil(t, result)

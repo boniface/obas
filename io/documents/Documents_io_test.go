@@ -22,8 +22,9 @@ func TestDocuments(t *testing.T) {
 
 func TestGetDocument(t *testing.T) {
 	expected := doc
-	value, err := GetDocument(doc.DocumentId)
+	value, err := GetDocument("403859ad7e5cfba0a8818c1bcb60c27f")
 	assert.Nil(t, err)
+	fmt.Println(" The Results", value)
 	assert.Equal(t, value, expected)
 }
 

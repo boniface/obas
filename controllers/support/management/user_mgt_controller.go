@@ -149,7 +149,8 @@ func RoleUpdateManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		userId := app.Session.GetString(r.Context(), "userId")
 		token := app.Session.GetString(r.Context(), "token")
-		_ = app.Session.Destroy(r.Context())
+		//_ = app.Session.Destroy(r.Context())
+		app.Session.Remove(r.Context(), "tab")
 		r.ParseForm()
 		id := strings.TrimSpace(r.PostFormValue("userId"))
 		role := r.PostFormValue("roleId")
@@ -198,6 +199,14 @@ func getRole(roleId string) demographics.Role {
 }
 func UserManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		userId := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+
+		if userId == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+
 		var userRoleList []myUserRole
 		users, err := userIO.GetUsers()
 		if err != nil {
@@ -233,8 +242,9 @@ func UserManagementHandler(app *config.Env) http.HandlerFunc {
 			ApplicantType []domain.ApplicantType
 			Tab           string
 			SubTab        string
+			ProfileUser   userDomain.User
 		}
-		Data := PageData{users, roles, userRoles, userRoleList, activeTab, applicant, "user", ""}
+		Data := PageData{users, roles, userRoles, userRoleList, activeTab, applicant, "user", "", getUser(userId)}
 		files := []string{
 			app.Path + "content/tech/tech_admin_users.html",
 			app.Path + "content/tech/template/sidebar.template.html",
@@ -269,4 +279,12 @@ func myTabs(tab string) Roletabs {
 	default:
 		return Roletabs{"active show", "", ""}
 	}
+}
+func getUser(userId string) userDomain.User {
+	var myuser userDomain.User
+	user, err := userIO.GetUser(userId)
+	if err != nil {
+		return myuser
+	}
+	return user
 }

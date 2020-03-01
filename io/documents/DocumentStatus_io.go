@@ -46,7 +46,7 @@ func GetDocumentStatus(documentId string) (domain3.DocumentStatus, error) {
 }
 func GetdocumentStatues(documentId string) ([]domain3.DocumentStatus, error) {
 	entity := []domain3.DocumentStatus{}
-	resp, _ := api.Rest().Get(DocumentStatus + "/all" + documentId)
+	resp, _ := api.Rest().Get(DocumentStatus + "/all/" + documentId)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}

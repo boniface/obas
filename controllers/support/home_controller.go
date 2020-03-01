@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"net/http"
 	"obas/config"
+	domain2 "obas/domain/users"
 )
 
 func Home(app *config.Env) http.Handler {
@@ -23,10 +24,11 @@ func SupportHome(app *config.Env) http.HandlerFunc {
 		}
 
 		type MYPageData struct {
-			Tab    string
-			SubTab string
+			Tab         string
+			SubTab      string
+			ProfileUser domain2.User
 		}
-		data := MYPageData{"dashboard", "X"}
+		data := MYPageData{"dashboard", "X", GetUser(email)}
 		files := []string{
 			app.Path + "content/tech/tech_dashboard.html",
 			app.Path + "content/tech/template/sidebar.template.html",
