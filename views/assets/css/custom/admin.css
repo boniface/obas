@@ -1,0 +1,23 @@
+.accordion-group{
+    border: 0px solid #000000;
+    -moz-border-radius: 0px;/*Firefox*/
+    -webkit-border-radius: 0px;/*Safari, Chrome*/
+    border-radius: 0px;
+    background-color: #fff;
+}
+.accordion-heading .accordion-toggle{
+    color: #ddd;
+    font-family: 'Oxygen', sans-serif;
+}
+.accordion-heading{
+    background-color: rgba(59,101,161,1);
+}
+.accordion-heading:hover{
+    background-color: rgba(59,101,161,0.8);
+}
+.accordion-heading .accordion-toggle:hover{
+    text-decoration: none;
+}
+.accordion-inner{
+    border-color: #ddd;
+}

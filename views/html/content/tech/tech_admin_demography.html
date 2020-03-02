@@ -157,7 +157,7 @@
 
                     <div class="tab-content card" id="rolesTabContent">
 
-                        <div class="tab-pane fade {{.Tab.Tab1}}" id="TitleTab" role="tabpanel"
+                        <div class="tab-pane fade {{.Tabs.Tab1}}" id="TitleTab" role="tabpanel"
                              aria-labelledby="pool-roles">
                             <p></p>
                             <!-- Table with panel -->
@@ -233,7 +233,7 @@
                             <!-- Table with panel -->
                         </div>
 
-                        <div class="tab-pane fade {{.Tab.Tab2}}" id="GenderTab" role="tabpanel"
+                        <div class="tab-pane fade {{.Tabs.Tab2}}" id="GenderTab" role="tabpanel"
                              aria-labelledby="pool-roles">
                             <p></p>
                             <!-- Table with panel -->
@@ -316,7 +316,7 @@
                             </div>
                                 </div>
 
-                        <div class="tab-pane fade {{.Tab.Tab3}}" id="RoleTab" role="tabpanel"
+                        <div class="tab-pane fade {{.Tabs.Tab3}}" id="RoleTab" role="tabpanel"
                              aria-labelledby="pool-roles">
                             <p></p>
                             <!-- Table with panel -->
@@ -401,7 +401,6 @@
                             </div>
                             <!-- Table with panel -->
                         </div>
-
                     </div>
                 </div>
 
@@ -413,7 +412,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Institution Type Edit </h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Title</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -458,7 +457,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Institution Type Edit </h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Role </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -479,15 +478,6 @@
 
                                 </div>
                             </div>
-                            {{/*                            <div class="form-row">*/}}
-                            {{/*                                <!-- Default input -->*/}}
-                            {{/*                                <div class="form-group col-md-12">*/}}
-                            {{/*                                    <label for="Description">Description</label>*/}}
-                            {{/*                                    <input type="text" class="form-control" name="Description"*/}}
-                            {{/*                                           id="Description">*/}}
-
-                            {{/*                                </div>*/}}
-                            {{/*                            </div>*/}}
 
                             <!-- Grid row -->
                             <div class="modal-footer">
@@ -511,7 +501,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Institution Type Edit </h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Gender</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -548,68 +538,6 @@
                 </div>
             </div>
         </div>
-
-        <!------User_Role----->
-        <div class="modal fade" id="editApplicantTypeModal" tabindex="-1" role="dialog"
-             aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Institution Type Edit </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Extended material form grid -->
-                        <form name="userApplicantTypeEditForm" method="POST"
-                              action="/support/management/user/applicantType/update" novalidate>
-
-                            <input type="hidden" class="form-control" name="Id" id="Id">
-
-
-                            <div class="form-row">
-                                <!-- Default input -->
-                                <div class="form-group col-md-12">
-                                    <label for="Name">Type</label>
-                                    <input type="text" class="form-control" name="Name" id="Name">
-
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <!-- Default input -->
-                                <div class="form-group col-md-12">
-                                    <label for="Name">Description</label>
-                                    <input type="text" class="form-control" name="Description" id="Description">
-
-                                </div>
-                            </div>
-                            {{/*                            <div class="form-row">*/}}
-                            {{/*                                <!-- Default input -->*/}}
-                            {{/*                                <div class="form-group col-md-12">*/}}
-                            {{/*                                    <label for="Description">Description</label>*/}}
-                            {{/*                                    <input type="text" class="form-control" name="Description"*/}}
-                            {{/*                                           id="Description">*/}}
-
-                            {{/*                                </div>*/}}
-                            {{/*                            </div>*/}}
-
-                            <!-- Grid row -->
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                    Close
-                                </button>
-                                <button type="submit" class="btn btn-primary">Save</button>
-                            </div>
-                        </form>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-                <!------------------------------------------------------------------>
 
         {{ template "footer" .}}
             </div>

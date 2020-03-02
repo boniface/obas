@@ -449,8 +449,10 @@ func DemogrphyHandler(app *config.Env) http.HandlerFunc {
 			Title   []demographics.Title
 			Gender  []demographics.Gender
 			Roles   []demographics.Role
-			Tab     ActiveTab
+			Tabs    ActiveTab
 			Message string
+			Tab     string
+			SubTab  string
 		}
 
 		Data := PageData{
@@ -459,6 +461,8 @@ func DemogrphyHandler(app *config.Env) http.HandlerFunc {
 			Roles,
 			activeTab,
 			message,
+			"demography",
+			"",
 		}
 
 		files := []string{

@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-var token = "eyJraWQiOiJURVNUX1BIUkFTRSIsImFsZyI6IkVTMjU2In0.eyJpc3MiOiJIQVNIQ09ERS5aTSIsImF1ZCI6IlNJVEVVU0VSUyIsImV4cCI6MTU3NjE1NTIxOSwianRpIjoiMkhkT0NyRmM0SHVkZXVyeURmSHZsZyIsImlhdCI6MTU3NjA2ODgxOSwibmJmIjoxNTc2MDY4Njk5LCJzdWIiOiJTaXRlIEFjY2VzcyIsImVtYWlsIjoiZXNwb2lyZGl0ZWtlbWVuYUBnbWFpbC5jb20iLCJyb2xlIjoiU1RSMDAxIn0.3SoiDBLI-ubU7ArWjPuMKh36aVAA6Cm0HfVdnP_ta3pMmGVCdFXEYHw1WMP_lNJS7MUPZlNp9ISfQWhqThhPcQ"
+var token = "eyJraWQiOiJvYmFzYXBpX29uXzE1NS4yMzguMzIuMjE5IiwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiJIQVNIQ09ERS5aTSIsImF1ZCI6IlNJVEVVU0VSUyIsImV4cCI6MTU4MDU3MDU0NiwianRpIjoiMWlqaXFnWVJXbWxFdlgtd09hSWozQSIsImlhdCI6MTU4MDQ4NDE0NiwibmJmIjoxNTgwNDg0MDI2LCJzdWIiOiJTaXRlIEFjY2VzcyIsImVtYWlsIjoiMjE2MDkzODA1QG15Y3B1dC5hYy56YSIsInJvbGUiOiJFTlNULTEyOVNVIn0.4O0u91m6DoDGLavxUO6IPA2muVzTqFWpxoLwMZyiCU3ei6ttVbtiGW_fjdX9J1pUOdXSSD9WhfCoER1Zo9gPAw"
 
 func TestGetDocumentTypes(t *testing.T) {
 	value, err := GetDocumentTypes()
@@ -23,11 +23,14 @@ func TestGetDocumentsType(t *testing.T) {
 	fmt.Println(" The Results", value)
 	assert.Equal(t, value, expected)
 }
+func TestGetDocumentTypes2(t *testing.T) {
+
+}
 
 func TestCreateDocumentTypes(t *testing.T) {
 	//docType := domain.DocumentType{"2", "COURSES"}
-	docType := DocumentType{"2", "COURSES"}
-	value, err := CreateDocumentType(docType)
+	docType := domain.DocumentType{"1", "Acceptation "}
+	value, err := CreateDocumentType(docType, token)
 	assert.Nil(t, err)
 	assert.True(t, value)
 }

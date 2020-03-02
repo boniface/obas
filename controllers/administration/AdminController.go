@@ -32,7 +32,65 @@ func Admin(app *config.Env) http.Handler {
 	r.Post("/change/document-status", ChangeDocumentStatusHandler(app))
 	r.Post("/change/application-status", ChangeApplicationStatusHandler(app))
 
+	r.Get("/applicant/document/{applicationId}/{userId}", AdminApplicationDocumentHandler(app))
+
 	return r
+}
+
+func AdminApplicationDocumentHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		fmt.Println(email, "<<<<<email||token>>>>>", token)
+
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+
+		userId := chi.URLParam(r, "userId")
+		//applicationId := chi.URLParam(r, "applicationId")
+		//var documents []documentDomain.Document
+		app.Session.Put(r.Context(), "Admin_message", "Fail to Update")
+
+		//_, err := users.GetUser(email)
+		//if err != nil {
+		//	app.ErrorLog.Println(err.Error())
+		//	http.Redirect(w, r, "/login", 301)
+		//	return
+		//}
+
+		application := applicantsearch{}
+
+		type Pagedate struct {
+			Applicant   []applicantDetails
+			Document    []documentDetails
+			Application applicantsearch
+			Tab         string
+			SubMenu     string
+			Accordion   string
+		}
+
+		data := Pagedate{getApplicants(), getDocumentDetails(userId), application, "applicant", "", "document"}
+
+		fmt.Println(getDocumentDetails(userId), "<<<<getDocumentDetails(userId)")
+
+		files := []string{ //views/html/content/admin/admin_application3.html
+			app.Path + "/content/admin/admin_application3.html",
+			app.Path + "/content/admin/template/sidebar.template.html",
+			app.Path + "/content/admin/template/navbar.template.html",
+			app.Path + "/base/template/footer.template.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			//return
+		}
+		err = ts.Execute(w, data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+	}
 }
 
 func ChangeDocumentStatusHandler(app *config.Env) http.HandlerFunc {
@@ -89,8 +147,7 @@ func ChangeDocumentStatusHandler(app *config.Env) http.HandlerFunc {
 			app.Session.Put(r.Context(), "token", token)
 			app.Session.Put(r.Context(), "Admin_message", "Successfully Updated")
 		}
-
-		http.Redirect(w, r, "/support/management/academics", 301)
+		http.Redirect(w, r, "/admin/applicant", 301)
 	}
 }
 
@@ -149,7 +206,7 @@ func ChangeApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 			app.Session.Put(r.Context(), "token", token)
 			app.Session.Put(r.Context(), "Admin_message", "Successfully Updated")
 		}
-		http.Redirect(w, r, "/support/management/academics", 301)
+		http.Redirect(w, r, "/admin/applicant", 301)
 	}
 }
 
@@ -196,7 +253,7 @@ func AdminEmailHandler(app *config.Env) http.HandlerFunc {
 		message := r.PostFormValue("message")
 		fmt.Println("Sending mail to  " + studentEmail + "\nThe message is:\n" + message)
 
-		http.Redirect(w, r, "/support/management/academics", 301)
+		http.Redirect(w, r, "/admin/applicant", 301)
 	}
 }
 func getDocument(docId string) documentDomain.Document {
@@ -239,6 +296,37 @@ type documentDetails struct {
 	Doc            documentDomain.Document
 }
 
+func getDocumentDetails(user string) []documentDetails {
+	var docDetails []documentDetails
+	fmt.Println(user, "<<<<userId")
+	userDocuments, err := users.GetUserDocuments(user)
+	fmt.Println(userDocuments, "<<<<<userDocuments")
+	if err != nil {
+		fmt.Println(err.Error(), " error reading userDocuments")
+	}
+	for _, userdocument := range userDocuments {
+		docDetails = append(docDetails, documentDetails{"", "", userdocument, getDocumentStatus(userdocument.DocumentId), getDocument(userdocument.DocumentId)})
+	}
+	return docDetails
+}
+
+/***this Method returns all the status obj of a document**/
+func getDocumentStatus(documentId string) []domain4.GenericStatus {
+	var statues []domain4.GenericStatus
+	documentStatus, err := documents.GetdocumentStatues(documentId)
+	if err != nil {
+		fmt.Println(err.Error(), " error reading document status")
+	}
+	for _, status := range documentStatus {
+		stat, err := util.GetStatus(status.StatusId)
+		if err != nil {
+			fmt.Println(err.Error(), " error reading statu of a document>>>", status.DocumentId)
+		}
+		statues = append(statues, stat)
+	}
+	return statues
+}
+
 func getUser(userId string) userDomain.User {
 	var entity = userDomain.User{}
 	user, err := users.GetUser(userId)
@@ -248,6 +336,7 @@ func getUser(userId string) userDomain.User {
 	}
 	return user
 }
+
 func getStatus(statusId string) domain4.GenericStatus {
 	var entity = domain4.GenericStatus{}
 	status, err := util.GetStatus(statusId)
@@ -372,8 +461,10 @@ func AdminApplicationDocumentsHandler(app *config.Env) http.HandlerFunc {
 			Applicant   []applicantDetails
 			Document    []documentDetails
 			Application applicantsearch
+			Tab         string
+			SubMenu     string
 		}
-		Data := PageData{getApplicants(), myDocumentList, getSearchResult(applicationId)}
+		Data := PageData{getApplicants(), myDocumentList, getSearchResult(applicationId), "application", ""}
 		files := []string{
 			app.Path + "content/admin/admin_applicant.html",
 			app.Path + "content/admin/template/sidebar.template.html",
@@ -395,6 +486,11 @@ func AdminApplicationDocumentsHandler(app *config.Env) http.HandlerFunc {
 
 func AdminApplicationHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		type PageData struct {
+			Tab     string
+			SubMenu string
+		}
+		data := PageData{"application", ""}
 		files := []string{
 			app.Path + "content/admin/admin_application.html",
 			app.Path + "content/admin/template/sidebar.template.html",
@@ -406,7 +502,7 @@ func AdminApplicationHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 			return
 		}
-		err = ts.Execute(w, nil)
+		err = ts.Execute(w, data)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		}
@@ -429,20 +525,30 @@ type MyUserApplication struct {
 func AdminApplicantHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
+		tab := app.Session.GetString(r.Context(), "tab")
+		fmt.Println(tab, "<<<<<Tab session")
+		if tab == "" {
+			tab = ""
+		}
 		documents := []documentDetails{}
 		application := applicantsearch{}
 		type Pagedate struct {
 			Applicant   []applicantDetails
 			Document    []documentDetails
 			Application applicantsearch
+			Tab         string
+			SubMenu     string
+			Accordion   string
 		}
-		Data := Pagedate{getApplicants(), documents, application}
+		Data := Pagedate{getApplicants(), documents, application, "applicant", "", tab}
 		files := []string{
-			app.Path + "content/admin/admin_applicant.html",
+			app.Path + "content/admin/admin_application3.html",
+			//app.Path + "content/admin/admin_applicant.html",
 			app.Path + "content/admin/template/sidebar.template.html",
 			app.Path + "content/admin/template/navbar.template.html",
 			app.Path + "base/template/footer.template.html",
 		}
+		app.Session.Remove(r.Context(), "tab")
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
@@ -457,20 +563,24 @@ func AdminApplicantHandler(app *config.Env) http.HandlerFunc {
 
 func AdminHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		/**email := app.Session.GetString(r.Context(), "userId")
+		email := app.Session.GetString(r.Context(), "userId")
 		token := app.Session.GetString(r.Context(), "token")
 		if email == "" || token == "" {
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
-		user, err := users_io.GetUser(email)
+		user, err := users.GetUser(email)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
-		fmt.Println("User ", user)*/
-
+		fmt.Println("User ", user)
+		type PageData struct {
+			Tab     string
+			SubMenu string
+		}
+		data := PageData{"dashboard", ""}
 		files := []string{
 			app.Path + "content/admin/admin_dashboard.page.html",
 			app.Path + "content/admin/template/sidebar.template.html",
@@ -482,7 +592,7 @@ func AdminHandler(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 			return
 		}
-		err = ts.Execute(w, nil)
+		err = ts.Execute(w, data)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		}
