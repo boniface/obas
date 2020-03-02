@@ -70,7 +70,6 @@ func RegisterHandler(app *config.Env) http.HandlerFunc {
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
-			return
 		}
 		err = ts.Execute(w, data)
 		if err != nil {

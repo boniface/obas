@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"obas/config"
 	academicsDomain "obas/domain/academics"
+	domain "obas/domain/academics"
+	domain2 "obas/domain/users"
 	"obas/io/academics"
 )
 
@@ -32,8 +34,29 @@ func AcademicManagement(app *config.Env) http.Handler {
 	return r
 }
 
+/***
+The process of Alert
+*******************
+When user create, delete, update a subject, course, or subject-course,
+- the create, delete, update Method creates two variables in the session the is called courseSubjMessage and actionMessage and these methods redirect to their GetMethods
+- Now the Get methods will read the contents of those variables by sending them to a method called AlertMesserger() that will check the content of courseSubjMessage
+- If courseSubjMessage contains warning string AlertMesserger will return a warning alert with an error Message else it will return a successful message with a successful alert.
+
+***/
+
+type MessageAlert struct {
+	AlertType string
+	AlertInfo string
+}
+
 func SubjectCourseManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		//fmt.Println(email, "<<<<<<email || TOKEN>>>>>", token)
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+		}
 
 		var courseSubjectHolder []CourseSubjectHolder
 
@@ -79,14 +102,22 @@ func SubjectCourseManagementHandler(app *config.Env) http.HandlerFunc {
 			CourseSubjects []CourseSubjectHolder
 			Tab            string
 			SubTab         string
+			Alert          MessageAlert
+			ProfileUser    domain2.User
 		}
-
-		Data := PageData{subjects, courses, courseSubjectHolder, "academics", "course_subject"}
+		//Geting data from the previous
+		courseSubjMessage := app.Session.GetString(r.Context(), "courseSubjMessage")
+		actionMessage := app.Session.GetString(r.Context(), "actionMessage")
+		Data := PageData{subjects, courses, courseSubjectHolder, "academics", "course_subject", AlertMesserger(courseSubjMessage, "Course - subject", actionMessage), getUser(email)}
 		files := []string{
 			app.Path + "content/tech/academics/course_subject.html",
 			app.Path + "content/tech/template/sidebar.template.html",
 			app.Path + "base/template/footer.template.html",
 		}
+		app.Session.Remove(r.Context(), "courseSubjMessage")
+		app.Session.Remove(r.Context(), "actionMessage")
+		//app.Session.Remove(r.Context(), "token")app.Session.Put(r.Context(), "courseSubjMessage", sessionMessage)
+
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
@@ -99,9 +130,36 @@ func SubjectCourseManagementHandler(app *config.Env) http.HandlerFunc {
 	}
 }
 
+//This method takes the message saved on the session from the previous controller method
+//if this session returns success that means the creation went successfully
+//the alertType is the type of content that is updated, created or deleted by the user
+
+func AlertMesserger(alert string, alertType string, action string) MessageAlert {
+	var AlertType string
+	var AlertInfo string
+	if alert == "success" {
+		AlertType = "alert-success"
+		AlertInfo = "You have Successfully " + action + " the " + alertType
+	} else if alert == "warning" {
+		AlertType = "alert-warning"
+		AlertInfo = "An error has occurred during " + action + " of " + alertType
+	} else {
+		AlertType = ""
+		AlertInfo = ""
+	}
+	messageAlert := MessageAlert{AlertType, AlertInfo}
+
+	return messageAlert
+}
+
 func SubjectManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		//fmt.Println(email, "<<<<<<email || TOKEN>>>>>", token)
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+		}
 		subjects, errr := academics.GetSubjects()
 		if errr != nil {
 			fmt.Println("An error in AcademiManagementHandler reading subjects")
@@ -109,17 +167,25 @@ func SubjectManagementHandler(app *config.Env) http.HandlerFunc {
 		}
 
 		type PageData struct {
-			Subjects []academicsDomain.Subject
-			Tab      string
-			SubTab   string
+			Subjects    []academicsDomain.Subject
+			Tab         string
+			SubTab      string
+			Alert       MessageAlert
+			ProfileUser domain2.User
 		}
 
-		Data := PageData{subjects, "academics", "subject"}
+		//Geting data from the previous
+		courseSubjMessage := app.Session.GetString(r.Context(), "courseSubjMessage")
+		actionMessage := app.Session.GetString(r.Context(), "actionMessage")
+
+		Data := PageData{subjects, "academics", "subject", AlertMesserger(courseSubjMessage, "Subject", actionMessage), getUser(email)}
 		files := []string{
 			app.Path + "content/tech/academics/subject.html",
 			app.Path + "content/tech/template/sidebar.template.html",
 			app.Path + "base/template/footer.template.html",
 		}
+		app.Session.Remove(r.Context(), "courseSubjMessage")
+		app.Session.Remove(r.Context(), "actionMessage")
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
@@ -134,6 +200,12 @@ func SubjectManagementHandler(app *config.Env) http.HandlerFunc {
 
 func CourseManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		//fmt.Println(email, "<<<<<<email || TOKEN>>>>>", token)
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+		}
 		courses, err := academics.GetAllCourses()
 		if err != nil {
 			fmt.Println("An error in AcademiManagementHandler reading courses")
@@ -141,16 +213,23 @@ func CourseManagementHandler(app *config.Env) http.HandlerFunc {
 		}
 
 		type PageData struct {
-			Courses []academicsDomain.Course
-			Tab     string
-			SubTab  string
+			Courses     []academicsDomain.Course
+			Tab         string
+			SubTab      string
+			Alert       MessageAlert
+			ProfileUser domain2.User
 		}
-		Data := PageData{courses, "academics", "course"}
+		courseSubjMessage := app.Session.GetString(r.Context(), "courseSubjMessage")
+		actionMessage := app.Session.GetString(r.Context(), "actionMessage")
+
+		Data := PageData{courses, "academics", "course", AlertMesserger(courseSubjMessage, "Course - subject", actionMessage), getUser(email)}
 		files := []string{
 			app.Path + "content/tech/academics/course.html",
 			app.Path + "content/tech/template/sidebar.template.html",
 			app.Path + "base/template/footer.template.html",
 		}
+		app.Session.Remove(r.Context(), "courseSubjMessage")
+		app.Session.Remove(r.Context(), "actionMessage")
 		ts, err := template.ParseFiles(files...)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
@@ -168,6 +247,7 @@ func UpdateCourseSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 		email := app.Session.GetString(r.Context(), "userId")
 		token := app.Session.GetString(r.Context(), "token")
 		fmt.Println(email, "<<<<<<email || TOKEN>>>>>", token)
+		var sessionMessage = "success"
 		if email == "" || token == "" {
 			http.Redirect(w, r, "/login", 301)
 			return
@@ -181,8 +261,8 @@ func UpdateCourseSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 		mycourseId := r.PostFormValue("mycourseId")
 		mysubjectId := r.PostFormValue("mysubjectId")
 
-		fmt.Println(subjectId, "subjectId||CourseId", CourseId)
-		fmt.Println(mycourseId, "<<<<mycourseId||mysubjectId>>>>", mysubjectId)
+		//fmt.Println(subjectId, "subjectId||CourseId", CourseId)
+		//fmt.Println(mycourseId, "<<<<mycourseId||mysubjectId>>>>", mysubjectId)
 
 		if subjectId != "" || CourseId != "" || mycourseId != "" || mysubjectId != "" {
 			courseObjectToCreate := academicsDomain.CourseSubject{mycourseId, mysubjectId}
@@ -191,19 +271,17 @@ func UpdateCourseSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 			fmt.Print(courseObjectToCreate, "<<<<courseObjectToCreate")
 			fmt.Print(courseObjectTodetelete, "<<<<courseObjectTodetelete")
 
-			_, err := academics.DeleteCourseSubject(courseObjectTodetelete)
+			_, err := academics.UpdateCourseSubject(courseObjectToCreate, token)
 			if err != nil {
+				fmt.Println("error creating courseSubject")
 				app.ErrorLog.Println(err.Error())
-				fmt.Println("error deleting courseSubject")
-			} else {
-				_, err := academics.CreateCourseSubject(courseObjectToCreate)
-				if err != nil {
-					fmt.Println("error creating courseSubject")
-					app.ErrorLog.Println(err.Error())
-				}
+				sessionMessage = "warning"
 			}
+
 		}
 
+		app.Session.Put(r.Context(), "courseSubjMessage", sessionMessage)
+		app.Session.Put(r.Context(), "actionMessage", "update")
 		http.Redirect(w, r, "/support/management/academics/course_subject", 301)
 	}
 }
@@ -212,7 +290,8 @@ func UpdatesubjectManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		email := app.Session.GetString(r.Context(), "userId")
 		token := app.Session.GetString(r.Context(), "token")
-		fmt.Println(email, "<<<<<<email || TOKEN>>>>>", token)
+		var sessionMessage = "success"
+		//fmt.Println(email, "<<<<<<email || TOKEN>>>>>", token)
 		if email == "" || token == "" {
 			http.Redirect(w, r, "/login", 301)
 			return
@@ -221,8 +300,8 @@ func UpdatesubjectManagementHandler(app *config.Env) http.HandlerFunc {
 		subjectId := r.PostFormValue("Id")
 		subjectName := r.PostFormValue("Name")
 		subjectdesc := r.PostFormValue("Description")
-		fmt.Println(subjectId, "subjectId||subjectName", subjectName, "subjectdesc>>>>>", subjectdesc)
-		fmt.Println(subjectName, "<<<<subjectName||subjectId>>>>", subjectId, "subjectdesc>>>>", subjectdesc)
+		//fmt.Println(subjectId, "subjectId||subjectName", subjectName, "subjectdesc>>>>>", subjectdesc)
+		//fmt.Println(subjectName, "<<<<subjectName||subjectId>>>>", subjectId, "subjectdesc>>>>", subjectdesc)
 
 		if subjectId != "" || subjectName != "" || subjectdesc != "" {
 			courseObject := academicsDomain.Course{subjectId, subjectName, subjectdesc}
@@ -230,8 +309,11 @@ func UpdatesubjectManagementHandler(app *config.Env) http.HandlerFunc {
 			_, err := academics.UpdateCourse(courseObject, token)
 			if err != nil {
 				app.ErrorLog.Println(err.Error())
+				sessionMessage = "warning"
 			}
 		}
+		app.Session.Put(r.Context(), "courseSubjMessage", sessionMessage)
+		app.Session.Put(r.Context(), "actionMessage", "update")
 		http.Redirect(w, r, "/support/management/academics/subject", 301)
 	}
 }
@@ -240,6 +322,7 @@ func UpdateCourseManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		email := app.Session.GetString(r.Context(), "userId")
 		token := app.Session.GetString(r.Context(), "token")
+		var sessionMessage = "success"
 		fmt.Println(email, "<<<<<<email || TOKEN>>>>>", token)
 		if email == "" || token == "" {
 			http.Redirect(w, r, "/login", 301)
@@ -258,8 +341,11 @@ func UpdateCourseManagementHandler(app *config.Env) http.HandlerFunc {
 			_, err := academics.UpdateCourse(courseObject, token)
 			if err != nil {
 				app.ErrorLog.Println(err.Error())
+				sessionMessage = "warning"
 			}
 		}
+		app.Session.Put(r.Context(), "courseSubjMessage", sessionMessage)
+		app.Session.Put(r.Context(), "actionMessage", "update")
 
 		http.Redirect(w, r, "/support/management/academics/course", 301)
 	}
@@ -267,6 +353,13 @@ func UpdateCourseManagementHandler(app *config.Env) http.HandlerFunc {
 
 func DeletecourseSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		var sessionMessage = "success"
+		fmt.Println(email, "<<<<<<email || TOKEN>>>>>", token)
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+		}
 		courseId := chi.URLParam(r, "courseId")
 		SubjectId := chi.URLParam(r, "subjectId")
 
@@ -275,35 +368,56 @@ func DeletecourseSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 			_, err := academics.DeleteCourseSubject(courseSubjectObject)
 			if err != nil {
 				app.ErrorLog.Println(err.Error())
+				sessionMessage = "warning"
 			}
 		}
-
-		http.Redirect(w, r, "/support/management/academics/course_subject", 301)
+		app.Session.Put(r.Context(), "courseSubjMessage", sessionMessage)
+		app.Session.Put(r.Context(), "actionMessage", "delete")
+		http.Redirect(w, r, "/support/management/academics/subject_course", 301)
 	}
 }
 
 func DeletecourseManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		courseId := chi.URLParam(r, "courseId")
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		var sessionMessage = "success"
+		fmt.Println(email, "<<<<<<email || TOKEN>>>>>", token)
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+		}
 
+		courseId := chi.URLParam(r, "courseId")
 		courseObject, err := academics.GetCourse(courseId)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
+			sessionMessage = "warning"
 		}
 		if courseObject.Id != "" {
 			_, err := academics.DeleteCourse(courseObject)
 			if err != nil {
 				app.ErrorLog.Println(err.Error())
+				sessionMessage = "warning"
 			}
 		}
+		app.Session.Put(r.Context(), "courseSubjMessage", sessionMessage)
+		app.Session.Put(r.Context(), "actionMessage", "delete")
 		http.Redirect(w, r, "/support/management/academics/course", 301)
 	}
 }
 
 func DeleteSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		var sessionMessage = "success"
+		fmt.Println(email, "<<<<<<email || TOKEN>>>>>", token)
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+		}
 		subjectId := chi.URLParam(r, "resetKey")
 		subjectObject, err := academics.GetSubject(subjectId)
+
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		}
@@ -311,32 +425,53 @@ func DeleteSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 			_, err := academics.DeleteSubject(subjectObject)
 			if err != nil {
 				app.ErrorLog.Println(err.Error())
+				sessionMessage = "warning"
 			}
 		}
+		app.Session.Put(r.Context(), "courseSubjMessage", sessionMessage)
+		app.Session.Put(r.Context(), "actionMessage", "delete")
 		http.Redirect(w, r, "/support/management/academics/subject", 301)
 	}
 }
 
 func CreateCourseSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		var sessionMessage = "success"
+		fmt.Println(email, "<<<<<<email || TOKEN>>>>>", token)
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+		}
 		r.ParseForm()
 		subjectId := r.PostFormValue("subjectId")
 		courseId := r.PostFormValue("courseId")
-		//fmt.Println(subjectId, "<<<< subjectId||courseId>>>>", courseId)
+
 		if subjectId != "" || courseId != "" {
-			newcCourseSubject := academicsDomain.CourseSubject{courseId, subjectId}
-			_, err := academics.CreateCourseSubject(newcCourseSubject)
+			newcCourseSubject := domain.CourseSubject{courseId, subjectId}
+			fmt.Println(subjectId, "<<<<<subjectId||courseId >>>>", courseId)
+			_, err := academics.CreateCourseSubject(newcCourseSubject, token)
 			if err != nil {
 				fmt.Println("An error in CreateCourseManagementHandler create myCourse")
 				app.ErrorLog.Println(err.Error())
+				sessionMessage = "warning"
 			}
 		}
+		app.Session.Put(r.Context(), "courseSubjMessage", sessionMessage)
+		app.Session.Put(r.Context(), "actionMessage", "create")
 		http.Redirect(w, r, "/support/management/academics/subject_course", 301)
 	}
 }
 
 func CreateSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		var sessionMessage = "success"
+		fmt.Println(email, "<<<<<<email || TOKEN>>>>>", token)
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+		}
 		r.ParseForm()
 		subjectName := r.PostFormValue("subjectName")
 		subjectDesc := r.PostFormValue("Description")
@@ -347,14 +482,25 @@ func CreateSubjectManagementHandler(app *config.Env) http.HandlerFunc {
 			if err != nil {
 				fmt.Println("An error in CreateCourseManagementHandler create myCourse")
 				app.ErrorLog.Println(err.Error())
+				sessionMessage = "warning"
 			}
 		}
+		app.Session.Put(r.Context(), "courseSubjMessage", sessionMessage)
+		app.Session.Put(r.Context(), "actionMessage", "create")
 		http.Redirect(w, r, "/support/management/academics/subject", 301)
 	}
 }
 
 func CreateCourseManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		var sessionMessage = "success"
+		fmt.Println(email, "<<<<<<email || TOKEN>>>>>", token)
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+		}
+
 		r.ParseForm()
 		courseName := r.PostFormValue("courseName")
 		courseDescription := r.PostFormValue("courseDescription")
@@ -365,9 +511,12 @@ func CreateCourseManagementHandler(app *config.Env) http.HandlerFunc {
 			if err != nil {
 				fmt.Println("An error in CreateCourseManagementHandler create myCourse")
 				app.ErrorLog.Println(err.Error())
+				sessionMessage = "warning"
 			}
 		}
 
+		app.Session.Put(r.Context(), "courseSubjMessage", sessionMessage)
+		app.Session.Put(r.Context(), "actionMessage", "create")
 		http.Redirect(w, r, "/support/management/academics/course", 301)
 	}
 }
@@ -381,6 +530,13 @@ type CourseSubjectHolder struct {
 
 func AcademiManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+
+		fmt.Println(email, "<<<<<<email || TOKEN>>>>>", token)
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+		}
 
 		var courseSubjectHolder []CourseSubjectHolder
 		courses, err := academics.GetAllCourses()
@@ -425,11 +581,12 @@ func AcademiManagementHandler(app *config.Env) http.HandlerFunc {
 			MyActiveTab    tabs
 			Tab            string
 			SubTab         string
+			ProfileUser    domain2.User
 		}
 		tab := app.Session.GetString(r.Context(), "tab")
 		activeTab := getTabs(tab)
 
-		Data := PageData{subjects, courses, courseSubjectHolder, activeTab, "academics", ""}
+		Data := PageData{subjects, courses, courseSubjectHolder, activeTab, "academics", "", getUser(email)}
 		files := []string{
 			app.Path + "content/tech/tech_admin_academics.html",
 			app.Path + "content/tech/template/sidebar.template.html",

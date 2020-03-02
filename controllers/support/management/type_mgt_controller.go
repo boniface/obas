@@ -10,6 +10,7 @@ import (
 	domain2 "obas/domain/documents"
 	domain "obas/domain/institutions"
 	domain4 "obas/domain/location"
+	domain5 "obas/domain/users"
 	"obas/io/address"
 	"obas/io/applications"
 	"obas/io/documents"
@@ -857,6 +858,7 @@ func TypeHomeHandler(app *config.Env) http.HandlerFunc {
 			MessageType     string
 			Tab             string
 			SubTab          string
+			ProfileUser     domain5.User
 		}
 		data := PageData{
 			InstitutionType: institutionType,
@@ -870,6 +872,7 @@ func TypeHomeHandler(app *config.Env) http.HandlerFunc {
 			MessageType:     messageType,
 			Tab:             "types",
 			SubTab:          "",
+			ProfileUser:     getUser(userId),
 		}
 
 		files := []string{

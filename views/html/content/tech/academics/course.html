@@ -122,6 +122,14 @@
 
         <div class="content">
             <div class="container-fluid">
+                {{ if .Alert.AlertType }}
+                    <div class="alert {{ .Alert.AlertType }}">
+                        <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
+                            <i class="nc-icon nc-simple-remove"></i>
+                        </button>
+                        <span>{{ .Alert.AlertInfo }}</span>
+                    </div>
+                {{ end }}
                 <!----------->
                 <div class="classic-tabs mx-2">
 

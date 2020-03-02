@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"net/http"
 	"obas/config"
+	domain2 "obas/domain/users"
 	"obas/io/demographics"
 )
 
@@ -446,13 +447,14 @@ func DemogrphyHandler(app *config.Env) http.HandlerFunc {
 		}
 
 		type PageData struct {
-			Title   []demographics.Title
-			Gender  []demographics.Gender
-			Roles   []demographics.Role
-			Tabs    ActiveTab
-			Message string
-			Tab     string
-			SubTab  string
+			Title       []demographics.Title
+			Gender      []demographics.Gender
+			Roles       []demographics.Role
+			Tabs        ActiveTab
+			Message     string
+			Tab         string
+			SubTab      string
+			ProfileUser domain2.User
 		}
 
 		Data := PageData{
@@ -463,6 +465,7 @@ func DemogrphyHandler(app *config.Env) http.HandlerFunc {
 			message,
 			"demography",
 			"",
+			getUser(email),
 		}
 
 		files := []string{

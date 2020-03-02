@@ -10,6 +10,7 @@ import (
 	academicsDomain "obas/domain/academics"
 	institutionDomain "obas/domain/institutions"
 	domain "obas/domain/location"
+	domain2 "obas/domain/users"
 	"obas/io/academics"
 	"obas/io/address"
 	institutionIO "obas/io/institutions"
@@ -49,10 +50,11 @@ func InstitutionManagementHandler(app *config.Env) http.HandlerFunc {
 			return
 		}
 		type MYPageData struct {
-			Tab    string
-			SubTab string
+			Tab         string
+			SubTab      string
+			ProfileUser domain2.User
 		}
-		data := MYPageData{"dashboard", "X"}
+		data := MYPageData{"dashboard", "X", getUser(email)}
 		fmt.Println(data, "<<<<<data")
 		files := []string{
 			app.Path + "content/tech/tech_dashboard.html",
@@ -104,8 +106,9 @@ func GetCourseHandler(app *config.Env) http.HandlerFunc {
 			InstitutionTypes  []institutionDomain.InstitutionTypes
 			Courses           []academicsDomain.Course
 			InstitutionCourse []InstitutionCourseHolder
+			ProfileUser       domain2.User
 		}
-		data := PageData{"institution", "course", institutionType, course, institutionsCourseHolder}
+		data := PageData{"institution", "course", institutionType, course, institutionsCourseHolder, getUser(email)}
 
 		files := []string{
 			app.Path + "content/tech/institution/course.html",
@@ -159,9 +162,10 @@ func GetAddressHandler(app *config.Env) http.HandlerFunc {
 			InstitutionAddress []InstitutionAddressHolder
 			AddressTypes       []address.AddressType
 			InstitutionTypes   []institutionDomain.InstitutionTypes
+			ProfileUser        domain2.User
 		}
 
-		data := PageData{"institution", "address", institutionsAddressHolder, addressType, institutionType}
+		data := PageData{"institution", "address", institutionsAddressHolder, addressType, institutionType, getUser(email)}
 
 		files := []string{
 			app.Path + "content/tech/institution/address.html",
@@ -208,9 +212,10 @@ func GetLocationHandler(app *config.Env) http.HandlerFunc {
 			SubTab              string
 			InstitutionLocation []InstitutionLocHolder
 			InstitutionTypes    []institutionDomain.InstitutionTypes
+			ProfileUser         domain2.User
 		}
 
-		data := PageData{provinces, "institution", "location", institutionsLocationHolder, institutionType}
+		data := PageData{provinces, "institution", "location", institutionsLocationHolder, institutionType, getUser(email)}
 
 		files := []string{
 			app.Path + "content/tech/institution/location.html",
@@ -244,10 +249,8 @@ func GetInstitutionHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		email := app.Session.GetString(r.Context(), "userId")
 		token := app.Session.GetString(r.Context(), "token")
-
 		if email == "" || token == "" {
 			http.Redirect(w, r, "/login", 301)
-			return
 		}
 
 		var institutionsHolder []InstitutionHolder
@@ -260,9 +263,10 @@ func GetInstitutionHandler(app *config.Env) http.HandlerFunc {
 			SubTab             string
 			InstitutionsHolder []InstitutionHolder
 			InstitutionTypes   []institutionDomain.InstitutionTypes
+			ProfileUser        domain2.User
 		}
 
-		data := PageData{"institution", "institution", institutionsHolder, institutionTypes}
+		data := PageData{"institution", "institution", institutionsHolder, institutionTypes, getUser(email)}
 
 		files := []string{
 			app.Path + "content/tech/institution/institution.html",

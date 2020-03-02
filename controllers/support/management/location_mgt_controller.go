@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"obas/config"
 	domain "obas/domain/location"
+	domain2 "obas/domain/users"
 	locationIO "obas/io/location"
 )
 
@@ -185,6 +186,13 @@ func ReadParentlocation(locationParentId string) domain.Location {
 }
 func LocationManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+
+		//fmt.Println(email, "<<<<<<email || TOKEN>>>>>", token)
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+		}
 		var myLocations []MyLocations
 
 		var locations []domain.Location
@@ -206,8 +214,9 @@ func LocationManagementHandler(app *config.Env) http.HandlerFunc {
 			Location      []domain.Location
 			Tab           string
 			SubTab        string
+			ProfileUser   domain2.User
 		}
-		data := PageData{locationTypes, myLocations, locations, "location", ""}
+		data := PageData{locationTypes, myLocations, locations, "location", "", getUser(email)}
 		files := []string{
 			app.Path + "content/tech/tech_admin_loc.html",
 			app.Path + "content/tech/template/sidebar.template.html",

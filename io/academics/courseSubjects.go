@@ -8,9 +8,8 @@ import (
 
 const courseSubjectURL = api.BASE_URL + "/academics/coursesubject"
 
-func CreateCourseSubject(obj domain.CourseSubject) (domain.CourseSubject, error) {
+func CreateCourseSubject(obj domain.CourseSubject, token string) (domain.CourseSubject, error) {
 	entity := domain.CourseSubject{}
-
 	resp, _ := api.Rest().SetBody(obj).Post(courseSubjectURL + "/create")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
@@ -66,6 +65,18 @@ func GetAllCourseSubject() ([]domain.CourseSubject, error) {
 func DeleteCourseSubject(obj domain.CourseSubject) (domain.CourseSubject, error) {
 	entity := domain.CourseSubject{}
 	resp, _ := api.Rest().SetBody(obj).Post(courseSubjectURL + "/delete")
+	if resp.IsError() {
+		return entity, errors.New(resp.Status())
+	}
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(resp.Status())
+	}
+	return entity, nil
+}
+func UpdateCourseSubject(obj domain.CourseSubject, token string) (domain.CourseSubject, error) {
+	entity := domain.CourseSubject{}
+	resp, _ := api.Rest().SetAuthToken(token).SetBody(obj).Post(courseSubjectURL + "/update")
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
