@@ -990,7 +990,7 @@ func StudentDocumentsUploadHandler(app *config.Env) http.HandlerFunc {
 				}
 			}
 		}
-		http.Redirect(w, r, "/users/student/documents", 301)
+		http.Redirect(w, r, "/users/student/bursary/application", 301)
 	}
 }
 
