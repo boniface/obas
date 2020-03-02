@@ -569,7 +569,7 @@
                                 </div>
                                 <div class="row justify-content-center">
                                     <div class="col-md-12">
-                                        <select name="documentStatusId"
+                                        <select name="applicationStatus"
                                                 class="selectpicker"
                                                 data-style="btn-default btn-outline"
                                                 data-menu-style="dropdown-blue">
@@ -740,7 +740,7 @@
              * **/
             if (statues[i].Modifier.email == applicantId) {
                 console.log("||docId>>>>>" + statues[i].firstName)
-                cell1.innerHTML = "New Application";
+                cell1.innerHTML = "Student";
             } else {
                 cell1.innerHTML = statues[i].Modifier.email;
             }

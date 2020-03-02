@@ -239,6 +239,8 @@ func ChangeApplicationStatusHandler(app *config.Env) http.HandlerFunc {
 		applicationId := r.PostFormValue("applicationId")
 		comment := r.PostFormValue("comment")
 		userId := r.PostFormValue("UserId")
+
+		fmt.Println(applicationStatus, "<<<applicationStatus>>>"+comment+"<<<<<<applicationId>>>>>>>", applicationId)
 		if applicationStatus != "" || applicationId != "" {
 			newApplicationStatus := applicationDomain.ApplicationStatus{applicationId, applicationStatus, email, comment, time.Now()}
 
@@ -665,15 +667,17 @@ func AdminApplicantHandler(app *config.Env) http.HandlerFunc {
 
 		documents := []documentDetails{}
 		application := ApplicationDetail{}
+		applicationDetails := []ApplicationHolder{}
 		type Pagedate struct {
-			Applicant   []ApplicantDetails
-			Document    []documentDetails
-			Application ApplicationDetail
-			Tab         string
-			SubMenu     string
-			Accordion   string
+			Applicant         []ApplicantDetails
+			Document          []documentDetails
+			Application       ApplicationDetail
+			Tab               string
+			SubMenu           string
+			Accordion         string
+			ApplicationStatus []ApplicationHolder
 		}
-		Data := Pagedate{getApplicants(), documents, application, "applicant", "", tab}
+		Data := Pagedate{getApplicants(), documents, application, "applicant", "", tab, applicationDetails}
 		files := []string{
 			app.Path + "content/admin/admin_application3.html",
 			//app.Path + "content/admin/admin_applicant.html",
