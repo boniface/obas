@@ -185,22 +185,7 @@ func ReadParentlocation(locationParentId string) domain.Location {
 }
 func LocationManagementHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var tab1 string
-		var tab2 string
 		var myLocations []MyLocations
-
-		tab := app.Session.GetString(r.Context(), "tab")
-
-		if tab == "tab1" {
-			tab1 = "active show"
-			tab2 = ""
-		} else if tab == "tab2" {
-			tab2 = "active show"
-			tab1 = ""
-		} else {
-			tab1 = "active show"
-			tab2 = ""
-		}
 
 		var locations []domain.Location
 		locationTypes, err := locationIO.GetLocationTypes()
@@ -215,17 +200,14 @@ func LocationManagementHandler(app *config.Env) http.HandlerFunc {
 				app.ErrorLog.Println(err.Error())
 			}
 		}
-
 		type PageData struct {
 			LocationTypes []domain.LocationType
 			Locations     []MyLocations
 			Location      []domain.Location
-			Tab1          string
-			Tab2          string
+			Tab           string
+			SubTab        string
 		}
-
-		data := PageData{locationTypes, myLocations, locations, tab1, tab2}
-
+		data := PageData{locationTypes, myLocations, locations, "location", ""}
 		files := []string{
 			app.Path + "content/tech/tech_admin_loc.html",
 			app.Path + "content/tech/template/sidebar.template.html",

@@ -3,6 +3,7 @@ package academics
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	domain "obas/domain/academics"
 	"testing"
 )
 
@@ -15,7 +16,7 @@ func TestGetCourse(t *testing.T) {
 }
 
 func TestSaveCourse(t *testing.T) {
-	course := Course{"123", "Test Course", "This is a test course"}
+	course := domain.Course{"123", "Test Course", "This is a test course"}
 	result, err := SaveCourse(course)
 	assert.Nil(t, err)
 	assert.True(t, result)

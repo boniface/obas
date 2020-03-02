@@ -2,6 +2,7 @@ package institutions
 
 import (
 	"fmt"
+	"github.com/360EntSecGroup-Skylar/excelize/v2"
 	"github.com/stretchr/testify/assert"
 	domain "obas/domain/institutions"
 	"testing"
@@ -47,4 +48,28 @@ func TestUpdateInstitution(t *testing.T) {
 	assert.Nil(t, err)
 	fmt.Println(" The Results", resp)
 	assert.NotNil(t, resp)
+}
+
+/****This method reads all the institutions data from the file and send them the api***/
+func TestCreateInstitution2(t *testing.T) {
+	institutions, err := excelize.OpenFile("C:/Users/Nicole Abrahams/go/src/obas/util/files/institution.xlsx")
+	var newInstitution domain.Institution
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	cellVal, err := institutions.GetRows("Sheet1")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	/***Looping through all the rows that contains Data***/
+	for _, value := range cellVal {
+		/***reading the first value in the first row***/
+		newInstitution = domain.Institution{value[0], value[1], value[2]}
+		/***Now sending the object to the api***/
+		CreateInstitution(newInstitution)
+		/**Now clearing the object**/
+		newInstitution = domain.Institution{}
+	}
 }

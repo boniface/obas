@@ -43,10 +43,9 @@ func GetDocumentType(documentTypeId string) (domain.DocumentType, error) {
 	return entity, nil
 }
 
-func CreateDocumentType(entity interface{}) (bool, error) {
-	resp, _ := api.Rest().
-		SetBody(entity).
-		Post(documentUrl + "create")
+func CreateDocumentType(entity domain.DocumentType, token string) (bool, error) {
+	resp, _ := api.Rest().SetAuthToken(token).SetBody(entity).
+		Post(documentTypeUrl + "create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -57,7 +56,7 @@ func CreateDocumentType(entity interface{}) (bool, error) {
 func UpdateDocumentType(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(documentUrl + "update")
+		Post(documentTypeUrl + "update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -69,7 +68,7 @@ func DeleteDocumentType(entity interface{}) (bool, error) {
 
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(documentUrl + "delete")
+		Post(documentTypeUrl + "delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

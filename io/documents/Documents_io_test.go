@@ -3,13 +3,14 @@ package documents
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	domain "obas/domain/documents"
 	"time"
 
 	//domain3 "obas/domain/documents"
 	"testing"
 )
 
-var doc = Document{"test@test.go", "25", "FR", "MATRIC", "DS", time.Now(), "", "NONE"}
+var doc = domain.Document{"test@test.go", "25", "FR", "MATRIC", "DS", time.Now(), "", "NONE"}
 
 //var token=""
 func TestDocuments(t *testing.T) {
