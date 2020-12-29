@@ -6,14 +6,14 @@ import (
 	domain "obas/domain/documents"
 )
 
-const documentTypeUrl = api.BASE_URL + "/documents"
+const documentTypeUrl = api.BASE_URL + "/documents/type/"
 
 func GetDocumentTypes() ([]domain.DocumentType, error) {
 	entites := []domain.DocumentType{}
 	//d1 := domain.DocumentType{"1", "Matric"}
 	//d2 := domain.DocumentType{"2", "Identification"}
 	//entites = []domain.DocumentType{d1, d2}
-	resp, _ := api.Rest().Get(documentTypeUrl + "/type/all")
+	resp, _ := api.Rest().Get(documentTypeUrl + "all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
@@ -32,7 +32,7 @@ func GetDocumentType(documentTypeId string) (domain.DocumentType, error) {
 	//} else if documentTypeId == "2" {
 	//	entity = domain.DocumentType{documentTypeId, "ID"}
 	//}
-	resp, _ := api.Rest().Get(documentTypeUrl + "/type/get/" + documentTypeId)
+	resp, _ := api.Rest().Get(documentTypeUrl + "get/" + documentTypeId)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -43,10 +43,9 @@ func GetDocumentType(documentTypeId string) (domain.DocumentType, error) {
 	return entity, nil
 }
 
-func CreateDocumentType(entity interface{}) (bool, error) {
-	resp, _ := api.Rest().
-		SetBody(entity).
-		Post(documentUrl + "/type/create")
+func CreateDocumentType(entity domain.DocumentType, token string) (bool, error) {
+	resp, _ := api.Rest().SetAuthToken(token).SetBody(entity).
+		Post(documentTypeUrl + "create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -57,7 +56,7 @@ func CreateDocumentType(entity interface{}) (bool, error) {
 func UpdateDocumentType(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(documentUrl + "/type/update")
+		Post(documentTypeUrl + "update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -69,7 +68,7 @@ func DeleteDocumentType(entity interface{}) (bool, error) {
 
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(documentUrl + "/type/delete")
+		Post(documentTypeUrl + "delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

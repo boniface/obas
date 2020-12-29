@@ -16,6 +16,7 @@ type Password loginDomain.ResetPassword
 type LoginToken loginDomain.LoginToken
 type ChangePassword loginDomain.ChangePassword
 
+/**What is going on here**/
 func DoRegister(email string) (bool, error) {
 	entity := Register{}
 	entity.Email = email

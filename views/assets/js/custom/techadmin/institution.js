@@ -19,13 +19,8 @@ $(document).ready(function () {
         populateLocationDropDown(townDropDown, districtId);
     });
 
-    $("#institutionType").change(function() {
-        const institutionTypeId = $(this).val();
-        let institutionElement = $('#institution');
-        let institutionDropDown = getDropDownElement(institutionElement, "Institution");
-        populateInstitutionDropDownByType(institutionDropDown, institutionTypeId);
-    });
-    /** Institution Location ends here **/
+
+    /** Institution types ends here **/
 
     $("#institutionTypeAddressDrop").change(function() {
         const institutionTypeAddress = $(this).val();
@@ -40,19 +35,30 @@ $(document).ready(function () {
         let institutionAddressDropDown = getDropDownElement(institutionAddressElement, "Institution");
         populateInstitutionDropDownByType(institutionAddressDropDown, institutionTypeAddress);
     });
+    //location
+    $("#institutionTypeLocationDrop").change(function() {
+        const institutionTypeAddress = $(this).val();
+        let institutionAddressElement = $('#institutionLocationDrop');
+        let institutionAddressDropDown = getDropDownElement(institutionAddressElement, "Institution");
+        populateInstitutionDropDownByType(institutionAddressDropDown, institutionTypeAddress);
+    });
 });
 
-function editForm(event) {
+
+
+function editCourseForm(event) {
     var form = document.forms['siteEditForm'];
     form.elements["Id"].value = event.id;
     form.elements["Name"].value = event.name;
     form.elements["Description"].value = event.description;
 }
-function editLocationForm(app) {
 
+function editLocationForm(app) {
     var form = document.forms['locationEditForm'];
-    form.elements["LocationId"].value = app.locationId;
-    form.elements["Name"].value = app.name;
-    form.elements["Longitude"].value = app.longitude;
-    form.elements["Latitude"].value = app.latitude;
+    var myArea = document.getElementById("courseSubjectContent");
+    form.elements["LocationId"].value = app.Location.locationId;
+    form.elements["Name"].value = app.Location.name;
+    form.elements["Longitude"].value = app.Location.longitude;
+    form.elements["Latitude"].value = app.Location.latitude;
+    myArea.innerHTML="<p> Location Type: "+app.LocationType.name+"<br/> Parent: "+app.ParentLocation.name+"<p>";
 }

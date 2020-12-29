@@ -1,11 +1,14 @@
 package login
 
 import (
+	"fmt"
 	"github.com/go-chi/chi"
 	"html/template"
 	"net/http"
 	"obas/config"
+	"obas/io/demographics"
 	"obas/io/login"
+	"obas/io/users"
 )
 
 type PageData struct {
@@ -143,7 +146,14 @@ func loginHandler(app *config.Env) http.HandlerFunc {
 		password := r.PostFormValue("password")
 		loginToken, err := login.DoLogin(email, password)
 		if err != nil {
-			app.ErrorLog.Println(err.Error())
+			app.ErrorLog.Println(err.Error(), "149")
+			app.Session.Put(r.Context(), "message", "Wrong Credentials!")
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
+		userRole, err := users.GetUserRole(email)
+		if err != nil {
+			app.ErrorLog.Println(err.Error(), "156")
 			app.Session.Put(r.Context(), "message", "Wrong Credentials!")
 			http.Redirect(w, r, "/login", 301)
 			return
@@ -152,7 +162,23 @@ func loginHandler(app *config.Env) http.HandlerFunc {
 		app.Session.Put(r.Context(), "userId", loginToken.Email)
 		app.Session.Put(r.Context(), "token", loginToken.Token)
 		app.InfoLog.Println("Login is successful. Result is ", loginToken)
+
+		if userRole.RoleId != "" {
+			role, err := demographics.GetRole(userRole.RoleId)
+			if err != nil {
+				app.ErrorLog.Println(err.Error())
+				app.Session.Put(r.Context(), "message", "Wrong Credentials!")
+				http.Redirect(w, r, "/login", 301)
+				return
+			}
+			fmt.Println("role >>>>", role.RoleName)
+			if role.RoleName == "support" {
+				http.Redirect(w, r, "/support", 301)
+				return
+			}
+		}
 		http.Redirect(w, r, "/users/student", 301)
+		return
 	}
 }
 func forgotPassword(app *config.Env) http.HandlerFunc {

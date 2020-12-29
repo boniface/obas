@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"net/http"
 	"obas/config"
+	domain2 "obas/domain/users"
 )
 
 func Home(app *config.Env) http.Handler {
@@ -15,7 +16,19 @@ func Home(app *config.Env) http.Handler {
 
 func SupportHome(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		email := app.Session.GetString(r.Context(), "userId")
+		token := app.Session.GetString(r.Context(), "token")
+		if email == "" || token == "" {
+			http.Redirect(w, r, "/login", 301)
+			return
+		}
 
+		type MYPageData struct {
+			Tab         string
+			SubTab      string
+			ProfileUser domain2.User
+		}
+		data := MYPageData{"dashboard", "X", GetUser(email)}
 		files := []string{
 			app.Path + "content/tech/tech_dashboard.html",
 			app.Path + "content/tech/template/sidebar.template.html",
@@ -26,7 +39,7 @@ func SupportHome(app *config.Env) http.HandlerFunc {
 			app.ErrorLog.Println(err.Error())
 			return
 		}
-		err = ts.Execute(w, nil)
+		err = ts.Execute(w, data)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		}

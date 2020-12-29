@@ -9,7 +9,7 @@
             <div class="logo"
                  style="padding-left: 40px;padding-top: 0px;padding-bottom: 0px;background: #ffea00;height: 60px">
 
-                <a href="tech_dashboard.page.html" class="simple-text logo-normal">
+                <a href="/support" class="simple-text logo-normal">
 
                     <img src="../../../assets/img/Logo-04.png" alt="Logo"
                          style="width: 176px; height: 55px;alignment: center">
@@ -17,11 +17,15 @@
             </div>
             <div class="user">
                 <div class="photo">
-                    <img src="../../../assets/img/default-avatar.png"/>
+                    <img src="../../../assets/img/faces/face-1.jpg"/>
                 </div>
                 <div class="info ">
                     <a class="nav-item ">
-                            <span>Tania Andrew
+                    <span> {{if .ProfileUser.FirstName}}
+                            {{.ProfileUser.FirstName}}
+                        {{else}}
+                            Support-User
+                        {{end}}
                                 <!-- <b class="caret"></b>-->
                             </span>
                     </a>
@@ -83,100 +87,173 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item ">
-
+                <li class="nav-item {{if eq .Tab "dashboard"}} active{{end}} ">
                     <a class="nav-link" href="/support">
-
                         <i class="nc-icon nc-chart-pie-35"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
 
-                <li class="nav-item ">
-                    <a class="nav-link" href="/support/management/user">
-                        <i class="nc-icon nc-single-02"></i>
-                        <p>Users</p>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="/support/management/academics">
-                        <i class="nc-icon nc-planet"></i>
-                        <p>Academics</p>
+                <li class="nav-item {{if eq .Tab "types"}} active{{end}} ">
+                    <a class="nav-link" href="/support/types">
+                        <i class="nc-icon nc-support-17"></i>
+                        <p>Types</p>
                     </a>
                 </li>
 
-                <li class="nav-item ">
+                <li class="nav-item {{if eq .Tab "user"}} active{{end}}">
+                    <a class="nav-link" href="/support/management/user">
+                        <i class="nc-icon nc-satisfied"></i>
+                        <p>Users</p>
+                    </a>
+                </li>
+                <li class="nav-item {{if eq .Tab "demography"}} active{{end}}">
+                    <a class="nav-link" href="/support/demography">
+                        <i class="nc-icon nc-vector"></i>
+                        <p>Demography</p>
+                    </a>
+                </li>
+                <li class="nav-item {{if eq .Tab "location"}} active{{end}}">
                     <a class="nav-link" href="/support/management/location">
-                        <i class="nc-icon nc-planet"></i>
+                        <i class="nc-icon nc-square-pin"></i>
                         <p>Locations</p>
                     </a>
                 </li>
 
-                <li class="nav-item ">
-                    <a class="nav-link" href="/support/management/institution">
-                        <i class="nc-icon nc-backpack"></i>
-                        <p>Institutions</p>
-                    </a>
-                </li>
 
-                <li class="nav-item ">
-                    <a class="nav-link" href="#">
-                        <i class="nc-icon nc-cctv"></i>
-                        <p>Log Events</p>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" data-toggle="collapse" href="#mapsExamples">
-                        <i class="nc-icon nc-settings-90"></i>
-                        <!--  <i class="nc-icon nc-single-copy-04"></i>-->
-                        <p>Admin
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#academi">
+                        <i class="nc-icon nc-planet"></i>
+                        <p>Academics
                             <b class="caret"></b>
                         </p>
                     </a>
-                    <div class="collapse " id="mapsExamples">
+                    <div class="collapse {{if eq .Tab "academics"}}show{{end}} " id="academi">
                         <ul class="nav">
-                            <li class="nav-item ">
+                            <li class="nav-item {{if eq .SubTab "course"}}active{{end}} ">
+                                <a class="nav-link" href="/support/management/academics/course">
+                                    <span class="sidebar-mini">C</span>
+                                    <p>Course</p>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav">
+                            <li class="nav-item {{if eq .SubTab "subject"}}active{{end}} ">
+                                <a class="nav-link" href="/support/management/academics/subject">
+                                    <span class="sidebar-mini">S</span>
+                                    <p>Subject</p>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav">
+                            <li class="nav-item {{if eq .SubTab "course_subject"}}active{{end}} ">
+                                <a class="nav-link" href="/support/management/academics/subject_course">
+                                    <span class="sidebar-mini">CS</span>
+                                    <p>Course-Subject</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
-                                <a class="nav-link" href="#">
-
+                <li class="nav-item ">
+                    <a class="nav-link" data-toggle="collapse" href="#mapsExamples">
+                        <i class="nc-icon nc-bank"></i>
+                        <p>Institution
+                            <b class="caret"></b>
+                        </p>
+                    </a>
+                    <div class="collapse {{if eq .Tab "institution"}} show{{end}} " id="mapsExamples">
+                        <ul class="nav">
+                            <li class="nav-item {{if eq .SubTab "institution"}} active{{end}} ">
+                                <a class="nav-link" href="/support/management/institution/institution">
+                                    <span class="sidebar-mini">I</span>
+                                    <p>Institutions</p>
+                                </a>
+                            </li>
+                            <li class="nav-item {{if eq .SubTab "location"}} active{{end}}">
+                                <a class="nav-link" href="/support/management/institution/location">
+                                    <span class="sidebar-mini">L</span>
+                                    <p>
+                                        Location
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item {{if eq .SubTab "address"}} active{{end}}">
+                                <a class="nav-link" href="/support/management/institution/address">
                                     <span class="sidebar-mini">A</span>
-                                    <span class="sidebar-normal">Application</span>
+                                    <p>
+                                        Address
+                                    </p>
                                 </a>
                             </li>
-                            <li class="nav-item ">
-
-                                <a class="nav-link" href="#">
-
-                                    <span class="sidebar-mini">A</span>
-                                    <span class="sidebar-normal">Applicant</span>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-
-                                <a class="nav-link" href="#">
-
-                                    <span class="sidebar-mini">R</span>
-                                    <span class="sidebar-normal">Remove</span>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-
-                                <a class="nav-link" href="#">
-
-                                    <span class="sidebar-mini">D</span>
-                                    <span class="sidebar-normal">Documents</span>
+                            <li class="nav-item {{if eq .SubTab "course"}} active{{end}}">
+                                <a class="nav-link" href="/support/management/institution/course">
+                                    <span class="sidebar-mini">C</span>
+                                    <p>
+                                        Course
+                                    </p>
                                 </a>
                             </li>
 
                         </ul>
                     </div>
                 </li>
+
+
+                {{/*                <li class="nav-item ">*/}}
+                {{/*                    <a class="nav-link" href="#">*/}}
+                {{/*                        <i class="nc-icon nc-cctv"></i>*/}}
+                {{/*                        <p>Log Events</p>*/}}
+                {{/*                    </a>*/}}
+                {{/*                </li>*/}}
                 <li class="nav-item ">
-                    <a class="nav-link" href="#">
-                        <i class="nc-icon nc-single-copy-04"></i>
-                        <p>System</p>
+                    <a class="nav-link" data-toggle="collapse" href="#mapsExample">
+                        <i class="nc-icon nc-settings-90"></i>
+                        <!--  <i class="nc-icon nc-single-copy-04"></i>-->
+                        <p>Admin
+                            <b class="caret"></b>
+                        </p>
                     </a>
+                    <div class="collapse " id="mapsExample">
+                        <ul class="nav">
+                            <li class="nav-item ">
+{{/*                                <a class="nav-link" href="/admin/application">*/}}
+                                <a class="nav-link" href="#">
+                                    <i class="nc-icon nc-attach-87"></i>
+                                    <p>Application</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+{{/*                                <a class="nav-link" href="/admin/applicant">*/}}
+                                <a class="nav-link" href="#">
+                                    <i class="nc-icon nc-single-02"></i>
+                                    <p>
+                                        Applicant
+                                        <!-- <b class="caret"></b> -->
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+{{/*                                <a class="nav-link" href="/admin/budget">*/}}
+                                <a class="nav-link" href="#">
+                                    <i class="nc-icon nc-money-coins"></i>
+                                    <p>
+                                        Budget
+                                        <!-- <b class="caret"></b> -->
+                                    </p>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
                 </li>
+                {{/*                <li class="nav-item ">*/}}
+                {{/*                    <a class="nav-link" href="#">*/}}
+                {{/*                        <i class="nc-icon nc-single-copy-04"></i>*/}}
+                {{/*                        <p>System</p>*/}}
+                {{/*                    </a>*/}}
+                {{/*                </li>*/}}
 
                 <li class="nav-item ">
                     <div class="logo">
@@ -188,9 +265,7 @@
                 </li>
 
                 <li class="nav-item ">
-
-                    <a class="nav-link" href="http://motsepefoundation.org/">
-
+                    <a class="nav-link" href="/logout">
                         <!-- <i class="nc-icon nc-single-copy-04"></i>-->
                         <p style="position: center">Log out</p>
                     </a>

@@ -47,7 +47,6 @@ func CreateDocument(entity domain.Document, token string) (bool, error) {
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
-
 	return true, nil
 }
 

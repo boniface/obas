@@ -34,16 +34,16 @@
                             <b class="caret"></b>
                         </p>
                     </a>
-                    <div class="collapse " id="componentsExamples">
+                    <div class="collapse {{if eq .Tab "profile"}}show{{end}}" id="componentsExamples">
                         <ul class="nav">
-                            <li class="nav-item ">
-                                <a class="nav-link" href="Admin_user.html">
+                            <li class="nav-item {{if eq .SubMenu "view_profile"}}active{{end}} ">
+                                <a class="nav-link" href="#">
                                     <span class="sidebar-mini">V</span>
                                     <span class="sidebar-normal">View Profil</span>
                                 </a>
                             </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="Admin_user.html">
+                            <li class="nav-item {{if eq .SubMenu "edit_profile"}}active{{end}}">
+                                <a class="nav-link" href="#">
                                     <span class="sidebar-mini">E</span>
                                     <span class="sidebar-normal">Edit Profil</span>
                                 </a>
@@ -52,23 +52,32 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item ">
+                <li class="nav-item {{if eq .Tab "dashboard"}}active{{end}}">
                     <a class="nav-link" href="/admin">
                         <i class="nc-icon nc-chart-pie-35"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item ">
+                <li class="nav-item {{if eq .Tab "application"}}active{{end}}">
                     <a class="nav-link" href="/admin/application">
                         <i class="nc-icon nc-attach-87"></i>
                         <p>Application</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{if eq .Tab "applicant"}}active{{end}}">
                     <a class="nav-link" href="/admin/applicant">
                         <i class="nc-icon nc-single-02"></i>
                         <p>
                             Applicant
+                            <!-- <b class="caret"></b> -->
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item {{if eq .Tab "budget"}}active{{end}}">
+                    <a class="nav-link" href="/admin/budget">
+                        <i class="nc-icon nc-money-coins"></i>
+                        <p>
+                            Budget
                             <!-- <b class="caret"></b> -->
                         </p>
                     </a>

@@ -6,13 +6,13 @@ import (
 	domain "obas/domain/users"
 )
 
-const userResultUrl = api.BASE_URL + "/users"
+const userResultUrl = api.BASE_URL + "/users/results/"
 
 type uResults domain.UserResults
 
 func GetUserResults() ([]uResults, error) {
 	entites := []uResults{}
-	resp, _ := api.Rest().Get(userResultUrl + "/results/all")
+	resp, _ := api.Rest().Get(userResultUrl + "all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -26,7 +26,7 @@ func GetUserResults() ([]uResults, error) {
 
 func GetUserResult(id string) (uResults, error) {
 	entity := uResults{}
-	resp, _ := api.Rest().Get(userResultUrl + "/results/get/" + id)
+	resp, _ := api.Rest().Get(userResultUrl + "get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -40,7 +40,7 @@ func GetUserResult(id string) (uResults, error) {
 func CreateUserResults(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(userResultUrl + "/results/create")
+		Post(userResultUrl + "create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -51,7 +51,7 @@ func CreateUserResults(entity interface{}) (bool, error) {
 func UpdateUserResults(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(userResultUrl + "/results/update")
+		Post(userResultUrl + "update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -62,7 +62,7 @@ func UpdateUserResults(entity interface{}) (bool, error) {
 func DeleteUserResults(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(userResultUrl + "/results/delete")
+		Post(userResultUrl + "delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

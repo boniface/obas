@@ -6,13 +6,13 @@ import (
 	domain "obas/domain/users"
 )
 
-const userRelUrl = api.BASE_URL + "/users"
+const userRelUrl = api.BASE_URL + "/users/relative/"
 
 type UserRelative domain.UserRelative
 
 func GetUserRelatives() ([]UserRelative, error) {
 	entites := []UserRelative{}
-	resp, _ := api.Rest().Get(userRelUrl + "/relative/all")
+	resp, _ := api.Rest().Get(userRelUrl + "all")
 
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
@@ -27,7 +27,7 @@ func GetUserRelatives() ([]UserRelative, error) {
 func GetUserRelative(id string) (UserRelative, error) {
 	entity := UserRelative{}
 	//entity = UserRelative{"caniksea@yahoo.co.nz", "Isaac Anikwue", "0983828432", "", "Father"}
-	resp, _ := api.Rest().Get(userRelUrl + "/relative/get/" + id)
+	resp, _ := api.Rest().Get(userRelUrl + "get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -41,7 +41,7 @@ func GetUserRelative(id string) (UserRelative, error) {
 func CreateUserRelative(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(userRelUrl + "/relative/create")
+		Post(userRelUrl + "create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -53,7 +53,7 @@ func UpdateUserRelative(entity UserRelative, token string) (bool, error) {
 	resp, _ := api.Rest().
 		SetAuthToken(token).
 		SetBody(entity).
-		Post(userRelUrl + "/relative/update")
+		Post(userRelUrl + "update")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -64,7 +64,7 @@ func UpdateUserRelative(entity UserRelative, token string) (bool, error) {
 func DeleteUserRelative(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(userRelUrl + "/relative/delete")
+		Post(userRelUrl + "delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

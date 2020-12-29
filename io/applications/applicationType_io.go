@@ -6,12 +6,12 @@ import (
 	domain "obas/domain/application"
 )
 
-const applicationTypeUrl = api.BASE_URL + "/application"
+const applicationTypeUrl = api.BASE_URL + "/application/type/"
 
 func GetApplicationTypes() ([]domain.ApplicationType, error) {
 	entites := []domain.ApplicationType{}
 	//entites = append(entites, domain.ApplicationType{"1", "Motsepe Bursary", ""})
-	resp, _ := api.Rest().Get(applicationTypeUrl + "/type/all")
+	resp, _ := api.Rest().Get(applicationTypeUrl + "all")
 	if resp.IsError() {
 		return entites, errors.New(resp.Status())
 	}
@@ -24,7 +24,7 @@ func GetApplicationTypes() ([]domain.ApplicationType, error) {
 
 func GetApplicationType(id string) (domain.ApplicationType, error) {
 	entity := domain.ApplicationType{}
-	resp, _ := api.Rest().Get(applicationTypeUrl + "/type/get/" + id)
+	resp, _ := api.Rest().Get(applicationTypeUrl + "get/" + id)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}
@@ -38,7 +38,7 @@ func GetApplicationType(id string) (domain.ApplicationType, error) {
 func CreateApplicationType(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(applicationTypeUrl + "/type/create")
+		Post(applicationTypeUrl + "create")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}
@@ -48,7 +48,7 @@ func CreateApplicationType(entity interface{}) (bool, error) {
 func UpdateApplicationType(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(applicationTypeUrl + "/type/update")
+		Post(applicationTypeUrl + "update")
 	if resp.IsError() {
 		return true, nil
 	}
@@ -58,7 +58,7 @@ func UpdateApplicationType(entity interface{}) (bool, error) {
 func DeleteApplicationType(entity interface{}) (bool, error) {
 	resp, _ := api.Rest().
 		SetBody(entity).
-		Post(applicationTypeUrl + "/type/delete")
+		Post(applicationTypeUrl + "delete")
 	if resp.IsError() {
 		return false, errors.New(resp.Status())
 	}

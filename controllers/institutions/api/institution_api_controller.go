@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
 	"net/http"
@@ -45,6 +46,7 @@ func GetInstitutionByTypeHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		institutionTypeId := chi.URLParam(r, "institutionTypeId")
 		institutions, err := institutionIO.GetInstitutionsByType(institutionTypeId)
+		fmt.Println(institutions, "<<< institution")
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		}

@@ -6,7 +6,7 @@ import (
 	domain "obas/domain/users"
 )
 
-const userApplicationInstitutionURL = api.BASE_URL + "user/application/institution/"
+const userApplicationInstitutionURL = api.BASE_URL + "/users/application/institution/"
 
 func GetAllUserApplicationInstitutions() ([]domain.UserApplicationInstitution, error) {
 	entity := []domain.UserApplicationInstitution{}

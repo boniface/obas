@@ -23,7 +23,7 @@ func TestGetGender(t *testing.T) {
 }
 
 func TestCreateGender(t *testing.T) {
-	gend := domain.Gender{"4", "FEMALE"}
+	gend := domain.Gender{"", "Male"}
 	value, err := CreateGender(gend)
 	assert.Nil(t, err)
 	assert.True(t, value)

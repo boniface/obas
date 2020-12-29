@@ -10,7 +10,7 @@ import (
 //var entity = domain.AddressType{AddressTypeID: "EMAIL", AddressName: "EMAIL ADDRESS"}
 
 func TestCreateAddressType(t *testing.T) {
-	addrType := domain.AddressType{"UBER", "UBER CLIENT"}
+	addrType := domain.AddressType{"", "Physical Address"}
 	value, err := CreateAddressType(addrType)
 	assert.Nil(t, err)
 	assert.True(t, value)

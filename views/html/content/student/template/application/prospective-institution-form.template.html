@@ -31,8 +31,12 @@
                                       action="/users/student/bursary/application/institution/prospective/update">
                                     {{ template "location-form" .}}
                                     {{ template "institution-form" .}}
-                                    <input type="hidden" name="applicationId" value="{{ .Application.Id }}"/>
                                     <div class="row justify-content-center">
+                                        <div class="col-md-10">
+                                    <input type="hidden" name="applicationId" value="{{ .Application.Id }}"/>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-center" style="margin-top: 5%">
                                         <div class="col-md-10">
                                             <button type="reset" id="clearButton"
                                                     class="btn btn-wd btn-danger btn-outline pull-left">
